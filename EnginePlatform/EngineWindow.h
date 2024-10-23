@@ -1,11 +1,13 @@
 #pragma once
 #include <Windows.h>
-
+#include <string>
+#include <map>
 
 class UEngineWindow
 {
 public:
 	static void EngineWindowInit(HINSTANCE _Instance);
+	static void CreateWindowClass(const WNDCLASSEXA& _Class);
 
 	static int WindowMessageLoop();
 	// constrcuter destructer
@@ -18,13 +20,14 @@ public:
 	UEngineWindow& operator=(const UEngineWindow& _Other) = delete;
 	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
-	void Open();
-
+	void Create(std::string_view _TitleName, std::string_view _ClassName = "Default");
+	void Open(std::string_view _TitleName = "Window");
 
 protected:
 
 private:
 	static HINSTANCE hInstance;
+	static std::map<std::string, WNDCLASSEXA> WindowClasses;
 
 	HWND WindowHandle = nullptr;
 
