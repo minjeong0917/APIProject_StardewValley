@@ -3,7 +3,6 @@
 #include <iostream>
 #include <io.h>
 
-
 const int MAXPATH = 256;
 
 class UEngineFile

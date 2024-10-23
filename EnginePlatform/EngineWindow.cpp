@@ -1,9 +1,13 @@
+#include "PreCompile.h"
+
 #include "EngineWindow.h"
 #include <EngineBase/EngineDebug.h>
 
 HINSTANCE UEngineWindow::hInstance = nullptr;
 std::map<std::string, WNDCLASSEXA> UEngineWindow::WindowClasses;
 
+// WindowCount : WndProc에서도 사용해야하므로 맴버변수 대신 전역변수로 선언
+int WindowCount = 0;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -16,8 +20,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         EndPaint(hWnd, &ps);
     }
     break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
+
+    // 켜져있는 모든 윈도우 창이 꺼지면 프로그램 종료
+    case WM_DESTROY: 
+        --WindowCount; 
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
@@ -48,18 +54,21 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
     CreateWindowClass(wcex);
 }
 
-// 윈도우 루프
-int UEngineWindow::WindowMessageLoop()
+int UEngineWindow::WindowMessageLoop(EngineDelegate _FrameFunction)
 {
     MSG msg;
-
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (WindowCount)
     {
-      
-        if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
+        // 프로그램이 focus 아니어도 계속 리턴
+        if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
+        }
+
+        if (true == _FrameFunction.IsBind())
+        {
+            _FrameFunction();
         }
     }
 
@@ -91,7 +100,7 @@ UEngineWindow::~UEngineWindow()
 {
 }
 
-// window 생성 
+// 윈도우 생성 
 void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassName)
 {
     if (false == WindowClasses.contains(_ClassName.data()))
@@ -110,6 +119,7 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
 
 }
 
+
 void UEngineWindow::Open(std::string_view _TitleName)
 {
     // window 안만들고 Open 했을 시 기본적으로 기본 윈도우 하나 생성
@@ -120,4 +130,7 @@ void UEngineWindow::Open(std::string_view _TitleName)
 
     ShowWindow(WindowHandle, SW_SHOW);
     UpdateWindow(WindowHandle);
+
+    // 새로운 윈도우창이 Open 될때마다 Count
+    ++WindowCount;
 }
