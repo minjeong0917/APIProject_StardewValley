@@ -44,12 +44,20 @@ public:
 		return EngineMainWindow;
 	}
 
-	void CreateLevel(std::string_view _LevelName)
+	// 레벨 생성 - GameModeType : 레벨, MainPawnType : 주인공
+	template<typename GameModeType, typename MainPawnType>
+	ULevel* CreateLevel(std::string_view _LevelName)
 	{
 		ULevel* NewLevel = new ULevel();
 
+		NewLevel->CreateGameMode<GameModeType, MainPawnType>();
+
 		Levels.insert({ _LevelName.data() , NewLevel });
+
+		return NewLevel;
 	}
+
+	void OpenLevel(std::string_view _LevelName);
 
 protected:
 
@@ -61,10 +69,12 @@ private:
 
 	UEngineWindow EngineMainWindow;
 
+	// 만들어진 모든 레벨 -> Map으로 관리
 	std::map<std::string, class ULevel*> Levels;
 
+	class ULevel* CurLevel = nullptr;
+
 	void Tick();
-	void Render();
 
 };
 

@@ -1,5 +1,3 @@
-#pragma once
-
 // os
 #include <Windows.h>
 
@@ -10,3 +8,6 @@
 #include <string>
 #include <iostream>
 #include <functional>
+
+// user
+#include "EngineMath.h"

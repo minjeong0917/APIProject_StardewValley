@@ -123,6 +123,8 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
         return;
     }
 
+    // 윈도우 생성 시 hdc 얻어오기
+    BackBuffer = GetDC(WindowHandle);
 }
 
 
