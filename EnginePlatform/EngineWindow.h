@@ -21,7 +21,7 @@ public:
 	static void CreateWindowClass(const WNDCLASSEXA& _Class);
 
 	// 윈도우 메세지 루프
-	static int WindowMessageLoop(EngineDelegate _FrameFunction);
+	static int WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction);
 
 	// constrcuter destructer
 	UEngineWindow();

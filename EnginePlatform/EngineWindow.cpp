@@ -54,10 +54,15 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
     CreateWindowClass(wcex);
 }
 
-int UEngineWindow::WindowMessageLoop(EngineDelegate _FrameFunction)
+// 윈도우 루프
+int UEngineWindow::WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction)
 {
-    MSG msg;
-    while (WindowCount)
+    MSG msg = MSG();
+
+    // 프로그램 시작하고 딱 한번 해야하는 함수
+    _StartFunction();
+
+    while (0 != WindowCount)
     {
         // 프로그램이 focus 아니어도 계속 리턴
         if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -66,6 +71,7 @@ int UEngineWindow::WindowMessageLoop(EngineDelegate _FrameFunction)
             DispatchMessage(&msg);
         }
 
+        // 프로그램 프레임마다 계속 실행해야하는 함수
         if (true == _FrameFunction.IsBind())
         {
             _FrameFunction();
@@ -126,6 +132,11 @@ void UEngineWindow::Open(std::string_view _TitleName)
     if (nullptr == WindowHandle)
     {
         Create("Window");
+    }
+
+    if (0 == WindowHandle)
+    {
+        return;
     }
 
     ShowWindow(WindowHandle, SW_SHOW);

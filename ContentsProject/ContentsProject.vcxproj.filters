@@ -7,6 +7,9 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{2211ebb4-3787-4127-b056-85187912aae6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{06e70656-5778-4b67-aaa3-5514cbf86f41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -15,6 +18,9 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -22,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsCore.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,11 +20,13 @@ public:
 		return false == Functions.empty();
 	}
 
-	void operator=(std::function<void()> _Function)
+	// += 연산자 재정의 : 함수를 리스트 Functions에 추가
+	void operator+=(std::function<void()> _Function)
 	{
 		Functions.push_back(_Function);
 	}
 
+	// () 연산자 재정의 : Functions에 있는 함수들 호출
 	void operator()()
 	{
 		std::list<std::function<void()>>::iterator StartIter = Functions.begin();
