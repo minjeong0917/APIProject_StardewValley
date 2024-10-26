@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "EngineAPICore.h"
 
+#include <Windows.h>
+
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineDelegate.h>
 #include <EngineBase/EngineDebug.h>
@@ -71,13 +73,17 @@ void UEngineAPICore::EngineTick()
 
 void UEngineAPICore::Tick()
 {
+	// 현재 시간 측정 후 DeltaTime값 가져오기
+	DeltaTimer.TimeCheck();
+	float DeltaTime = DeltaTimer.GetDeltaTime();
+
 	if (nullptr == CurLevel)
 	{
 		MSGASSERT("엔진 코어에 현재 레벨이 지정되지 않았습니다");
 		return;
 	}
 
-	CurLevel->Tick();
+	CurLevel->Tick(DeltaTime);
 	CurLevel->Render();
 }
 

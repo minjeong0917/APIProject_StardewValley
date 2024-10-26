@@ -3,6 +3,7 @@
 // user header
 #include <EngineCore/EngineAPICore.h>
 #include <ContentsProject/ContentsCore.h>
+#include <EngineBase/EngineTimer.h>
 
 //pragma comment
 #pragma comment (lib, "EngineCore.lib")

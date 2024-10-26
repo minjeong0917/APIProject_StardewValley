@@ -1,10 +1,13 @@
 #pragma once
-
+// os header
 #include <Windows.h>
 
+// std header
 #include <string>
 
+// user header
 #include <EnginePlatform/EngineWindow.h>
+#include <EngineBase/EngineTimer.h>
 #include "Level.h"
 
 #pragma comment (lib, "EngineBase.lib")
@@ -67,7 +70,8 @@ private:
 	static UEngineAPICore* MainCore;
 	static UContentsCore* UserCore;
 
-	UEngineWindow EngineMainWindow;
+	UEngineTimer DeltaTimer = UEngineTimer();
+	UEngineWindow EngineMainWindow = UEngineWindow();
 
 	// 만들어진 모든 레벨 -> Map으로 관리
 	std::map<std::string, class ULevel*> Levels;
