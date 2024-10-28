@@ -44,6 +44,12 @@ public:
 		return BackBuffer;
 	}
 
+	// 윈도우 타이틀 설정
+	inline void SetWindowTitle(std::string_view Text)
+	{
+		SetWindowTextA(WindowHandle, Text.data());
+	}
+
 protected:
 
 private:

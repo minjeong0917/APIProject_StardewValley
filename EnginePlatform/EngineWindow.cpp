@@ -133,7 +133,7 @@ void UEngineWindow::Open(std::string_view _TitleName)
     // window 안만들고 Open 했을 시 기본적으로 기본 윈도우 하나 생성
     if (nullptr == WindowHandle)
     {
-        Create("Window");
+        Create(_TitleName);
     }
 
     if (0 == WindowHandle)

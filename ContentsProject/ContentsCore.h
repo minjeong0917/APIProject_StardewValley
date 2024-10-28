@@ -19,6 +19,5 @@ protected:
 	void Tick() override;
 
 private:
-
 };
 
