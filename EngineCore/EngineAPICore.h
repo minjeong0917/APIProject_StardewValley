@@ -47,6 +47,11 @@ public:
 		return EngineMainWindow;
 	}
 
+	float GetDeltaTime()
+	{
+		return DeltaTimer.GetDeltaTime();
+	}
+
 	// 레벨 생성 - GameModeType : 레벨, MainPawnType : 주인공
 	template<typename GameModeType, typename MainPawnType>
 	ULevel* CreateLevel(std::string_view _LevelName)
@@ -71,6 +76,8 @@ private:
 	static UContentsCore* UserCore;
 
 	UEngineTimer DeltaTimer = UEngineTimer();
+
+	// 메인 윈도우
 	UEngineWindow EngineMainWindow = UEngineWindow();
 
 	// 만들어진 모든 레벨 -> Map으로 관리

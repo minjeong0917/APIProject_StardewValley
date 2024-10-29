@@ -3,6 +3,8 @@
 
 #include <EngineCore/Level.h>
 
+#include "FarmMap.h"
+
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -13,5 +15,5 @@ AFarmGameMode::~AFarmGameMode()
 
 void AFarmGameMode::BeginPlay()
 {
-	int a = 0;
+	AFarmMap* Farm = GetWorld()->SpawnActor<AFarmMap>();
 }

@@ -4,11 +4,11 @@
     <Filter Include="Window">
       <UniqueIdentifier>{02075327-b8c0-4c2c-a981-e192fd9602a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PreCompile">
-      <UniqueIdentifier>{5a6094aa-9a4b-48c4-adbb-fc56ae810e0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{2df9e895-4283-44d8-b965-63e287d6f4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{5a6094aa-9a4b-48c4-adbb-fc56ae810e0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +21,7 @@
     <ClInclude Include="EngineInput.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="EngineWinImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -32,5 +33,6 @@
     <ClCompile Include="EngineInput.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="EngineWinImage.cpp" />
   </ItemGroup>
 </Project>

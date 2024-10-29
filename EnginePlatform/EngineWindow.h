@@ -9,6 +9,8 @@
 
 // user header
 #include <EngineBase/EngineDelegate.h>
+#include <EngineBase/EngineMath.h>
+#include "EngineWinImage.h"
 
 class UEngineWindow
 {
@@ -39,9 +41,21 @@ public:
 	// 윈도우 열기
 	void Open(std::string_view _TitleName = "Window");
 
-	inline HDC GetBackBuffer()
+
+	inline FVector2D GetWindowSize() const
 	{
-		return BackBuffer;
+		return WindowSize;
+	}
+
+	inline UEngineWinImage* GetWindowImage() const
+	{
+		return WindowImage;
+	}
+
+
+	inline UEngineWinImage* GetBackBuffer() const
+	{
+		return BackBufferImage;
 	}
 
 	// 윈도우 타이틀 설정
@@ -50,6 +64,8 @@ public:
 		SetWindowTextA(WindowHandle, Text.data());
 	}
 
+	void SetWindowPosAndScale(FVector2D _Pos, FVector2D _Scale);
+
 protected:
 
 private:
@@ -57,8 +73,9 @@ private:
 
 	// 윈도우 창 여러개 만들 경우, Map으로 관리
 	static std::map<std::string, WNDCLASSEXA> WindowClasses;
-
-	HDC BackBuffer = nullptr;
+	FVector2D WindowSize;
+	UEngineWinImage* BackBufferImage = nullptr;
+	UEngineWinImage* WindowImage = nullptr;
 	HWND WindowHandle = nullptr;
 
 };

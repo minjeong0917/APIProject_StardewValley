@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FarmMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Tools.h">
       <SubType>
       </SubType>
@@ -167,6 +171,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FarmMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Tools.cpp">
       <SubType>
       </SubType>

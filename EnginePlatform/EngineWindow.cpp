@@ -60,7 +60,10 @@ int UEngineWindow::WindowMessageLoop(EngineDelegate _StartFunction, EngineDelega
     MSG msg = MSG();
 
     // 프로그램 시작하고 딱 한번 해야하는 함수
-    _StartFunction();
+    if (true == _StartFunction.IsBind())
+    {
+        _StartFunction();
+    }
 
     while (0 != WindowCount)
     {
@@ -104,6 +107,17 @@ UEngineWindow::UEngineWindow()
 
 UEngineWindow::~UEngineWindow()
 {
+    if (nullptr != WindowImage)
+    {
+        delete WindowImage;
+        WindowImage = nullptr;
+    }
+
+    if (nullptr != BackBufferImage)
+    {
+        delete BackBufferImage;
+        BackBufferImage = nullptr;
+    }
 }
 
 // 윈도우 생성 
@@ -123,8 +137,13 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
         return;
     }
 
-    // 윈도우 생성 시 hdc 얻어오기
-    BackBuffer = GetDC(WindowHandle);
+
+    HDC WindowMainDC = GetDC(WindowHandle);
+
+    WindowImage = new UEngineWinImage();
+
+    WindowImage->Create(WindowMainDC);
+
 }
 
 
@@ -146,4 +165,29 @@ void UEngineWindow::Open(std::string_view _TitleName)
 
     // 새로운 윈도우창이 Open 될때마다 Count
     ++WindowCount;
+}
+
+void UEngineWindow::SetWindowPosAndScale(FVector2D _Pos, FVector2D _Scale)
+{
+
+    if (false == WindowSize.EqualToInt(_Scale))
+    {
+
+        if (nullptr != BackBufferImage)
+        {
+            delete BackBufferImage;
+            BackBufferImage = nullptr;
+        }
+
+        BackBufferImage = new UEngineWinImage();
+        BackBufferImage->Create(WindowImage, _Scale);
+    }
+
+    WindowSize = _Scale;
+
+    RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
+
+    AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+    ::SetWindowPos(WindowHandle, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);
 }

@@ -13,11 +13,17 @@
     <Filter Include="ContentsObject\GameMode">
       <UniqueIdentifier>{08e3a2ef-5c07-482e-a0ec-b2371bd5a814}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\Global">
+      <UniqueIdentifier>{c684c795-7c3c-4d79-9a03-29117b8a0051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Items">
+      <UniqueIdentifier>{61ed1cc9-ef25-4e4e-8e62-7debca6f601f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Map">
+      <UniqueIdentifier>{91466eed-6629-488b-9331-3ec8615cb354}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp">
-      <Filter>ContentsObject</Filter>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
@@ -27,14 +33,17 @@
     <ClCompile Include="FarmGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
     <ClCompile Include="Tools.cpp">
-      <Filter>ContentsObject</Filter>
+      <Filter>ContentsObject\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="FarmMap.cpp">
+      <Filter>ContentsObject\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>ContentsObject</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
@@ -44,8 +53,14 @@
     <ClInclude Include="FarmGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
     <ClInclude Include="Tools.h">
-      <Filter>ContentsObject</Filter>
+      <Filter>ContentsObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="FarmMap.h">
+      <Filter>ContentsObject\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
