@@ -57,10 +57,10 @@ private:
 		AllActors.push_back(MainPawn);
 	}
 
-	AGameMode* GameMode = nullptr;
+	class AGameMode* GameMode = nullptr;
 
 	// 주인공
-	AActor* MainPawn = nullptr;
+	class AActor* MainPawn = nullptr;
 
 	// Actor들 list로 관리
 	std::list<AActor*> AllActors;

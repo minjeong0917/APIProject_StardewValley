@@ -28,6 +28,14 @@ std::string UEnginePath::GetPathToString()
 	return Path.string();
 }
 
+std::string UEnginePath::GetFileName()
+{
+	return Path.filename().string();
+}
+std::string UEnginePath::GetExtension()
+{
+	return Path.extension().string();
+}
 
 bool UEnginePath::IsExists()
 {
@@ -66,11 +74,17 @@ bool UEnginePath::MoveParentToDirectory(std::string_view _Path)
 
 	// 현재 디렉토리 경로 CurPath에 저장
 	std::filesystem::path CurPath = DummyPath.Path;
+	// 현재 디렉토리의 루트 디렉터리 저장
+	std::filesystem::path Root = CurPath.root_path();
 
 	// 현재 디렉토리가 루트 디렉토리가 아니라면
-	while (CurPath != CurPath.root_path())
+	while (true)
 	{
 		CurPath = DummyPath.Path;
+		if (CurPath == Root)
+		{
+			break;
+		}
 
 		// 현재 경로 + _Path
 		CurPath.append(_Path);

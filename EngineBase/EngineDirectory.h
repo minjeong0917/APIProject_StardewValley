@@ -2,7 +2,6 @@
 #include <vector>
 #include "EnginePath.h"
 
-// Ό³Έν :
 class UEngineDirectory : public UEnginePath
 {
 public:

@@ -4,20 +4,16 @@
 
 UEngineFile::UEngineFile()
 {
-
-
 }
 
 UEngineFile::UEngineFile(std::string_view _Path)
 	: UEnginePath(_Path)
 {
-
 }
 
 UEngineFile::UEngineFile(std::filesystem::path _Path)
 	: UEnginePath(_Path)
 {
-
 }
 
 UEngineFile::~UEngineFile()
@@ -78,10 +74,10 @@ void UEngineFile::Read(void* _Ptr, size_t _Size)
 	fread(_Ptr, _Size, 1, File);
 }
 
+// 파일 존재 여부 판단 함수
 bool UEngineFile::IsExits()
 {
 	int Result = _access(Path, 00);
-
 	return 0 == Result;
 }
 

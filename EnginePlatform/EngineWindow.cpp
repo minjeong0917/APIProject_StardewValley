@@ -118,6 +118,11 @@ UEngineWindow::~UEngineWindow()
         delete BackBufferImage;
         BackBufferImage = nullptr;
     }
+    if (nullptr != WindowHandle)
+    {
+        DestroyWindow(WindowHandle);
+        WindowHandle = nullptr;
+    }
 }
 
 // 윈도우 생성 

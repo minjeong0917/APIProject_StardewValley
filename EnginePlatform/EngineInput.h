@@ -108,7 +108,7 @@ public:
 	}
 
 	// 키를 누르고 있는 시간 측정
-	float IsPresTime(int _KeyIndex)
+	float IsPressTime(int _KeyIndex)
 	{
 		if (false == Keys.contains(_KeyIndex))
 		{

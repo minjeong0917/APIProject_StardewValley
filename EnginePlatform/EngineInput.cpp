@@ -134,10 +134,10 @@ UEngineInput::UEngineInput()
 	// 마우스 및 방향키
 	Keys.insert({ VK_LBUTTON , UEngineKey(VK_LBUTTON) });
 	Keys.insert({ VK_RBUTTON , UEngineKey(VK_RBUTTON) });
-	Keys.insert({ VK_LEFT , UEngineKey(VK_LEFT) });
-	Keys.insert({ VK_RIGHT , UEngineKey(VK_RIGHT) });
-	Keys.insert({ VK_UP , UEngineKey(VK_UP) });
-	Keys.insert({ VK_DOWN , UEngineKey(VK_DOWN) });
+	Keys.insert({ VK_LEFT    , UEngineKey(VK_LEFT) });
+	Keys.insert({ VK_RIGHT   , UEngineKey(VK_RIGHT) });
+	Keys.insert({ VK_UP      , UEngineKey(VK_UP) });
+	Keys.insert({ VK_DOWN    , UEngineKey(VK_DOWN) });
 
 	// 기타 키보드 키
 	Keys.insert({ VK_SPACE		, UEngineKey(VK_SPACE) });
@@ -152,7 +152,6 @@ UEngineInput::UEngineInput()
 	Keys.insert({ VK_INSERT		, UEngineKey(VK_INSERT) });
 	Keys.insert({ VK_DELETE		, UEngineKey(VK_DELETE) });
 	Keys.insert({ VK_HELP		, UEngineKey(VK_HELP) });
-
 
 	Keys.insert({ VK_NUMPAD0	, UEngineKey(VK_NUMPAD0) });
 	Keys.insert({ VK_NUMPAD1	, UEngineKey(VK_NUMPAD1) });
@@ -169,16 +168,16 @@ UEngineInput::UEngineInput()
 	Keys.insert({ VK_SEPARATOR	, UEngineKey(VK_SEPARATOR) });
 	Keys.insert({ VK_SUBTRACT	, UEngineKey(VK_SUBTRACT) });
 	Keys.insert({ VK_DECIMAL	, UEngineKey(VK_DECIMAL) });
-	Keys.insert({ VK_DIVIDE	, UEngineKey(VK_DIVIDE) });
-	Keys.insert({ VK_F1		, UEngineKey(VK_F1) });
-	Keys.insert({ VK_F2		, UEngineKey(VK_F2) });
-	Keys.insert({ VK_F3		, UEngineKey(VK_F3) });
-	Keys.insert({ VK_F4		, UEngineKey(VK_F4) });
-	Keys.insert({ VK_F5		, UEngineKey(VK_F5) });
-	Keys.insert({ VK_F6		, UEngineKey(VK_F6) });
-	Keys.insert({ VK_F7		, UEngineKey(VK_F7) });
-	Keys.insert({ VK_F8		, UEngineKey(VK_F8) });
-	Keys.insert({ VK_F9		, UEngineKey(VK_F9) });
+	Keys.insert({ VK_DIVIDE		, UEngineKey(VK_DIVIDE) });
+	Keys.insert({ VK_F1			, UEngineKey(VK_F1) });
+	Keys.insert({ VK_F2			, UEngineKey(VK_F2) });
+	Keys.insert({ VK_F3			, UEngineKey(VK_F3) });
+	Keys.insert({ VK_F4			, UEngineKey(VK_F4) });
+	Keys.insert({ VK_F5			, UEngineKey(VK_F5) });
+	Keys.insert({ VK_F6			, UEngineKey(VK_F6) });
+	Keys.insert({ VK_F7			, UEngineKey(VK_F7) });
+	Keys.insert({ VK_F8			, UEngineKey(VK_F8) });
+	Keys.insert({ VK_F9			, UEngineKey(VK_F9) });
 	Keys.insert({ VK_F10		, UEngineKey(VK_F10) });
 	Keys.insert({ VK_F11		, UEngineKey(VK_F11) });
 	Keys.insert({ VK_F12		, UEngineKey(VK_F12) });
