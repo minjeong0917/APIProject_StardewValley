@@ -10,6 +10,8 @@
 
 #include "FarmGameMode.h"
 #include "TitleGameMode.h"
+#include "TownGameMode.h"
+
 #include "Player.h"
 
 
@@ -50,6 +52,7 @@ void ContentsCore::BeginPlay()
 	// 농장 레벨 생성 및 Open
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
+	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
 	UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 

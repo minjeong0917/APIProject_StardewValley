@@ -71,6 +71,10 @@ void APlayer::Tick(float _DeltaTime)
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Title");
 	}
+	if (true == UEngineInput::GetInst().IsDown('T'))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Town");
+	}
 
 	if (true == UEngineInput::GetInst().IsDown(VK_F1))
 	{

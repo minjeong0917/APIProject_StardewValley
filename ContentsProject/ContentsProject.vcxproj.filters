@@ -54,6 +54,12 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>ContentsObject\Title</Filter>
     </ClCompile>
+    <ClCompile Include="TownGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="TownMap.cpp">
+      <Filter>ContentsObject\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -82,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
       <Filter>ContentsObject\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TownGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="TownMap.h">
+      <Filter>ContentsObject\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
