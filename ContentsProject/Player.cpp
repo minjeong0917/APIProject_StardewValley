@@ -19,14 +19,24 @@ APlayer::APlayer()
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetSprite("Farmer_Right.png");
+		SpriteRenderer->SetSprite("Farmer_Left.png");
+
 		SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
 		SpriteRenderer->CreateAnimation("Walk_Front", "Farmer_Right.png", { 1, 0, 2, 0 }, { 0.1f, 0.1f, 0.1f, 0.1f });
 		SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", 0, 0, 0.1f);
+		SpriteRenderer->CreateAnimation("Walk_Back", "Farmer_Right.png", { 12, 11, 13, 11 }, { 0.1f, 0.1f, 0.1f, 0.1f });
+		SpriteRenderer->CreateAnimation("Idle_Back", "Farmer_Right.png", 11, 11, 0.1f);
+
 		SpriteRenderer->CreateAnimation("Walk_Right", "Farmer_Right.png", { 7, 8 }, { 0.1f, 0.1f });
 		SpriteRenderer->CreateAnimation("Idle_Right", "Farmer_Right.png", 6,6, 0.1f);
+		SpriteRenderer->CreateAnimation("Walk_Left", "Farmer_Left.png", { 7, 8 }, { 0.1f, 0.1f });
+		SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
 
 		SpriteRenderer->ChangeAnimation("Idle_front");
+	}
+
+	{
 	}
 
 
@@ -81,12 +91,12 @@ void APlayer::Tick(float _DeltaTime)
 	// 왼쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('A'))
 	{
-		SpriteRenderer->ChangeAnimation("Walk_Right");
+		SpriteRenderer->ChangeAnimation("Walk_Left");
 		AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
 	}
-	else if (true == UEngineInput::GetInst().IsUp('D'))
+	else if (true == UEngineInput::GetInst().IsUp('A'))
 	{
-		SpriteRenderer->ChangeAnimation("Idle_Right");
+		SpriteRenderer->ChangeAnimation("Idle_Left");
 	}
 
 	// 아래쪽 이동
@@ -103,12 +113,12 @@ void APlayer::Tick(float _DeltaTime)
 	// 위쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('W'))
 	{
-		SpriteRenderer->ChangeAnimation("Walk_Right");
+		SpriteRenderer->ChangeAnimation("Walk_Back");
 		AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
 	}
-	else if (true == UEngineInput::GetInst().IsUp('D'))
+	else if (true == UEngineInput::GetInst().IsUp('W'))
 	{
-		SpriteRenderer->ChangeAnimation("Idle_Right");
+		SpriteRenderer->ChangeAnimation("Idle_Back");
 	}
 
 }

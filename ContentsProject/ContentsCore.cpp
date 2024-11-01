@@ -41,6 +41,7 @@ void ContentsCore::BeginPlay()
 	}
 
 	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
+	UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
 
 	// 윈도우 타이틀 지정
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("StardewValley");
