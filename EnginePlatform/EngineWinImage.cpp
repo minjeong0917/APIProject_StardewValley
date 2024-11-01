@@ -8,6 +8,7 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
+
 // BMP 확장용 라이브러리
 #pragma comment(lib, "Msimg32.lib")
 
@@ -45,11 +46,9 @@ void UEngineWinImage::Create(UEngineWinImage* _TargetImage, FVector2D _Scale)
 
 
 
-
 	HBITMAP NewBitmap = static_cast<HBITMAP>(CreateCompatibleBitmap(_TargetImage->GetDC(), _Scale.iX(), _Scale.iY()));
 
 	HDC NewImageDC = CreateCompatibleDC(_TargetImage->GetDC());
-
 
 	HBITMAP OldBitMap = static_cast<HBITMAP>(SelectObject(NewImageDC, NewBitmap));
 
@@ -94,11 +93,10 @@ void UEngineWinImage::CopyToBit(UEngineWinImage* _TargetImage, const FTransform&
 
 void UEngineWinImage::CopyToTrans(UEngineWinImage* _TargetImage, const FTransform& _RenderTrans, const FTransform& _LTImageTrans, UColor _Color /*= UColor(255, 0, 255, 255)*/)
 {
-
+	
 
 	HDC CopyDC = ImageDC;
 	HDC TargetDC = _TargetImage->ImageDC;
-
 
 	FVector2D LeftTop = _RenderTrans.CenterLeftTop();
 
@@ -130,7 +128,6 @@ void UEngineWinImage::Load(UEngineWinImage* _TargetImage, std::string_view _Path
 	if (".PNG" == UpperExt)
 	{
 
-
 		ULONG_PTR gidplustoken = 0;
 
 
@@ -154,7 +151,7 @@ void UEngineWinImage::Load(UEngineWinImage* _TargetImage, std::string_view _Path
 			return;
 		}
 
-	 
+
 		delete pBitMap;
 		delete pImage;
 	}

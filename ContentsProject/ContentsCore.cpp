@@ -39,21 +39,12 @@ void ContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
-	UImageManager::GetInst().CuttingSprite("Farmer.png", { 64, 128 });
-	{
-
-		UEngineDirectory BombDir;
-		BombDir.MoveParentToDirectory("Images");
-		BombDir.Append("bomb");
-
-		UImageManager::GetInst().LoadFolder(BombDir.GetPathToString());
-
-	}
+	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
 
 	// 윈도우 타이틀 지정
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("StardewValley");
 	// 윈도우 크기와 위치 설정
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1280, 800 });
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1280, 720 });
 	// 농장 레벨 생성 및 Open
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->OpenLevel("Farm");

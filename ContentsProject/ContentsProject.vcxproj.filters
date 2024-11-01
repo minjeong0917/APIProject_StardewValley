@@ -42,6 +42,9 @@
     <ClCompile Include="FarmMap.cpp">
       <Filter>ContentsObject\Map</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsEnum.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="FarmMap.h">
       <Filter>ContentsObject\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

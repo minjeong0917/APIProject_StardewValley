@@ -158,12 +158,42 @@ void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path
 		}
 		Images.insert({ UpperFileName,  NewImage });
 
+
 		FTransform Transform;
 		Transform.Location = { 0, 0 };
 		Transform.Scale = NewImage->GetImageScale();
 
 		NewSprite->PushData(NewImage, Transform);
 	}
+}
+
+void UImageManager::CuttingSprite(std::string_view _KeyName, int _X, int _Y)
+{
+	std::string UpperName = UEngineString::ToUpper(_KeyName);
+
+	if (false == Sprites.contains(UpperName))
+	{
+		MSGASSERT("존재하지 않은 스프라이트를 자르려고 했습니다" + std::string(_KeyName));
+		return;
+	}
+
+	if (false == Images.contains(UpperName))
+	{
+		MSGASSERT("존재하지 않은 이미지를 기반으로 스프라이트를 자르려고 했습니다" + std::string(_KeyName));
+		return;
+	}
+
+	UEngineSprite* Sprite = Sprites[UpperName];
+	UEngineWinImage* Image = Images[UpperName];
+
+	Sprite->ClearSpriteData();
+
+	FVector2D Scale = Image->GetImageScale();
+
+	Scale.X /= _X;
+	Scale.Y /= _Y;
+
+	CuttingSprite(_KeyName, Scale);
 }
 
 void UImageManager::CuttingSprite(std::string_view _KeyName, FVector2D _CuttingSize)
@@ -252,7 +282,6 @@ UEngineWinImage* UImageManager::FindImage(std::string_view _KeyName)
 
 	return Images[UpperName];
 }
-
 
 void UImageManager::CreateCutSprite(std::string_view _SearchKeyName, std::string_view _NewSpriteKeyName, FVector2D _StartPos, FVector2D _CuttingSize, FVector2D _XYOffSet, UINT _Xcount, UINT _ImageCount)
 {

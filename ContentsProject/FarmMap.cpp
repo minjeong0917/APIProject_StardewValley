@@ -1,14 +1,17 @@
 #include "PreCompile.h"
 #include "FarmMap.h"
 #include <EngineCore/EngineAPICore.h>
+#include <EngineCore/SpriteRenderer.h>
+#include "ContentsEnum.h"
 
 AFarmMap::AFarmMap()
 {
-	FVector2D WindowSize = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+	USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+	SpriteRenderer->SetOrder(ERenderOrder::BACKGROUND);
+	SpriteRenderer->SetSprite("Farm.png");
 
-	SetActorScale(WindowSize*2);
-	SetActorLocation(WindowSize);
-	SetSprite("Farm.png");
+	FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
+	SpriteRenderer->SetComponentLocation(MapScale.Half());
 
 }
 

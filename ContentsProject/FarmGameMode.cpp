@@ -15,5 +15,5 @@ AFarmGameMode::~AFarmGameMode()
 
 void AFarmGameMode::BeginPlay()
 {
-	//AFarmMap* Farm = GetWorld()->SpawnActor<AFarmMap>();
+	AFarmMap* Farm = GetWorld()->SpawnActor<AFarmMap>();
 }

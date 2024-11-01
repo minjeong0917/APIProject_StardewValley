@@ -2,7 +2,6 @@
 #include <vector>
 #include "EnginePath.h"
 
-
 class UEngineDirectory : public UEnginePath
 {
 public:
@@ -11,6 +10,7 @@ public:
 	UEngineDirectory(std::string_view _Path);
 	UEngineDirectory(std::filesystem::path _Path);
 	~UEngineDirectory();
+
 	std::vector<class UEngineFile> GetAllFile(bool _IsRecursive = true);
 
 	std::vector<class UEngineDirectory> GetAllDirectory();

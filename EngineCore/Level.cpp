@@ -1,9 +1,12 @@
 #include "PreCompile.h"
 #include "Level.h"
 #include "EngineAPICore.h"
+
 #include <EngineBase/EngineMath.h>
 #include <EnginePlatform/EngineWindow.h>
 #include <EnginePlatform/EngineWinImage.h>
+
+#include "SpriteRenderer.h"
 
 ULevel::ULevel()
 {
@@ -11,7 +14,7 @@ ULevel::ULevel()
 
 ULevel::~ULevel()
 {
-	// Actor - Leak 제거
+
 	std::list<AActor*>::iterator StartIter = AllActors.begin();
 	std::list<AActor*>::iterator EndIter = AllActors.end();
 
@@ -26,33 +29,68 @@ ULevel::~ULevel()
 	}
 }
 
-void ULevel::Tick(float _DetaTime)
+void ULevel::Tick(float _DeltaTime)
 {
-	std::list<AActor*>::iterator StartIter = AllActors.begin();
-	std::list<AActor*>::iterator EndIter = AllActors.end();
-
-	for (; StartIter != EndIter; ++StartIter)
 	{
-		AActor* CurActor = *StartIter;
+		std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+		std::list<AActor*>::iterator EndIter = BeginPlayList.end();
 
-		CurActor->Tick(_DetaTime);
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+			CurActor->BeginPlay();
+			AllActors.push_back(CurActor);
+		}
+
+		BeginPlayList.clear();
+
+		// todtjdtl 
+		AActor::ComponentBeginPlay();
+	}
+
+	{
+		std::list<AActor*>::iterator StartIter = AllActors.begin();
+		std::list<AActor*>::iterator EndIter = AllActors.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+
+			CurActor->Tick(_DeltaTime);
+		}
 	}
 }
 
-void ULevel::Render()
+void ULevel::Render(float _DeltaTime)
 {
 	// Render 시작 시 스크린 비우기
 	ScreenClear();
 
-	std::list<AActor*>::iterator StartIter = AllActors.begin();
-	std::list<AActor*>::iterator EndIter = AllActors.end();
-
-	for (; StartIter != EndIter; ++StartIter)
+	if (true == IsCameraToMainPawn)
 	{
-		AActor* CurActor = *StartIter;
-
-		CurActor->Render();
+		// CameraPivot = FVector2D(-1280, -720) * 0.5f;
+		CameraPos = MainPawn->GetTransform().Location + CameraPivot;
 	}
+
+
+	std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
+	std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
+
+	for (; StartOrderIter != EndOrderIter; ++StartOrderIter)
+	{
+		std::list<class USpriteRenderer*>& RendererList = StartOrderIter->second;
+
+		std::list<class USpriteRenderer*>::iterator RenderStartIter = RendererList.begin();
+		std::list<class USpriteRenderer*>::iterator RenderEndIter = RendererList.end();
+
+		for (; RenderStartIter != RenderEndIter; ++RenderStartIter)
+		{
+			(*RenderStartIter)->Render(_DeltaTime);
+		}
+
+	}
+
+
 	DoubleBuffering();
 }
 
@@ -66,7 +104,6 @@ void ULevel::ScreenClear()
 	Rectangle(BackBufferImage->GetDC(), -1, -1, Size.iX() + 2, Size.iY() + 2);
 }
 
-
 void ULevel::DoubleBuffering()
 {
 	UEngineWindow& MainWindow = UEngineAPICore::GetCore()->GetMainWindow();
@@ -79,5 +116,22 @@ void ULevel::DoubleBuffering()
 	Trans.Scale = MainWindow.GetWindowSize();
 
 	BackBufferImage->CopyToBit(WindowImage, Trans);
+
+}
+
+void ULevel::PushRenderer(class USpriteRenderer* _Renderer)
+{
+	int Order = _Renderer->GetOrder();
+
+	Renderers[Order].push_back(_Renderer);
+}
+
+void ULevel::ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder)
+{
+
+	Renderers[_PrevOrder].remove(_Renderer);
+
+	Renderers[_Renderer->GetOrder()].push_back(_Renderer);
+
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+// Ό³Έν :
 class APlayer : public AActor
 {
 public:
@@ -17,10 +18,17 @@ public:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void RunSoundPlay();
+
 protected:
 
 private:
+
 	float Speed = 100.0f;
 	int MySpriteIndex = 0;
+
+	class USpriteRenderer* SpriteRenderer;
+
+
 };
 

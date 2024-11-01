@@ -1,9 +1,7 @@
 #include "PreCompile.h"
 #include "EngineAPICore.h"
-
-#include <Windows.h>
-
 #include <EnginePlatform/EngineInput.h>
+
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineDelegate.h>
 #include <EngineBase/EngineDebug.h>
@@ -11,6 +9,8 @@
 // static 초기화
 UEngineAPICore* UEngineAPICore::MainCore = nullptr;
 UContentsCore* UEngineAPICore::UserCore = nullptr;
+
+#include <Windows.h>
 
 UEngineAPICore::UEngineAPICore()
 {
@@ -68,8 +68,11 @@ void UEngineAPICore::EngineBeginPlay()
 // 프로그램 실행 동안 반복되는 함수들
 void UEngineAPICore::EngineTick()
 {
+
 	UserCore->Tick();
+
 	MainCore->Tick();
+
 }
 
 void UEngineAPICore::Tick()
@@ -78,18 +81,20 @@ void UEngineAPICore::Tick()
 	DeltaTimer.TimeCheck();
 	float DeltaTime = DeltaTimer.GetDeltaTime();
 
-	// 키 체크
+	// 키체크
 	UEngineInput::GetInst().KeyCheck(DeltaTime);
+
 	if (nullptr == CurLevel)
 	{
 		MSGASSERT("엔진 코어에 현재 레벨이 지정되지 않았습니다");
 		return;
 	}
 
-	// 이벤트 체크
 	UEngineInput::GetInst().EventCheck(DeltaTime);
 	CurLevel->Tick(DeltaTime);
-	CurLevel->Render();
+	//  UEngineInput::GetInst().EventCheck(DeltaTime);
+	CurLevel->Render(DeltaTime);
+
 }
 
 // 현재 레벨 설정
@@ -105,6 +110,5 @@ void UEngineAPICore::OpenLevel(std::string_view _LevelName)
 		MSGASSERT(ChangeName + "라는 이름의 레벨은 존재하지 않습니다.");
 		return;
 	}
-
 	CurLevel = FindIter->second;
 }

@@ -1,10 +1,11 @@
 #pragma once
 #include "GameMode.h"
 
-// ULevel : Actor 包府
+// 汲疙 :
 class ULevel
 {
 public:
+	friend class USpriteRenderer;
 	friend class UEngineAPICore;
 	// constrcuter destructer
 	ULevel();
@@ -16,10 +17,9 @@ public:
 	ULevel& operator=(const ULevel& _Other) = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
 
-	void Tick(float _DetaTime);
-	void Render();
+	void Tick(float _DeltaTime);
+	void Render(float _DeltaTime);
 
-	// Actor 积己
 	template<typename ActorType>
 	ActorType* SpawnActor()
 	{
@@ -28,9 +28,18 @@ public:
 		AActor* ActorPtr = dynamic_cast<AActor*>(NewActor);
 		ActorPtr->World = this;
 
-		NewActor->BeginPlay();
-		AllActors.push_back(NewActor);
+		BeginPlayList.push_back(ActorPtr);
 		return NewActor;
+	}
+
+	void SetCameraToMainPawn(bool _IsCameraToMainPawn)
+	{
+		IsCameraToMainPawn = _IsCameraToMainPawn;
+	}
+
+	void SetCameraPivot(FVector2D _Pivot)
+	{
+		CameraPivot = _Pivot;
 	}
 
 protected:
@@ -50,12 +59,14 @@ private:
 		MainPawn->World = this;
 		GameMode->World = this;
 
-		GameMode->BeginPlay();
-		MainPawn->BeginPlay();
-
-		AllActors.push_back(GameMode);
-		AllActors.push_back(MainPawn);
+		BeginPlayList.push_back(GameMode);
+		BeginPlayList.push_back(MainPawn);
 	}
+
+
+
+	void PushRenderer(class USpriteRenderer* _Renderer);
+	void ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder);
 
 	class AGameMode* GameMode = nullptr;
 
@@ -64,5 +75,14 @@ private:
 
 	// Actor甸 list肺 包府
 	std::list<AActor*> AllActors;
+
+	std::list<AActor*> BeginPlayList;
+
+	bool IsCameraToMainPawn = true;
+
+	FVector2D CameraPos;
+	FVector2D CameraPivot;
+
+	std::map<int, std::list<class USpriteRenderer*>> Renderers;
 };
 

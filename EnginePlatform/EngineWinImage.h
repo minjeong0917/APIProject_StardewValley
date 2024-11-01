@@ -3,6 +3,7 @@
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/Object.h>
 
+
 class UEngineWinImage : public UObject
 {
 public:
@@ -28,10 +29,16 @@ public:
 
 	void Create(UEngineWinImage* _TargetImage, FVector2D _Scale);
 
-	void CopyToBit(UEngineWinImage* _TargetImage, const FTransform& _Trans);
-	// 기본 색 (255,0,255,0) 지정
-	void CopyToTrans(UEngineWinImage* _TargetImage, const FTransform& _RenderTrans, const FTransform& _LTImageTrans, UColor _Color = UColor(255, 0, 255, 0));
+	void CopyToBit(UEngineWinImage* _TargetImage,
+		const FTransform& _Trans);
+
+	void CopyToTrans(UEngineWinImage* _TargetImage,
+		const FTransform& _RenderTrans,
+		const FTransform& _LTImageTrans,
+		UColor _Color = UColor(255, 0, 255, 0));
+
 	void Load(UEngineWinImage* _TargetImage, std::string_view _Path);
+
 
 	FVector2D GetImageScale() const
 	{
@@ -44,7 +51,6 @@ private:
 
 	HDC ImageDC = nullptr;
 	HBITMAP hBitMap = nullptr;
-
 	BITMAP Info;
 };
 

@@ -60,6 +60,7 @@ std::vector<class UEngineFile> UEngineDirectory::GetAllFile(bool _IsRecursive)
 	return Result;
 }
 
+
 std::vector<class UEngineDirectory> UEngineDirectory::GetAllDirectory()
 {
 	std::vector<class UEngineDirectory> Result;
@@ -89,7 +90,6 @@ std::vector<class UEngineDirectory> UEngineDirectory::GetAllDirectory()
 void UEngineDirectory::GetAllFileRecursive(std::filesystem::path _Path
 	, std::vector<class UEngineFile>& _Result)
 {
-	
 	std::filesystem::directory_iterator Diriter = std::filesystem::directory_iterator(_Path);
 
 	while (false == Diriter._At_end())

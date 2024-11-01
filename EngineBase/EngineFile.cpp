@@ -4,16 +4,20 @@
 
 UEngineFile::UEngineFile()
 {
+
+
 }
 
 UEngineFile::UEngineFile(std::string_view _Path)
 	: UEnginePath(_Path)
 {
+
 }
 
 UEngineFile::UEngineFile(std::filesystem::path _Path)
 	: UEnginePath(_Path)
 {
+
 }
 
 UEngineFile::~UEngineFile()
@@ -25,9 +29,11 @@ void UEngineFile::FileOpen(const char* _Mode)
 {
 	fopen_s(&File, Path, _Mode);
 
+
 	if (nullptr == File)
 	{
-		MSGASSERT(Path);
+
+		MSGASSERT(Path /*+ "파일 오픈에 실패했습니다"*/);
 	}
 }
 
@@ -77,7 +83,9 @@ void UEngineFile::Read(void* _Ptr, size_t _Size)
 // 파일 존재 여부 판단 함수
 bool UEngineFile::IsExits()
 {
+\
 	int Result = _access(Path, 00);
+
 	return 0 == Result;
 }
 
