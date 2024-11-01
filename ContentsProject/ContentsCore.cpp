@@ -40,6 +40,16 @@ void ContentsCore::BeginPlay()
 	}
 
 	UImageManager::GetInst().CuttingSprite("Farmer.png", { 64, 128 });
+	{
+
+		UEngineDirectory BombDir;
+		BombDir.MoveParentToDirectory("Images");
+		BombDir.Append("bomb");
+
+		UImageManager::GetInst().LoadFolder(BombDir.GetPathToString());
+
+	}
+
 	// 윈도우 타이틀 지정
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("StardewValley");
 	// 윈도우 크기와 위치 설정

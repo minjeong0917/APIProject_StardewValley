@@ -10,6 +10,7 @@ public:
 	UEnginePath(std::filesystem::path _Path);
 	~UEnginePath();
 
+
 	bool IsExists();
 	void MoveParent();
 
@@ -17,6 +18,8 @@ public:
 
 	// 파일명 + 확장자 포함
 	std::string GetFileName();
+	std::string GetDirectoryName();
+
 	// 확장자
 	std::string GetExtension();
 
@@ -25,6 +28,8 @@ public:
 	bool IsDirectory();
 
 	bool IsFile();
+
+	void Append(std::string_view _AppendName);
 
 
 protected:

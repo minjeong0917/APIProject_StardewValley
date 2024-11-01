@@ -12,8 +12,8 @@ APlayer::APlayer()
 
 	SetActorLocation(WindowSize.Half());
 	SetActorScale({ 128, 256 });
-
-	SetSprite("Farmer.png");
+	SetSprite("bomb");
+	//SetSprite("Farmer.png");
 }
 
 APlayer::~APlayer()
