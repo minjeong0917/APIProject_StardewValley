@@ -76,7 +76,6 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 	Trans.Location = Trans.Location - Level->CameraPos;
 
-
 	CurData.Image->CopyToTrans(BackBufferImage, Trans, CurData.Transform);
 }
 

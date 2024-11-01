@@ -23,6 +23,8 @@ public:
 	void LevelChangeStart();
 	void LevelChangeEnd();
 
+	void CameraCheck(float _DeltaTime);
+
 protected:
 
 private:

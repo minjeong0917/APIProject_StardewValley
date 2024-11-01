@@ -14,7 +14,7 @@ void APlayer::RunSoundPlay()
 
 APlayer::APlayer()
 {
-	SetActorLocation({ 1000, 1000 });
+	SetActorLocation({ 2500, 1000 });
 
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
@@ -34,9 +34,6 @@ APlayer::APlayer()
 		SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
 
 		SpriteRenderer->ChangeAnimation("Idle_front");
-	}
-
-	{
 	}
 
 
@@ -62,6 +59,7 @@ void APlayer::BeginPlay()
 void APlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	CameraCheck(_DeltaTime);
 
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 
@@ -135,4 +133,63 @@ void APlayer::LevelChangeStart()
 void APlayer::LevelChangeEnd()
 {
 	Super::LevelChangeEnd();
+}
+
+void APlayer::CameraCheck(float _DeltaTime)
+{
+	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+    FVector2D CameraPos = GetWorld()->GetCameraPos();
+	float PlayerXPosMin = GetActorLocation().X - Size.Half().X;
+	float PlayerYPosMin = GetActorLocation().Y - Size.Half().Y;
+	float PlayerXPosMax = GetActorLocation().X + Size.Half().X;
+	float PlayerYPosMax = GetActorLocation().Y + Size.Half().Y;
+
+
+	// 카메라 X위치가 0 보다 작다면 CamerPivot을 Player 속도에 맞춰 오른쪽으로 이동
+    if (CameraPos.X < 0)
+    {
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::RIGHT * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+	// 플레이어 X위치가 화면 절반보다 왼쪽에 있다면 CamerPivot을 Player 속도에 맞춰 왼쪽으로 이동
+	else if (PlayerXPosMin < 0)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::LEFT * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+
+
+	if (CameraPos.Y < 0)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::DOWN * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+	else if (PlayerYPosMin < 0)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::UP * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+
+	if (CameraPos.X + Size.X > 3200)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::LEFT * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+	else if (PlayerXPosMax > 3200)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::RIGHT * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+
+	if (CameraPos.Y + Size.Y > 2600)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::UP * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+	else if (PlayerYPosMax > 2600)
+	{
+		FVector2D CurCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::DOWN * _DeltaTime * Speed;
+		GetWorld()->SetCameraPivot(CurCameraPivot);
+	}
+
 }

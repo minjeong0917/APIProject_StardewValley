@@ -16,6 +16,7 @@ public:
 	AFarmGameMode& operator=(AFarmGameMode&& _Other) noexcept = delete;
 
 	void BeginPlay();
+	void Tick();
 
 protected:
 
