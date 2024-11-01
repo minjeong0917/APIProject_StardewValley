@@ -28,6 +28,10 @@ public:
 
 	virtual void Tick(float _DeltaTime) {}
 
+
+	virtual void LevelChangeStart() {}
+	virtual void LevelChangeEnd() {}
+
 	class ULevel* GetWorld()
 	{
 		return World;

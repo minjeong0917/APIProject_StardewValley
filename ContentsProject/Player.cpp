@@ -3,7 +3,7 @@
 
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
-
+#include <EngineCore/EngineCoreDebug.h>
 #include <EnginePlatform/EngineInput.h>
 
 
@@ -41,6 +41,7 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// 카메라 피벗 위치 설정
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
@@ -52,6 +53,21 @@ void APlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
+	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
+
+	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
+
+	if (true == UEngineInput::GetInst().IsDown('R'))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Title");
+	}
+
+	if (true == UEngineInput::GetInst().IsDown(VK_F1))
+	{
+		 UEngineDebug::SwitchIsDebug();
+	}
+
+	// 오른쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('D'))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Right");
@@ -62,12 +78,18 @@ void APlayer::Tick(float _DeltaTime)
 		SpriteRenderer->ChangeAnimation("Idle_Right");
 	}
 
+	// 왼쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('A'))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Right");
 		AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
 	}
+	else if (true == UEngineInput::GetInst().IsUp('D'))
+	{
+		SpriteRenderer->ChangeAnimation("Idle_Right");
+	}
 
+	// 아래쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('S'))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Front");
@@ -78,11 +100,25 @@ void APlayer::Tick(float _DeltaTime)
 		SpriteRenderer->ChangeAnimation("Idle_front");
 	}
 
+	// 위쪽 이동
 	if (true == UEngineInput::GetInst().IsPress('W'))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Right");
 		AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
 	}
+	else if (true == UEngineInput::GetInst().IsUp('D'))
+	{
+		SpriteRenderer->ChangeAnimation("Idle_Right");
+	}
 
+}
 
+void APlayer::LevelChangeStart()
+{
+	Super::LevelChangeStart();
+}
+
+void APlayer::LevelChangeEnd()
+{
+	Super::LevelChangeEnd();
 }

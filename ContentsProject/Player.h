@@ -20,11 +20,14 @@ public:
 
 	void RunSoundPlay();
 
+	void LevelChangeStart();
+	void LevelChangeEnd();
+
 protected:
 
 private:
 
-	float Speed = 100.0f;
+	float Speed = 120.0f;
 	int MySpriteIndex = 0;
 
 	class USpriteRenderer* SpriteRenderer;

@@ -17,6 +17,10 @@ public:
 	ULevel& operator=(const ULevel& _Other) = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
 
+	// LevelChange
+	void LevelChangeStart();
+	void LevelChangeEnd();
+
 	void Tick(float _DeltaTime);
 	void Render(float _DeltaTime);
 
@@ -42,6 +46,10 @@ public:
 		CameraPivot = _Pivot;
 	}
 
+	void SetCameraPos(FVector2D _Pos)
+	{
+		CameraPos = _Pos;
+	}
 protected:
 
 private:

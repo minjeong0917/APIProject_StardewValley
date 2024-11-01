@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineWinDebug.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EngineWindow.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="EngineInput.h">
@@ -163,6 +167,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineWinDebug.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

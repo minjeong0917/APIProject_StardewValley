@@ -8,26 +8,73 @@
 
 #include "SpriteRenderer.h"
 
+#include "EngineCoreDebug.h"
 ULevel::ULevel()
 {
 }
 
 ULevel::~ULevel()
 {
-
-	std::list<AActor*>::iterator StartIter = AllActors.begin();
-	std::list<AActor*>::iterator EndIter = AllActors.end();
-
-	for (; StartIter != EndIter; ++StartIter)
 	{
-		AActor* CurActor = *StartIter;
+		// BeginPlayList : 한번도 체인지 안한 액터들 제거
+		std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+		std::list<AActor*>::iterator EndIter = BeginPlayList.end();
 
-		if (nullptr != CurActor)
+		for (; StartIter != EndIter; ++StartIter)
 		{
-			delete* StartIter;
+			AActor* CurActor = *StartIter;
+			delete CurActor;
+		}
+	}
+
+	{
+		std::list<AActor*>::iterator StartIter = AllActors.begin();
+		std::list<AActor*>::iterator EndIter = AllActors.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+
+			if (nullptr != CurActor)
+			{
+				delete* StartIter;
+			}
 		}
 	}
 }
+
+void ULevel::LevelChangeStart()
+{
+	{
+		std::list<AActor*>::iterator StartIter = AllActors.begin();
+		std::list<AActor*>::iterator EndIter = AllActors.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+
+			CurActor->LevelChangeStart();
+		}
+	}
+
+}
+
+void ULevel::LevelChangeEnd()
+{
+	{
+		std::list<AActor*>::iterator StartIter = AllActors.begin();
+		std::list<AActor*>::iterator EndIter = AllActors.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+
+			CurActor->LevelChangeEnd();
+		}
+	}
+
+}
+
 
 void ULevel::Tick(float _DeltaTime)
 {
@@ -90,7 +137,7 @@ void ULevel::Render(float _DeltaTime)
 
 	}
 
-
+	UEngineDebug::PrintEngineDebugText();
 	DoubleBuffering();
 }
 

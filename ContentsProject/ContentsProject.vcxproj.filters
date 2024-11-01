@@ -22,6 +22,9 @@
     <Filter Include="ContentsObject\Map">
       <UniqueIdentifier>{91466eed-6629-488b-9331-3ec8615cb354}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\Title">
+      <UniqueIdentifier>{cce7b728-1c3a-4db1-a2b4-e8e3d21eb907}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -45,6 +48,12 @@
     <ClCompile Include="ContentsEnum.cpp">
       <Filter>ContentsObject\Global</Filter>
     </ClCompile>
+    <ClCompile Include="TitleGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>ContentsObject\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -67,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>ContentsObject\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

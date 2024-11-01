@@ -9,6 +9,7 @@
 #include <EngineCore/ImageManager.h>
 
 #include "FarmGameMode.h"
+#include "TitleGameMode.h"
 #include "Player.h"
 
 
@@ -47,7 +48,8 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1280, 720 });
 	// 농장 레벨 생성 및 Open
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
-	UEngineAPICore::GetCore()->OpenLevel("Farm");
+	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
+	UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 
 void ContentsCore::Tick()

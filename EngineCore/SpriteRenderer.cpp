@@ -43,6 +43,11 @@ void USpriteRenderer::Render(float _DeltaTime)
 				if (true == CurAnimation->Loop)
 				{
 					CurAnimation->CurIndex = 0;
+
+					if (CurAnimation->Events.contains(CurAnimation->CurIndex))
+					{
+						CurAnimation->Events[CurAnimation->CurIndex]();
+					}
 				}
 				else
 				{
