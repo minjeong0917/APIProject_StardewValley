@@ -18,6 +18,8 @@ ATitleGameMode::~ATitleGameMode()
 void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	ATitleLogo* Logo = GetWorld()->SpawnActor<ATitleLogo>();
+
 }
 
 
