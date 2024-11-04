@@ -216,6 +216,8 @@ void UImageManager::CuttingSprite(std::string_view _KeyName, FVector2D _CuttingS
 	UEngineWinImage* Image = Images[UpperName];
 
 	Sprite->ClearSpriteData();
+	Sprite->SetName(UpperName);
+	Image->SetName(UpperName);
 
 	if (0 != (Image->GetImageScale().iX() % _CuttingSize.iX()))
 	{
@@ -322,6 +324,9 @@ void UImageManager::CreateCutSprite(std::string_view _SearchKeyName, std::string
 
 	UEngineSprite* Sprite = Sprites[SearchName];
 	UEngineWinImage* Image = Images[SearchName];
+
+	Sprite->SetName(SearchName);
+	Image->SetName(SearchName);
 
 	Sprite->ClearSpriteData();
 

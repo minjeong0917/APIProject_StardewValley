@@ -130,7 +130,7 @@ FVector2D USpriteRenderer::SetSpriteScale(float _Ratio , int _CurIndex )
 		return FVector2D::ZERO;
 	}
 
-	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(CurIndex);
+	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(_CurIndex);
 
 	FVector2D Scale = CurData.Transform.Scale * _Ratio;
 
@@ -140,7 +140,7 @@ FVector2D USpriteRenderer::SetSpriteScale(float _Ratio , int _CurIndex )
 }
 
 
-void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, int _Start, int _End, float Time /*= 0.1f*/, bool _Loop /*= true*/)
+void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, int _Start, int _End, float Time, bool _Loop)
 {
 	if (_Start > _End)
 	{
@@ -162,8 +162,18 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 
 	CreateAnimation(_AnimationName, _SpriteName, Indexs, Times, _Loop);
 }
+void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, float _Frame, bool _Loop)
+{
+	std::vector<float> Times;
 
-void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop /*= true*/)
+	for (size_t i = 0; i < _Indexs.size(); i++)
+	{
+		Times.push_back(_Frame);
+	}
+
+	CreateAnimation(_AnimationName, _SpriteName, _Indexs, Times, _Loop);
+}
+void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop)
 {
 	std::string UpperName = UEngineString::ToUpper(_AnimationName);
 
@@ -197,7 +207,7 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 
 }
 
-void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _Force )
+void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _Force /*= false*/)
 {
 	std::string UpperName = UEngineString::ToUpper(_AnimationName);
 
@@ -216,8 +226,14 @@ void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _For
 
 	CurAnimation = &FrameAnimations[UpperName];
 	CurAnimation->Reset();
-}
 
+	if (CurAnimation->Events.contains(CurAnimation->CurIndex))
+	{
+		CurAnimation->Events[CurAnimation->CurIndex]();
+	}
+
+	Sprite = CurAnimation->Sprite;
+}
 
 void USpriteRenderer::SetAnimationEvent(std::string_view _AnimationName, int _Frame, std::function<void()> _Function)
 {

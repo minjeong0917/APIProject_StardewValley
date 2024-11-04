@@ -3,7 +3,6 @@
 
 ATools::ATools()
 {
-	SetActorScale({ 50, 50 });
 }
 
 ATools::~ATools()

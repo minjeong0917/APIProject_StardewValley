@@ -47,11 +47,6 @@ public:
 		Transform.Location += _Direction;
 	}
 
-	void SetActorScale(FVector2D _Scale)
-	{
-		Transform.Scale = _Scale;
-	}
-
 	FTransform GetTransform()
 	{
 		return Transform;
