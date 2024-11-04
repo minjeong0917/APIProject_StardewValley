@@ -23,6 +23,7 @@ public:
 	void LevelChangeStart();
 	void LevelChangeEnd();
 
+	void PlayerMove(float _DeltaTime);
 	void CameraCheck(float _DeltaTime);
 
 protected:
@@ -31,6 +32,10 @@ private:
 
 	float Speed = 120.0f;
 	int MySpriteIndex = 0;
+
+	bool IsXMove = false;
+	bool IsYMove = false;
+
 
 	class USpriteRenderer* SpriteRenderer;
 
