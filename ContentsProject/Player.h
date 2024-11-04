@@ -30,7 +30,7 @@ protected:
 
 private:
 
-	float Speed = 120.0f;
+	float Speed = 150.0f;
 	int MySpriteIndex = 0;
 
 	bool IsXMove = false;

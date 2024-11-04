@@ -23,14 +23,20 @@ APlayer::APlayer()
 
         SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
-        SpriteRenderer->CreateAnimation("Walk_Front", "Farmer_Right.png", { 1, 0, 2, 0 }, { 0.1f, 0.1f, 0.1f, 0.1f });
+        // 앞
+        SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
         SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", 0, 0, 0.1f);
-        SpriteRenderer->CreateAnimation("Walk_Back", "Farmer_Right.png", { 12, 11, 13, 11 }, { 0.1f, 0.1f, 0.1f, 0.1f });
+
+        // 뒤
+        SpriteRenderer->CreateAnimation("Run_Back", "Farmer_Right.png", { 11, 12, 20, 12, 11, 13, 21, 13 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
         SpriteRenderer->CreateAnimation("Idle_Back", "Farmer_Right.png", 11, 11, 0.1f);
 
-        SpriteRenderer->CreateAnimation("Walk_Right", "Farmer_Right.png", { 7, 8 }, { 0.1f, 0.1f });
+        // 오른쪽
+        SpriteRenderer->CreateAnimation("Run_Right", "Farmer_Right.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
         SpriteRenderer->CreateAnimation("Idle_Right", "Farmer_Right.png", 6, 6, 0.1f);
-        SpriteRenderer->CreateAnimation("Walk_Left", "Farmer_Left.png", { 7, 8 }, { 0.1f, 0.1f });
+
+        // 왼쪽
+        SpriteRenderer->CreateAnimation("Run_Left", "Farmer_Left.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
         SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
 
     }
@@ -87,7 +93,7 @@ void APlayer::PlayerMove(float _DeltaTime)
     // 오른쪽 이동
     if (true == UEngineInput::GetInst().IsPress('D'))
     {
-        SpriteRenderer->ChangeAnimation("Walk_Right");
+        SpriteRenderer->ChangeAnimation("Run_Right");
         AddActorLocation(FVector2D::RIGHT * _DeltaTime * Speed);
         IsXMove = true;
     }
@@ -100,7 +106,7 @@ void APlayer::PlayerMove(float _DeltaTime)
     // 왼쪽 이동
     if (true == UEngineInput::GetInst().IsPress('A'))
     {
-        SpriteRenderer->ChangeAnimation("Walk_Left");
+        SpriteRenderer->ChangeAnimation("Run_Left");
         AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
         IsXMove = true;
     }
@@ -113,7 +119,7 @@ void APlayer::PlayerMove(float _DeltaTime)
     // 아래쪽 이동
     if (true == UEngineInput::GetInst().IsPress('S'))
     {
-        SpriteRenderer->ChangeAnimation("Walk_Front");
+        SpriteRenderer->ChangeAnimation("Run_Front");
         AddActorLocation(FVector2D::DOWN * _DeltaTime * Speed);
         IsYMove = true;
     }
@@ -126,7 +132,7 @@ void APlayer::PlayerMove(float _DeltaTime)
     // 위쪽 이동
     if (true == UEngineInput::GetInst().IsPress('W'))
     {
-        SpriteRenderer->ChangeAnimation("Walk_Back");
+        SpriteRenderer->ChangeAnimation("Run_Back");
         AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
         IsYMove = true;
     }
