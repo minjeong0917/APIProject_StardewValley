@@ -25,6 +25,9 @@
     <Filter Include="ContentsObject\Title">
       <UniqueIdentifier>{cce7b728-1c3a-4db1-a2b4-e8e3d21eb907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\Map\TileMap">
+      <UniqueIdentifier>{dc7d6f07-3ac2-45f7-82c8-ff1fbec1562e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -60,6 +63,12 @@
     <ClCompile Include="TownMap.cpp">
       <Filter>ContentsObject\Map</Filter>
     </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>ContentsObject\Map\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -94,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="TownMap.h">
       <Filter>ContentsObject\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>ContentsObject\Map\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,12 +33,7 @@ private:
 	float Speed = 150.0f;
 	int MySpriteIndex = 0;
 
-	bool IsXMove = false;
-	bool IsYMove = false;
-
-
 	class USpriteRenderer* SpriteRenderer;
-
 
 };
 

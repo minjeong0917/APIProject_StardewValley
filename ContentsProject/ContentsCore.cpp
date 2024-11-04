@@ -11,6 +11,7 @@
 #include "FarmGameMode.h"
 #include "TitleGameMode.h"
 #include "TownGameMode.h"
+#include "TileMapGameMode.h"
 
 #include "Player.h"
 
@@ -42,6 +43,15 @@ void ContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Images");
+		Dir.Append("TileMap");
+
+		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+
+	}
+
 	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
 	UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
 
@@ -53,7 +63,9 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-	UEngineAPICore::GetCore()->OpenLevel("Title");
+	UEngineAPICore::GetCore()->CreateLevel<ATileMapGameMode, AActor>("Tile");
+
+	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
 
 void ContentsCore::Tick()

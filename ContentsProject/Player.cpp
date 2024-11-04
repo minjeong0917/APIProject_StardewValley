@@ -84,6 +84,15 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         UEngineAPICore::GetCore()->OpenLevel("Town");
     }
+    if (true == UEngineInput::GetInst().IsDown('M'))
+    {
+        UEngineAPICore::GetCore()->OpenLevel("Tile");
+    }
+
+    if (true == UEngineInput::GetInst().IsDown(VK_F2))
+    {
+        Speed += 100;
+    }
 
     if (true == UEngineInput::GetInst().IsDown(VK_F1))
     {
@@ -95,12 +104,10 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         SpriteRenderer->ChangeAnimation("Run_Right");
         AddActorLocation(FVector2D::RIGHT * _DeltaTime * Speed);
-        IsXMove = true;
     }
     else if (true == UEngineInput::GetInst().IsUp('D'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Right");
-        IsXMove = false;
     }
 
     // 왼쪽 이동
@@ -108,12 +115,10 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         SpriteRenderer->ChangeAnimation("Run_Left");
         AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
-        IsXMove = true;
     }
     else if (true == UEngineInput::GetInst().IsUp('A'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Left");
-        IsXMove = false;
     }
 
     // 아래쪽 이동
@@ -121,12 +126,10 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         SpriteRenderer->ChangeAnimation("Run_Front");
         AddActorLocation(FVector2D::DOWN * _DeltaTime * Speed);
-        IsYMove = true;
     }
     else if (true == UEngineInput::GetInst().IsUp('S'))
     {
         SpriteRenderer->ChangeAnimation("Idle_front");
-        IsYMove = false;
     }
 
     // 위쪽 이동
@@ -134,12 +137,11 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         SpriteRenderer->ChangeAnimation("Run_Back");
         AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
-        IsYMove = true;
+
     }
     else if (true == UEngineInput::GetInst().IsUp('W'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Back");
-        IsYMove = false;
     }
 }
 
@@ -153,66 +155,37 @@ void APlayer::LevelChangeEnd()
     Super::LevelChangeEnd();
 }
 
+
 void APlayer::CameraCheck(float _DeltaTime)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    GetWorld()->SetCameraToMainPawn(false);
+    GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
+
     FVector2D CameraPos = GetWorld()->GetCameraPos();
 
-    float PlayerXPosMin = GetActorLocation().X - Size.Half().X;
-    float PlayerYPosMin = GetActorLocation().Y - Size.Half().Y;
-    float PlayerXPosMax = GetActorLocation().X + Size.Half().X;
-    float PlayerYPosMax = GetActorLocation().Y + Size.Half().Y;
-
-    float CameraXPos = CameraPos.X + Size.X;
-    float CameraYPos = CameraPos.Y + Size.Y;
-
-    FVector2D RightCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::RIGHT * _DeltaTime * Speed;
-    FVector2D LeftCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::LEFT * _DeltaTime * Speed;
-    FVector2D DownCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::DOWN * _DeltaTime * Speed;
-    FVector2D UpCameraPivot = GetWorld()->GetCameraPivot() + FVector2D::UP * _DeltaTime * Speed;
-
-
-    // X축 제한
-    if (true == IsXMove)
+    if (CameraPos.X <= 0.0f)
     {
-        // 카메라 X위치가 0 보다 작다면 CamerPivot을 Player 속도에 맞춰 오른쪽으로 이동
-        if (CameraPos.X < 0)
-        {
-            GetWorld()->SetCameraPivot(RightCameraPivot);
-        }
-        else if (PlayerXPosMin < 0)
-        {
-            GetWorld()->SetCameraPivot(LeftCameraPivot);
-        }
-
-        if (PlayerXPosMax >= 3200.0f && CameraXPos < 3200.0f)
-        {
-            GetWorld()->SetCameraPivot(RightCameraPivot);
-        }
-        else if (CameraXPos >= 3200.0f)
-        {
-            GetWorld()->SetCameraPivot(LeftCameraPivot);
-        }
+        CameraPos.X = 0.0f;
     }
-    // Y축 제한
-    if (true == IsYMove)
+
+    if (CameraPos.X + Size.X  >= 3200.0f )
     {
-        if (CameraPos.Y < 0)
-        {
-            GetWorld()->SetCameraPivot(DownCameraPivot);
-        }
-        else if (PlayerYPosMin < 0)
-        {
-            GetWorld()->SetCameraPivot(UpCameraPivot);
-        }
-
-        if (PlayerYPosMax >= 2600.0f && CameraYPos < 2600.0f)
-        {
-            GetWorld()->SetCameraPivot(DownCameraPivot);
-        }
-        else if (CameraYPos >= 2600.0f)
-        {
-            GetWorld()->SetCameraPivot(UpCameraPivot);
-        }
+        CameraPos.X = 3200.0f - Size.X;
     }
+
+    if (CameraPos.Y <= 0.0f)
+    {
+        CameraPos.Y = 0.0f;
+    }
+
+    if (CameraPos.Y + Size.Y >= 2600.0f)
+    {
+        CameraPos.Y = 2600.0f - Size.Y;
+    }
+
+    GetWorld()->SetCameraPos(CameraPos);
+
 }
+

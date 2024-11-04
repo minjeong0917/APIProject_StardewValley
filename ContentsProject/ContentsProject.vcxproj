@@ -151,6 +151,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="TileMapGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TownMap.h">
       <SubType>
       </SubType>
@@ -191,6 +199,14 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="TileMapGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TownMap.cpp">
       <SubType>
       </SubType>
