@@ -102,12 +102,14 @@ void APlayer::PlayerMove(float _DeltaTime)
         UEngineDebug::SwitchIsDebug();
     }
 
+    FVector2D Vector = FVector2D::ZERO;
 
     // 오른쪽 이동
     if (true == UEngineInput::GetInst().IsPress('D'))
     {
         SpriteRenderer->ChangeAnimation("Run_Right");
-        AddActorLocation(FVector2D::RIGHT * _DeltaTime * Speed);
+        Vector += FVector2D::RIGHT;
+
     }
     else if (true == UEngineInput::GetInst().IsUp('D'))
     {
@@ -118,7 +120,7 @@ void APlayer::PlayerMove(float _DeltaTime)
     if (true == UEngineInput::GetInst().IsPress('A'))
     {
         SpriteRenderer->ChangeAnimation("Run_Left");
-        AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
+        Vector += FVector2D::LEFT;
     }
     else if (true == UEngineInput::GetInst().IsUp('A'))
     {
@@ -129,7 +131,8 @@ void APlayer::PlayerMove(float _DeltaTime)
     if (true == UEngineInput::GetInst().IsPress('S'))
     {
         SpriteRenderer->ChangeAnimation("Run_Front");
-        AddActorLocation(FVector2D::DOWN * _DeltaTime * Speed);
+        Vector += FVector2D::DOWN;
+
     }
     else if (true == UEngineInput::GetInst().IsUp('S'))
     {
@@ -140,13 +143,15 @@ void APlayer::PlayerMove(float _DeltaTime)
     if (true == UEngineInput::GetInst().IsPress('W'))
     {
         SpriteRenderer->ChangeAnimation("Run_Back");
-        AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
+        Vector += FVector2D::UP;
 
     }
     else if (true == UEngineInput::GetInst().IsUp('W'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Back");
     }
+
+    AddActorLocation(Vector * _DeltaTime * Speed);
 }
 
 void APlayer::LevelChangeStart()
