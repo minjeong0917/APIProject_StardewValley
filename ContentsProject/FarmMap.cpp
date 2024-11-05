@@ -12,7 +12,6 @@ AFarmMap::AFarmMap()
 
 	FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
 	SpriteRenderer->SetComponentLocation(MapScale.Half());
-
 }
 
 AFarmMap::~AFarmMap()

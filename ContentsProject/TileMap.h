@@ -1,8 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/SpriteRenderer.h>
+#include <EngineBase/EngineSerializer.h>
 
-class Tile
+class Tile : public ISerializObject
 {
 public:
 	USpriteRenderer* SpriteRenderer;
@@ -10,10 +11,40 @@ public:
 	int TileType = -1;
 	FVector2D Scale;
 	FVector2D Pivot;
+	int SpriteIndex;
+
+	void Serialize(UEngineSerializer& _Ser)
+	{
+		std::string SpriteName;
+		if (nullptr != SpriteRenderer)
+		{
+			SpriteName = SpriteRenderer->GetCurSpriteName();
+		}
+		_Ser << SpriteName;
+		_Ser << IsMove;
+		_Ser << TileType;
+		_Ser << Scale;
+		_Ser << Pivot;
+		_Ser << SpriteIndex;
+	}
+
+
+	void DeSerialize(UEngineSerializer& _Ser)
+	{
+
+		std::string SpriteName;
+		_Ser >> SpriteName;
+		_Ser >> IsMove;
+		_Ser >> TileType;
+		_Ser >> Scale;
+		_Ser >> Pivot;
+		_Ser >> SpriteIndex;
+
+	}
 };
 
 
-class ATileMap : public AActor
+class ATileMap : public AActor, public ISerializObject
 {
 public:
 	// constrcuter destructer
@@ -39,6 +70,9 @@ public:
 	FIntPoint LocationToIndex(FVector2D _Location);
 
 	bool IsIndexOver(FIntPoint _Index);
+
+	void Serialize(UEngineSerializer& _Ser);
+	void DeSerialize(UEngineSerializer& _Ser);
 
 protected:
 

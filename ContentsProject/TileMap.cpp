@@ -9,7 +9,6 @@ ATileMap::~ATileMap()
 {
 }
 
-// 타일의 
 void ATileMap::Create(std::string_view _Sprite, FIntPoint _Count, FVector2D _TileSize)
 {
 	SpriteName = _Sprite;
@@ -22,10 +21,6 @@ void ATileMap::Create(std::string_view _Sprite, FIntPoint _Count, FVector2D _Til
 	{
 		AllTiles[y].resize(_Count.X);;
 	}
-
-
-
-
 }
 
 FVector2D ATileMap::IndexToTileLocation(FIntPoint _Index)
@@ -40,10 +35,11 @@ FIntPoint ATileMap::LocationToIndex(FVector2D _Location)
 	return FIntPoint(Location.iX(), Location.iY());
 }
 
-// 마우스 위치나 플레이어 위치가 들어왔을때.
 void ATileMap::SetTileLocation(FVector2D _Location, int _SpriteIndex)
 {
-	FIntPoint Point = LocationToIndex(_Location);
+	FVector2D TilePos = _Location - GetActorLocation();
+
+	FIntPoint Point = LocationToIndex(TilePos);
 
 	if (true == IsIndexOver(Point))
 	{
@@ -99,7 +95,6 @@ void ATileMap::SetTileIndex(FIntPoint _Index, FVector2D _Pivot, FVector2D _Sprit
 		AllTiles[_Index.Y][_Index.X].SpriteRenderer = NewSpriteRenderer;
 	}
 
-
 	USpriteRenderer* FindSprite = AllTiles[_Index.Y][_Index.X].SpriteRenderer;
 	FindSprite->SetSprite(SpriteName, _SpriteIndex);
 
@@ -109,4 +104,39 @@ void ATileMap::SetTileIndex(FIntPoint _Index, FVector2D _Pivot, FVector2D _Sprit
 	FindSprite->SetOrder(_Index.Y);
 
 	AllTiles[_Index.Y][_Index.X].SpriteRenderer->SetComponentLocation(TileLocation + TileSize.Half() + _Pivot);
+	AllTiles[_Index.Y][_Index.X].Pivot = _Pivot;
+	AllTiles[_Index.Y][_Index.X].Scale = _SpriteScale;
+	AllTiles[_Index.Y][_Index.X].SpriteIndex = _SpriteIndex;
+}
+
+void ATileMap::Serialize(UEngineSerializer& _Ser)
+{
+
+	_Ser << TileCount;
+	_Ser << TileSize;
+	_Ser << SpriteName;
+	_Ser << AllTiles;
+
+}
+
+void ATileMap::DeSerialize(UEngineSerializer& _Ser)
+{
+	_Ser >> TileCount;
+	_Ser >> TileSize;
+	_Ser >> SpriteName;
+
+	std::vector<std::vector<Tile>> LoadTiles;
+	_Ser >> LoadTiles;
+
+
+	Create(SpriteName, TileCount, TileSize);
+
+	for (int y = 0; y < LoadTiles.size(); y++)
+	{
+		for (int x = 0; x < LoadTiles[y].size(); x++)
+		{
+			SetTileIndex({ x, y }, LoadTiles[y][x].Pivot, LoadTiles[y][x].Scale, LoadTiles[y][x].SpriteIndex);
+		}
+	}
+
 }
