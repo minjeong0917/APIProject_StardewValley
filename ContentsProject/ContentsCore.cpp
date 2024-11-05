@@ -29,11 +29,12 @@ void ContentsCore::BeginPlay()
 	UEngineDirectory Dir;
 
 	// Images 폴더 찾기
-	if (false == Dir.MoveParentToDirectory("Images"))
+	if (false == Dir.MoveParentToDirectory("Resources"))
 	{
 		MSGASSERT("이미지 폴더를 찾지 못했습니다.");
 		return;
 	}
+	Dir.Append("Images");
 
 	std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
 
@@ -43,10 +44,11 @@ void ContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
+
 	{
 		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Images");
-		Dir.Append("TileMap");
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("TileMap//TileSet");
 
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 
@@ -65,7 +67,7 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
 	UEngineAPICore::GetCore()->CreateLevel<ATileMapGameMode, AActor>("Tile");
 
-	UEngineAPICore::GetCore()->OpenLevel("Farm");
+	UEngineAPICore::GetCore()->OpenLevel("Tile");
 }
 
 void ContentsCore::Tick()

@@ -19,6 +19,7 @@ APlayer::APlayer()
     {
         SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
         SpriteRenderer->SetSprite("Farmer_Right.png");
+        SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
 
         SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });

@@ -28,6 +28,9 @@
     <Filter Include="ContentsObject\Map\TileMap">
       <UniqueIdentifier>{dc7d6f07-3ac2-45f7-82c8-ff1fbec1562e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\TileMap">
+      <UniqueIdentifier>{b6c8690a-5f8a-45b9-81ef-32dbb3f0accf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
