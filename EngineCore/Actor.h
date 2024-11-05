@@ -79,6 +79,7 @@ private:
 
 	static bool IsNewActorCreate;
 	static std::list<class UActorComponent*> ComponentList;
+	void ReleaseCheck(float _DeltaTime) override;
 
 	class ULevel* World = nullptr;
 	FTransform Transform;

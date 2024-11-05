@@ -32,10 +32,62 @@ public:
 		Name = _Name.data();
 	}
 
+	virtual bool IsActive()
+	{
+		return IsActiveValue && false == IsDestroyValue;
+	}
+
+	virtual bool IsDestroy()
+	{
+		return IsDestroyValue;
+	}
+
+	void Destroy(float _Time = 0.0f)
+	{
+		DeathTime = _Time;
+
+		if (0.0f < _Time)
+		{
+			IsDeathTimeCheck = true;
+			return;
+		}
+
+		IsDestroyValue = true;
+	}
+
+	virtual void ReleaseCheck(float _DeltaTime)
+	{
+		if (false == IsDeathTimeCheck)
+		{
+			return;
+		}
+
+		CurDeathTime += _DeltaTime;
+
+		if (DeathTime <= CurDeathTime)
+		{
+			IsDestroyValue = true;
+		}
+	}
+
+	// 모든 기능 정지.
+	// 얼음 외부에서 다른 객체가 풀어줘야 한다.
+	bool SetActive(bool _IsActive)
+	{
+		IsActiveValue = _IsActive;
+	}
+
+
 protected:
 
 private:
+	bool IsDestroyValue = false;
+	bool IsActiveValue = true;
+
+	bool IsDeathTimeCheck = false;
+	float DeathTime = 0.0f;
+	float CurDeathTime = 0.0f;
+
 	std::string Name;
 
 };
-

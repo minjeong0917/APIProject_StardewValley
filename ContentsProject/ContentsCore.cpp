@@ -48,9 +48,8 @@ void ContentsCore::BeginPlay()
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("TileMap//TileSet");
-
-		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+		Dir.Append("TileMap//DirtTile");
+		UImageManager::GetInst().CuttingSprite("Dirt.png", { 64, 64 });
 
 	}
 
@@ -65,9 +64,9 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-	UEngineAPICore::GetCore()->CreateLevel<ATileMapGameMode, AActor>("Tile");
+	//EngineAPICore::GetCore()->CreateLevel<ATileMapGameMode, AActor>("Tile");
 
-	UEngineAPICore::GetCore()->OpenLevel("Tile");
+	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
 
 void ContentsCore::Tick()

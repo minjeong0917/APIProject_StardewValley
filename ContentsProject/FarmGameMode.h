@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/GameMode.h>
+#include "TileMap.h"
 
 // 농장 게임 모드
 class AFarmGameMode : public AGameMode
@@ -16,11 +17,13 @@ public:
 	AFarmGameMode& operator=(AFarmGameMode&& _Other) noexcept = delete;
 
 	void BeginPlay();
-	void Tick();
+	void Tick(float _DeltaTime) override;
 
 protected:
 
 private:
+	ATileMap* DirtTileMap = nullptr;
+	ATileMap* GroundTileMap = nullptr;
 
 };
 

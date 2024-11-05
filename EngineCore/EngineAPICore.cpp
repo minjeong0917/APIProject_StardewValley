@@ -114,6 +114,7 @@ void UEngineAPICore::Tick()
 	CurLevel->Tick(DeltaTime);
 	//  UEngineInput::GetInst().EventCheck(DeltaTime);
 	CurLevel->Render(DeltaTime);
+	CurLevel->Release(DeltaTime);
 
 }
 
