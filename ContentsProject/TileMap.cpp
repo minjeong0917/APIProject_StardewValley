@@ -1,6 +1,10 @@
 #include "PreCompile.h"
 #include "TileMap.h"
 
+#include <EngineCore/SpriteRenderer.h>
+#include "ContentsEnum.h"
+
+
 ATileMap::ATileMap()
 {
 }
@@ -116,7 +120,6 @@ Tile* ATileMap::GetTileRef(FVector2D _Location)
 	return GetTileRef(Point);
 }
 
-// 타일을 내가 직접 이걸로 얻어와서 변형시키면 된다.
 Tile* ATileMap::GetTileRef(FIntPoint _Index)
 {
 	if (true == IsIndexOver(_Index))

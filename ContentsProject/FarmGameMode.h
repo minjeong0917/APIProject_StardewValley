@@ -2,6 +2,7 @@
 #include <EngineCore/GameMode.h>
 #include "TileMap.h"
 
+
 // 농장 게임 모드
 class AFarmGameMode : public AGameMode
 {
@@ -23,6 +24,8 @@ protected:
 
 private:
 	ATileMap* DirtTileMap = nullptr;
+	ATileMap* TreeTileMap = nullptr;
+	int TileImages = 0;
 	ATileMap* GroundTileMap = nullptr;
 
 };

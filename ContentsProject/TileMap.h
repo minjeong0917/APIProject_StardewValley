@@ -41,6 +41,7 @@ public:
 		_Ser >> SpriteIndex;
 
 	}
+
 };
 
 
@@ -75,6 +76,7 @@ public:
 
 	void Serialize(UEngineSerializer& _Ser);
 	void DeSerialize(UEngineSerializer& _Ser);
+
 
 protected:
 

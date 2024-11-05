@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
+#include "ContentsEnum.h"
 
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
@@ -21,6 +22,7 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
+
 
         SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
@@ -160,6 +162,8 @@ void APlayer::LevelChangeEnd()
 void APlayer::CameraCheck()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    SpriteRenderer->SetOrder(GetActorLocation().Y);
 
     GetWorld()->SetCameraToMainPawn(false);
     GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
