@@ -24,7 +24,7 @@ public:
 	void LevelChangeEnd();
 
 	void PlayerMove(float _DeltaTime);
-	void CameraCheck(float _DeltaTime);
+	void CameraCheck();
 
 protected:
 

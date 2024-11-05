@@ -66,11 +66,9 @@ void APlayer::Tick(float _DeltaTime)
 
     UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
     UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
-    UEngineDebug::CoreOutPutString("Pos : " + GetWorld()->GetCameraPivot().ToString());
-
 
     PlayerMove(_DeltaTime);
-    CameraCheck(_DeltaTime);
+    CameraCheck();
 
 }
 
@@ -89,11 +87,13 @@ void APlayer::PlayerMove(float _DeltaTime)
         UEngineAPICore::GetCore()->OpenLevel("Tile");
     }
 
+    // F2 : 플레이어 속도 증가
     if (true == UEngineInput::GetInst().IsDown(VK_F2))
     {
         Speed += 100;
     }
 
+    // F1 : 디버그 확인
     if (true == UEngineInput::GetInst().IsDown(VK_F1))
     {
         UEngineDebug::SwitchIsDebug();
@@ -156,7 +156,7 @@ void APlayer::LevelChangeEnd()
 }
 
 
-void APlayer::CameraCheck(float _DeltaTime)
+void APlayer::CameraCheck()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
