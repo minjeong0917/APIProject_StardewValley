@@ -102,6 +102,7 @@ void APlayer::PlayerMove(float _DeltaTime)
         UEngineDebug::SwitchIsDebug();
     }
 
+
     // 오른쪽 이동
     if (true == UEngineInput::GetInst().IsPress('D'))
     {
@@ -158,6 +159,11 @@ void APlayer::LevelChangeEnd()
     Super::LevelChangeEnd();
 }
 
+void APlayer::SetColImage(std::string_view _ColImageName)
+{
+    ColImage = UImageManager::GetInst().FindImage(_ColImageName);
+}
+
 
 void APlayer::CameraCheck()
 {
@@ -168,6 +174,9 @@ void APlayer::CameraCheck()
     GetWorld()->SetCameraToMainPawn(false);
     GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
 
+    float ImageXSize = ColImage->GetImageScale().X;
+    float ImageYSize = ColImage->GetImageScale().Y;
+    
     FVector2D CameraPos = GetWorld()->GetCameraPos();
 
     if (CameraPos.X <= 0.0f)
@@ -175,9 +184,9 @@ void APlayer::CameraCheck()
         CameraPos.X = 0.0f;
     }
 
-    if (CameraPos.X + Size.X  >= 3200.0f )
+    if (CameraPos.X + Size.X  >= ImageXSize)
     {
-        CameraPos.X = 3200.0f - Size.X;
+        CameraPos.X = ImageXSize - Size.X;
     }
 
     if (CameraPos.Y <= 0.0f)
@@ -185,9 +194,9 @@ void APlayer::CameraCheck()
         CameraPos.Y = 0.0f;
     }
 
-    if (CameraPos.Y + Size.Y >= 2600.0f)
+    if (CameraPos.Y + Size.Y >= ImageYSize)
     {
-        CameraPos.Y = 2600.0f - Size.Y;
+        CameraPos.Y = ImageYSize - Size.Y;
     }
 
     GetWorld()->SetCameraPos(CameraPos);

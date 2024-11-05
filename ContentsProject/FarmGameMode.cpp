@@ -24,6 +24,8 @@ AFarmGameMode::~AFarmGameMode()
 
 void AFarmGameMode::BeginPlay()
 {
+	APlayer* Player = GetWorld()->GetPawn<APlayer>();
+	Player->SetColImage("Farm.png");
 
 	DirtTileMap = GetWorld()->SpawnActor<ATileMap>();
 	DirtTileMap->Create("Dirt.png", {72,52}, {50, 50 });

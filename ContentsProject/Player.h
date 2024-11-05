@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EngineCore/ImageManager.h>
 
 // Ό³Έν :
 class APlayer : public AActor
@@ -22,6 +23,7 @@ public:
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
+	void SetColImage(std::string_view _ColImageName);
 
 	void PlayerMove(float _DeltaTime);
 	void CameraCheck();
@@ -32,8 +34,9 @@ private:
 
 	float Speed = 170.0f;
 	int MySpriteIndex = 0;
-
 	class USpriteRenderer* SpriteRenderer;
+	class UEngineWinImage* ColImage = nullptr;
+
 
 };
 
