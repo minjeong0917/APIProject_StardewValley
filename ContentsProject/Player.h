@@ -37,6 +37,5 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 
-
 };
 

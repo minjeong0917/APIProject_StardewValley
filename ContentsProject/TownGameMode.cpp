@@ -6,6 +6,7 @@
 #include <EngineCore/EngineAPICore.h>
 
 #include "TownMap.h"
+#include "Player.h"
 
 ATownGameMode::ATownGameMode()
 {
@@ -18,7 +19,13 @@ ATownGameMode::~ATownGameMode()
 void ATownGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	APlayer* Player = GetWorld()->GetPawn<APlayer>();
+	Player->SetColImage("PelicanTown.png");
+
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
+
+
 
 }
 

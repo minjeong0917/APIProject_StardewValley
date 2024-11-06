@@ -31,7 +31,7 @@ void AFarmGameMode::BeginPlay()
 	DirtTileMap->Create("Dirt.png", {72,52}, {50, 50 });
 
 	TreeTileMap = GetWorld()->SpawnActor<ATileMap>();
-	TreeTileMap->Create("Tree001.png", { 34,16 }, { 96, 160 });
+	TreeTileMap->Create("Tree001.png", { 25, 52 }, { 144, 240 });
 
 	AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 }
@@ -40,7 +40,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
-
+	FVector2D PlayerLocation = Player->GetActorLocation();
 	if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
 	{
 		++TileImages;
@@ -58,12 +58,12 @@ void AFarmGameMode::Tick(float _DeltaTime)
 		{
 		case ETileImage::Dirt:
 
-			DirtTileMap->SetTileLocation(Player->GetActorLocation(), 0);
+			DirtTileMap->SetTileLocation({ PlayerLocation.X, PlayerLocation.Y + 10 }, 0);
 
 			break;
 		case ETileImage::Tree001:
 
-			TreeTileMap->SetTileLocation(Player->GetActorLocation(), 0);
+			TreeTileMap->SetTileLocation({ PlayerLocation.X, PlayerLocation.Y + 20 }, 0);
 			break;
 		default:
 			break;
