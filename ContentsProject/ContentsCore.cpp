@@ -25,6 +25,27 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::BeginPlay()
 {	
+
+	ReadySprite();
+
+	// 윈도우 타이틀 지정
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("StardewValley");
+	// 윈도우 크기와 위치 설정
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1280, 720 });
+	// 농장 레벨 생성 및 Open
+	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
+	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
+	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
+
+	UEngineAPICore::GetCore()->OpenLevel("Farm");
+}
+
+void ContentsCore::Tick()
+{
+}
+
+void ContentsCore::ReadySprite()
+{
 	UEngineDirectory Dir;
 
 	// Images 폴더 찾기
@@ -42,8 +63,7 @@ void ContentsCore::BeginPlay()
 		std::string FilePath = ImageFiles[i].GetPathToString();
 		UImageManager::GetInst().Load(FilePath);
 	}
-
-
+	// dirt
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
@@ -51,29 +71,23 @@ void ContentsCore::BeginPlay()
 		UImageManager::GetInst().CuttingSprite("Dirt.png", { 48, 48 });
 
 	}
+	// tree
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("TileMap//TreeTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
-
-	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
-	UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
-
-	// 윈도우 타이틀 지정
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("StardewValley");
-	// 윈도우 크기와 위치 설정
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1280, 720 });
-	// 농장 레벨 생성 및 Open
-	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
-	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
-	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-	//EngineAPICore::GetCore()->CreateLevel<ATileMapGameMode, AActor>("Tile");
-
-	UEngineAPICore::GetCore()->OpenLevel("Farm");
-}
-
-void ContentsCore::Tick()
-{
+	// hous
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("TileMap//HouseTile");
+		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+	}
+	// player
+	{
+		UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
+		UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
+	}
 }

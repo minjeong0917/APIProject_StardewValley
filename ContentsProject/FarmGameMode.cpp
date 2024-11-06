@@ -71,7 +71,9 @@ void AFarmGameMode::PutTile()
 		case ETileImage::Tree001:
 			FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -113 }, { 144, 240 }, 0, false);
 			break;
-
+		case ETileImage::house:
+			FarmTileMap->SetTileIndex("HouseTile", Point, { 0, 0 }, { 361, 361 }, 0);
+			break;
 		default:
 			break;
 		}
@@ -91,6 +93,9 @@ void AFarmGameMode::TileChange()
 	case ETileImage::Tree001:
 		TileImageName = "Tree001";
 		break;
+	case ETileImage::house:
+		TileImageName = "House001";
+		break;
 	default:
 		TileImageName = "Unknown";
 		break;
@@ -101,7 +106,7 @@ void AFarmGameMode::TileChange()
 	if (true == UEngineInput::GetInst().IsDown(VK_RIGHT))
 	{
 		++TileImages;
-		if (TileImages > static_cast<int>(ETileImage::Tree001))
+		if (TileImages >= static_cast<int>(ETileImage::End))
 		{
 			TileImages = 0;
 		}
