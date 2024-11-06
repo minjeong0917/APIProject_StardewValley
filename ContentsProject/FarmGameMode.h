@@ -27,6 +27,6 @@ private:
 	ATileMap* TreeTileMap = nullptr;
 	int TileImages = 0;
 	ATileMap* GroundTileMap = nullptr;
-
+	ATileMap* ColTreeTileMap = nullptr;
 };
 

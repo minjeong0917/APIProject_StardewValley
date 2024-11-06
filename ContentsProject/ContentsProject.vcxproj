@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Tree.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TileMapGameMode.h">
       <SubType>
       </SubType>
@@ -199,6 +203,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Tree.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TileMapGameMode.cpp">
       <SubType>
       </SubType>

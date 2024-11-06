@@ -21,7 +21,7 @@ void ATownGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
-	Player->SetColImage("PelicanTown.png");
+	Player->SetBackImage("PelicanTown.png");
 
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
 

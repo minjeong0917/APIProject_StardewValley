@@ -76,7 +76,8 @@ public:
 
 	void Serialize(UEngineSerializer& _Ser);
 	void DeSerialize(UEngineSerializer& _Ser);
-
+	void TilePivotType(PivotType _Type);
+	void SetSprite(std::string_view _Name, int _CurIndex = 0);
 
 protected:
 
@@ -84,6 +85,8 @@ private:
 	std::vector<std::vector<Tile>> AllTiles;
 	FIntPoint TileCount;
 	std::string SpriteName;
+
+	class USpriteRenderer* SpriteRenderer;
 	FVector2D TileSize;
 };
 

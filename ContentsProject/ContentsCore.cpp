@@ -57,7 +57,6 @@ void ContentsCore::BeginPlay()
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("TileMap//TreeTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
-
 	}
 	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
 	UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });

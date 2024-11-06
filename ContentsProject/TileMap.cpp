@@ -7,6 +7,8 @@
 
 ATileMap::ATileMap()
 {
+
+
 }
 
 ATileMap::~ATileMap()
@@ -25,6 +27,10 @@ void ATileMap::Create(std::string_view _Sprite, FIntPoint _Count, FVector2D _Til
 	{
 		AllTiles[y].resize(_Count.X);;
 	}
+	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+	SpriteRenderer->SetSprite(_Sprite);
+
+
 }
 
 FVector2D ATileMap::IndexToTileLocation(FIntPoint _Index)
@@ -38,6 +44,17 @@ FIntPoint ATileMap::LocationToIndex(FVector2D _Location)
 
 	return FIntPoint(Location.iX(), Location.iY());
 }
+
+void ATileMap::TilePivotType(PivotType _Type)
+{
+	SpriteRenderer->SetPivotType(_Type);
+}
+
+void ATileMap::SetSprite(std::string_view _Name, int _CurIndex)
+{
+	SpriteRenderer->SetSprite(_Name, _CurIndex);
+}
+
 
 void ATileMap::SetTileLocation(FVector2D _Location, int _SpriteIndex)
 {
@@ -105,7 +122,7 @@ void ATileMap::SetTileIndex(FIntPoint _Index, FVector2D _Pivot, FVector2D _Sprit
 	FVector2D TileLocation = IndexToTileLocation(_Index);
 	FindSprite->SetComponentScale(_SpriteScale);
 
-	FindSprite->SetOrder(_Index.Y);
+	FindSprite->SetOrder(_Index.Y * TileSize.Y);
 
 	AllTiles[_Index.Y][_Index.X].SpriteRenderer->SetComponentLocation(TileLocation + TileSize.Half() + _Pivot);
 	AllTiles[_Index.Y][_Index.X].Pivot = _Pivot;

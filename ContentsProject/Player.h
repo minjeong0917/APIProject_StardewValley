@@ -23,19 +23,21 @@ public:
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
-	void SetColImage(std::string_view _ColImageName);
+	void SetColImage(std::string_view _ColImageName, FIntPoint _Index, FVector2D _SpriteScale);
+	void SetBackImage(std::string_view _BackImageName);
 
 	void PlayerMove(float _DeltaTime);
 	void CameraCheck();
-
+	
 protected:
 
 private:
 
-	float Speed = 170.0f;
+	float Speed = 200.0f;
 	int MySpriteIndex = 0;
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
+	class UEngineWinImage* BackImage = nullptr;
 
 };
 

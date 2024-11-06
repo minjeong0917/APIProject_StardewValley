@@ -24,6 +24,7 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Left.png");
 
 
+
         SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
         // 앞
@@ -59,7 +60,7 @@ void APlayer::BeginPlay()
     // 카메라 피벗 위치 설정
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
-
+    //SpriteRenderer->SetPivotType(PivotType::Bot);
 }
 
 
@@ -166,11 +167,17 @@ void APlayer::LevelChangeEnd()
     Super::LevelChangeEnd();
 }
 
-void APlayer::SetColImage(std::string_view _ColImageName)
+void APlayer::SetColImage(std::string_view _ColImageName, FIntPoint _Index, FVector2D _SpriteScale)
 {
     ColImage = UImageManager::GetInst().FindImage(_ColImageName);
+
+
 }
 
+void APlayer::SetBackImage(std::string_view _BackImageName)
+{
+    BackImage = UImageManager::GetInst().FindImage(_BackImageName);
+}
 
 void APlayer::CameraCheck()
 {
@@ -181,8 +188,8 @@ void APlayer::CameraCheck()
     GetWorld()->SetCameraToMainPawn(false);
     GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
 
-    float ImageXSize = ColImage->GetImageScale().X;
-    float ImageYSize = ColImage->GetImageScale().Y;
+    float ImageXSize = BackImage->GetImageScale().X;
+    float ImageYSize = BackImage->GetImageScale().Y;
     
     FVector2D CameraPos = GetWorld()->GetCameraPos();
 
