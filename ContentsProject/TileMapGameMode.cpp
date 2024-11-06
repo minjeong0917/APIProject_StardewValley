@@ -21,14 +21,14 @@ void ATileMapGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	{
-		GroundTileMap = GetWorld()->SpawnActor<ATileMap>();
-	}
+	//{
+	//	GroundTileMap = GetWorld()->SpawnActor<ATileMap>();
+	//}
 
-	{
-		WallTileMap = GetWorld()->SpawnActor<ATileMap>();
-		WallTileMap->Create("TileSet", { 100, 100 }, { 32, 32 });
-	}
+	//{
+	//	WallTileMap = GetWorld()->SpawnActor<ATileMap>();
+	//	WallTileMap->Create("TileSet", { 100, 100 }, { 32, 32 });
+	//}
 }
 
 
@@ -39,7 +39,7 @@ void ATileMapGameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsPress(VK_LBUTTON))
 	{
 		FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-		WallTileMap->SetTileLocation(MousePos, 1);
+		// WallTileMap->SetTileLocation(MousePos, 1);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))

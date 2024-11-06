@@ -69,9 +69,6 @@
     <ClCompile Include="TileMapGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>ContentsObject</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -112,9 +109,6 @@
     </ClInclude>
     <ClInclude Include="TileMapGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>ContentsObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -154,7 +154,18 @@ void APlayer::PlayerMove(float _DeltaTime)
         SpriteRenderer->ChangeAnimation("Idle_Back");
     }
 
-    AddActorLocation(Vector * _DeltaTime * Speed);
+    if (nullptr != ColImage)
+    {
+
+        // 픽셀충돌에서 제일 중요한건 애초에 박히지 않는것이다.
+        FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
+
+        UColor Color = ColImage->GetColor(NextPos, UColor::BLACK);
+        if (Color == UColor::WHITE)
+        {
+            AddActorLocation(Vector * _DeltaTime * Speed);
+        }
+    }
 }
 
 void APlayer::LevelChangeStart()
@@ -167,7 +178,7 @@ void APlayer::LevelChangeEnd()
     Super::LevelChangeEnd();
 }
 
-void APlayer::SetColImage(std::string_view _ColImageName, FIntPoint _Index, FVector2D _SpriteScale)
+void APlayer::SetColImage(std::string_view _ColImageName)
 {
     ColImage = UImageManager::GetInst().FindImage(_ColImageName);
 

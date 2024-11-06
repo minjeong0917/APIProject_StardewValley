@@ -23,7 +23,7 @@ public:
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
-	void SetColImage(std::string_view _ColImageName, FIntPoint _Index, FVector2D _SpriteScale);
+	void SetColImage(std::string_view _ColImageName);
 	void SetBackImage(std::string_view _BackImageName);
 
 	void PlayerMove(float _DeltaTime);

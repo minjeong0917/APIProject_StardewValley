@@ -29,29 +29,24 @@ void AFarmGameMode::BeginPlay()
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetBackImage("Farm.png");
 
+	FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
+	FarmTileMap->Create({72,52}, {50, 50});
 
-	DirtTileMap = GetWorld()->SpawnActor<ATileMap>();
-	DirtTileMap->Create("Dirt.png", {72,52}, {50, 50 });
-
-	TreeTileMap = GetWorld()->SpawnActor<ATileMap>();
-	TreeTileMap->Create("TreeTile", { 25, 22 }, { 144, 140 });
-
-	//ColTreeTileMap = GetWorld()->SpawnActor<ATileMap>();
-	//ColTreeTileMap->Create("TreeTile", { 25, 22 }, { 144, 140 });
+	//TreeTileMap = GetWorld()->SpawnActor<ATileMap>();
+	//TreeTileMap->Create("TreeTile", { 36, 22 }, { 100, 140 });
 
 	AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
-
-
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
+	Player->SetColImage("farm_col.png");
 	FVector2D PlayerLocation = Player->GetActorLocation();
 
-	FVector2D PlayerLoctaionToTilePos = PlayerLocation - TreeTileMap->GetActorLocation();
-	FIntPoint Point = TreeTileMap->LocationToIndex(PlayerLoctaionToTilePos);
+	FVector2D PlayerLoctaionToTilePos = PlayerLocation - FarmTileMap->GetActorLocation();
+	FIntPoint Point = FarmTileMap->LocationToIndex(PlayerLoctaionToTilePos);
 
 	std::string TileImageName;
 	switch (static_cast<ETileImage>(TileImages))
@@ -84,12 +79,12 @@ void AFarmGameMode::Tick(float _DeltaTime)
 		switch (static_cast<ETileImage>(TileImages))
 		{
 		case ETileImage::Dirt:
-			DirtTileMap->SetTileLocation({ PlayerLocation.X, PlayerLocation.Y + 10 }, 0);
+			FarmTileMap->SetTileLocation("Dirt.png", {PlayerLocation.X, PlayerLocation.Y + 10}, 0);
 			
 			break;
 		case ETileImage::Tree001:
-			TreeTileMap->SetTileIndex(Point, { 0, -180 }, { 144, 240 }, 1);
-			/*ColTreeTileMap->SetTileIndex(Point, { 0, -180 }, { 144, 240 }, 1);*/
+			FarmTileMap->SetTileIndex("TreeTile", Point, {0, -110}, {144, 240}, 1);
+		
 			break;
 		default:
 			break;

@@ -3,8 +3,8 @@
 
 enum class ERenderOrder
 {
+	COLMAP = -1001,
 	BACKGROUND = -1000,
-	Dirt = -5000,
 	PLAYER = 0,
 };
 

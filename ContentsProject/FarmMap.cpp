@@ -6,13 +6,27 @@
 
 AFarmMap::AFarmMap()
 {
-	USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	SpriteRenderer->SetOrder(ERenderOrder::BACKGROUND);
-	SpriteRenderer->SetSprite("Farm.png");
+	{
+
+		USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+		SpriteRenderer->SetOrder(ERenderOrder::BACKGROUND);
+		SpriteRenderer->SetSprite("Farm.png");
+
+		FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
+		SpriteRenderer->SetComponentLocation(MapScale.Half());
+	}
+
+	{
+
+		USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+		SpriteRenderer->SetOrder(ERenderOrder::COLMAP);
+		SpriteRenderer->SetSprite("farm_col.png");
+
+		FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
+		SpriteRenderer->SetComponentLocation(MapScale.Half());
+	}
 
 
-	FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
-	SpriteRenderer->SetComponentLocation(MapScale.Half());
 }
 
 AFarmMap::~AFarmMap()

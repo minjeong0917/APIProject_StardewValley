@@ -23,10 +23,10 @@ public:
 protected:
 
 private:
-	ATileMap* DirtTileMap = nullptr;
-	ATileMap* TreeTileMap = nullptr;
+	ATileMap* FarmTileMap = nullptr;
+	// ATileMap* TreeTileMap = nullptr;
+
 	int TileImages = 0;
 	ATileMap* GroundTileMap = nullptr;
-	ATileMap* ColTreeTileMap = nullptr;
 };
 
