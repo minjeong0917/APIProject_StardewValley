@@ -86,10 +86,7 @@ void APlayer::LevelChangeCheck()
     {
         UEngineAPICore::GetCore()->OpenLevel("Town");
     }
-    if (true == UEngineInput::GetInst().IsDown('M'))
-    {
-        UEngineAPICore::GetCore()->OpenLevel("Tile");
-    }
+
 }
 
 void APlayer::DebugCheck(float _DeltaTime)

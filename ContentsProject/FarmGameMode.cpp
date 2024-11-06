@@ -57,8 +57,10 @@ void AFarmGameMode::PutTile()
 	FVector2D PlayerLocation = Player->GetActorLocation();
 	float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
 	float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
-
 	FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
+
+	FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 2550, 500 });
+	FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -18, -20 }, { 361, 361 }, 0);
 
 	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 	{
@@ -70,9 +72,6 @@ void AFarmGameMode::PutTile()
 
 		case ETileImage::Tree001:
 			FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -113 }, { 144, 240 }, 0, false);
-			break;
-		case ETileImage::house:
-			FarmTileMap->SetTileIndex("HouseTile", Point, { 0, 0 }, { 361, 361 }, 0);
 			break;
 		default:
 			break;
@@ -92,9 +91,6 @@ void AFarmGameMode::TileChange()
 		break;
 	case ETileImage::Tree001:
 		TileImageName = "Tree001";
-		break;
-	case ETileImage::house:
-		TileImageName = "House001";
 		break;
 	default:
 		TileImageName = "Unknown";
