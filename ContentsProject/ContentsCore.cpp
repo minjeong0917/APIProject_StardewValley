@@ -11,7 +11,6 @@
 #include "FarmGameMode.h"
 #include "TitleGameMode.h"
 #include "TownGameMode.h"
-#include "TileMapGameMode.h"
 
 #include "Player.h"
 
@@ -58,6 +57,7 @@ void ContentsCore::BeginPlay()
 		Dir.Append("TileMap//TreeTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
+
 	UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
 	UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
 

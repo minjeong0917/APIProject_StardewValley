@@ -69,7 +69,7 @@ void AFarmGameMode::PutTile()
 			break;
 
 		case ETileImage::Tree001:
-			FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -113 }, { 144, 240 }, 1, false);
+			FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -113 }, { 144, 240 }, 0, false);
 			break;
 
 		default:

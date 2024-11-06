@@ -66,9 +66,6 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>ContentsObject\Map\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="TileMapGameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -106,9 +103,6 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>ContentsObject\Map\TileMap</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMapGameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
