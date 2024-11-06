@@ -56,6 +56,17 @@ void ULevel::LevelChangeStart()
 			CurActor->LevelChangeStart();
 		}
 	}
+	{
+		std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+		std::list<AActor*>::iterator EndIter = BeginPlayList.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
+
+			CurActor->LevelChangeStart();
+		}
+	}
 
 }
 
@@ -69,6 +80,16 @@ void ULevel::LevelChangeEnd()
 		{
 			AActor* CurActor = *StartIter;
 
+			CurActor->LevelChangeEnd();
+		}
+	}
+	{
+		std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+		std::list<AActor*>::iterator EndIter = BeginPlayList.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AActor* CurActor = *StartIter;
 			CurActor->LevelChangeEnd();
 		}
 	}

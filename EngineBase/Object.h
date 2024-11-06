@@ -71,12 +71,15 @@ public:
 	}
 
 	// 모든 기능 정지.
-	// 얼음 외부에서 다른 객체가 풀어줘야 한다.
-	bool SetActive(bool _IsActive)
+	void SetActive(bool _IsActive)
 	{
 		IsActiveValue = _IsActive;
 	}
 
+	void SetActiveSwitch()
+	{
+		IsActiveValue = !IsActiveValue;
+	}
 
 protected:
 
