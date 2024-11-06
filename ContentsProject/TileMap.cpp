@@ -41,7 +41,7 @@ FIntPoint ATileMap::LocationToIndex(FVector2D _Location)
 }
 
 
-void ATileMap::SetTileLocation(std::string_view _SpriteName, FVector2D _Location, int _SpriteIndex)
+void ATileMap::SetTileLocation(std::string_view _SpriteName, FVector2D _Location, int _SpriteIndex, bool _IsMove)
 {
 	FVector2D TilePos = _Location - GetActorLocation();
 
@@ -52,7 +52,7 @@ void ATileMap::SetTileLocation(std::string_view _SpriteName, FVector2D _Location
 		return;
 	}
 
-	SetTileIndex(_SpriteName, Point, _SpriteIndex);
+	SetTileIndex(_SpriteName, Point, _SpriteIndex, _IsMove);
 }
 
 bool ATileMap::IsIndexOver(FIntPoint _Index)
@@ -80,12 +80,12 @@ bool ATileMap::IsIndexOver(FIntPoint _Index)
 	return false;
 }
 
-void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex)
+void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex, bool _IsMove)
 {
 	SetTileIndex(_SpriteName, _Index, { 0,0 }, TileSize, _SpriteIndex);
 }
 
-void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex)
+void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove)
 {
 	if (true == IsIndexOver(_Index))
 	{
@@ -113,6 +113,8 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVec
 	AllTiles[_Index.Y][_Index.X].Pivot = _Pivot;
 	AllTiles[_Index.Y][_Index.X].Scale = _SpriteScale;
 	AllTiles[_Index.Y][_Index.X].SpriteIndex = _SpriteIndex;
+	AllTiles[_Index.Y][_Index.X].IsMove = _IsMove;
+	
 }
 
 Tile* ATileMap::GetTileRef(FVector2D _Location)

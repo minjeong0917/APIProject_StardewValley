@@ -26,8 +26,16 @@ public:
 	void SetColImage(std::string_view _ColImageName);
 	void SetBackImage(std::string_view _BackImageName);
 
+
+	void LevelChangeCheck();
+	void DebugCheck(float _DeltaTime);
 	void PlayerMove(float _DeltaTime);
 	void CameraCheck();
+
+	void SetTileMap(class ATileMap* _TileMap)
+	{
+		TileMap = _TileMap;
+	}
 	
 protected:
 
@@ -39,5 +47,9 @@ private:
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
 
+	class ATileMap* TileMap = nullptr;
+
+	bool ColorCheck = false;
+	bool TileCheck = false;
 };
 

@@ -60,10 +60,10 @@ public:
 
 	void Create(FIntPoint _Count, FVector2D _TileSize);
 
-	void SetTileLocation(std::string_view _SpriteName, FVector2D _Location, int _SpriteIndex);
+	void SetTileLocation(std::string_view _SpriteName, FVector2D _Location, int _SpriteIndexool, bool _IsMove = true);
 
-	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex);
-	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex);
+	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex, bool _IsMove = true);
+	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove = true);
 
 	Tile* GetTileRef(FIntPoint _Index);
 	Tile* GetTileRef(FVector2D _Location);
@@ -76,9 +76,11 @@ public:
 
 	void Serialize(UEngineSerializer& _Ser);
 	void DeSerialize(UEngineSerializer& _Ser);
-	void TilePivotType(PivotType _Type);
-	void SetSprite(std::string_view _Name, int _CurIndex = 0);
 
+	FVector2D GetTileSize()
+	{
+		return TileSize;
+	}
 protected:
 
 private:

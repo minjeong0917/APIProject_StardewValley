@@ -30,10 +30,9 @@ void AFarmGameMode::BeginPlay()
 	Player->SetBackImage("Farm.png");
 
 	FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
-	FarmTileMap->Create({72,52}, {50, 50});
+	FarmTileMap->Create({72,52}, {55, 55});
 
-	//TreeTileMap = GetWorld()->SpawnActor<ATileMap>();
-	//TreeTileMap->Create("TreeTile", { 36, 22 }, { 100, 140 });
+	Player->SetTileMap(FarmTileMap);
 
 	AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 }
@@ -41,14 +40,49 @@ void AFarmGameMode::BeginPlay()
 void AFarmGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetColImage("farm_col.png");
+
+	TileChange();
+	PutTile();
+
+}
+
+
+void AFarmGameMode::PutTile()
+{
+	APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
 	FVector2D PlayerLocation = Player->GetActorLocation();
+	float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
+	float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
 
-	FVector2D PlayerLoctaionToTilePos = PlayerLocation - FarmTileMap->GetActorLocation();
-	FIntPoint Point = FarmTileMap->LocationToIndex(PlayerLoctaionToTilePos);
+	FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
 
+	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	{
+		switch (static_cast<ETileImage>(TileImages))
+		{
+		case ETileImage::Dirt:
+			FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y + 10 }, 0);
+			break;
+
+		case ETileImage::Tree001:
+			FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -113 }, { 144, 240 }, 1, false);
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+
+void AFarmGameMode::TileChange()
+{
 	std::string TileImageName;
+
 	switch (static_cast<ETileImage>(TileImages))
 	{
 	case ETileImage::Dirt:
@@ -62,9 +96,9 @@ void AFarmGameMode::Tick(float _DeltaTime)
 		break;
 	}
 
-	UEngineDebug::CoreOutPutString("CurTileMap : " + TileImageName);
+	UEngineDebug::CoreOutPutString("CurTile : " + TileImageName);
 
-	if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
+	if (true == UEngineInput::GetInst().IsDown(VK_RIGHT))
 	{
 		++TileImages;
 		if (TileImages > static_cast<int>(ETileImage::Tree001))
@@ -74,24 +108,14 @@ void AFarmGameMode::Tick(float _DeltaTime)
 		return;
 	}
 
-	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	if (true == UEngineInput::GetInst().IsDown(VK_LEFT))
 	{
-		switch (static_cast<ETileImage>(TileImages))
+		--TileImages;
+		if (TileImages < static_cast<int>(ETileImage::Dirt))
 		{
-		case ETileImage::Dirt:
-			FarmTileMap->SetTileLocation("Dirt.png", {PlayerLocation.X, PlayerLocation.Y + 10}, 0);
-			
-			break;
-		case ETileImage::Tree001:
-			FarmTileMap->SetTileIndex("TreeTile", Point, {0, -110}, {144, 240}, 1);
-		
-			break;
-		default:
-			break;
+			TileImages = 0;
 		}
+		return;
 	}
-
-
-
 
 }

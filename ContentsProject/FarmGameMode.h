@@ -19,7 +19,8 @@ public:
 
 	void BeginPlay();
 	void Tick(float _DeltaTime) override;
-
+	void TileChange();
+	void PutTile();
 protected:
 
 private:

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "ContentsEnum.h"
+#include "TileMap.h"
 
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
@@ -68,15 +69,14 @@ void APlayer::Tick(float _DeltaTime)
 {
     Super::Tick(_DeltaTime);
 
-    UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
-    UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
-
+    LevelChangeCheck();
+    DebugCheck(_DeltaTime);
     PlayerMove(_DeltaTime);
     CameraCheck();
 
 }
 
-void APlayer::PlayerMove(float _DeltaTime)
+void APlayer::LevelChangeCheck()
 {
     if (true == UEngineInput::GetInst().IsDown('R'))
     {
@@ -90,6 +90,21 @@ void APlayer::PlayerMove(float _DeltaTime)
     {
         UEngineAPICore::GetCore()->OpenLevel("Tile");
     }
+}
+
+void APlayer::DebugCheck(float _DeltaTime)
+{
+    UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
+    UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
+
+    if (true == UEngineInput::GetInst().IsDown(VK_F1))
+    {
+        UEngineDebug::SwitchIsDebug();
+    }
+}
+
+void APlayer::PlayerMove(float _DeltaTime)
+{
 
     // F2 : 플레이어 속도 증가
     if (true == UEngineInput::GetInst().IsDown(VK_F2))
@@ -97,11 +112,7 @@ void APlayer::PlayerMove(float _DeltaTime)
         Speed += 100;
     }
 
-    // F1 : 디버그 확인
-    if (true == UEngineInput::GetInst().IsDown(VK_F1))
-    {
-        UEngineDebug::SwitchIsDebug();
-    }
+
 
     FVector2D Vector = FVector2D::ZERO;
 
@@ -156,12 +167,33 @@ void APlayer::PlayerMove(float _DeltaTime)
 
     if (nullptr != ColImage)
     {
+        ColorCheck = false;
 
         // 픽셀충돌에서 제일 중요한건 애초에 박히지 않는것이다.
         FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
 
         UColor Color = ColImage->GetColor(NextPos, UColor::BLACK);
         if (Color == UColor::WHITE)
+        {
+            ColorCheck = true;
+        }
+
+        FVector2D TileMapSize = TileMap->GetTileSize();
+
+        TileCheck = false;
+
+        Tile* TilePtr = TileMap->GetTileRef(NextPos);
+
+        if (TilePtr->IsMove)
+        {
+            TileCheck = true;
+        }
+
+        //NextPos.X /= TileMapSize.X;
+
+
+
+        if (true == ColorCheck && true == TileCheck)
         {
             AddActorLocation(Vector * _DeltaTime * Speed);
         }
