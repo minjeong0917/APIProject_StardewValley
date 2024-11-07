@@ -14,3 +14,11 @@ enum class ETileImage
 	Tree001,
 	End
 };
+
+enum class EPlayerDir
+{
+	Down,
+	Left,
+	Right,
+	Up
+};

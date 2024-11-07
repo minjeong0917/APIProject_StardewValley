@@ -18,7 +18,8 @@ public:
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
+	void PlayerAnimation();
+	void PlayerAnimationPlay();
 	void RunSoundPlay();
 
 	void LevelChangeStart();
@@ -29,13 +30,21 @@ public:
 
 	void LevelChangeCheck();
 	void DebugCheck(float _DeltaTime);
+
+	FVector2D PlayerMoveDir();
+
 	void PlayerMove(float _DeltaTime);
+	void BackImgCollisionCheck(FVector2D _Vector);
+	void TileMapCollisionCheck(FVector2D _Vector);
+	void TileDestroy();
+
 	void CameraCheck();
 
 	void SetTileMap(class ATileMap* _TileMap)
 	{
 		TileMap = _TileMap;
 	}
+	int PlayerDir = 0;
 	
 protected:
 
@@ -48,7 +57,6 @@ private:
 	class UEngineWinImage* BackImage = nullptr;
 
 	class ATileMap* TileMap = nullptr;
-
 	bool ColorCheck = false;
 	bool TileCheck = false;
 };

@@ -23,26 +23,10 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
-
-
-
         SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
-        // 앞
-        SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
-        SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", 0, 0, 0.1f);
-
-        // 뒤
-        SpriteRenderer->CreateAnimation("Run_Back", "Farmer_Right.png", { 11, 12, 20, 12, 11, 13, 21, 13 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
-        SpriteRenderer->CreateAnimation("Idle_Back", "Farmer_Right.png", 11, 11, 0.1f);
-
-        // 오른쪽
-        SpriteRenderer->CreateAnimation("Run_Right", "Farmer_Right.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
-        SpriteRenderer->CreateAnimation("Idle_Right", "Farmer_Right.png", 6, 6, 0.1f);
-
-        // 왼쪽
-        SpriteRenderer->CreateAnimation("Run_Left", "Farmer_Left.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
-        SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
+        PlayerAnimation();
+        SpriteRenderer->ChangeAnimation("Idle_front");
 
     }
 
@@ -61,7 +45,7 @@ void APlayer::BeginPlay()
     // 카메라 피벗 위치 설정
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
-    //SpriteRenderer->SetPivotType(PivotType::Bot);
+    //SpriteRenderer->SetPivotType(PivotType::Center);
 }
 
 
@@ -69,9 +53,17 @@ void APlayer::Tick(float _DeltaTime)
 {
     Super::Tick(_DeltaTime);
 
+    SpriteRenderer->SetOrder(GetActorLocation().Y);
+
     LevelChangeCheck();
     DebugCheck(_DeltaTime);
     PlayerMove(_DeltaTime);
+
+    BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+    TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+
+    TileDestroy();
+    PlayerAnimationPlay();
     CameraCheck();
 
 }
@@ -100,7 +92,7 @@ void APlayer::DebugCheck(float _DeltaTime)
     }
 }
 
-void APlayer::PlayerMove(float _DeltaTime)
+FVector2D APlayer::PlayerMoveDir()
 {
 
     // F2 : 플레이어 속도 증가
@@ -109,22 +101,20 @@ void APlayer::PlayerMove(float _DeltaTime)
         Speed += 100;
     }
 
-
-
     FVector2D Vector = FVector2D::ZERO;
-
-
 
     // 오른쪽 이동
     if (true == UEngineInput::GetInst().IsPress('D'))
     {
         SpriteRenderer->ChangeAnimation("Run_Right");
+
         Vector += FVector2D::RIGHT;
 
     }
     else if (true == UEngineInput::GetInst().IsUp('D'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Right");
+        PlayerDir = static_cast<int>(EPlayerDir::Right);
     }
 
     // 왼쪽 이동
@@ -136,6 +126,8 @@ void APlayer::PlayerMove(float _DeltaTime)
     else if (true == UEngineInput::GetInst().IsUp('A'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Left");
+        PlayerDir = static_cast<int>(EPlayerDir::Left);
+
     }
 
     // 아래쪽 이동
@@ -148,6 +140,8 @@ void APlayer::PlayerMove(float _DeltaTime)
     else if (true == UEngineInput::GetInst().IsUp('S'))
     {
         SpriteRenderer->ChangeAnimation("Idle_front");
+        PlayerDir = static_cast<int>(EPlayerDir::Down);
+
     }
 
     // 위쪽 이동
@@ -160,42 +154,88 @@ void APlayer::PlayerMove(float _DeltaTime)
     else if (true == UEngineInput::GetInst().IsUp('W'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Back");
+        PlayerDir = static_cast<int>(EPlayerDir::Up);
     }
+    return Vector;
+}
 
+
+void APlayer::PlayerMove(float _DeltaTime)
+{
+    if (true == ColorCheck && true == TileCheck)
+    {
+        AddActorLocation(PlayerMoveDir() * _DeltaTime * Speed);
+    }
+}
+
+
+void APlayer::BackImgCollisionCheck(FVector2D _Vector)
+{
+    ColorCheck = false;
+    FVector2D NextPos = GetActorLocation() + _Vector;
     if (nullptr != ColImage)
     {
-        ColorCheck = false;
-
-        // 픽셀충돌에서 제일 중요한건 애초에 박히지 않는것이다.
-        FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
-
         UColor Color = ColImage->GetColor(NextPos, UColor::BLACK);
         if (Color == UColor::WHITE)
         {
             ColorCheck = true;
         }
+    }
+}
 
-        FVector2D TileMapSize = TileMap->GetTileSize();
 
-        TileCheck = false;
+void APlayer::TileDestroy()
+{
+    FVector2D PlayerVector = GetActorLocation();
+    switch (static_cast<EPlayerDir>(PlayerDir))
+    {
+    case EPlayerDir::Left:
+        PlayerVector += {-50, 0};
+        break;
+    case EPlayerDir::Right:
+        PlayerVector += {50, 0};
 
-        Tile* TilePtr = TileMap->GetTileRef(NextPos);
+        break;
+    case EPlayerDir::Up:
+        PlayerVector += {0, -50};
+        break;
+    case EPlayerDir::Down:
+        PlayerVector += {0, 50};
+        break;
+    default:
+        break;
+    }
 
-        if (TilePtr->IsMove)
+    if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
+    {
+        Tile* Tile = TileMap->GetTileRef(PlayerVector);
+
+        if (nullptr != Tile->SpriteRenderer)
         {
-            TileCheck = true;
-        }
-
-        //NextPos.X /= TileMapSize.X;
-
-
-
-        if (true == ColorCheck && true == TileCheck)
-        {
-            AddActorLocation(Vector * _DeltaTime * Speed);
+            Tile->SpriteRenderer->Destroy();
+            Tile->SpriteRenderer = nullptr;
         }
     }
 }
+
+
+void APlayer::TileMapCollisionCheck(FVector2D _Vector)
+{
+    TileCheck = false;
+
+    FVector2D TileMapSize = TileMap->GetTileSize();
+    FVector2D NextPos = GetActorLocation() + _Vector;
+
+    //NextPos.X /= TileMapSize.X; -> 타일의 위치 알 수 있음!
+    Tile* TilePtr = TileMap->GetTileRef(NextPos);
+
+    if (TilePtr->IsMove)
+    {
+        TileCheck = true;
+    }
+
+}
+
 
 void APlayer::LevelChangeStart()
 {
@@ -210,8 +250,6 @@ void APlayer::LevelChangeEnd()
 void APlayer::SetColImage(std::string_view _ColImageName)
 {
     ColImage = UImageManager::GetInst().FindImage(_ColImageName);
-
-
 }
 
 void APlayer::SetBackImage(std::string_view _BackImageName)
@@ -222,8 +260,6 @@ void APlayer::SetBackImage(std::string_view _BackImageName)
 void APlayer::CameraCheck()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
-    SpriteRenderer->SetOrder(GetActorLocation().Y);
 
     GetWorld()->SetCameraToMainPawn(false);
     GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
@@ -257,3 +293,54 @@ void APlayer::CameraCheck()
 
 }
 
+void APlayer::PlayerAnimationPlay()
+{
+
+    if (true == UEngineInput::GetInst().IsPress(VK_LBUTTON))
+    {
+        switch (static_cast<EPlayerDir>(PlayerDir))
+        {
+        case EPlayerDir::Left:
+            SpriteRenderer->ChangeAnimation("Dig_Left");
+            break;
+        case EPlayerDir::Right:
+            SpriteRenderer->ChangeAnimation("Dig_Right");
+            break;
+        case EPlayerDir::Up:
+            break;
+        case EPlayerDir::Down:
+            SpriteRenderer->ChangeAnimation("Dig_Front");
+
+            break;
+        default:
+            break;
+        }
+
+    }
+}
+
+void APlayer::PlayerAnimation()
+{
+    // 앞
+    SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
+    SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f });
+
+    // 뒤
+    SpriteRenderer->CreateAnimation("Run_Back", "Farmer_Right.png", { 11, 12, 20, 12, 11, 13, 21, 13 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
+    SpriteRenderer->CreateAnimation("Idle_Back", "Farmer_Right.png", 11, 11, 0.1f);
+
+    // 오른쪽
+    SpriteRenderer->CreateAnimation("Run_Right", "Farmer_Right.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Idle_Right", "Farmer_Right.png", 6, 6, 0.1f);
+
+    // 왼쪽
+    SpriteRenderer->CreateAnimation("Run_Left", "Farmer_Left.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
+
+
+    SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 22,23,24,25,0 }, {  0.1f , 0.1f, 0.1f, 0.15f, 0.05f }, false);
+
+
+}

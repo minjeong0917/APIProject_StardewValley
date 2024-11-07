@@ -55,12 +55,34 @@ void AFarmGameMode::PutTile()
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
 	FVector2D PlayerLocation = Player->GetActorLocation();
-	float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
-	float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
-	FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
+
 
 	FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 2550, 500 });
 	FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -18, -20 }, { 361, 361 }, 0);
+
+
+	switch (static_cast<EPlayerDir>(Player->PlayerDir))
+	{
+	case EPlayerDir::Left:
+		PlayerLocation += {-FarmTileMap->GetTileSize().X, 0.0};
+		break;
+	case EPlayerDir::Right:
+		PlayerLocation += {FarmTileMap->GetTileSize().X, 0.0};
+
+		break;
+	case EPlayerDir::Up:
+		PlayerLocation += {0.0, -FarmTileMap->GetTileSize().Y};
+		break;
+	case EPlayerDir::Down:
+		PlayerLocation += {0.0, FarmTileMap->GetTileSize().Y};
+		break;
+	default:
+		break;
+	}
+
+	float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
+	float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
+	FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
 
 	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 	{
