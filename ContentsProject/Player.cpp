@@ -18,7 +18,7 @@ void APlayer::RunSoundPlay()
 
 APlayer::APlayer()
 {
-    SetActorLocation({ 2500, 1000 });
+    SetActorLocation({ 2500, 750 });
 
     {
         SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
@@ -49,7 +49,7 @@ void APlayer::BeginPlay()
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
     //SpriteRenderer->SetPivotType(PivotType::Center);
-    SpriteRenderer->SetPivot({ 0.0, 10.0f});
+    SpriteRenderer->SetPivot({ 0.0, 7.0f });
 }
 
 
@@ -68,9 +68,9 @@ void APlayer::Tick(float _DeltaTime)
     if (nullptr != TileMap)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+        TileDestroy();
     }
 
-    TileDestroy();
     PlayerAnimationPlay();
     CameraCheck();
 
@@ -116,66 +116,98 @@ FVector2D APlayer::PlayerMoveDir()
 
     FVector2D Vector = FVector2D::ZERO;
 
-    // 오른쪽 이동
-    if (true == UEngineInput::GetInst().IsPress('D'))
+    // 대각선 이동
+    if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))
     {
         SpriteRenderer->ChangeAnimation("Run_Right");
         IsPlayerMove = true;
         Vector += FVector2D::RIGHT;
+        Vector += FVector2D::UP;
 
     }
-    else if (true == UEngineInput::GetInst().IsUp('D'))
+    else if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('S'))
     {
-        SpriteRenderer->ChangeAnimation("Idle_Right");
-        PlayerDir = EPlayerDir::Right;
-        IsPlayerMove = false;
-
+        SpriteRenderer->ChangeAnimation("Run_Right");
+        IsPlayerMove = true;
+        Vector += FVector2D::RIGHT;
+        Vector += FVector2D::DOWN;
     }
-
-    // 왼쪽 이동
-    if (true == UEngineInput::GetInst().IsPress('A'))
+    else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('W'))
     {
         SpriteRenderer->ChangeAnimation("Run_Left");
         IsPlayerMove = true;
         Vector += FVector2D::LEFT;
-    }
-    else if (true == UEngineInput::GetInst().IsUp('A'))
-    {
-        SpriteRenderer->ChangeAnimation("Idle_Left");
-        IsPlayerMove = false;
-        PlayerDir = EPlayerDir::Left;
-
-    }
-
-    // 아래쪽 이동
-    if (true == UEngineInput::GetInst().IsPress('S'))
-    {
-        SpriteRenderer->ChangeAnimation("Run_Front");
-        IsPlayerMove = true;
-        Vector += FVector2D::DOWN;
-
-    }
-    else if (true == UEngineInput::GetInst().IsUp('S'))
-    {
-        SpriteRenderer->ChangeAnimation("Idle_front");
-        IsPlayerMove = false;
-        PlayerDir = EPlayerDir::Down;
-
-    }
-
-    // 위쪽 이동
-    if (true == UEngineInput::GetInst().IsPress('W'))
-    {
-        SpriteRenderer->ChangeAnimation("Run_Back");
-        IsPlayerMove = true;
         Vector += FVector2D::UP;
 
     }
-    else if (true == UEngineInput::GetInst().IsUp('W'))
+    else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('S'))
     {
-        SpriteRenderer->ChangeAnimation("Idle_Back");
-        IsPlayerMove = false;
-        PlayerDir = EPlayerDir::Up;
+        SpriteRenderer->ChangeAnimation("Run_Left");
+        IsPlayerMove = true;
+        Vector += FVector2D::LEFT;
+        Vector += FVector2D::DOWN;
+    }
+    else
+    {
+        // 상하좌우 이동
+        if (true == UEngineInput::GetInst().IsPress('D'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Right");
+            IsPlayerMove = true;
+            Vector = FVector2D::RIGHT;
+
+        }
+        else if (true == UEngineInput::GetInst().IsPress('A'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Left");
+            IsPlayerMove = true;
+            Vector = FVector2D::LEFT;
+        }
+        else if (true == UEngineInput::GetInst().IsPress('S'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Front");
+            IsPlayerMove = true;
+            Vector = FVector2D::DOWN;
+
+        }
+        else if (true == UEngineInput::GetInst().IsPress('W'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Back");
+            IsPlayerMove = true;
+            Vector = FVector2D::UP;
+
+        }
+
+        // 정지
+        if (true == UEngineInput::GetInst().IsUp('D'))
+        {
+            SpriteRenderer->ChangeAnimation("Idle_Right");
+            PlayerDir = EPlayerDir::Right;
+            IsPlayerMove = false;
+
+        }
+        else if (true == UEngineInput::GetInst().IsUp('A'))
+        {
+            SpriteRenderer->ChangeAnimation("Idle_Left");
+            IsPlayerMove = false;
+            PlayerDir = EPlayerDir::Left;
+
+        }
+        // 아래쪽 이동
+        else if (true == UEngineInput::GetInst().IsUp('S'))
+        {
+            SpriteRenderer->ChangeAnimation("Idle_front");
+            IsPlayerMove = false;
+            PlayerDir = EPlayerDir::Down;
+
+        }
+        // 위쪽 이동
+        else if (true == UEngineInput::GetInst().IsUp('W'))
+        {
+            SpriteRenderer->ChangeAnimation("Idle_Back");
+            IsPlayerMove = false;
+            PlayerDir = EPlayerDir::Up;
+        }
     }
 
     Vector.Normalize();
@@ -286,11 +318,11 @@ void APlayer::CameraCheck()
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
     GetWorld()->SetCameraToMainPawn(false);
-    GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half()});
+    GetWorld()->SetCameraPos({ GetActorLocation() - Size.Half() });
 
     float ImageXSize = BackImage->GetImageScale().X;
     float ImageYSize = BackImage->GetImageScale().Y;
-    
+
     FVector2D CameraPos = GetWorld()->GetCameraPos();
 
     if (CameraPos.X <= 0.0f)
@@ -298,7 +330,7 @@ void APlayer::CameraCheck()
         CameraPos.X = 0.0f;
     }
 
-    if (CameraPos.X + Size.X  >= ImageXSize)
+    if (CameraPos.X + Size.X >= ImageXSize)
     {
         CameraPos.X = ImageXSize - Size.X;
     }
@@ -362,7 +394,7 @@ void APlayer::PlayerAnimation()
 
     SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
-    SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 22,23,24,25,0 }, {  0.1f , 0.1f, 0.1f, 0.15f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 22,23,24,25,0 }, { 0.1f , 0.1f, 0.1f, 0.15f, 0.05f }, false);
 
 
 }

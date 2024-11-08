@@ -6,8 +6,8 @@ enum class ERenderOrder
 	COLMAP = -1001,
 	BACKGROUND = -1000,
 	PLAYER = 0,
-	UI = 1,
-	UIFont = 2
+	UI = 10000,
+	UIFont = 10001
 
 };
 
