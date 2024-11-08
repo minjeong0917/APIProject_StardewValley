@@ -2,6 +2,11 @@
 
 namespace UEngineDebug
 {
+	enum EDebugPosType
+	{
+		Rect,
+		Circle,
+	};
 
 	void SetIsDebug(bool _IsDebug);
 
@@ -11,6 +16,7 @@ namespace UEngineDebug
 
 	void CoreOutPutString(std::string_view _Text, FVector2D _Pos);
 
+	void CoreDebugRender(FTransform _Trans, EDebugPosType _Type);
 
-	void PrintEngineDebugText();
+	void PrintEngineDebugRender();
 }

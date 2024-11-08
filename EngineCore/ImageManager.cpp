@@ -97,7 +97,6 @@ void UImageManager::Load(std::string_view _KeyName, std::string_view Path)
 		return;
 	}
 
-	// 만들었다고 끝이 아닙니다.
 	UEngineWinImage* NewImage = new UEngineWinImage();
 	NewImage->Load(WindowImage, Path);
 
@@ -106,7 +105,7 @@ void UImageManager::Load(std::string_view _KeyName, std::string_view Path)
 
 	UEngineSprite* NewSprite = new UEngineSprite();
 
-	// 이미지를 자르는 기준이 되는 위치는 왼쪽 위를 기준으로 자르는 것을 하겠다.
+
 	FTransform Trans;
 	Trans.Location = { 0,0 };
 	Trans.Scale = NewImage->GetImageScale();
@@ -194,6 +193,55 @@ void UImageManager::CuttingSprite(std::string_view _KeyName, int _X, int _Y)
 	Scale.Y /= _Y;
 
 	CuttingSprite(_KeyName, Scale);
+}
+
+void UImageManager::CuttingSprite(std::string_view _NewSpriteName, std::string_view _Image, FVector2D _CuttingSize)
+{
+	std::string SpriteUpperName = UEngineString::ToUpper(_NewSpriteName);
+	std::string ImageUpperName = UEngineString::ToUpper(_Image);
+
+	if (false == Images.contains(ImageUpperName))
+	{
+		MSGASSERT("존재하지 않은 이미지를 기반으로 스프라이트를 자르려고 했습니다" + std::string(_Image));
+		return;
+	}
+
+	UEngineSprite* Sprite = new UEngineSprite();
+
+	if (false == Sprites.contains(SpriteUpperName))
+	{
+		Sprite = new UEngineSprite();;
+		Sprites.insert({ SpriteUpperName, Sprite });
+	}
+	else {
+		Sprite = Sprites[SpriteUpperName];
+	}
+
+	UEngineWinImage* Image = Images[ImageUpperName];
+
+	Sprite->ClearSpriteData();
+	Sprite->SetName(SpriteUpperName);
+	Image->SetName(ImageUpperName);
+
+	int SpriteX = Image->GetImageScale().iX() / _CuttingSize.iX();
+	int SpriteY = Image->GetImageScale().iY() / _CuttingSize.iY();
+
+	FTransform CuttingTrans;
+
+	CuttingTrans.Location = FVector2D::ZERO;
+	CuttingTrans.Scale = _CuttingSize;
+
+	for (size_t y = 0; y < SpriteY; ++y)
+	{
+		for (size_t x = 0; x < SpriteX; ++x)
+		{
+			Sprite->PushData(Image, CuttingTrans);
+			CuttingTrans.Location.X += _CuttingSize.X;
+		}
+
+		CuttingTrans.Location.X = 0.0f;
+		CuttingTrans.Location.Y += _CuttingSize.Y;
+	}
 }
 
 void UImageManager::CuttingSprite(std::string_view _KeyName, FVector2D _CuttingSize)

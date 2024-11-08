@@ -45,7 +45,11 @@ void AFarmGameMode::Tick(float _DeltaTime)
 	Player->SetColImage("farm_col.png");
 
 	TileChange();
-	PutTile();
+
+	if (false == Player->IsPlayerMove)
+	{
+		PutTile();
+	}
 
 }
 
@@ -54,8 +58,10 @@ void AFarmGameMode::PutTile()
 {
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
-	FVector2D PlayerLocation = Player->GetActorLocation();
+	float PlayerLocationX = Player->GetActorLocation().X;
+	float PlayerLocationY = Player->GetActorLocation().Y - 20;
 
+	FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
 	FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 2550, 500 });
 	FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -18, -20 }, { 361, 361 }, 0);
@@ -89,7 +95,7 @@ void AFarmGameMode::PutTile()
 		switch (static_cast<ETileImage>(TileImages))
 		{
 		case ETileImage::Dirt:
-			FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y + 10 }, 0);
+			FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y  }, 0);
 			break;
 
 		case ETileImage::Tree001:

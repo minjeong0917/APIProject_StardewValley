@@ -9,6 +9,8 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EnginePlatform/EngineWinImage.h>
 
+#include <EngineCore/EngineCoreDebug.h>
+
 void APlayer::RunSoundPlay()
 {
 
@@ -29,6 +31,7 @@ APlayer::APlayer()
         SpriteRenderer->ChangeAnimation("Idle_front");
 
     }
+    DebugOn();
 
 
 }
@@ -46,6 +49,7 @@ void APlayer::BeginPlay()
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
     //SpriteRenderer->SetPivotType(PivotType::Center);
+    SpriteRenderer->SetPivot({ 0.0, 10.0f});
 }
 
 
@@ -90,13 +94,18 @@ void APlayer::DebugCheck(float _DeltaTime)
     {
         UEngineDebug::SwitchIsDebug();
     }
+
+    if (true == UEngineInput::GetInst().IsDown(VK_F2))
+    {
+        UEngineDebug::SwitchIsDebug();
+    }
 }
 
 FVector2D APlayer::PlayerMoveDir()
 {
 
     // F2 : 플레이어 속도 증가
-    if (true == UEngineInput::GetInst().IsDown(VK_F2))
+    if (true == UEngineInput::GetInst().IsDown(VK_ADD))
     {
         Speed += 100;
     }
@@ -107,7 +116,7 @@ FVector2D APlayer::PlayerMoveDir()
     if (true == UEngineInput::GetInst().IsPress('D'))
     {
         SpriteRenderer->ChangeAnimation("Run_Right");
-
+        IsPlayerMove = true;
         Vector += FVector2D::RIGHT;
 
     }
@@ -115,17 +124,21 @@ FVector2D APlayer::PlayerMoveDir()
     {
         SpriteRenderer->ChangeAnimation("Idle_Right");
         PlayerDir = static_cast<int>(EPlayerDir::Right);
+        IsPlayerMove = false;
+
     }
 
     // 왼쪽 이동
     if (true == UEngineInput::GetInst().IsPress('A'))
     {
         SpriteRenderer->ChangeAnimation("Run_Left");
+        IsPlayerMove = true;
         Vector += FVector2D::LEFT;
     }
     else if (true == UEngineInput::GetInst().IsUp('A'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Left");
+        IsPlayerMove = false;
         PlayerDir = static_cast<int>(EPlayerDir::Left);
 
     }
@@ -134,12 +147,14 @@ FVector2D APlayer::PlayerMoveDir()
     if (true == UEngineInput::GetInst().IsPress('S'))
     {
         SpriteRenderer->ChangeAnimation("Run_Front");
+        IsPlayerMove = true;
         Vector += FVector2D::DOWN;
 
     }
     else if (true == UEngineInput::GetInst().IsUp('S'))
     {
         SpriteRenderer->ChangeAnimation("Idle_front");
+        IsPlayerMove = false;
         PlayerDir = static_cast<int>(EPlayerDir::Down);
 
     }
@@ -148,14 +163,19 @@ FVector2D APlayer::PlayerMoveDir()
     if (true == UEngineInput::GetInst().IsPress('W'))
     {
         SpriteRenderer->ChangeAnimation("Run_Back");
+        IsPlayerMove = true;
         Vector += FVector2D::UP;
 
     }
     else if (true == UEngineInput::GetInst().IsUp('W'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Back");
+        IsPlayerMove = false;
         PlayerDir = static_cast<int>(EPlayerDir::Up);
     }
+
+    Vector.Normalize();
+
     return Vector;
 }
 
@@ -310,12 +330,10 @@ void APlayer::PlayerAnimationPlay()
             break;
         case EPlayerDir::Down:
             SpriteRenderer->ChangeAnimation("Dig_Front");
-
             break;
         default:
             break;
         }
-
     }
 }
 

@@ -5,6 +5,7 @@
 class ULevel
 {
 public:
+	friend class U2DCollision;
 	friend class USpriteRenderer;
 	friend class UEngineAPICore;
 	// constrcuter destructer
@@ -50,6 +51,10 @@ public:
 	void SetCameraPos(FVector2D _Pos)
 	{
 		CameraPos = _Pos;
+	}
+	void AddCameraPos(FVector2D _Value)
+	{
+		CameraPos += _Value;
 	}
 
 	FVector2D GetCameraPivot()
@@ -99,6 +104,7 @@ private:
 
 	void PushRenderer(class USpriteRenderer* _Renderer);
 	void ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder);
+	void PushCollision(class U2DCollision* _Collision);
 
 	class AGameMode* GameMode = nullptr;
 
@@ -116,5 +122,6 @@ private:
 	FVector2D CameraPivot;
 
 	std::map<int, std::list<class USpriteRenderer*>> Renderers;
+	std::map<int, std::list<class U2DCollision*>> Collisions;
 };
 

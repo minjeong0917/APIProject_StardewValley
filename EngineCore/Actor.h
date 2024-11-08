@@ -26,7 +26,7 @@ public:
 	virtual void BeginPlay() {}
 
 
-	virtual void Tick(float _DeltaTime) {}
+	virtual void Tick(float _DeltaTime);
 
 
 	virtual void LevelChangeStart() {}
@@ -72,6 +72,7 @@ public:
 		return NewComponent;
 	}
 
+
 protected:
 
 private:
@@ -83,7 +84,6 @@ private:
 
 	class ULevel* World = nullptr;
 	FTransform Transform;
-
 	std::list<class UActorComponent*> Components;
 };
 

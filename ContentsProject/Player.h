@@ -45,6 +45,7 @@ public:
 		TileMap = _TileMap;
 	}
 	int PlayerDir = 0;
+	bool IsPlayerMove = false;
 	
 protected:
 

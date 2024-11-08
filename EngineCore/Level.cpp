@@ -9,6 +9,7 @@
 #include "SpriteRenderer.h"
 
 #include "EngineCoreDebug.h"
+#include "2DCollision.h"
 ULevel::ULevel()
 {
 }
@@ -167,7 +168,7 @@ void ULevel::Render(float _DeltaTime)
 
 	}
 
-	UEngineDebug::PrintEngineDebugText();
+	UEngineDebug::PrintEngineDebugRender();
 	DoubleBuffering();
 }
 
@@ -256,6 +257,13 @@ void ULevel::PushRenderer(class USpriteRenderer* _Renderer)
 
 	Renderers[Order].push_back(_Renderer);
 }
+
+void ULevel::PushCollision(U2DCollision* _Collision)
+{
+	int Order = _Collision->GetGroup();
+	Collisions[Order].push_back(_Collision);
+}
+
 
 void ULevel::ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder)
 {
