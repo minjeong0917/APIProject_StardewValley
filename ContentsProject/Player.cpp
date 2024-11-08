@@ -47,6 +47,7 @@ void APlayer::BeginPlay()
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
+
 }
 
 
@@ -62,13 +63,13 @@ void APlayer::Tick(float _DeltaTime)
 
     BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
 
+    PlayerAnimationPlay();
     if (nullptr != TileMap)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
         TileDestroy();
     }
 
-    PlayerAnimationPlay();
     CameraCheck();
 
 
@@ -235,7 +236,6 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         else if (Color.R == 255 && Color.G == 0 && Color.B == 0)
         {
             UEngineAPICore::GetCore()->OpenLevel("Town");
-
         }
     }
 }
@@ -291,7 +291,6 @@ void APlayer::TileMapCollisionCheck(FVector2D _Vector)
     {
         TileCheck = true;
     }
-
 }
 
 
@@ -354,20 +353,20 @@ void APlayer::CameraCheck()
 void APlayer::PlayerAnimationPlay()
 {
 
-    if (true == UEngineInput::GetInst().IsPress(VK_LBUTTON))
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
     {
         switch (PlayerDir)
         {
         case EPlayerDir::Left:
-            SpriteRenderer->ChangeAnimation("Dig_Left");
+            SpriteRenderer->ChangeAnimation("Dig_Left", true);
             break;
         case EPlayerDir::Right:
-            SpriteRenderer->ChangeAnimation("Dig_Right");
+            SpriteRenderer->ChangeAnimation("Dig_Right", true);
             break;
         case EPlayerDir::Up:
             break;
         case EPlayerDir::Down:
-            SpriteRenderer->ChangeAnimation("Dig_Front");
+            SpriteRenderer->ChangeAnimation("Dig_Front", true);
             break;
         default:
             break;

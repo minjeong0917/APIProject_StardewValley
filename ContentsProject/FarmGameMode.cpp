@@ -18,7 +18,6 @@
 
 AFarmGameMode::AFarmGameMode()
 {
-
 }
 
 AFarmGameMode::~AFarmGameMode()
@@ -57,8 +56,6 @@ void AFarmGameMode::Tick(float _DeltaTime)
         PutTile();
     }
 
-
-
 }
 
 void AFarmGameMode::UIImageRender()
@@ -85,7 +82,7 @@ void AFarmGameMode::PutTile()
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     float PlayerLocationX = Player->GetActorLocation().X;
-    float PlayerLocationY = Player->GetActorLocation().Y - 20;
+    float PlayerLocationY = Player->GetActorLocation().Y-10;
 
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
@@ -93,7 +90,7 @@ void AFarmGameMode::PutTile()
     FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -18, -20 }, { 361, 361 }, 0);
 
 
-    switch (static_cast<EPlayerDir>(Player->PlayerDir))
+    switch (Player->PlayerDir)
     {
     case EPlayerDir::Left:
         PlayerLocation += {-FarmTileMap->GetTileSize().X, 0.0};

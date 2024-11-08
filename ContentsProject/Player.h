@@ -45,7 +45,9 @@ public:
 	{
 		TileMap = _TileMap;
 	}
+
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+
 	bool IsPlayerMove = false;
 
 	int GetGold()
@@ -62,8 +64,7 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
-
-	class ATileMap* TileMap = nullptr;
+	class ATileMap* TileMap = nullptr;	
 	bool ColorCheck = false;
 	bool TileCheck = true;
 	int Gold = 772;
