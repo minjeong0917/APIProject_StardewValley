@@ -31,7 +31,6 @@ APlayer::APlayer()
     }
     DebugOn();
 
-
 }
 
 APlayer::~APlayer()
@@ -46,7 +45,7 @@ void APlayer::BeginPlay()
     // 카메라 피벗 위치 설정
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
-    //SpriteRenderer->SetPivotType(PivotType::Center);
+
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
 }
 
@@ -192,7 +191,6 @@ FVector2D APlayer::PlayerMoveDir()
             PlayerDir = EPlayerDir::Left;
 
         }
-        // 아래쪽 이동
         else if (true == UEngineInput::GetInst().IsUp('S'))
         {
             SpriteRenderer->ChangeAnimation("Idle_front");
@@ -200,7 +198,6 @@ FVector2D APlayer::PlayerMoveDir()
             PlayerDir = EPlayerDir::Down;
 
         }
-        // 위쪽 이동
         else if (true == UEngineInput::GetInst().IsUp('W'))
         {
             SpriteRenderer->ChangeAnimation("Idle_Back");
@@ -226,7 +223,7 @@ void APlayer::PlayerMove(float _DeltaTime)
 
 void APlayer::BackImgCollisionCheck(FVector2D _Vector)
 {
-
+    ColorCheck = false;
     FVector2D NextPos = GetActorLocation() + _Vector;
     if (nullptr != ColImage)
     {
@@ -235,13 +232,13 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         {
             ColorCheck = true;
         }
-        if (Color == (255,0,0))
+        else if (Color.R == 255 && Color.G == 0 && Color.B == 0)
         {
             UEngineAPICore::GetCore()->OpenLevel("Town");
 
         }
     }
-    }
+}
 
 
 
