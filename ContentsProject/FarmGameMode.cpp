@@ -57,6 +57,8 @@ void AFarmGameMode::Tick(float _DeltaTime)
         PutTile();
     }
 
+
+
 }
 
 void AFarmGameMode::UIImageRender()

@@ -65,7 +65,7 @@ private:
 
 	class ATileMap* TileMap = nullptr;
 	bool ColorCheck = false;
-	bool TileCheck = false;
+	bool TileCheck = true;
 	int Gold = 772;
 };
 

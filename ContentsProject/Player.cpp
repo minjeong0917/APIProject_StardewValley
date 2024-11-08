@@ -18,7 +18,6 @@ void APlayer::RunSoundPlay()
 
 APlayer::APlayer()
 {
-
     {
         SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
         SpriteRenderer->SetSprite("Farmer_Right.png");
@@ -72,6 +71,7 @@ void APlayer::Tick(float _DeltaTime)
 
     PlayerAnimationPlay();
     CameraCheck();
+
 
 }
 
@@ -226,7 +226,7 @@ void APlayer::PlayerMove(float _DeltaTime)
 
 void APlayer::BackImgCollisionCheck(FVector2D _Vector)
 {
-    ColorCheck = false;
+
     FVector2D NextPos = GetActorLocation() + _Vector;
     if (nullptr != ColImage)
     {
@@ -235,8 +235,14 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         {
             ColorCheck = true;
         }
+        if (Color == (255,0,0))
+        {
+            UEngineAPICore::GetCore()->OpenLevel("Town");
+
+        }
     }
-}
+    }
+
 
 
 void APlayer::TileDestroy()
