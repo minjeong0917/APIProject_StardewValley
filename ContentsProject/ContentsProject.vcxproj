@@ -151,6 +151,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Gold.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TileMap.h">
       <SubType>
       </SubType>
@@ -195,6 +203,14 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Gold.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <SubType>
       </SubType>

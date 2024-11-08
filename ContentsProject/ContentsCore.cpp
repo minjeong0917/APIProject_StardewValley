@@ -13,6 +13,7 @@
 #include "TownGameMode.h"
 
 #include "Player.h"
+#include "Clock.h"
 
 
 ContentsCore::ContentsCore()
@@ -36,6 +37,8 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
+
+
 
 	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
@@ -63,6 +66,7 @@ void ContentsCore::ReadySprite()
 		std::string FilePath = ImageFiles[i].GetPathToString();
 		UImageManager::GetInst().Load(FilePath);
 	}
+	// ------------------------------- [ Tile ] -------------------------------------------
 	// dirt
 	{
 		UEngineDirectory Dir;
@@ -78,13 +82,32 @@ void ContentsCore::ReadySprite()
 		Dir.Append("TileMap//TreeTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
-	// hous
+	// house
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("TileMap//HouseTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
+	
+	// ------------------------------- [ UI ] -------------------------------------------
+	// Clock
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("UI");
+		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+	}
+	// Money Font
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("Font");
+		UImageManager::GetInst().CuttingSprite("Gold2.png", { 8, 11 });
+
+	}
+
+	// ------------------------------- [ Player ] -------------------------------------------
 	// player
 	{
 		UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });

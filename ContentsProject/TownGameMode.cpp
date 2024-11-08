@@ -7,6 +7,8 @@
 
 #include "TownMap.h"
 #include "Player.h"
+#include "Clock.h"
+#include "Gold.h"
 
 ATownGameMode::ATownGameMode()
 {
@@ -25,7 +27,18 @@ void ATownGameMode::BeginPlay()
 
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
 
+	AClock* Clock = GetWorld()->SpawnActor<AClock>();
+	AGold* Gold = GetWorld()->SpawnActor<AGold>();
 
+	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+
+	Gold->SetActorLocation({ Size.iX() - 41 , 166 });
+	Gold->SetTextSpriteName("Gold2.png");
+	Gold->SetOrder(ERenderOrder::UIFont);
+	Gold->SetTextScale({ 18, 24 });
+
+	Gold->SetValue(Player->GetGold());
 
 }
 

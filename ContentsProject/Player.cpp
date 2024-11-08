@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "ContentsEnum.h"
+
 #include "TileMap.h"
 
 #include <EngineCore/EngineAPICore.h>
@@ -64,7 +64,11 @@ void APlayer::Tick(float _DeltaTime)
     PlayerMove(_DeltaTime);
 
     BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
-    TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+
+    if (nullptr != TileMap)
+    {
+        TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+    }
 
     TileDestroy();
     PlayerAnimationPlay();
@@ -123,7 +127,7 @@ FVector2D APlayer::PlayerMoveDir()
     else if (true == UEngineInput::GetInst().IsUp('D'))
     {
         SpriteRenderer->ChangeAnimation("Idle_Right");
-        PlayerDir = static_cast<int>(EPlayerDir::Right);
+        PlayerDir = EPlayerDir::Right;
         IsPlayerMove = false;
 
     }
@@ -139,7 +143,7 @@ FVector2D APlayer::PlayerMoveDir()
     {
         SpriteRenderer->ChangeAnimation("Idle_Left");
         IsPlayerMove = false;
-        PlayerDir = static_cast<int>(EPlayerDir::Left);
+        PlayerDir = EPlayerDir::Left;
 
     }
 
@@ -155,7 +159,7 @@ FVector2D APlayer::PlayerMoveDir()
     {
         SpriteRenderer->ChangeAnimation("Idle_front");
         IsPlayerMove = false;
-        PlayerDir = static_cast<int>(EPlayerDir::Down);
+        PlayerDir = EPlayerDir::Down;
 
     }
 
@@ -171,7 +175,7 @@ FVector2D APlayer::PlayerMoveDir()
     {
         SpriteRenderer->ChangeAnimation("Idle_Back");
         IsPlayerMove = false;
-        PlayerDir = static_cast<int>(EPlayerDir::Up);
+        PlayerDir = EPlayerDir::Up;
     }
 
     Vector.Normalize();
@@ -207,7 +211,7 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
 void APlayer::TileDestroy()
 {
     FVector2D PlayerVector = GetActorLocation();
-    switch (static_cast<EPlayerDir>(PlayerDir))
+    switch (PlayerDir)
     {
     case EPlayerDir::Left:
         PlayerVector += {-50, 0};
@@ -318,7 +322,7 @@ void APlayer::PlayerAnimationPlay()
 
     if (true == UEngineInput::GetInst().IsPress(VK_LBUTTON))
     {
-        switch (static_cast<EPlayerDir>(PlayerDir))
+        switch (PlayerDir)
         {
         case EPlayerDir::Left:
             SpriteRenderer->ChangeAnimation("Dig_Left");

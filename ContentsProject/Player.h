@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
+#include "ContentsEnum.h"
 
 // Ό³Έν :
 class APlayer : public AActor
@@ -44,8 +45,13 @@ public:
 	{
 		TileMap = _TileMap;
 	}
-	int PlayerDir = 0;
+	EPlayerDir PlayerDir = EPlayerDir::Down;
 	bool IsPlayerMove = false;
+
+	int GetGold()
+	{
+		return Gold;
+	}
 	
 protected:
 
@@ -60,5 +66,6 @@ private:
 	class ATileMap* TileMap = nullptr;
 	bool ColorCheck = false;
 	bool TileCheck = false;
+	int Gold = 772;
 };
 

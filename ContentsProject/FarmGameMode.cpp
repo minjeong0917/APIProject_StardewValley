@@ -13,6 +13,8 @@
 
 #include "FarmMap.h"
 #include "Player.h"
+#include "Clock.h"
+#include "Gold.h"
 
 
 AFarmGameMode::AFarmGameMode()
@@ -26,15 +28,34 @@ AFarmGameMode::~AFarmGameMode()
 
 void AFarmGameMode::BeginPlay()
 {
+
+
+
+
+
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetBackImage("Farm.png");
 
 	FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
-	FarmTileMap->Create({72,52}, {55, 55});
+	FarmTileMap->Create({ 72,52 }, { 55, 55 });
 
 	Player->SetTileMap(FarmTileMap);
 
 	AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
+
+	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+
+	AClock* Clock = GetWorld()->SpawnActor<AClock>();
+	AGold* Gold = GetWorld()->SpawnActor<AGold>();
+
+	Gold->SetActorLocation({ Size.iX() - 41 , 166});
+	Gold->SetTextSpriteName("Gold2.png");
+	Gold->SetOrder(ERenderOrder::UIFont);
+	Gold->SetTextScale({ 18, 24 });
+
+	Gold->SetValue(Player->GetGold());
+
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
