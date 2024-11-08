@@ -18,7 +18,6 @@ void APlayer::RunSoundPlay()
 
 APlayer::APlayer()
 {
-    SetActorLocation({ 2500, 750 });
 
     {
         SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();

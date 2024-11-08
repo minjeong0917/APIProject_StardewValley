@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/GameMode.h>
 #include "TileMap.h"
+#include "ContentsEnum.h"
 
 
 // 농장 게임 모드
@@ -21,13 +22,14 @@ public:
 	void Tick(float _DeltaTime) override;
 	void TileChange();
 	void PutTile();
+	void UIImageRender();
 protected:
 
 private:
 	ATileMap* FarmTileMap = nullptr;
 	// ATileMap* TreeTileMap = nullptr;
 
-	int TileImages = 0;
+	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
 };
 
