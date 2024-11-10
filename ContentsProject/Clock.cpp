@@ -9,8 +9,12 @@
 AClock::AClock()
 {
 
+	ClockSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+	ClockSpriteRenderer->SetCameraEffect(false);
+	ClockSpriteRenderer->SetOrder(ERenderOrder::UI);
+	ClockSpriteRenderer->SetSprite("UI", 0);
+	ClockSpriteRenderer->SetSpriteScale(4.0f);
 }
-
 
 AClock::~AClock()
 {
@@ -19,21 +23,14 @@ AClock::~AClock()
 
 void AClock::BeginPlay()
 {
+	Super::BeginPlay();
 
-	//FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-	ClockSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	ClockSpriteRenderer->SetOrder(ERenderOrder::UI);
-	ClockSpriteRenderer->SetSprite("UI", 0);
-	ClockSpriteRenderer->SetSpriteScale(3.0f);
+
 }
 
 void AClock::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	FVector2D CameraPos = GetWorld()->GetCameraPos();
-	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-	float XSize = ClockSpriteRenderer->GetActorTransform().Scale.Half().X;
-	float YSize = ClockSpriteRenderer->GetActorTransform().Scale.Half().Y;
-	SetActorLocation({ CameraPos.X + Size.X - XSize -10, CameraPos.Y + YSize +10});
+
 
 }

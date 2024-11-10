@@ -15,7 +15,6 @@
 #include "Player.h"
 #include "Clock.h"
 
-
 ContentsCore::ContentsCore()
 {
 }
@@ -25,7 +24,7 @@ ContentsCore::~ContentsCore()
 }
 
 void ContentsCore::BeginPlay()
-{	
+{
 
 	ReadySprite();
 
@@ -37,9 +36,7 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-
-
-
+	
 	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
 
@@ -89,7 +86,7 @@ void ContentsCore::ReadySprite()
 		Dir.Append("TileMap//HouseTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
-	
+
 	// ------------------------------- [ UI ] -------------------------------------------
 	// Clock
 	{
@@ -103,9 +100,10 @@ void ContentsCore::ReadySprite()
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("Font");
-		UImageManager::GetInst().CuttingSprite("Gold2.png", { 8, 11 });
+		UImageManager::GetInst().CuttingSprite("Gold3.png", { 77, 110 });
 
 	}
+
 
 	// ------------------------------- [ Player ] -------------------------------------------
 	// player

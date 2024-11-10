@@ -59,7 +59,7 @@ void ATownGameMode::UIImageRender()
 	AGold* Gold = GetWorld()->SpawnActor<AGold>();
 
 	Gold->SetActorLocation({ Size.iX() - 41 , 166 });
-	Gold->SetTextSpriteName("Gold2.png");
+	Gold->SetTextSpriteName("Gold3.png");
 	Gold->SetOrder(ERenderOrder::UIFont);
 	Gold->SetTextScale({ 18, 24 });
 

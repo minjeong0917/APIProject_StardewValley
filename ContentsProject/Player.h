@@ -46,15 +46,14 @@ public:
 		TileMap = _TileMap;
 	}
 
-	EPlayerDir PlayerDir = EPlayerDir::Down;
-
-	bool IsPlayerMove = false;
-
 	int GetGold()
 	{
 		return Gold;
 	}
-	
+
+	EPlayerDir PlayerDir = EPlayerDir::Down;
+	bool IsPlayerMove = false;
+
 protected:
 
 private:
@@ -64,9 +63,9 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
-	class ATileMap* TileMap = nullptr;	
+	class ATileMap* TileMap = nullptr;
 	bool ColorCheck = false;
 	bool TileCheck = true;
-	int Gold = 772;
+	int Gold = 789;
 };
 
