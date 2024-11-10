@@ -23,7 +23,7 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
-        SpriteRenderer->SetComponentScale({ 215, 430 });
+        SpriteRenderer->SetComponentScale({ 166.4f, 332.8f });
 
         PlayerAnimation();
         SpriteRenderer->ChangeAnimation("Idle_front");
@@ -106,7 +106,6 @@ void APlayer::DebugCheck(float _DeltaTime)
 
 FVector2D APlayer::PlayerMoveDir()
 {
-    FVector2D Vector = FVector2D::ZERO;
 
     // F2 : 플레이어 속도 증가
     if (true == UEngineInput::GetInst().IsDown(VK_ADD))
@@ -114,7 +113,7 @@ FVector2D APlayer::PlayerMoveDir()
         Speed += 100;
     }
 
-
+    FVector2D Vector = FVector2D::ZERO;
 
     // 대각선 이동
     if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))
@@ -241,6 +240,8 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
     }
 }
 
+
+
 void APlayer::TileDestroy()
 {
     FVector2D PlayerVector = GetActorLocation();
@@ -363,7 +364,6 @@ void APlayer::PlayerAnimationPlay()
             SpriteRenderer->ChangeAnimation("Dig_Right", true);
             break;
         case EPlayerDir::Up:
-            SpriteRenderer->ChangeAnimation("Dig_Back", true);
             break;
         case EPlayerDir::Down:
             SpriteRenderer->ChangeAnimation("Dig_Front", true);
@@ -393,10 +393,9 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
 
 
-    SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 80, 93, 80, 81, 82, 83, 6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
-    SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
-    SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 47,48,90,91,0 }, { 0.05f , 0.05f, 0.05f , 0.25f, 0.05f }, false);
-    SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.2f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 22,23,24,25,0 }, { 0.1f , 0.1f, 0.1f, 0.15f, 0.05f }, false);
 
 
 }

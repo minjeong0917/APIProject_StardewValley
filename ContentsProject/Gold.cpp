@@ -66,8 +66,8 @@ void AGold::SetValue(int _Score)
 		char Value = Number[i] - '0';
 		Renders[i]->SetSprite(TextSpriteName, Value);
 		Renders[i]->SetComponentScale(TextScale);
-		Renders[i]->SetComponentLocation(Pos) ;
-		Pos.X -= TextScale.X +1.6;
+		Renders[i]->SetComponentLocation(Pos);
+		Pos.X -= TextScale.X;
 		Renders[i]->SetActive(true);
 	}
 

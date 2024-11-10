@@ -202,6 +202,7 @@ FVector2D UEngineWindow::GetMousePos()
     POINT MousePoint;
 
     GetCursorPos(&MousePoint);
+    // 윈도우창 위치기준으로 마우스 포지션을 
     ScreenToClient(WindowHandle, &MousePoint);
 
     return FVector2D(MousePoint.x, MousePoint.y);

@@ -23,8 +23,6 @@ public:
 	void TileChange();
 	void PutTile();
 	void UIImageRender();
-	void GetTileSpriteName(FVector2D Location);
-
 protected:
 
 private:
