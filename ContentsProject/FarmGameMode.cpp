@@ -30,13 +30,13 @@ void AFarmGameMode::BeginPlay()
     Player->SetBackImage("Farm.png");
 
     FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
-    FarmTileMap->Create({ 72,52 }, { 55, 55 });
+    FarmTileMap->Create({ 69,56 }, { 70, 70 });
 
 	Player->SetTileMap(FarmTileMap);
 
 	AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 
-    Player->SetActorLocation({ 2500, 700 });
+    Player->SetActorLocation({ 3700, 1050 });
 
 
     UIImageRender();
@@ -55,6 +55,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
     {
         PutTile();
     }
+    GetTileSpriteName(Player->GetActorLocation());
 
 }
 
@@ -65,15 +66,15 @@ void AFarmGameMode::UIImageRender()
 
     // Clock
     AClock* Clock = GetWorld()->SpawnActor<AClock>();
+    Clock->SetActorLocation({ Size.iX() - 154, 128 });
 
     // Gold
     AGold* Gold = GetWorld()->SpawnActor<AGold>();
 
-    Gold->SetActorLocation({ Size.iX() - 41 , 166 });
-    Gold->SetTextSpriteName("Gold2.png");
+    Gold->SetActorLocation({ Size.iX() - 54 , 218 });
+    Gold->SetTextSpriteName("Gold3.png");
     Gold->SetOrder(ERenderOrder::UIFont);
-    Gold->SetTextScale({ 18, 24 });
-
+    Gold->SetTextScale({ 22, 33 });
     Gold->SetValue(Player->GetGold());
 }
 
@@ -86,8 +87,8 @@ void AFarmGameMode::PutTile()
 
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
-    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 2550, 500 });
-    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -18, -20 }, { 361, 361 }, 0);
+    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 765.0f });
+    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, 12 }, { 541.5f, 541.5f }, 0);
 
 
     switch (Player->PlayerDir)
@@ -172,4 +173,17 @@ void AFarmGameMode::TileChange()
         return;
     }
 
+}
+void AFarmGameMode::GetTileSpriteName(FVector2D Location)
+{
+    Tile* TileRef = FarmTileMap->GetTileRef(Location);
+    if (TileRef)
+    {
+        std::string SpriteName = TileRef->GetSpriteName();
+        UEngineDebug::CoreOutPutString("TileName: " + SpriteName);
+    }
+    else
+    {
+        UEngineDebug::CoreOutPutString("타일이 없습니다.");
+    }
 }

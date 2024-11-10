@@ -15,7 +15,6 @@
 #include "Player.h"
 #include "Clock.h"
 
-
 ContentsCore::ContentsCore()
 {
 }
@@ -37,8 +36,18 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
+	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 
+	LPCSTR cursorPath = "C:\\path\\to\\your\\cursor.cur";
 
+	// 커서 불러오기
+	HCURSOR hCursor = LoadCursorFromFile(cursorPath);
+	if (hCursor == nullptr) {
+		MessageBox(nullptr, "커서 파일을 불러올 수 없습니다.", "오류", MB_OK | MB_ICONERROR);
+	}
+	else {
+		SetCursor(hCursor); // 불러온 커서를 프로그램의 기본 커서로 설정
+	}
 
 	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
@@ -103,8 +112,15 @@ void ContentsCore::ReadySprite()
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("Font");
-		UImageManager::GetInst().CuttingSprite("Gold2.png", { 8, 11 });
+		UImageManager::GetInst().CuttingSprite("Gold3.png", { 77, 110});
 
+	}
+	// Cursor
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("UI");
+		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
 
 	// ------------------------------- [ Player ] -------------------------------------------

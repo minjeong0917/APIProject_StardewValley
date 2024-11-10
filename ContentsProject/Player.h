@@ -46,14 +46,13 @@ public:
 		TileMap = _TileMap;
 	}
 
-	EPlayerDir PlayerDir = EPlayerDir::Down;
-
-	bool IsPlayerMove = false;
-
 	int GetGold()
 	{
 		return Gold;
 	}
+
+	EPlayerDir PlayerDir = EPlayerDir::Down;
+	bool IsPlayerMove = false;
 	
 protected:
 
@@ -67,6 +66,6 @@ private:
 	class ATileMap* TileMap = nullptr;	
 	bool ColorCheck = false;
 	bool TileCheck = true;
-	int Gold = 772;
+	int Gold = 789;
 };
 

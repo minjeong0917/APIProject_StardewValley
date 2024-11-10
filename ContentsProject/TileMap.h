@@ -13,6 +13,15 @@ public:
 	FVector2D Pivot;
 	int SpriteIndex;
 
+	std::string GetSpriteName() const
+	{
+		if (SpriteRenderer != nullptr)
+		{
+			return SpriteRenderer->GetCurSpriteName();
+		}
+		return "NONE";
+	}
+
 	void Serialize(UEngineSerializer& _Ser)
 	{
 		std::string SpriteName;
@@ -85,6 +94,7 @@ protected:
 
 private:
 	std::vector<std::vector<Tile>> AllTiles;
+
 	FIntPoint TileCount;
 	FVector2D TileSize;
 };
