@@ -2,7 +2,7 @@
 #include <EngineCore/GameMode.h>
 #include "TileMap.h"
 #include "ContentsEnum.h"
-
+#include "Cursor.h"
 
 // 농장 게임 모드
 class AFarmGameMode : public AGameMode
@@ -33,5 +33,6 @@ private:
 
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
+	ACursor* Cursor = nullptr;
 };
 

@@ -16,6 +16,7 @@
 #include "Gold.h"
 
 
+
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -57,6 +58,10 @@ void AFarmGameMode::Tick(float _DeltaTime)
     }
     GetTileSpriteName(Player->GetActorLocation());
 
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    Cursor->SetActorLocation({ MousePos.X+10, MousePos.Y+15 });
+
+
 }
 
 void AFarmGameMode::UIImageRender()
@@ -76,7 +81,11 @@ void AFarmGameMode::UIImageRender()
     Gold->SetOrder(ERenderOrder::UIFont);
     Gold->SetTextScale({ 22, 33 });
     Gold->SetValue(Player->GetGold());
+
+    Cursor = GetWorld()->SpawnActor<ACursor>();
+
 }
+
 
 
 void AFarmGameMode::PutTile()
@@ -87,8 +96,8 @@ void AFarmGameMode::PutTile()
 
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
-    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 765.0f });
-    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, 12 }, { 541.5f, 541.5f }, 0);
+    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
+    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
 
 
     switch (Player->PlayerDir)

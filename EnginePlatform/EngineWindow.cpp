@@ -13,6 +13,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+        ShowCursor(false); // 프로그램 시작 시 커서 숨기기
+        break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;

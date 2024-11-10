@@ -7,7 +7,8 @@ enum class ERenderOrder
 	BACKGROUND = -1000,
 	PLAYER = 0,
 	UI = 10000,
-	UIFont = 10001
+	UIFont = 10001,
+	CURSOR = 100000
 
 };
 

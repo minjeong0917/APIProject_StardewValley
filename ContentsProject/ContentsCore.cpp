@@ -88,7 +88,7 @@ void ContentsCore::ReadySprite()
 	}
 
 	// ------------------------------- [ UI ] -------------------------------------------
-	// Clock
+	// Clock & Cursor
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
