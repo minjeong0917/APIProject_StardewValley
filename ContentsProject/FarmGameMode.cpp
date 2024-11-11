@@ -257,5 +257,7 @@ std::string AFarmGameMode::GetTileSpriteName(FVector2D Location)
     else
     {
         UEngineDebug::CoreOutPutString("타일이 없습니다.");
+        return "NONE";
+
     }
 }

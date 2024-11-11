@@ -5,7 +5,6 @@
 AGold::AGold()
 {
 
-
 	for (size_t i = 0; i < 10; i++)
 	{
 		USpriteRenderer* Sprite = CreateDefaultSubObject<USpriteRenderer>();
@@ -57,7 +56,6 @@ void AGold::SetValue(int _Gold)
 		MSGASSERT("자리수를 넘겼습니다.");
 		return;
 	}
-
 
 	FVector2D Pos = FVector2D::ZERO;
 
