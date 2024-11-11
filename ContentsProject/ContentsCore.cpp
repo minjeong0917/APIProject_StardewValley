@@ -36,7 +36,6 @@ void ContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-	
 	UEngineAPICore::GetCore()->OpenLevel("Farm");
 }
 
@@ -85,6 +84,14 @@ void ContentsCore::ReadySprite()
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("TileMap//HouseTile");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+	}
+	// crops
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("TileMap//CropsTile");
+		UImageManager::GetInst().CuttingSprite("parsnip.png", { 15, 16 });
+
 	}
 
 	// ------------------------------- [ UI ] -------------------------------------------

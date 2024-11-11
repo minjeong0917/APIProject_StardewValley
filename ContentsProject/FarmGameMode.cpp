@@ -33,7 +33,11 @@ void AFarmGameMode::BeginPlay()
     FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
     FarmTileMap->Create({ 69,56 }, { 70, 70 });
 
+    CropTileMap = GetWorld()->SpawnActor<ATileMap>();
+    CropTileMap->Create({ 69,56 }, { 70, 70 });
+
     Player->SetTileMap(FarmTileMap);
+    Player->SetTileMap(CropTileMap);
 
     AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 
@@ -54,7 +58,8 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     if (false == Player->IsPlayerMove)
     {
-        PutTile();
+        PutTile(_DeltaTime);
+
     }
 
     GetTileSpriteName(Player->GetActorLocation());
@@ -103,12 +108,9 @@ void AFarmGameMode::UIImageRender()
     HourTime->SetActorLocation({ Size.iX() - 145 , 138});
     HourTime->SetTextSpriteName("Time.png");
 
-
 }
 
-
-
-void AFarmGameMode::PutTile()
+void AFarmGameMode::PutTile(float _DeltaTime)
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     float PlayerLocationX = Player->GetActorLocation().X;
@@ -118,7 +120,6 @@ void AFarmGameMode::PutTile()
 
     FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
     FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
-
 
     switch (Player->PlayerDir)
     {
@@ -142,22 +143,60 @@ void AFarmGameMode::PutTile()
     float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
     float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
     FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
+    FIntPoint Point2 = FarmTileMap->LocationToIndex({ PlayerLocation.X, PlayerLocation.Y });
+
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
     {
         switch (TileImages)
         {
         case ETileImage::Dirt:
-            FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+            FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.iX(), PlayerLocation.iY()}, 0);
             break;
 
         case ETileImage::Tree001:
             FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -110 }, { 144, 240 }, 0, false);
             break;
+
+        case ETileImage::Crops:
+            if (GetTileSpriteName({ PlayerLocation.X ,PlayerLocation.Y +1 }) == "DIRT.PNG")
+            {
+
+                CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 0);
+                 
+            }
+
+            break;
         default:
             break;
         }
     }
+
+}
+
+
+bool AFarmGameMode::CropsTime(float _Deltatime)
+{
+    float Time = 0;
+    int hour = 0;
+    int Speed = MinTime->Speed;
+
+    Time += _Deltatime * Speed;
+    int Min = static_cast<int>(Time / 10);
+    IsNextDay = false;
+
+    if (Min >= 60)
+    {
+        Min = 0;
+        Time = 0;
+        ++hour;
+    }
+    if (24 == hour)
+    {
+        IsNextDay = true;
+        return IsNextDay;
+    }
+    return IsNextDay;
 }
 
 
@@ -172,6 +211,9 @@ void AFarmGameMode::TileChange()
         break;
     case ETileImage::Tree001:
         TileImageName = "Tree001";
+        break;
+    case ETileImage::Crops:
+        TileImageName = "parsnip";
         break;
     default:
         TileImageName = "Unknown";
@@ -201,15 +243,16 @@ void AFarmGameMode::TileChange()
         }
         return;
     }
-
 }
-void AFarmGameMode::GetTileSpriteName(FVector2D Location)
+
+std::string AFarmGameMode::GetTileSpriteName(FVector2D Location)
 {
     Tile* TileRef = FarmTileMap->GetTileRef(Location);
     if (TileRef)
     {
         std::string SpriteName = TileRef->GetSpriteName();
         UEngineDebug::CoreOutPutString("TileName: " + SpriteName);
+        return SpriteName;
     }
     else
     {

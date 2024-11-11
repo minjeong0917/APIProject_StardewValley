@@ -4,6 +4,7 @@
 #include "ContentsEnum.h"
 #include "Cursor.h"
 #include "Time.h"
+#include <vector>
 
 // 농장 게임 모드
 class AFarmGameMode : public AGameMode
@@ -22,14 +23,18 @@ public:
 	void BeginPlay();
 	void Tick(float _DeltaTime) override;
 	void TileChange();
-	void PutTile();
+	void PutTile(float _DeltaTime);
 	void UIImageRender();
-	void GetTileSpriteName(FVector2D Location);
+	bool CropsTime(float _Deltatime);
+
+
+	std::string GetTileSpriteName(FVector2D Location);
 
 protected:
 
 private:
 	ATileMap* FarmTileMap = nullptr;
+	ATileMap* CropTileMap = nullptr;
 	// ATileMap* TreeTileMap = nullptr;
 
 	ETileImage TileImages = ETileImage::Dirt;
@@ -37,6 +42,6 @@ private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
-
+	bool IsNextDay = false;
 };
 
