@@ -17,6 +17,8 @@
 
 
 
+
+
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -118,32 +120,37 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
+    // house
     FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
     FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
 
-    switch (Player->PlayerDir)
-    {
-    case EPlayerDir::Left:
-        PlayerLocation += {-FarmTileMap->GetTileSize().X, 0.0};
-        break;
-    case EPlayerDir::Right:
-        PlayerLocation += {FarmTileMap->GetTileSize().X, 0.0};
 
-        break;
-    case EPlayerDir::Up:
-        PlayerLocation += {0.0, -FarmTileMap->GetTileSize().Y};
-        break;
-    case EPlayerDir::Down:
-        PlayerLocation += {0.0, FarmTileMap->GetTileSize().Y};
-        break;
-    default:
-        break;
+
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
+    float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
+
+    FVector2D Direction = { MousePosX - PlayerLocation.X, MousePosY - PlayerLocation.Y };
+
+    float DirectionAbsX = std::abs(Direction.X);
+    float DirectionAbsY = std::abs(Direction.Y);
+
+    bool IsMouseInPlayerPos = false;
+
+    if (DirectionAbsX <= 110 && DirectionAbsY <= 110 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    {
+        IsMouseInPlayerPos = true;
     }
 
-    float TilePosX = PlayerLocation.X - FarmTileMap->GetActorLocation().X;
-    float TilePosY = PlayerLocation.Y - FarmTileMap->GetActorLocation().Y + 53;
+
+    float TilePosX = MousePos.X - FarmTileMap->GetActorLocation().X;
+    float TilePosY = MousePos.Y - FarmTileMap->GetActorLocation().Y + 53;
     FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
-    FIntPoint Point2 = FarmTileMap->LocationToIndex({ PlayerLocation.X, PlayerLocation.Y });
+    FIntPoint Point2 = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+    UEngineDebug::CoreOutPutString(std::to_string(MousePosX));
+    UEngineDebug::CoreOutPutString(std::to_string(MousePosY));
 
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
@@ -151,7 +158,51 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         switch (TileImages)
         {
         case ETileImage::Dirt:
-            FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.iX(), PlayerLocation.iY()}, 0);
+            if (IsMouseInPlayerPos)
+            {
+                if (DirectionAbsX > DirectionAbsY) {
+                    if (Direction.X > 0) {
+                        Player->PlayerDir = EPlayerDir::Right;
+                    }
+                    else {
+                        Player->PlayerDir = EPlayerDir::Left;
+                    }
+                }
+                else {
+                    if (Direction.Y > 0) {
+                        Player->PlayerDir = EPlayerDir::Down;
+                    }
+                    else {
+                        Player->PlayerDir = EPlayerDir::Up;
+                    }
+                }
+
+                FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
+            }
+            else
+            {
+                switch (Player->PlayerDir)
+                {
+                case EPlayerDir::Left:
+                    PlayerLocation += {-FarmTileMap->GetTileSize().X, 0.0};
+                    break;
+                case EPlayerDir::Right:
+                    PlayerLocation += {FarmTileMap->GetTileSize().X, 0.0};
+
+                    break;
+                case EPlayerDir::Up:
+                    PlayerLocation += {0.0, -FarmTileMap->GetTileSize().Y};
+                    break;
+                case EPlayerDir::Down:
+                    PlayerLocation += {0.0, FarmTileMap->GetTileSize().Y};
+                    break;
+                default:
+                    break;
+                }
+
+                FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+            }
+
             break;
 
         case ETileImage::Tree001:
@@ -159,11 +210,9 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Crops:
-            if (GetTileSpriteName({ PlayerLocation.X ,PlayerLocation.Y +1 }) == "DIRT.PNG")
+            if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == IsMouseInPlayerPos)
             {
-
                 CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 0);
-                 
             }
 
             break;
