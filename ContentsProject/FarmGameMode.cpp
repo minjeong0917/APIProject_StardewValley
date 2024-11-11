@@ -56,11 +56,20 @@ void AFarmGameMode::Tick(float _DeltaTime)
     {
         PutTile();
     }
+
     GetTileSpriteName(Player->GetActorLocation());
 
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
     Cursor->SetActorLocation({ MousePos.X+10, MousePos.Y+15 });
 
+    int Min =  MinTime->SetMinute(_DeltaTime);
+    HourTime->SetHour(Min);
+
+
+    if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
+    {
+        MinTime->Speed += 100;
+    }
 
 }
 
@@ -82,7 +91,18 @@ void AFarmGameMode::UIImageRender()
     Gold->SetTextScale({ 22, 33 });
     Gold->SetValue(Player->GetGold());
 
+    // Cursor
     Cursor = GetWorld()->SpawnActor<ACursor>();
+
+    // Time
+    MinTime = GetWorld()->SpawnActor<ATime>();
+    MinTime->SetActorLocation({ Size.iX() - 100 , 138 });
+    MinTime->SetTextSpriteName("Time.png");
+
+    HourTime = GetWorld()->SpawnActor<ATime>();
+    HourTime->SetActorLocation({ Size.iX() - 145 , 138});
+    HourTime->SetTextSpriteName("Time.png");
+
 
 }
 

@@ -48,9 +48,9 @@ void AGold::SetOrder(int _Order)
 
 }
 
-void AGold::SetValue(int _Score)
+void AGold::SetValue(int _Gold)
 {
-	std::string Number = std::to_string(_Score);
+	std::string Number = std::to_string(_Gold);
 
 	if (Renders.size() <= Number.size())
 	{

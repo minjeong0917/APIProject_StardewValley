@@ -3,18 +3,18 @@
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/SpriteRenderer.h>
 // Ό³Έν :
-class AGold : public AActor
+class ATime : public AActor
 {
 public:
 	// constrcuter destructer
-	AGold();
-	~AGold();
+	ATime();
+	~ATime();
 
 	// delete Function
-	AGold(const AGold& _Other) = delete;
-	AGold(AGold&& _Other) noexcept = delete;
-	AGold& operator=(const AGold& _Other) = delete;
-	AGold& operator=(AGold&& _Other) noexcept = delete;
+	ATime(const ATime& _Other) = delete;
+	ATime(ATime&& _Other) noexcept = delete;
+	ATime& operator=(const ATime& _Other) = delete;
+	ATime& operator=(ATime&& _Other) noexcept = delete;
 
 	void SetTextSpriteName(const std::string _Text);
 
@@ -31,15 +31,25 @@ public:
 
 	void SetOrder(int _Order);
 
-	void SetValue(int _Gold);
+	void SetValue(std::string _time);
+
+	void SetHour(int _Hour);
+	int SetMinute(float _DeltaTime);
+	int Speed = 1;
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+
 private:
+	float minutes = 0;
+	int hours = 22;
+	bool IsPM = false;
+
 	std::string TextSpriteName;
-	FVector2D TextScale;
 	std::vector<class USpriteRenderer*> Renders;
+	FVector2D TextScale;
+	class USpriteRenderer* TimeSpriteRenderer = nullptr;
 };
 

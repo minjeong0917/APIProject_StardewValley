@@ -167,6 +167,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TownMap.h">
       <SubType>
       </SubType>
@@ -220,6 +224,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
       <SubType>
       </SubType>
     </ClCompile>

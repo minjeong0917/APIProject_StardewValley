@@ -95,13 +95,14 @@ void ContentsCore::ReadySprite()
 		Dir.Append("UI");
 		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
 	}
-	// Money Font
+	// Font
 	{
 		UEngineDirectory Dir;
 		Dir.MoveParentToDirectory("Resources//Images");
 		Dir.Append("Font");
 		UImageManager::GetInst().CuttingSprite("Gold3.png", { 77, 110 });
-
+		UImageManager::GetInst().CuttingSprite("Time.png", { 18, 28 });
+		UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
 	}
 
 

@@ -58,7 +58,7 @@ protected:
 
 private:
 
-	float Speed = 200.0f;
+	float Speed = 220.0f;
 	int MySpriteIndex = 0;
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
