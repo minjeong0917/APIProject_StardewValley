@@ -231,7 +231,7 @@ bool AFarmGameMode::CropsTime(float _Deltatime)
     int Speed = MinTime->Speed;
 
     Time += _Deltatime * Speed;
-    int Min = static_cast<int>(Time / 10);
+    int Min = static_cast<int>(Time / 60)*10;
     IsNextDay = false;
 
     if (Min >= 60)

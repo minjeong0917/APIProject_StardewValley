@@ -87,7 +87,7 @@ void ATime::SetValue(std::string _Time)
 int ATime::SetMinute(float _DeltaTime)
 {
 	minutes += _DeltaTime * Speed;
-	int Min = static_cast<int>(minutes / 10) * 10;  
+	int Min = static_cast<int>(minutes / 60) * 10;  
 
 	std::string Number = std::to_string(Min);
 

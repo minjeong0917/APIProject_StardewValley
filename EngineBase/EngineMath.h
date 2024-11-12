@@ -53,6 +53,16 @@ public:
 		return static_cast<int>(Y);
 	}
 
+	float hX() const
+	{
+		return X * 0.5f;
+	}
+
+	float hY() const
+	{
+		return Y * 0.5f;
+	}
+
 	// X, Y중 하나라도 0 이 있으면 true 
 	bool IsZeroed() const
 	{

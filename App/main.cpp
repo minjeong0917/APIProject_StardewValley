@@ -4,6 +4,7 @@
 #include <EngineCore/EngineAPICore.h>
 #include <ContentsProject/ContentsCore.h>
 #include <EngineBase/EngineTimer.h>
+#include <EngineBase/EngineRandom.h>
 
 //pragma comment
 #pragma comment (lib, "EngineCore.lib")

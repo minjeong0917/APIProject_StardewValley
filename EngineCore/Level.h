@@ -78,6 +78,18 @@ public:
 		return dynamic_cast<ConvertType*>(MainPawn);
 	}
 
+	AActor* GetGameMode()
+	{
+		return GameMode;
+	}
+
+	template<typename ConvertType>
+	ConvertType* GetGameMode()
+	{
+		return dynamic_cast<ConvertType*>(GameMode);
+	}
+
+
 
 protected:
 
