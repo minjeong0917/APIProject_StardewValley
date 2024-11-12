@@ -81,6 +81,9 @@
     <ClCompile Include="Time.cpp">
       <Filter>ContentsObject\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>ContentsObject\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -129,6 +132,9 @@
       <Filter>ContentsObject\UI</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
+      <Filter>ContentsObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
       <Filter>ContentsObject\UI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,19 +47,17 @@ void ATime::BeginPlay()
 void ATime::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
+	if (true == UEngineInput::GetInst().IsDown('P'))
 	{
 		Speed += 100;
 	}
-	else if (true == UEngineInput::GetInst().IsDown(VK_DIVIDE))
+	else if (true == UEngineInput::GetInst().IsDown('M'))
 	{
-
 		if (Speed > 1)
 		{
 			Speed -= 100;
 		}
 	}
-
 }
 
 void ATime::SetOrder(int _Order)
@@ -68,7 +66,6 @@ void ATime::SetOrder(int _Order)
 	{
 		Renders[i]->SetOrder(_Order);
 	}
-
 }
 
 void ATime::SetValue(std::string _Time)

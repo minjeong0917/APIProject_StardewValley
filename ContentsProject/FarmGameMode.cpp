@@ -49,11 +49,11 @@ void AFarmGameMode::Tick(float _DeltaTime)
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetColImage("farm_col.png");
 
-    if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
+    if (true == UEngineInput::GetInst().IsDown('P'))
     {
         speed += 100;
     }
-    else if (true == UEngineInput::GetInst().IsDown(VK_DIVIDE))
+    else if (true == UEngineInput::GetInst().IsDown('M'))
     {
 
         if (speed >= 0)

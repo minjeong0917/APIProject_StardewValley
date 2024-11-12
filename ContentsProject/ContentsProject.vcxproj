@@ -163,6 +163,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h">
       <SubType>
       </SubType>
@@ -223,6 +224,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileMap.cpp">
       <SubType>
       </SubType>

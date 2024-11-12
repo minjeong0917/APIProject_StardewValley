@@ -15,11 +15,13 @@ public:
 	AText(AText&& _Other) noexcept = delete;
 	AText& operator=(const AText& _Other) = delete;
 	AText& operator=(AText&& _Other) noexcept = delete;
+	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
 
-	class USpriteRenderer* TextSpriteRenderer = nullptr;
 protected:
-
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 private:
+	class USpriteRenderer* TextSpriteRenderer = nullptr;
 
 };
 

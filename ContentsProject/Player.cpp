@@ -13,6 +13,7 @@
 
 #include "Clock.h"
 #include "Gold.h"
+#include "Text.h"
 
 
 #include"FarmGameMode.h"
@@ -370,7 +371,7 @@ void APlayer::CameraCheck()
     {
         CameraPos.Y = 0.0f;
     }
-
+    
     if (CameraPos.Y + Size.Y >= ImageYSize)
     {
         CameraPos.Y = ImageYSize - Size.Y;
@@ -457,6 +458,11 @@ void APlayer::UIImageRender()
     Gold->SetOrder(ERenderOrder::UIFont);
     Gold->SetTextScale({ 22, 33 });
     Gold->SetValue(PlayerGold);
+
+    // Text
+    AText* Text = GetWorld()->SpawnActor<AText>();
+    Text->SetSprite("apm.png", 0, 1.0f);
+    Text->SetActorLocation({ Size.iX() - 130, 138 });
 
     // Cursor
     Cursor = GetWorld()->SpawnActor<ACursor>();
