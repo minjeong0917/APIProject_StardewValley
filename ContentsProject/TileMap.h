@@ -14,7 +14,7 @@ public:
 	int SpriteIndex = 0;
 	int MaxSpriteIndex;
 
-	float Time = 5;
+	float Time = 72000;
 	float CurTime = 0.0f;
 
 

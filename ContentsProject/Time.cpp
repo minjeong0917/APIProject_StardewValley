@@ -30,6 +30,7 @@ void ATime::SetTextSpriteName(const std::string _Text)
 	{
 		Renders[i]->SetSprite(TextSpriteName);
 	}
+
 }
 
 void ATime::BeginPlay()
@@ -50,6 +51,15 @@ void ATime::Tick(float _DeltaTime)
 	{
 		Speed += 100;
 	}
+	else if (true == UEngineInput::GetInst().IsDown(VK_DIVIDE))
+	{
+
+		if (Speed > 1)
+		{
+			Speed -= 100;
+		}
+	}
+
 }
 
 void ATime::SetOrder(int _Order)

@@ -116,7 +116,12 @@ void ContentsCore::ReadySprite()
 	// ------------------------------- [ Player ] -------------------------------------------
 	// player
 	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("Player");
 		UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
 		UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
+		UImageManager::GetInst().CuttingSprite("Farmer_Right_2.png", { 64, 128 });
+		UImageManager::GetInst().CuttingSprite("Farmer_Left_2.png", { 64, 128 });
 	}
 }

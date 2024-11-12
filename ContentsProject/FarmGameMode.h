@@ -26,6 +26,11 @@ public:
 
 	std::string GetTileSpriteName(FVector2D Location);
 
+	ETileImage GetCurTileImage()
+	{
+		return TileImages;
+	}
+
 protected:
 
 private:

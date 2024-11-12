@@ -13,7 +13,9 @@
 
 #include "Clock.h"
 #include "Gold.h"
-#include "Text.h"
+
+
+#include"FarmGameMode.h"
 
 void APlayer::RunSoundPlay()
 {
@@ -117,6 +119,7 @@ void APlayer::DebugCheck(float _DeltaTime)
 FVector2D APlayer::PlayerMoveDir()
 {
     FVector2D Vector = FVector2D::ZERO;
+    AFarmGameMode* Farm = GetWorld()->GetGameMode<AFarmGameMode>();
 
     // F2 : 플레이어 속도 증가
     if (true == UEngineInput::GetInst().IsDown(VK_ADD))
@@ -160,6 +163,7 @@ FVector2D APlayer::PlayerMoveDir()
         // 상하좌우 이동
         if (true == UEngineInput::GetInst().IsPress('D'))
         {
+
             SpriteRenderer->ChangeAnimation("Run_Right");
             IsPlayerMove = true;
             Vector = FVector2D::RIGHT;
@@ -173,7 +177,14 @@ FVector2D APlayer::PlayerMoveDir()
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            SpriteRenderer->ChangeAnimation("Run_Front");
+            if (Farm->GetCurTileImage() == ETileImage::Crops)
+            {
+                SpriteRenderer->ChangeAnimation("Item_font");
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Run_Front");
+            }
             IsPlayerMove = true;
             Vector = FVector2D::DOWN;
 
@@ -189,7 +200,14 @@ FVector2D APlayer::PlayerMoveDir()
         // 정지
         if (true == UEngineInput::GetInst().IsUp('D'))
         {
-            SpriteRenderer->ChangeAnimation("Idle_Right");
+            if (Farm->GetCurTileImage() == ETileImage::Crops)
+            {
+                //SpriteRenderer->ChangeAnimation("Item_Right");
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Idle_Right");
+            }
             PlayerDir = EPlayerDir::Right;
             IsPlayerMove = false;
 
@@ -203,7 +221,12 @@ FVector2D APlayer::PlayerMoveDir()
         }
         else if (true == UEngineInput::GetInst().IsUp('S'))
         {
-            SpriteRenderer->ChangeAnimation("Idle_front");
+            if (Farm->GetCurTileImage() == ETileImage::Crops)
+            {
+                SpriteRenderer->ChangeAnimation("Item_Idle_front");
+            }
+            else
+                SpriteRenderer->ChangeAnimation("Idle_front");
             IsPlayerMove = false;
             PlayerDir = EPlayerDir::Down;
 
@@ -359,6 +382,7 @@ void APlayer::CameraCheck()
 
 void APlayer::PlayerAnimationPlay()
 {
+    AFarmGameMode* Farm = GetWorld()->GetGameMode<AFarmGameMode>();
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
     {
@@ -379,6 +403,7 @@ void APlayer::PlayerAnimationPlay()
         default:
             break;
         }
+
     }
 }
 
@@ -387,6 +412,7 @@ void APlayer::PlayerAnimation()
     // 앞
     SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
     SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f });
+    SpriteRenderer->CreateAnimation("Idle_front_once", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f },false);
 
     // 뒤
     SpriteRenderer->CreateAnimation("Run_Back", "Farmer_Right.png", { 11, 12, 20, 12, 11, 13, 21, 13 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
@@ -407,6 +433,11 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
 
 
+    SpriteRenderer->CreateAnimation("Item_font", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 },  0.1f, true);
+
+
+
 }
 
 void APlayer::UIImageRender()
@@ -417,12 +448,6 @@ void APlayer::UIImageRender()
     // Clock
     AClock* Clock = GetWorld()->SpawnActor<AClock>();
     Clock->SetActorLocation({ Size.iX() - 154, 128 });
-
-    // ":" Text
-    AText* Text = GetWorld()->SpawnActor<AText>();
-    Text->SetActorLocation({ Size.iX() - 130, 140 });
-    Text->TextSpriteRenderer->SetSprite("apm.png", 0);
-    Text->TextSpriteRenderer->SetSpriteScale(1.0f);
 
     // Gold
     AGold* Gold = GetWorld()->SpawnActor<AGold>();

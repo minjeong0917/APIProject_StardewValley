@@ -14,10 +14,6 @@
 #include "Player.h"
 
 
-
-
-
-
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -53,9 +49,20 @@ void AFarmGameMode::Tick(float _DeltaTime)
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetColImage("farm_col.png");
 
+    if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
+    {
+        speed += 100;
+    }
+    else if (true == UEngineInput::GetInst().IsDown(VK_DIVIDE))
+    {
 
-    
-    CropTileMap->CropCheck(_DeltaTime);
+        if (speed >= 0)
+        {
+            speed -= 100;
+        }
+    }
+
+    CropTileMap->CropCheck(_DeltaTime * speed * 10);
     TileChange();
 
     if (false == Player->IsPlayerMove)
@@ -105,8 +112,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     float TilePosY = MousePos.Y - FarmTileMap->GetActorLocation().Y + 53;
     FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
     FIntPoint Point2 = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
-    UEngineDebug::CoreOutPutString(std::to_string(MousePosX));
-    UEngineDebug::CoreOutPutString(std::to_string(MousePosY));
 
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))

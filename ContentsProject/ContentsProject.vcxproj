@@ -151,10 +151,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Text.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Cursor.h">
       <SubType>
       </SubType>
@@ -215,10 +211,6 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Text.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <SubType>
       </SubType>
