@@ -29,7 +29,6 @@ void ATownGameMode::BeginPlay()
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
 
 	Player->SetActorLocation({ 80,2180});
-	UIImageRender();
 
 }
 
@@ -52,16 +51,4 @@ void ATownGameMode::UIImageRender()
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
-	// Clock
-	AClock* Clock = GetWorld()->SpawnActor<AClock>();
-
-	// Gold
-	AGold* Gold = GetWorld()->SpawnActor<AGold>();
-
-	Gold->SetActorLocation({ Size.iX() - 41 , 166 });
-	Gold->SetTextSpriteName("Gold3.png");
-	Gold->SetOrder(ERenderOrder::UIFont);
-	Gold->SetTextScale({ 18, 24 });
-
-	Gold->SetValue(Player->GetGold());
 }

@@ -2,8 +2,7 @@
 #include <EngineCore/GameMode.h>
 #include "TileMap.h"
 #include "ContentsEnum.h"
-#include "Cursor.h"
-#include "Time.h"
+
 #include <vector>
 
 // 농장 게임 모드
@@ -24,7 +23,7 @@ public:
 	void Tick(float _DeltaTime) override;
 	void TileChange();
 	void PutTile(float _DeltaTime);
-	void UIImageRender();
+
 	bool CropsTime(float _Deltatime);
 
 
@@ -39,9 +38,7 @@ private:
 
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
-	ACursor* Cursor = nullptr;
-	ATime* MinTime = nullptr;
-	ATime* HourTime = nullptr;
+
 	bool IsNextDay = false;
 };
 

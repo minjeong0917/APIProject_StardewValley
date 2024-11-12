@@ -2,7 +2,8 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include "ContentsEnum.h"
-
+#include "Cursor.h"
+#include "Time.h"
 // Ό³Έν :
 class APlayer : public AActor
 {
@@ -48,9 +49,9 @@ public:
 
 	int GetGold()
 	{
-		return Gold;
+		return PlayerGold;
 	}
-
+	void UIImageRender();
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	bool IsPlayerMove = false;
 
@@ -66,6 +67,10 @@ private:
 	class ATileMap* TileMap = nullptr;
 	bool ColorCheck = false;
 	bool TileCheck = true;
-	int Gold = 789;
+	int PlayerGold = 789;
+
+	ACursor* Cursor = nullptr;
+	ATime* MinTime = nullptr;
+	ATime* HourTime = nullptr;
 };
 

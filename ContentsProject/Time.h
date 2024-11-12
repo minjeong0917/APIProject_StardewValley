@@ -44,7 +44,7 @@ protected:
 
 private:
 	float minutes = 0;
-	int hours = 22;
+	int hours = 6;
 	bool IsPM = false;
 
 	std::string TextSpriteName;

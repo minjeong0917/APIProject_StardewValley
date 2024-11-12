@@ -14,7 +14,7 @@
 #include "Player.h"
 #include "Clock.h"
 #include "Gold.h"
-
+#include "Text.h"
 
 
 
@@ -46,7 +46,7 @@ void AFarmGameMode::BeginPlay()
     Player->SetActorLocation({ 3700, 1050 });
 
 
-    UIImageRender();
+
 
 }
 
@@ -66,51 +66,13 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     GetTileSpriteName(Player->GetActorLocation());
 
-    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-    Cursor->SetActorLocation({ MousePos.X+10, MousePos.Y+15 });
-
-    int Min =  MinTime->SetMinute(_DeltaTime);
-    HourTime->SetHour(Min);
 
 
-    if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
-    {
-        MinTime->Speed += 100;
-    }
+
+
 
 }
 
-void AFarmGameMode::UIImageRender()
-{
-    APlayer* Player = GetWorld()->GetPawn<APlayer>();
-    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
-    // Clock
-    AClock* Clock = GetWorld()->SpawnActor<AClock>();
-    Clock->SetActorLocation({ Size.iX() - 154, 128 });
-
-    // Gold
-    AGold* Gold = GetWorld()->SpawnActor<AGold>();
-
-    Gold->SetActorLocation({ Size.iX() - 54 , 218 });
-    Gold->SetTextSpriteName("Gold3.png");
-    Gold->SetOrder(ERenderOrder::UIFont);
-    Gold->SetTextScale({ 22, 33 });
-    Gold->SetValue(Player->GetGold());
-
-    // Cursor
-    Cursor = GetWorld()->SpawnActor<ACursor>();
-
-    // Time
-    MinTime = GetWorld()->SpawnActor<ATime>();
-    MinTime->SetActorLocation({ Size.iX() - 100 , 138 });
-    MinTime->SetTextSpriteName("Time.png");
-
-    HourTime = GetWorld()->SpawnActor<ATime>();
-    HourTime->SetActorLocation({ Size.iX() - 145 , 138});
-    HourTime->SetTextSpriteName("Time.png");
-
-}
 
 void AFarmGameMode::PutTile(float _DeltaTime)
 {
@@ -221,31 +183,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         }
     }
 
-}
-
-
-bool AFarmGameMode::CropsTime(float _Deltatime)
-{
-    float Time = 0;
-    int hour = 0;
-    int Speed = MinTime->Speed;
-
-    Time += _Deltatime * Speed;
-    int Min = static_cast<int>(Time / 60)*10;
-    IsNextDay = false;
-
-    if (Min >= 60)
-    {
-        Min = 0;
-        Time = 0;
-        ++hour;
-    }
-    if (24 == hour)
-    {
-        IsNextDay = true;
-        return IsNextDay;
-    }
-    return IsNextDay;
 }
 
 
