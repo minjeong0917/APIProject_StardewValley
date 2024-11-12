@@ -192,7 +192,7 @@ void AFarmGameMode::TileChange()
     switch (TileImages)
     {
     case ETileImage::Dirt:
-        TileImageName = "Dirt";
+        TileImageName = "Dirt"; 
         break;
     case ETileImage::Tree001:
         TileImageName = "Tree001";
