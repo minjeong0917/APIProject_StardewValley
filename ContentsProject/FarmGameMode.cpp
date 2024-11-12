@@ -102,7 +102,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     bool IsMouseInPlayerPos = false;
 
-    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    if (DirectionAbsX <= 85 && DirectionAbsY <= 85 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
     {
         IsMouseInPlayerPos = true;
     }
