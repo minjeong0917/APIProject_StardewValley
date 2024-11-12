@@ -52,6 +52,8 @@ public:
 		return PlayerGold;
 	}
 	void UIImageRender();
+	int GetTimeSpeed();
+
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	bool IsPlayerMove = false;
 

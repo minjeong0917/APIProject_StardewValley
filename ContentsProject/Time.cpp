@@ -4,6 +4,7 @@
 #include <EngineCore/EngineAPICore.h>
 #include "ContentsEnum.h"
 #include <EngineBase/EngineTimer.h>
+#include <EnginePlatform/EngineInput.h>
 
 ATime::ATime()
 {
@@ -45,7 +46,10 @@ void ATime::BeginPlay()
 void ATime::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
+	if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
+	{
+		Speed += 100;
+	}
 }
 
 void ATime::SetOrder(int _Order)

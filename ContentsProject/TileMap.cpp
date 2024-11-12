@@ -85,7 +85,7 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int 
     SetTileIndex(_SpriteName, _Index, { 0,0 }, TileSize, _SpriteIndex);
 }
 
-void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove)
+void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove, int _MaxSpriteIndex)
 {
     if (true == IsIndexOver(_Index))
     {
@@ -114,6 +114,7 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVec
     AllTiles[_Index.Y][_Index.X].Scale = _SpriteScale;
     AllTiles[_Index.Y][_Index.X].SpriteIndex = _SpriteIndex;
     AllTiles[_Index.Y][_Index.X].IsMove = _IsMove;
+    AllTiles[_Index.Y][_Index.X].MaxSpriteIndex = _MaxSpriteIndex;
 
 }
 
@@ -164,5 +165,39 @@ void ATileMap::DeSerialize(UEngineSerializer& _Ser)
     //      SetTileIndex({ x, y }, LoadTiles[y][x].Pivot, LoadTiles[y][x].Scale, LoadTiles[y][x].SpriteIndex);
     //   }
     //}
+
+}
+void ATileMap::CropCheck(float _DeltaTime)
+{
+    for (size_t y = 0; y < AllTiles.size(); y++)
+    {
+        for (size_t x = 0; x < AllTiles[y].size(); x++)
+        {
+            if(nullptr == AllTiles[y][x].SpriteRenderer)
+            {
+                continue;
+            }
+
+            std::string Name = AllTiles[y][x].SpriteRenderer->GetCurSpriteName();
+
+            int Index = AllTiles[y][x].SpriteIndex;
+
+
+            AllTiles[y][x].CurTime += _DeltaTime;
+
+            if (AllTiles[y][x].CurTime > AllTiles[y][x].Time)
+            {
+                if (AllTiles[y][x].SpriteIndex == AllTiles[y][x].MaxSpriteIndex)
+                {
+                    continue;
+                }
+                AllTiles[y][x].SpriteIndex = ++Index;
+                AllTiles[y][x].SpriteRenderer->SetSprite(Name, Index);
+                AllTiles[y][x].CurTime = 0.0f;
+            }
+
+        }
+    }
+
 
 }

@@ -83,6 +83,7 @@ void APlayer::Tick(float _DeltaTime)
     HourTime->SetHour(Min);
 }
 
+
 void APlayer::LevelChangeCheck()
 {
     if (true == UEngineInput::GetInst().IsDown('R'))
@@ -110,10 +111,7 @@ void APlayer::DebugCheck(float _DeltaTime)
     {
         UEngineDebug::SwitchIsDebug();
     }
-    if (true == UEngineInput::GetInst().IsDown(VK_MULTIPLY))
-    {
-        MinTime->Speed += 100;
-    }
+
 }
 
 FVector2D APlayer::PlayerMoveDir()
@@ -125,8 +123,6 @@ FVector2D APlayer::PlayerMoveDir()
     {
         Speed += 100;
     }
-
-
 
     // 대각선 이동
     if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))

@@ -12,9 +12,8 @@
 // contents
 #include "FarmMap.h"
 #include "Player.h"
-#include "Clock.h"
-#include "Gold.h"
-#include "Text.h"
+
+
 
 
 
@@ -46,8 +45,6 @@ void AFarmGameMode::BeginPlay()
     Player->SetActorLocation({ 3700, 1050 });
 
 
-
-
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
@@ -56,20 +53,17 @@ void AFarmGameMode::Tick(float _DeltaTime)
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetColImage("farm_col.png");
 
+
+    
+    CropTileMap->CropCheck(_DeltaTime);
     TileChange();
 
     if (false == Player->IsPlayerMove)
     {
         PutTile(_DeltaTime);
-
     }
 
     GetTileSpriteName(Player->GetActorLocation());
-
-
-
-
-
 
 }
 
@@ -101,7 +95,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     bool IsMouseInPlayerPos = false;
 
-    if (DirectionAbsX <= 110 && DirectionAbsY <= 110 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
     {
         IsMouseInPlayerPos = true;
     }
@@ -174,7 +168,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         case ETileImage::Crops:
             if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == IsMouseInPlayerPos)
             {
-                CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 0);
+                CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 0, true, 5);
             }
 
             break;

@@ -35,7 +35,11 @@ public:
 
 	void SetHour(int _Hour);
 	int SetMinute(float _DeltaTime);
-	int Speed = 1;
+
+	int GetTimeSpeed()
+	{
+		return Speed;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -43,6 +47,7 @@ protected:
 
 
 private:
+	int Speed = 1;
 	float minutes = 0;
 	int hours = 6;
 	bool IsPM = false;

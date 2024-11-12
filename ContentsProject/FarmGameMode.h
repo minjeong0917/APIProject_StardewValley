@@ -2,7 +2,7 @@
 #include <EngineCore/GameMode.h>
 #include "TileMap.h"
 #include "ContentsEnum.h"
-
+#include "Time.h"
 #include <vector>
 
 // 농장 게임 모드
@@ -24,9 +24,6 @@ public:
 	void TileChange();
 	void PutTile(float _DeltaTime);
 
-	bool CropsTime(float _Deltatime);
-
-
 	std::string GetTileSpriteName(FVector2D Location);
 
 protected:
@@ -39,6 +36,8 @@ private:
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
 
+	ATime* Time = nullptr;
+	int speed = 1;
 	bool IsNextDay = false;
 };
 
