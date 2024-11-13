@@ -36,6 +36,7 @@ public:
 		}
 		return nullptr;
 	}
+	void TileDestroy();
 
 protected:
 

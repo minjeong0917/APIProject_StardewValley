@@ -11,6 +11,7 @@
 class APlayer : public AActor
 {
 public:
+
 	// constrcuter destructer
 	APlayer();
 	~APlayer();
@@ -41,7 +42,6 @@ public:
 	void PlayerMove(float _DeltaTime);
 	void BackImgCollisionCheck(FVector2D _Vector);
 	void TileMapCollisionCheck(FVector2D _Vector);
-	void TileDestroy();
 
 	void CameraCheck();
 
@@ -59,7 +59,8 @@ public:
 
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	bool IsPlayerMove = false;
-
+	Tile* TreeTile = nullptr;
+	Tile* PreviousTreeTile = nullptr;
 protected:
 
 private:
@@ -83,8 +84,7 @@ private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
-	Tile* TreeTile = nullptr;
-	Tile* PreviousTreeTile = nullptr;
+
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 };

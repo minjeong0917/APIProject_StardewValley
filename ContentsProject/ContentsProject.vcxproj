@@ -151,6 +151,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Slot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Inventory.h">
       <SubType>
       </SubType>
@@ -216,6 +224,14 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Slot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <SubType>
       </SubType>

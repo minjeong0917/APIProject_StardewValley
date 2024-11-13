@@ -135,6 +135,18 @@ Tile* ATileMap::GetTileRef(FIntPoint _Index)
     return &AllTiles[_Index.Y][_Index.X];
 }
 
+void ATileMap::TileDestroy(FIntPoint _Index)
+{
+    AllTiles[_Index.Y][_Index.X].IsMove = true;
+    AllTiles[_Index.Y][_Index.X].CurTime = 0.0f;
+    AllTiles[_Index.Y][_Index.X].MaxSpriteIndex = 0;
+    AllTiles[_Index.Y][_Index.X].Pivot = { 0,0 };
+    AllTiles[_Index.Y][_Index.X].Scale = { 0,0 };
+    AllTiles[_Index.Y][_Index.X].SpriteIndex = 0;
+    AllTiles[_Index.Y][_Index.X].SpriteRenderer = nullptr;
+
+}
+
 void ATileMap::CropCheck(float _DeltaTime)
 {
     for (size_t y = 0; y < AllTiles.size(); y++)

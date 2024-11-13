@@ -1,6 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
+#include "Slot.h"
+#include <list>
+
 // Ό³Έν :
 class AInventoryBar : public AActor
 {
@@ -21,6 +24,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	class USpriteRenderer* InvenBarSpriteRenderer = nullptr;
+	std::list<ASlot*> AllSlots;
 
 };
 

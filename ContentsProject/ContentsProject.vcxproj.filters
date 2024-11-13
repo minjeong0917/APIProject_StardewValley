@@ -34,9 +34,6 @@
     <Filter Include="ContentsObject\UI\Inventory">
       <UniqueIdentifier>{1af7cbf5-7eed-41ca-80f6-77e9747832b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\UI\Inventory\Slot">
-      <UniqueIdentifier>{4cc3af7d-e6ee-42e5-b4a2-7edbfd8240b4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -93,6 +90,12 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>ContentsObject\UI\Inventory</Filter>
     </ClCompile>
+    <ClCompile Include="Slot.cpp">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>ContentsObject\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -148,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Slot.h">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>ContentsObject\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

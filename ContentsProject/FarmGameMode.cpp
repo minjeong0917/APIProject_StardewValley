@@ -43,6 +43,20 @@ void AFarmGameMode::BeginPlay()
     Player->SetActorLocation({ 3700, 1050 });
 
 
+    float PlayerLocationX = Player->GetActorLocation().X;
+    float PlayerLocationY = Player->GetActorLocation().Y - 10;
+    FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
+
+    // house
+    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
+    FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f, 1200.0f });
+    FIntPoint TreePoint1 = FarmTileMap->LocationToIndex({ 3860.0f, 1200.0f });
+    FIntPoint TreePoint2 = FarmTileMap->LocationToIndex({ 3930.0f, 1200.0f });
+    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
+    FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+    FarmTileMap->SetTileIndex("TreeTile", TreePoint1, { 0, -110 }, { 144, 240 }, 0, false, 0);
+    FarmTileMap->SetTileIndex("TreeTile", TreePoint2, { 0, -110 }, { 144, 240 }, 0, false, 0);
+
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
@@ -70,6 +84,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
     if (false == Player->IsPlayerMove)
     {
         PutTile(_DeltaTime);
+        TileDestroy();
     }
 
     GetTileSpriteName(Player->GetActorLocation());
@@ -82,12 +97,9 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     float PlayerLocationX = Player->GetActorLocation().X;
     float PlayerLocationY = Player->GetActorLocation().Y - 10;
-
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
 
-    // house
-    FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
-    FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
+
 
 
 
@@ -193,6 +205,40 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     }
     
+}
+
+void AFarmGameMode::TileDestroy()
+{
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+    float PlayerLocationX = Player->GetActorLocation().X;
+    float PlayerLocationY = Player->GetActorLocation().Y - 10;
+
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+    FVector2D PlayerLocation = { PlayerLocationX, PlayerLocationY };
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
+    float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
+
+    FIntPoint Point2 = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+
+    if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
+    {
+        if (GetTileSpriteName({ MousePosX, MousePosY }) == "TREETILE")
+        {
+            Tile* Tile = FarmTileMap->GetTileRef(Point2);
+
+            if (nullptr != Tile->SpriteRenderer)
+            {
+                Tile->SpriteRenderer->Destroy();
+                Tile->SpriteRenderer = nullptr;
+                FarmTileMap->TileDestroy(Point2);
+
+                // 플레이어의 TreeTile 포인터 초기화
+                Player->TreeTile = nullptr;
+                Player->PreviousTreeTile = nullptr;
+            }
+        }
+    }
 }
 
 

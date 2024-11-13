@@ -81,7 +81,6 @@ void APlayer::Tick(float _DeltaTime)
     if (nullptr != FarmTileMap)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
-        TileDestroy();
 
         std::string Name = TileLocationName();
         TileAlphaCheck(Name);
@@ -97,22 +96,21 @@ void APlayer::Tick(float _DeltaTime)
     PlayerAnimationPlay();
 
     // Inventory
-    if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE) && IsOpenIven == 1)
-    {
-        --IsOpenIven;
-        Inventory->Destroy();
-        InventoryBar->SetActive(true);
+    //if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE) && IsOpenIven == 1)
+    //{
+    //    --IsOpenIven;
+    //    Inventory->Destroy();
+    //    InventoryBar->SetActive(true);
 
-    }
-    else if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE))
-    {
+    //}
+    //else if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE))
+    //{
 
-        Inventory = GetWorld()->SpawnActor<AInventory>();
-        Inventory->SetActorLocation({ Size.Half().iX(), Size.Half().iY() });
-        ++IsOpenIven;
-        InventoryBar->SetActive(false);
-
-    }
+    //    Inventory = GetWorld()->SpawnActor<AInventory>();
+    //    Inventory->SetActorLocation({ Size.Half().iX(), Size.Half().iY() });
+    //    ++IsOpenIven;
+    //    InventoryBar->SetActive(false);
+    //}
 
 
 }
@@ -139,25 +137,26 @@ std::string APlayer::TileLocationName()
 
 void APlayer::TileAlphaCheck(std::string _TileName)
 {
-    if (nullptr != TreeTile)
+    if (nullptr != TreeTile && TreeTile->SpriteRenderer != nullptr)
     {
         if (_TileName == "TREETILE")
         {
             if (PreviousTreeTile != TreeTile)
             {
-                if (PreviousTreeTile != nullptr)
+                // 이전 TreeTile이 유효한지 확인
+                if (PreviousTreeTile != nullptr && PreviousTreeTile->SpriteRenderer != nullptr)
                 {
                     PreviousTreeTile->TileSpriteAlpha(1.0f);
                 }
 
-                TreeTile->TileSpriteAlpha(0.2f);
-
+                TreeTile->TileSpriteAlpha(0.3f);
                 PreviousTreeTile = TreeTile;
             }
         }
         else
         {
-            if (PreviousTreeTile != nullptr)
+            // 이전 TreeTile이 유효한지 확인
+            if (PreviousTreeTile != nullptr && PreviousTreeTile->SpriteRenderer != nullptr)
             {
                 PreviousTreeTile->TileSpriteAlpha(1.0f);
                 PreviousTreeTile = nullptr;
@@ -165,6 +164,7 @@ void APlayer::TileAlphaCheck(std::string _TileName)
         }
     }
 }
+
 
 void APlayer::LevelChangeCheck()
 {
@@ -335,39 +335,6 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
     }
 }
 
-void APlayer::TileDestroy()
-{
-    FVector2D PlayerVector = GetActorLocation();
-    switch (PlayerDir)
-    {
-    case EPlayerDir::Left:
-        PlayerVector += {-50, 0};
-        break;
-    case EPlayerDir::Right:
-        PlayerVector += {50, 0};
-
-        break;
-    case EPlayerDir::Up:
-        PlayerVector += {0, -50};
-        break;
-    case EPlayerDir::Down:
-        PlayerVector += {0, 50};
-        break;
-    default:
-        break;
-    }
-
-    if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
-    {
-        Tile* Tile = FarmTileMap->GetTileRef(PlayerVector);
-
-        if (nullptr != Tile->SpriteRenderer)
-        {
-            Tile->SpriteRenderer->Destroy();
-            Tile->SpriteRenderer = nullptr;
-        }
-    }
-}
 
 
 void APlayer::TileMapCollisionCheck(FVector2D _Vector)

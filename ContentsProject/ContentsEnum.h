@@ -9,6 +9,7 @@ enum class ERenderOrder
 	UI = 10000,
 	UIFont = 10001,
 	INVEN = 20000,
+	SLOT = 20001,
 	CURSOR = 100000
 
 };

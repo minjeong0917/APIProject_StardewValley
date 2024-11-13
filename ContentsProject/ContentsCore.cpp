@@ -111,7 +111,13 @@ void ContentsCore::ReadySprite()
 		UImageManager::GetInst().CuttingSprite("Time.png", { 18, 28 });
 		UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
 	}
-
+	// ------------------------------- [ Item ] -------------------------------------------
+	{
+		UEngineDirectory Dir;
+		Dir.MoveParentToDirectory("Resources//Images");
+		Dir.Append("Item");
+		UImageManager::GetInst().CuttingSprite("Items.png", { 16, 16 });
+	}
 
 	// ------------------------------- [ Player ] -------------------------------------------
 	// player
