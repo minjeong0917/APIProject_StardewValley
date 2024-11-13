@@ -4,6 +4,8 @@
 #include "ContentsEnum.h"
 #include "Cursor.h"
 #include "Time.h"
+#include "TileMap.h"
+
 // Ό³Έν :
 class APlayer : public AActor
 {
@@ -60,6 +62,9 @@ public:
 protected:
 
 private:
+	std::string TileLocationName();
+	void TileAlphaCheck(std::string _TileName);
+
 
 	float Speed = 220.0f;
 	int MySpriteIndex = 0;
@@ -76,5 +81,7 @@ private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
+	Tile* TreeTile = nullptr;
+	Tile* PreviousTreeTile = nullptr;
 };
 

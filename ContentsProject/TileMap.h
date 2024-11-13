@@ -1,9 +1,8 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/SpriteRenderer.h>
-#include <EngineBase/EngineSerializer.h>
 
-class Tile : public ISerializObject
+class Tile
 {
 public:
 	USpriteRenderer* SpriteRenderer;
@@ -12,7 +11,7 @@ public:
 	FVector2D Scale;
 	FVector2D Pivot;
 	int SpriteIndex = 0;
-	int MaxSpriteIndex;
+	int MaxSpriteIndex = 0;
 
 	float Time = 72000;
 	float CurTime = 0.0f;
@@ -27,39 +26,15 @@ public:
 		return "NONE";
 	}
 
-	void Serialize(UEngineSerializer& _Ser)
+	void TileSpriteAlpha(float _alpha) const
 	{
-		std::string SpriteName;
-		if (nullptr != SpriteRenderer)
-		{
-			SpriteName = SpriteRenderer->GetCurSpriteName();
-		}
-		_Ser << SpriteName;
-		_Ser << IsMove;
-		_Ser << TileType;
-		_Ser << Scale;
-		_Ser << Pivot;
-		_Ser << SpriteIndex;
-	}
-
-
-	void DeSerialize(UEngineSerializer& _Ser)
-	{
-
-		std::string SpriteName;
-		_Ser >> SpriteName;
-		_Ser >> IsMove;
-		_Ser >> TileType;
-		_Ser >> Scale;
-		_Ser >> Pivot;
-		_Ser >> SpriteIndex;
-
+		SpriteRenderer->SetAlphafloat(_alpha);
 	}
 
 };
 
 
-class ATileMap : public AActor, public ISerializObject
+class ATileMap : public AActor
 {
 public:
 	// constrcuter destructer
@@ -88,8 +63,6 @@ public:
 
 	bool IsIndexOver(FIntPoint _Index);
 
-	void Serialize(UEngineSerializer& _Ser);
-	void DeSerialize(UEngineSerializer& _Ser);
 
 	void CropCheck(float _DeltaTime);
 

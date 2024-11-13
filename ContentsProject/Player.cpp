@@ -86,8 +86,61 @@ void APlayer::Tick(float _DeltaTime)
 
     int Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
+
+    std::string Name = TileLocationName();
+    TileAlphaCheck(Name);
+
+
+}
+std::string APlayer::TileLocationName()
+{
+    FVector2D PlayerLocation = GetActorLocation();
+    std::string TileName;
+
+    int searchRangeY = 120;
+    for (int offsetY = 0; offsetY <= searchRangeY; ++offsetY)
+    {
+        FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y +20+ offsetY };
+        TileName = FarmGameMode->GetTileSpriteName(TileLocation);
+
+        if (TileName == "TREETILE")
+        {
+            TreeTile = FarmTileMap->GetTileRef(TileLocation);
+            return TileName;
+        }
+    }
+
+    return "NONE";
 }
 
+void APlayer::TileAlphaCheck(std::string _TileName)
+{
+    if (nullptr != TreeTile)
+    {
+        if (_TileName == "TREETILE")
+        {
+            if (PreviousTreeTile != TreeTile)
+            {
+                if (PreviousTreeTile != nullptr)
+                {
+                    PreviousTreeTile->TileSpriteAlpha(1.0f);
+                }
+
+                TreeTile->TileSpriteAlpha(0.2f);
+
+                PreviousTreeTile = TreeTile;
+            }
+        }
+        else
+        {
+            if (PreviousTreeTile != nullptr)
+            {
+                PreviousTreeTile->TileSpriteAlpha(1.0f);
+                PreviousTreeTile = nullptr;
+            }
+        }
+    }
+}
 
 void APlayer::LevelChangeCheck()
 {

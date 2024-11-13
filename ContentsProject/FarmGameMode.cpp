@@ -169,6 +169,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Tree001:
+
             FarmTileMap->SetTileIndex("TreeTile", Point2, { 0, -110 }, { 144, 240 }, 0, false, 0);
             break;
 
@@ -238,13 +239,14 @@ std::string AFarmGameMode::GetTileSpriteName(FVector2D Location)
     if (TileRef)
     {
         std::string SpriteName = TileRef->GetSpriteName();
-        UEngineDebug::CoreOutPutString("TileName: " + SpriteName);
+
         return SpriteName;
     }
     else
     {
-        UEngineDebug::CoreOutPutString("타일이 없습니다.");
         return "NONE";
 
     }
+    
 }
+

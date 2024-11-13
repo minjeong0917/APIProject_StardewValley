@@ -135,38 +135,6 @@ Tile* ATileMap::GetTileRef(FIntPoint _Index)
     return &AllTiles[_Index.Y][_Index.X];
 }
 
-
-void ATileMap::Serialize(UEngineSerializer& _Ser)
-{
-
-    //_Ser << TileCount;
-    //_Ser << TileSize;
-    //_Ser << SpriteName;
-    //_Ser << AllTiles;
-
-}
-
-void ATileMap::DeSerialize(UEngineSerializer& _Ser)
-{
-    //_Ser >> TileCount;
-    //_Ser >> TileSize;
-    //_Ser >> SpriteName;
-
-    //std::vector<std::vector<Tile>> LoadTiles;
-    //_Ser >> LoadTiles;
-
-
-    //Create(SpriteName, TileCount, TileSize);
-
-    //for (int y = 0; y < LoadTiles.size(); y++)
-    //{
-    //   for (int x = 0; x < LoadTiles[y].size(); x++)
-    //   {
-    //      SetTileIndex({ x, y }, LoadTiles[y][x].Pivot, LoadTiles[y][x].Scale, LoadTiles[y][x].SpriteIndex);
-    //   }
-    //}
-
-}
 void ATileMap::CropCheck(float _DeltaTime)
 {
     for (size_t y = 0; y < AllTiles.size(); y++)
