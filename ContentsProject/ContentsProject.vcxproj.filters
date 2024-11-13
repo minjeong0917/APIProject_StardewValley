@@ -34,6 +34,9 @@
     <Filter Include="ContentsObject\UI\Inventory">
       <UniqueIdentifier>{1af7cbf5-7eed-41ca-80f6-77e9747832b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\UI\Inventory\Slot">
+      <UniqueIdentifier>{4cc3af7d-e6ee-42e5-b4a2-7edbfd8240b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -47,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ContentsObject\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools.cpp">
-      <Filter>ContentsObject\Items</Filter>
     </ClCompile>
     <ClCompile Include="FarmMap.cpp">
       <Filter>ContentsObject\Map</Filter>
@@ -90,6 +90,9 @@
     <ClCompile Include="InventoryBar.cpp">
       <Filter>ContentsObject\UI\Inventory</Filter>
     </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -103,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ContentsObject\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>ContentsObject\Items</Filter>
     </ClInclude>
     <ClInclude Include="FarmMap.h">
       <Filter>ContentsObject\Map</Filter>
@@ -144,6 +144,9 @@
       <Filter>ContentsObject\UI</Filter>
     </ClInclude>
     <ClInclude Include="InventoryBar.h">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
       <Filter>ContentsObject\UI\Inventory</Filter>
     </ClInclude>
   </ItemGroup>

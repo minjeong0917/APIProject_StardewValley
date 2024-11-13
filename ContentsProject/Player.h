@@ -5,7 +5,8 @@
 #include "Cursor.h"
 #include "Time.h"
 #include "TileMap.h"
-
+#include "Inventory.h"
+#include "InventoryBar.h"
 // Ό³Έν :
 class APlayer : public AActor
 {
@@ -75,6 +76,7 @@ private:
 	class AFarmGameMode* FarmGameMode = nullptr;
 
 	bool ColorCheck = false;
+	int IsOpenIven = 0;
 	bool TileCheck = true;
 	int PlayerGold = 789;
 
@@ -83,5 +85,7 @@ private:
 	ATime* HourTime = nullptr;
 	Tile* TreeTile = nullptr;
 	Tile* PreviousTreeTile = nullptr;
+	AInventory* Inventory = nullptr;
+	AInventoryBar* InventoryBar = nullptr;
 };
 

@@ -8,6 +8,7 @@ enum class ERenderOrder
 	PLAYER = 0,
 	UI = 10000,
 	UIFont = 10001,
+	INVEN = 20000,
 	CURSOR = 100000
 
 };

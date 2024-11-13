@@ -22,12 +22,10 @@ void AInventoryBar::BeginPlay()
 {
 	Super::BeginPlay();
 
-
 }
 
 void AInventoryBar::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
 
 }

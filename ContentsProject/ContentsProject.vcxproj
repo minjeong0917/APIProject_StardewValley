@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Inventory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="InventoryBar.h">
       <SubType>
       </SubType>
@@ -200,10 +204,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Tools.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="FarmGameMode.h">
       <SubType>
       </SubType>
@@ -216,6 +216,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Inventory.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="InventoryBar.cpp">
       <SubType>
       </SubType>
@@ -262,10 +266,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FarmMap.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Tools.cpp">
       <SubType>
       </SubType>
     </ClCompile>

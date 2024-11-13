@@ -185,6 +185,14 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         }
     }
 
+    // Test코드 - Home키 누르면 땅과 다 자란 식물 마우스 위치에 생성
+    if (true == UEngineInput::GetInst().IsDown(VK_HOME))
+    {
+        FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
+        CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 5, true, 5);
+
+    }
+    
 }
 
 

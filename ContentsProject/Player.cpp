@@ -14,10 +14,6 @@
 #include "Clock.h"
 #include "Gold.h"
 #include "Text.h"
-#include "InventoryBar.h"
-
-
-
 
 #include"FarmGameMode.h"
 
@@ -69,6 +65,8 @@ void APlayer::BeginPlay()
 
 void APlayer::Tick(float _DeltaTime)
 {
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
     Super::Tick(_DeltaTime);
 
     SpriteRenderer->SetOrder(GetActorLocation().Y);
@@ -79,7 +77,7 @@ void APlayer::Tick(float _DeltaTime)
 
     BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
 
-    PlayerAnimationPlay();
+
     if (nullptr != FarmTileMap)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
@@ -96,8 +94,25 @@ void APlayer::Tick(float _DeltaTime)
 
     int Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
+    PlayerAnimationPlay();
 
+    // Inventory
+    if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE) && IsOpenIven == 1)
+    {
+        --IsOpenIven;
+        Inventory->Destroy();
+        InventoryBar->SetActive(true);
 
+    }
+    else if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE))
+    {
+
+        Inventory = GetWorld()->SpawnActor<AInventory>();
+        Inventory->SetActorLocation({ Size.Half().iX(), Size.Half().iY() });
+        ++IsOpenIven;
+        InventoryBar->SetActive(false);
+
+    }
 
 
 }
@@ -524,6 +539,10 @@ void APlayer::UIImageRender()
     HourTime->SetTextSpriteName("Time.png");
 
     // InventoryBar
-    AInventoryBar* InventoryBar = GetWorld()->SpawnActor<AInventoryBar>();
+    InventoryBar = GetWorld()->SpawnActor<AInventoryBar>();
     InventoryBar->SetActorLocation({ Size.Half().iX(), Size.iY() - 80 });
+
+
+
+
 }
