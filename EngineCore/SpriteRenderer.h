@@ -29,7 +29,7 @@ public:
 		int ResultIndex = 0;
 		float CurTime = 0.0f;
 		bool Loop = true;
-
+		bool IsEnd = false;
 		void Reset()
 		{
 			CurIndex = 0;
@@ -96,6 +96,13 @@ public:
 	void SetPivotType(PivotType _Type);
 	void SetCameraEffectScale(float _Effect);
 	void SetSprite(std::string_view _Name, int _CurIndex = 0);
+
+	// 애니메이션 끝나는 순간 체크
+	bool IsCurAnimationEnd()
+	{
+		return CurAnimation->IsEnd;
+	}
+
 
 protected:
 

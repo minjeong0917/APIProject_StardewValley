@@ -47,7 +47,7 @@ private:
 		bool IsFree = true;
 
 		float PressTime = 0.0f;
-
+		float FreeTime = 0.0f;
 		// 키 이벤트들을 vector로 관리
 		std::vector<std::function<void()>> PressEvents;
 		std::vector<std::function<void()>> DownEvents;
@@ -71,6 +71,17 @@ private:
 public:
 	void KeyCheck(float _DeltaTime);
 	void EventCheck(float _DeltaTime);
+
+	bool IsDoubleClick(int _KeyIndex, float _Time)
+	{
+		if (false == Keys.contains(_KeyIndex))
+		{
+			MSGASSERT("아직도 등록되지 않은 키가 존재합니다.");
+			return false;
+		}
+
+		return Keys[_KeyIndex].IsDown && Keys[_KeyIndex].FreeTime < _Time;
+	}
 
 	// 아무키도 안눌린 상태에서 어떠한 키를 눌렀을때
 	bool IsDown(int _KeyIndex)

@@ -82,7 +82,7 @@ bool ATileMap::IsIndexOver(FIntPoint _Index)
 
 void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex, bool _IsMove)
 {
-    SetTileIndex(_SpriteName, _Index, { 0,0 }, TileSize, _SpriteIndex);
+    SetTileIndex(_SpriteName, _Index, { 0,0 }, TileSize, _SpriteIndex, _IsMove);
 }
 
 void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove, int _MaxSpriteIndex)

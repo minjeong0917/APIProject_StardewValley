@@ -44,7 +44,7 @@ public:
 
 	void SetTileMap(class ATileMap* _TileMap)
 	{
-		TileMap = _TileMap;
+		FarmTileMap = _TileMap;
 	}
 
 	int GetGold()
@@ -66,7 +66,9 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
-	class ATileMap* TileMap = nullptr;
+	class ATileMap* FarmTileMap = nullptr;
+	class AFarmGameMode* FarmGameMode = nullptr;
+
 	bool ColorCheck = false;
 	bool TileCheck = true;
 	int PlayerGold = 789;

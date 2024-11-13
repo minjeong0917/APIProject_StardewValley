@@ -16,6 +16,7 @@
 #include "Text.h"
 
 
+
 #include"FarmGameMode.h"
 
 void APlayer::RunSoundPlay()
@@ -48,6 +49,8 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
     Super::BeginPlay();
+    FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
+    FarmTileMap = FarmGameMode->GetFarmTilMap();
 
     // 카메라 피벗 위치 설정
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
@@ -71,7 +74,7 @@ void APlayer::Tick(float _DeltaTime)
     BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
 
     PlayerAnimationPlay();
-    if (nullptr != TileMap)
+    if (nullptr != FarmTileMap)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
         TileDestroy();
@@ -297,7 +300,7 @@ void APlayer::TileDestroy()
 
     if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
     {
-        Tile* Tile = TileMap->GetTileRef(PlayerVector);
+        Tile* Tile = FarmTileMap->GetTileRef(PlayerVector);
 
         if (nullptr != Tile->SpriteRenderer)
         {
@@ -312,11 +315,11 @@ void APlayer::TileMapCollisionCheck(FVector2D _Vector)
 {
     TileCheck = false;
 
-    FVector2D TileMapSize = TileMap->GetTileSize();
+    FVector2D TileMapSize = FarmTileMap->GetTileSize();
     FVector2D NextPos = GetActorLocation() + _Vector;
 
     //NextPos.X /= TileMapSize.X; -> 타일의 위치 알 수 있음!
-    Tile* TilePtr = TileMap->GetTileRef(NextPos);
+    Tile* TilePtr = FarmTileMap->GetTileRef(NextPos);
 
     if (TilePtr->IsMove)
     {

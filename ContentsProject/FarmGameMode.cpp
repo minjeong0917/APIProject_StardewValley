@@ -27,11 +27,13 @@ void AFarmGameMode::BeginPlay()
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetBackImage("Farm.png");
 
+    CropTileMap = GetWorld()->SpawnActor<ATileMap>();
+    CropTileMap->Create({ 69,56 }, { 70, 70 });
+
     FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
     FarmTileMap->Create({ 69,56 }, { 70, 70 });
 
-    CropTileMap = GetWorld()->SpawnActor<ATileMap>();
-    CropTileMap->Create({ 69,56 }, { 70, 70 });
+
 
     Player->SetTileMap(FarmTileMap);
     Player->SetTileMap(CropTileMap);
@@ -167,7 +169,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Tree001:
-            FarmTileMap->SetTileIndex("TreeTile", Point, { 0, -110 }, { 144, 240 }, 0, false);
+            FarmTileMap->SetTileIndex("TreeTile", Point2, { 0, -110 }, { 144, 240 }, 0, false, 0);
             break;
 
         case ETileImage::Crops:

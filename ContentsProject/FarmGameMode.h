@@ -31,6 +31,11 @@ public:
 		return TileImages;
 	}
 
+	ATileMap* GetFarmTilMap()
+	{
+		return FarmTileMap;
+	}
+
 protected:
 
 private:

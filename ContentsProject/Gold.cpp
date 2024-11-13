@@ -59,13 +59,13 @@ void AGold::SetValue(int _Gold)
 
 	FVector2D Pos = FVector2D::ZERO;
 
-	for (int i = Number.size() - 1; i >= 0; i--)
+	for (int i = static_cast<int>(Number.size() - 1); i >= 0; i--)
 	{
 		char Value = Number[i] - '0';
 		Renders[i]->SetSprite(TextSpriteName, Value);
 		Renders[i]->SetComponentScale(TextScale);
 		Renders[i]->SetComponentLocation(Pos);
-		Pos.X -= TextScale.X + 1.6;
+		Pos.X -= static_cast<float>(TextScale.X + 1.6);
 		Renders[i]->SetActive(true);
 	}
 

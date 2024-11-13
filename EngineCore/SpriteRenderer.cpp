@@ -18,6 +18,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 	if (nullptr != CurAnimation)
 	{
+		CurAnimation->IsEnd = false;
 		std::vector<int>& Indexs = CurAnimation->FrameIndex;
 		std::vector<float>& Times = CurAnimation->FrameTime;
 
@@ -37,6 +38,12 @@ void USpriteRenderer::Render(float _DeltaTime)
 			{
 				CurAnimation->Events[CurAnimation->CurIndex]();
 			}
+			// 애니메이션 앤드
+			if (CurAnimation->CurIndex >= Indexs.size())
+			{
+				CurAnimation->IsEnd = true;
+			}
+
 
 			if (CurAnimation->CurIndex >= Indexs.size())
 			{
@@ -51,6 +58,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 				}
 				else
 				{
+					CurAnimation->IsEnd = true;
 					--CurAnimation->CurIndex;
 				}
 			}
