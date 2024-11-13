@@ -4,7 +4,7 @@
 #include "ContentsEnum.h"
 #include "Time.h"
 #include <vector>
-
+#include "Item.h"
 // 농장 게임 모드
 class AFarmGameMode : public AGameMode
 {
@@ -44,7 +44,7 @@ private:
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
 	// ATileMap* TreeTileMap = nullptr;
-
+	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
 

@@ -14,6 +14,7 @@
 #include "Player.h"
 
 
+
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -56,6 +57,8 @@ void AFarmGameMode::BeginPlay()
     FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint1, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint2, { 0, -110 }, { 144, 240 }, 0, false, 0);
+
+
 
 }
 
@@ -237,8 +240,15 @@ void AFarmGameMode::TileDestroy()
                 Player->TreeTile = nullptr;
                 Player->PreviousTreeTile = nullptr;
             }
+
+            AItem* TreeItem = GetWorld()->SpawnActor<AItem>();
+            TreeItem->SetSprite("Items.png", 941, 3.0f);
+            TreeItem->SetActorLocation(PlayerLocation);
+
+
         }
     }
+
 }
 
 

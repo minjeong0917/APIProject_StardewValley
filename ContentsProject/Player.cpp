@@ -14,6 +14,7 @@
 #include "Clock.h"
 #include "Gold.h"
 #include "Text.h"
+#include "Item.h"
 
 #include"FarmGameMode.h"
 
@@ -508,7 +509,6 @@ void APlayer::UIImageRender()
     // InventoryBar
     InventoryBar = GetWorld()->SpawnActor<AInventoryBar>();
     InventoryBar->SetActorLocation({ Size.Half().iX(), Size.iY() - 80 });
-
 
 
 
