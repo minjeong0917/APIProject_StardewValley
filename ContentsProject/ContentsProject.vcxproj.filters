@@ -31,6 +31,9 @@
     <Filter Include="ContentsObject\UI">
       <UniqueIdentifier>{e5a8f500-6f2a-4ec2-a840-d305ae62473c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContentsObject\UI\Inventory">
+      <UniqueIdentifier>{1af7cbf5-7eed-41ca-80f6-77e9747832b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -84,6 +87,9 @@
     <ClCompile Include="Text.cpp">
       <Filter>ContentsObject\UI</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryBar.cpp">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -136,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>ContentsObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryBar.h">
+      <Filter>ContentsObject\UI\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,8 @@
 #include "Clock.h"
 #include "Gold.h"
 #include "Text.h"
+#include "InventoryBar.h"
+
 
 
 
@@ -31,7 +33,7 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
-        SpriteRenderer->SetComponentScale({ 215, 430 });
+        SpriteRenderer->SetComponentScale({ 220, 440 });
         PlayerAnimation();
         SpriteRenderer->ChangeAnimation("Idle_front");
 
@@ -49,7 +51,12 @@ void APlayer::BeginPlay()
 {
     Super::BeginPlay();
     FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
-    FarmTileMap = FarmGameMode->GetFarmTilMap();
+
+    if (nullptr != FarmGameMode)
+    {
+        FarmTileMap = FarmGameMode->GetFarmTilMap();
+
+    }
 
     // 카메라 피벗 위치 설정
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
@@ -77,6 +84,9 @@ void APlayer::Tick(float _DeltaTime)
     {
         TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
         TileDestroy();
+
+        std::string Name = TileLocationName();
+        TileAlphaCheck(Name);
     }
 
     CameraCheck();
@@ -87,8 +97,7 @@ void APlayer::Tick(float _DeltaTime)
     int Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
 
-    std::string Name = TileLocationName();
-    TileAlphaCheck(Name);
+
 
 
 }
@@ -97,10 +106,10 @@ std::string APlayer::TileLocationName()
     FVector2D PlayerLocation = GetActorLocation();
     std::string TileName;
 
-    int searchRangeY = 120;
+    int searchRangeY = 150;
     for (int offsetY = 0; offsetY <= searchRangeY; ++offsetY)
     {
-        FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y +20+ offsetY };
+        FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y + 30+ offsetY };
         TileName = FarmGameMode->GetTileSpriteName(TileLocation);
 
         if (TileName == "TREETILE")
@@ -233,14 +242,7 @@ FVector2D APlayer::PlayerMoveDir()
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            if (Farm->GetCurTileImage() == ETileImage::Crops)
-            {
-                SpriteRenderer->ChangeAnimation("Item_font");
-            }
-            else
-            {
-                SpriteRenderer->ChangeAnimation("Run_Front");
-            }
+            SpriteRenderer->ChangeAnimation("Run_Front");
             IsPlayerMove = true;
             Vector = FVector2D::DOWN;
 
@@ -256,14 +258,8 @@ FVector2D APlayer::PlayerMoveDir()
         // 정지
         if (true == UEngineInput::GetInst().IsUp('D'))
         {
-            if (Farm->GetCurTileImage() == ETileImage::Crops)
-            {
-                //SpriteRenderer->ChangeAnimation("Item_Right");
-            }
-            else
-            {
-                SpriteRenderer->ChangeAnimation("Idle_Right");
-            }
+            SpriteRenderer->ChangeAnimation("Idle_Right");
+            
             PlayerDir = EPlayerDir::Right;
             IsPlayerMove = false;
 
@@ -277,12 +273,8 @@ FVector2D APlayer::PlayerMoveDir()
         }
         else if (true == UEngineInput::GetInst().IsUp('S'))
         {
-            if (Farm->GetCurTileImage() == ETileImage::Crops)
-            {
-                SpriteRenderer->ChangeAnimation("Item_Idle_front");
-            }
-            else
-                SpriteRenderer->ChangeAnimation("Idle_front");
+
+            SpriteRenderer->ChangeAnimation("Idle_front");
             IsPlayerMove = false;
             PlayerDir = EPlayerDir::Down;
 
@@ -531,4 +523,7 @@ void APlayer::UIImageRender()
     HourTime->SetActorLocation({ Size.iX() - 145 , 138 });
     HourTime->SetTextSpriteName("Time.png");
 
+    // InventoryBar
+    AInventoryBar* InventoryBar = GetWorld()->SpawnActor<AInventoryBar>();
+    InventoryBar->SetActorLocation({ Size.Half().iX(), Size.iY() - 80 });
 }

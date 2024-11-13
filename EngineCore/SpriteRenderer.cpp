@@ -34,9 +34,10 @@ void USpriteRenderer::Render(float _DeltaTime)
 			CurAnimation->CurTime -= CurFrameTime;
 			++CurAnimation->CurIndex;
 
-			if (CurAnimation->Events.contains(CurAnimation->CurIndex))
+
+			if (CurAnimation->Events.contains(CurIndex))
 			{
-				CurAnimation->Events[CurAnimation->CurIndex]();
+				CurAnimation->Events[CurIndex]();
 			}
 			// 애니메이션 앤드
 			if (CurAnimation->CurIndex >= Indexs.size())
@@ -51,10 +52,11 @@ void USpriteRenderer::Render(float _DeltaTime)
 				{
 					CurAnimation->CurIndex = 0;
 
-					if (CurAnimation->Events.contains(CurAnimation->CurIndex))
+					if (CurAnimation->Events.contains(CurIndex))
 					{
-						CurAnimation->Events[CurAnimation->CurIndex]();
+						CurAnimation->Events[CurIndex]();
 					}
+
 				}
 				else
 				{

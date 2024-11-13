@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="InventoryBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Cursor.h">
       <SubType>
       </SubType>
@@ -212,6 +216,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InventoryBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <SubType>
       </SubType>

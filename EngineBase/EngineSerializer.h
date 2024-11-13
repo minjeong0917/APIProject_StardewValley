@@ -46,7 +46,10 @@ public:
 
 		int Size = static_cast<int>(_Data.size());
 		operator<<(Size);
-		Write(&_Data[0], static_cast<int>(_Data.size()));
+		if (0 != Size)
+		{
+			Write(&_Data[0], static_cast<int>(_Data.size()));
+		}
 	}
 
 	void operator<<(class ISerializObject& _Data);

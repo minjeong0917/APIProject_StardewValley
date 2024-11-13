@@ -26,14 +26,15 @@ public:
 
 	std::string GetTileSpriteName(FVector2D Location);
 
-	ETileImage GetCurTileImage()
-	{
-		return TileImages;
-	}
+
 
 	ATileMap* GetFarmTilMap()
 	{
-		return FarmTileMap;
+		if (nullptr != FarmTileMap)
+		{
+			return FarmTileMap;
+		}
+
 	}
 
 protected:
