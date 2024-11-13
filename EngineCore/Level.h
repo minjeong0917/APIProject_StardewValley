@@ -96,7 +96,7 @@ protected:
 private:
 	void ScreenClear();
 	void DoubleBuffering();
-
+	void BeginPlayCheck();
 	// GameMode및 주인공 생성 및 세팅 후 AllAcotrs에 추가
 	// GameModeType : 게임레벨 , MainPawnType : 주인공
 	template<typename GameModeType, typename MainPawnType>

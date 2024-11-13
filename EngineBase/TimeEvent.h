@@ -7,6 +7,7 @@ public:
 	float Time = 0.0f;
 	float MaxTime = 0.0f;
 	std::function<void()> Event;
+	bool IsUpdate = false;
 	bool Loop = false;
 };
 
@@ -24,10 +25,11 @@ public:
 	UTimeEvent& operator=(const UTimeEvent& _Other) = delete;
 	UTimeEvent& operator=(UTimeEvent&& _Other) noexcept = delete;
 
-	void PushEvent(float _Time, std::function<void()> _Function, bool _Loop = false)
+	void PushEvent(float _Time, std::function<void()> _Function, bool _IsUpdate = false, bool _Loop = false)
 	{
-		Events.push_front({ _Time, _Time, _Function, _Loop });
+		Events.push_front({ _Time, _Time, _Function, _IsUpdate, _Loop });
 	}
+
 
 	void Update(float _DeltaTime)
 	{
@@ -38,6 +40,11 @@ public:
 		{
 			TimeEventFunction& TimeEvent = *StartIter;
 			TimeEvent.Time -= _DeltaTime;
+
+			if (true == TimeEvent.IsUpdate && 0.0f < TimeEvent.Time)
+			{
+				TimeEvent.Event();
+			}
 
 			if (0.0f >= TimeEvent.Time)
 			{

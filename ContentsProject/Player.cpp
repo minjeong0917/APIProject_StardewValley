@@ -32,7 +32,6 @@ APlayer::APlayer()
         SpriteRenderer->SetSprite("Farmer_Right.png");
         SpriteRenderer->SetSprite("Farmer_Left.png");
         SpriteRenderer->SetComponentScale({ 215, 430 });
-
         PlayerAnimation();
         SpriteRenderer->ChangeAnimation("Idle_front");
 

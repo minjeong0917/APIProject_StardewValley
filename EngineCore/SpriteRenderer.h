@@ -2,6 +2,7 @@
 #include "SceneComponent.h"
 #include "EngineSprite.h"
 #include <EngineBase/EngineDelegate.h>
+#include <EngineBase/EngineMath.h>
 #include <map>
 
 
@@ -102,6 +103,16 @@ public:
 	{
 		return CurAnimation->IsEnd;
 	}
+	void SetAlphaChar(unsigned char _Value)
+	{
+		Alpha = _Value;
+	}
+
+	void SetAlphafloat(float _Value)
+	{
+		_Value = UEngineMath::Clamp(_Value, 0.0f, 1.0f);
+		Alpha = static_cast<unsigned char>(_Value * 255.0f);
+	}
 
 
 protected:
@@ -112,7 +123,7 @@ private:
 	bool IsCameraEffect = true;
 	float CameraEffectScale = 1.0f;
 	FVector2D Pivot = FVector2D::ZERO;
-
+	unsigned char Alpha = 255;
 	class UEngineSprite* Sprite = nullptr;
 
 	std::map<std::string, FrameAnimation> FrameAnimations;
