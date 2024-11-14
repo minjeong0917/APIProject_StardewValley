@@ -17,7 +17,7 @@ public:
 
 	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
 	void SetForce();
-
+	void GainItem(float _DeltaTime);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -31,12 +31,12 @@ private:
 	float CurSpeed = 0.0f;
 
 	float SlowSpeed = 200.0f;
-
+	float Time = 0;
 	FVector2D UpForceDir;
 	float UpForce = 300.0f;
 	float CurUpForce = 300.0f;
 	float UpSlowSpeed = 1000.0f;
-	
+	bool IsIn = false;
 	int JumpCount = 0;
 };
 

@@ -4,6 +4,7 @@
 #include "ContentsEnum.h"
 #include <EngineBase/EngineRandom.h>
 #include "Item.h"
+#include "Player.h"
 
 AItem::AItem()
 {
@@ -23,8 +24,13 @@ void AItem::BeginPlay()
 void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	GainItem(_DeltaTime);
+	if (false == IsIn)
+	{
+		Force(_DeltaTime);
 
-	Force(_DeltaTime);
+	}
+
 }
 
 
@@ -34,6 +40,29 @@ void AItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
 	ItemSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
 
 }
+
+void AItem::GainItem(float _DeltaTime)
+{
+	Time += _DeltaTime;
+	if (Time >= 0.5f)
+	{
+		FVector2D ItemLocation = GetActorLocation();
+		APlayer* Player = GetWorld()->GetPawn<APlayer>();
+		FVector2D PlayerLocation = Player->GetActorLocation();
+		FVector2D ItemToPlayerDir = PlayerLocation - ItemLocation;
+
+		float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
+		float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
+		if (ItemToPlayerDistanceX < 10 || ItemToPlayerDistanceY < 10)
+		{
+			IsIn = true;
+			ItemToPlayerDir.Normalize();
+			AddActorLocation(ItemToPlayerDir * _DeltaTime * 500);
+		}
+
+	}
+}
+
 
 void AItem::SetForce()
 {

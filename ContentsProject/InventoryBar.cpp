@@ -84,11 +84,9 @@ void AInventoryBar::BeginPlay()
 	Slot_12->SetActorLocation({ Size.Half().iX() + 305, Size.iY() - 81 });
 	AllSlots.push_back(Slot_12);
 
-
 }
 
 void AInventoryBar::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
 }
