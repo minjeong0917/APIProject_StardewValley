@@ -25,6 +25,7 @@ void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	GainItem(_DeltaTime);
+
 	if (false == IsIn)
 	{
 		Force(_DeltaTime);
@@ -48,18 +49,38 @@ void AItem::GainItem(float _DeltaTime)
 	{
 		FVector2D ItemLocation = GetActorLocation();
 		APlayer* Player = GetWorld()->GetPawn<APlayer>();
-		FVector2D PlayerLocation = Player->GetActorLocation();
+
+		float PlayerLocationX = Player->GetActorLocation().X;
+		float PlayerLocationY = Player->GetActorLocation().Y - 20;
+
+		FVector2D PlayerLocation = { PlayerLocationX , PlayerLocationY };
 		FVector2D ItemToPlayerDir = PlayerLocation - ItemLocation;
 
 		float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
 		float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
-		if (ItemToPlayerDistanceX < 10 || ItemToPlayerDistanceY < 10)
+		if (ItemToPlayerDistanceX < 30 || ItemToPlayerDistanceY < 30)
 		{
 			IsIn = true;
 			ItemToPlayerDir.Normalize();
 			AddActorLocation(ItemToPlayerDir * _DeltaTime * 500);
+			DestroyItem();
 		}
 
+	}
+}
+void AItem::DestroyItem()
+{
+	APlayer* Player = GetWorld()->GetPawn<APlayer>();
+	FVector2D PlayerLocation = Player->GetActorLocation();
+	FVector2D ItemLocation = GetActorLocation();
+	FVector2D ItemToPlayerDir = PlayerLocation - ItemLocation;
+
+	float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
+	float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
+
+	if (ItemToPlayerDistanceX < 1.0f || ItemToPlayerDistanceY < 1.0f)
+	{
+		this->Destroy();
 	}
 }
 

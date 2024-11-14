@@ -20,6 +20,4 @@ ASlot::~ASlot()
 void ASlot::SetSprite(std::string _SprtieName, int _SpriteIndex)
 {
 	SlotSpriteRenderer->SetSprite(_SprtieName, _SpriteIndex);
-
-
 }

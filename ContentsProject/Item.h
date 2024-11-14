@@ -24,6 +24,7 @@ protected:
 
 private:
 	void Force(float _DeltaTime);
+	void DestroyItem();
 
 	class USpriteRenderer* ItemSpriteRenderer = nullptr;
 	FVector2D ForceDir;

@@ -1,6 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
+#include <vector>
+//#include "Item.h"
+
 // Ό³Έν :
 class ASlot : public AActor
 {
@@ -20,6 +23,6 @@ protected:
 
 private:
 	class USpriteRenderer* SlotSpriteRenderer = nullptr;
-
+	std::vector<std::string> ItemName;
 };
 
