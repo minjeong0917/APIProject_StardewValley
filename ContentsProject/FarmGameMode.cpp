@@ -100,20 +100,15 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     float PlayerLocationX = Player->GetActorLocation().X;
     float PlayerLocationY = Player->GetActorLocation().Y - 10;
+
     FVector2D PlayerLocation = { PlayerLocationX,PlayerLocationY };
-
-
-
-
-
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+
     float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
     float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
 
     FVector2D Direction = { MousePosX - PlayerLocation.X, MousePosY - PlayerLocation.Y };
-
     float DirectionAbsX = std::abs(Direction.X);
     float DirectionAbsY = std::abs(Direction.Y);
 
@@ -127,8 +122,9 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     float TilePosX = MousePos.X - FarmTileMap->GetActorLocation().X;
     float TilePosY = MousePos.Y - FarmTileMap->GetActorLocation().Y + 53;
+
     FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
-    FIntPoint Point2 = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+    FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
 
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
@@ -185,13 +181,13 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
         case ETileImage::Tree001:
 
-            FarmTileMap->SetTileIndex("TreeTile", Point2, { 0, -110 }, { 144, 240 }, 0, false, 0);
+            FarmTileMap->SetTileIndex("TreeTile", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
             break;
 
         case ETileImage::Crops:
             if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == IsMouseInPlayerPos)
             {
-                CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 0, true, 5);
+                CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 5);
             }
 
             break;
@@ -204,7 +200,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     if (true == UEngineInput::GetInst().IsDown(VK_HOME))
     {
         FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
-        CropTileMap->SetTileIndex("parsnip.png", Point2, { -3, -20 }, { 70, 70 }, 5, true, 5);
+        CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 5, true, 5);
 
     }
     
@@ -222,35 +218,39 @@ void AFarmGameMode::TileDestroy()
     float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
     float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
 
-    FIntPoint Point2 = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+    FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
 
     if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
     {
         if (GetTileSpriteName({ MousePosX, MousePosY }) == "TREETILE")
         {
-            Tile* Tile = FarmTileMap->GetTileRef(Point2);
+            Tile* Tile = FarmTileMap->GetTileRef(MousePoint);
 
             if (nullptr != Tile->SpriteRenderer)
             {
                 Tile->SpriteRenderer->Destroy();
                 Tile->SpriteRenderer = nullptr;
-                FarmTileMap->TileDestroy(Point2);
+                FarmTileMap->TileDestroy(MousePoint);
 
                 // 플레이어의 TreeTile 포인터 초기화
                 Player->TreeTile = nullptr;
                 Player->PreviousTreeTile = nullptr;
             }
 
-            AItem* TreeItem = GetWorld()->SpawnActor<AItem>();
-            TreeItem->SetSprite("Items.png", 941, 3.0f);
-            TreeItem->SetActorLocation(PlayerLocation);
-
+            // Tree Item Drop
+            ItemDrop("Items.png", PlayerLocation, 941, 3.0f);
 
         }
     }
-
 }
 
+void AFarmGameMode::ItemDrop( std::string _ItemName, FVector2D _ItemLocatioln, int _ItemIndex, float _ItemScale)
+{
+    AItem* TreeItem = GetWorld()->SpawnActor<AItem>();
+    TreeItem->SetSprite(_ItemName, _ItemIndex, _ItemScale);
+    TreeItem->SetActorLocation(_ItemLocatioln);
+
+}
 
 void AFarmGameMode::TileChange()
 {

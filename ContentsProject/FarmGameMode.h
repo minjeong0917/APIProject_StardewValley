@@ -41,9 +41,11 @@ public:
 protected:
 
 private:
+	void ItemDrop(std::string _ItemName, FVector2D _ItemLocatioln, int _ItemIndex, float _ItemScale);
+
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
-	// ATileMap* TreeTileMap = nullptr;
+
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
