@@ -18,10 +18,7 @@
 
 #include"FarmGameMode.h"
 
-void APlayer::RunSoundPlay()
-{
 
-}
 
 APlayer::APlayer()
 {

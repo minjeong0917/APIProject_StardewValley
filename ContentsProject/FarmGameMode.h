@@ -41,7 +41,7 @@ public:
 protected:
 
 private:
-	void ItemDrop(std::string _ItemName, FVector2D _ItemLocatioln, int _ItemIndex, float _ItemScale);
+	void ItemDrop(std::string _ItemName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
 
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;

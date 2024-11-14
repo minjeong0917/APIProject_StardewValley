@@ -114,7 +114,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
     bool IsMouseInPlayerPos = false;
 
-    if (DirectionAbsX <= 85 && DirectionAbsY <= 85 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
     {
         IsMouseInPlayerPos = true;
     }
@@ -132,6 +132,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         switch (TileImages)
         {
         case ETileImage::Dirt:
+            // 이거 플레이어로 옮기자
             if (IsMouseInPlayerPos)
             {
                 if (DirectionAbsX > DirectionAbsY) {
@@ -213,43 +214,64 @@ void AFarmGameMode::TileDestroy()
     float PlayerLocationY = Player->GetActorLocation().Y - 10;
 
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-    FVector2D PlayerLocation = { PlayerLocationX, PlayerLocationY };
+    FVector2D TileLocation = { PlayerLocationX, PlayerLocationY };
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-    float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
-    float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
-
+    float MousePosX = MousePos.X + Player->GetActorLocation().X - Size.Half().X;
+    float MousePosY = MousePos.Y + Player->GetActorLocation().Y - Size.Half().Y;
     FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+
+    switch (Player->PlayerDir)
+    {
+    case EPlayerDir::Left:
+        TileLocation += {-FarmTileMap->GetTileSize().Half().X, 0.0};
+        break;
+    case EPlayerDir::Right:
+        TileLocation += {FarmTileMap->GetTileSize().Half().X, 0.0};
+        break;
+    case EPlayerDir::Up:
+        TileLocation += {0.0, -FarmTileMap->GetTileSize().Half().Y};
+        break;
+    case EPlayerDir::Down:
+        TileLocation += {0.0, FarmTileMap->GetTileSize().Half().Y};
+        break;
+    default:
+        break;
+    }
+    FIntPoint CurTileLocation = FarmTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
 
     if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
     {
-        if (GetTileSpriteName({ MousePosX, MousePosY }) == "TREETILE")
+        if (GetTileSpriteName({ MousePosX, MousePosY }) == "TREETILE" && GetTileSpriteName(TileLocation) == "TREETILE")
         {
-            Tile* Tile = FarmTileMap->GetTileRef(MousePoint);
-
-            if (nullptr != Tile->SpriteRenderer)
+            if (MousePoint == CurTileLocation)
             {
-                Tile->SpriteRenderer->Destroy();
-                Tile->SpriteRenderer = nullptr;
-                FarmTileMap->TileDestroy(MousePoint);
+                Tile* Tile = FarmTileMap->GetTileRef(MousePoint);
 
-                // 플레이어의 TreeTile 포인터 초기화
-                Player->TreeTile = nullptr;
-                Player->PreviousTreeTile = nullptr;
+                if (nullptr != Tile->SpriteRenderer)
+                {
+                    Tile->SpriteRenderer->Destroy();
+                    Tile->SpriteRenderer = nullptr;
+                    FarmTileMap->TileDestroy(MousePoint);
+
+                    // 플레이어의 TreeTile 포인터 초기화
+                    Player->TreeTile = nullptr;
+                    Player->PreviousTreeTile = nullptr;
+                }
+
+                // Tree Item Drop
+                ItemDrop("Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
             }
-
-            // Tree Item Drop
-            ItemDrop("Items.png", PlayerLocation, 941, 3.0f);
 
         }
     }
 }
 
-void AFarmGameMode::ItemDrop( std::string _ItemName, FVector2D _ItemLocatioln, int _ItemIndex, float _ItemScale)
+void AFarmGameMode::ItemDrop( std::string _ItemName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
 {
-    AItem* TreeItem = GetWorld()->SpawnActor<AItem>();
-    TreeItem->SetSprite(_ItemName, _ItemIndex, _ItemScale);
-    TreeItem->SetActorLocation(_ItemLocatioln);
-
+    AItem* Item = GetWorld()->SpawnActor<AItem>();
+    Item->SetSprite(_ItemName, _ItemIndex, _ItemScale);
+    Item->SetActorLocation(_ItemLocatioln);
+    Item->SetForce(_ItemLocatioln, _PlayerPos);
 }
 
 void AFarmGameMode::TileChange()

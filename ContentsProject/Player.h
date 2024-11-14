@@ -26,7 +26,6 @@ public:
 	void Tick(float _DeltaTime) override;
 	void PlayerAnimation();
 	void PlayerAnimationPlay();
-	void RunSoundPlay();
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
@@ -66,7 +65,6 @@ protected:
 private:
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
-
 
 	float Speed = 220.0f;
 	int MySpriteIndex = 0;
