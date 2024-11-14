@@ -3,6 +3,7 @@
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/TimeEvent.h>
 
+
 #include "EngineSprite.h"
 
 // Ό³Έν :
@@ -23,12 +24,9 @@ public:
 	AActor& operator=(const AActor& _Other) = delete;
 	AActor& operator=(AActor&& _Other) noexcept = delete;
 
-
 	virtual void BeginPlay() {}
 
-
 	virtual void Tick(float _DeltaTime);
-
 
 	virtual void LevelChangeStart() {}
 	virtual void LevelChangeEnd() {}
@@ -65,9 +63,12 @@ public:
 		ComponentType* NewComponent = new ComponentType();
 
 		UActorComponent* ComponentPtr = dynamic_cast<UActorComponent*>(NewComponent);
+
 		ComponentPtr->ParentActor = this;
 
+
 		Components.push_back(NewComponent);
+
 
 		ComponentList.push_back(NewComponent);
 		return NewComponent;
@@ -76,15 +77,20 @@ public:
 
 protected:
 	UTimeEvent TimeEventer;
+
 private:
 	static void ComponentBeginPlay();
 
 	static bool IsNewActorCreate;
 	static std::list<class UActorComponent*> ComponentList;
+
 	void ReleaseCheck(float _DeltaTime) override;
+	void ReleaseTimeCheck(float _DeltaTime) override;
 
 	class ULevel* World = nullptr;
 	FTransform Transform;
+
+
 	std::list<class UActorComponent*> Components;
 };
 

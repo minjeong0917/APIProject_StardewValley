@@ -11,9 +11,10 @@
 #include <EngineBase/EngineDebug.h>
 
 #include "ImageManager.h"
+#include "EngineCoreDebug.h"
+
 
 #include "ActorComponent.h"
-#include "EngineCoreDebug.h"
 
 std::list<UActorComponent*> AActor::ComponentList;
 
@@ -40,6 +41,7 @@ AActor::AActor()
 
 AActor::~AActor()
 {
+
 	std::list<UActorComponent*>::iterator StartIter = Components.begin();
 	std::list<UActorComponent*>::iterator EndIter = Components.end();
 	for (; StartIter != EndIter; ++StartIter)
@@ -61,12 +63,14 @@ void AActor::Tick(float _DeltaTime)
 	{
 		FVector2D Pos = GetActorLocation();
 		FVector2D CameraPos = GetWorld()->GetCameraPos();
+
 		FTransform Trans;
 		Trans.Location = Pos - CameraPos;
 		Trans.Scale = { 6, 6 };
 
 		UEngineDebug::CoreDebugRender(Trans, UEngineDebug::EDebugPosType::Circle);
 	}
+
 	TimeEventer.Update(_DeltaTime);
 
 	std::list<class UActorComponent*>::iterator StartIter = Components.begin();
@@ -75,6 +79,20 @@ void AActor::Tick(float _DeltaTime)
 	for (; StartIter != EndIter; ++StartIter)
 	{
 		(*StartIter)->ComponentTick(_DeltaTime);
+	}
+
+}
+
+void AActor::ReleaseTimeCheck(float _DeltaTime)
+{
+	UObject::ReleaseTimeCheck(_DeltaTime);
+
+	std::list<UActorComponent*>::iterator StartIter = Components.begin();
+	std::list<UActorComponent*>::iterator EndIter = Components.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		UActorComponent* Component = *StartIter;
+		Component->ReleaseTimeCheck(_DeltaTime);
 	}
 }
 

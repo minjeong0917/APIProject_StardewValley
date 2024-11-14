@@ -1,10 +1,14 @@
 #pragma once
 #include "SceneComponent.h"
+#include <set>
+
 
 // 설명 :
 class U2DCollision : public USceneComponent
 {
 public:
+	friend class ULevel;
+
 	// constrcuter destructer
 	U2DCollision();
 	~U2DCollision();
@@ -30,8 +34,6 @@ public:
 		return CollisionGroup;
 	}
 
-	// 충돌체에게 충돌그룹을 지정안해주는건 의미가 없다.
-	// 중간에 충돌 그룹이 바뀌어야 되면 이야기 부탁.
 	template<typename EnumType>
 	void SetCollisionGroup(EnumType _CollisionGroup)
 	{
@@ -44,31 +46,59 @@ public:
 	}
 
 	template<typename EnumType>
-	bool IsCollision(EnumType _OtherCollisionGroup)
+	AActor* CollisionOnce(EnumType _OtherCollisionGroup, FVector2D _NextPos = FVector2D::ZERO)
 	{
-		return IsCollision(static_cast<int>(_OtherCollisionGroup));
+
+		std::vector<AActor*> Result;
+		Collision(static_cast<int>(_OtherCollisionGroup), Result, _NextPos, 1);
+
+		if (true == Result.empty())
+		{
+			return nullptr;
+		}
+
+		return Result[0];
 	}
 
 	template<typename EnumType>
-	U2DCollision* CollisionOnce(EnumType _OtherCollisionGroup)
+	std::vector<AActor*> CollisionAll(EnumType _OtherCollisionGroup, FVector2D _NextDir)
 	{
-		return CollisionOnce(static_cast<int>(_OtherCollisionGroup));
+
+		std::vector<AActor*> Result;
+		Collision(static_cast<int>(_OtherCollisionGroup), Result, _NextDir, -1);
+
+		return Result;
 	}
 
-	template<typename EnumType>
-	bool Collision(EnumType _OtherCollisionGroup, std::vector<U2DCollision*>* _Result = nullptr)
+	bool Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Result, FVector2D _NextDir, unsigned int  _Limite);
+
+	void SetCollisionType(ECollisionType _CollisionType)
 	{
-		return Collision(static_cast<int>(_OtherCollisionGroup), _Result);
+		CollisionType = _CollisionType;
 	}
 
-	bool IsCollision(int _OtherCollisionGroup);
-	U2DCollision* Collision(int _OtherCollisionGroup);
-	bool Collision(int _OtherCollisionGroup, std::vector<U2DCollision*>* _Result = nullptr);
+	ECollisionType GetCollisionType()
+	{
+		return CollisionType;
+	}
 
+
+	void SetCollisionEnter(std::function<void(AActor*)> _Function);
+	void SetCollisionStay(std::function<void(AActor*)> _Function);
+	void SetCollisionEnd(std::function<void(AActor*)> _Function);
 
 protected:
 
 private:
-	int CollisionGroup = -1;
-};
+	void CollisionEventCheck(class U2DCollision* _Other);
 
+
+	ECollisionType CollisionType = ECollisionType::CirCle;
+	int CollisionGroup = -1;
+
+	std::set<U2DCollision*> CollisionCheckSet;
+
+	std::function<void(AActor*)> Enter;
+	std::function<void(AActor*)> Stay;
+	std::function<void(AActor*)> End;
+};

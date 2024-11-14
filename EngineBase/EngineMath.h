@@ -1,5 +1,6 @@
 #pragma once
 
+
 class UEngineMath
 {
 public:
@@ -31,6 +32,7 @@ public:
 			return value;
 	}
 };
+
 class FVector2D
 {
 public:
@@ -64,7 +66,7 @@ public:
 	}
 
 	// X값 -> int로 변환
-	int iX() const 
+	int iX() const
 	{
 		return static_cast<int>(X);
 	}
@@ -133,9 +135,7 @@ public:
 		return Result;
 	}
 
-
-
-	FVector2D operator+(FVector2D _Other) const
+	FVector2D operator+(const FVector2D& _Other) const
 	{
 		FVector2D Result;
 		Result.X = X + _Other.X;
@@ -143,19 +143,22 @@ public:
 		return Result;
 	}
 
-	FVector2D operator-(FVector2D _Other) const
+	FVector2D& operator-=(const FVector2D& _Other)
+	{
+		X -= _Other.X;
+		Y -= _Other.Y;
+		return *this;
+	}
+
+
+	FVector2D operator-(const FVector2D& _Other) const
 	{
 		FVector2D Result;
 		Result.X = X - _Other.X;
 		Result.Y = Y - _Other.Y;
 		return Result;
 	}
-	FVector2D& operator-=(FVector2D _Other)
-	{
-		X -= _Other.X;
-		Y -= _Other.Y;
-		return *this;
-	}
+
 	FVector2D operator-() const
 	{
 		FVector2D Result;
@@ -163,7 +166,6 @@ public:
 		Result.Y = -Y;
 		return Result;
 	}
-
 
 	FVector2D operator/(int _Value) const
 	{
@@ -181,23 +183,41 @@ public:
 		return Result;
 	}
 
-	bool operator==(FVector2D _Other) const
+	bool operator==(const FVector2D& _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
+
 	bool EqualToInt(FVector2D _Other) const
 	{
-
+		// const FVector* const Ptr;
+		// this = nullptr;
 		return iX() == _Other.iX() && iY() == _Other.iY();
 	}
 
-	FVector2D& operator+=(FVector2D _Other)
+
+	FVector2D& operator+=(const FVector2D& _Other)
 	{
 		X += _Other.X;
 		Y += _Other.Y;
 		return *this;
 	}
+
+	FVector2D& operator*=(const FVector2D& _Other)
+	{
+		X *= _Other.X;
+		Y *= _Other.Y;
+		return *this;
+	}
+
+	FVector2D& operator*=(float _Other)
+	{
+		X *= _Other;
+		Y *= _Other;
+		return *this;
+	}
+
 
 	std::string ToString()
 	{
@@ -212,21 +232,86 @@ public:
 	}
 };
 
+enum class ECollisionType
+{
+	Point,
+	Rect,
+	CirCle, 
+	Max
+
+
+};
+
 
 class FTransform
 {
+private:
+	friend class CollisionFunctionInit;
+
+	static std::function<bool(const FTransform&, const FTransform&)> AllCollisionFunction[static_cast<int>(ECollisionType::Max)][static_cast<int>(ECollisionType::Max)];
+
 public:
+	static bool Collision(ECollisionType _LeftType, const FTransform& _Left, ECollisionType _RightType, const FTransform& _Right);
+
+
+	static bool PointToCirCle(const FTransform& _Left, const FTransform& _Right);
+	static bool PointToRect(const FTransform& _Left, const FTransform& _Right);
+
+	static bool RectToRect(const FTransform& _Left, const FTransform& _Right);
+	static bool RectToCirCle(const FTransform& _Left, const FTransform& _Right);
+
+	static bool CirCleToCirCle(const FTransform& _Left, const FTransform& _Right);
+	static bool CirCleToRect(const FTransform& _Left, const FTransform& _Right);
+
+
 	FVector2D Scale;
 	FVector2D Location;
+
 
 	FVector2D CenterLeftTop() const
 	{
 		return Location - Scale.Half();
 	}
 
+	FVector2D CenterLeftBottom() const
+	{
+		FVector2D Location;
+		Location.X = Location.X - Scale.hX();
+		Location.Y = Location.Y + Scale.hY();
+		return Location;
+	}
+
+	float CenterLeft() const
+	{
+		return Location.X - Scale.hX();
+	}
+
+	float CenterTop() const
+	{
+		return Location.Y - Scale.hY();
+	}
+
+	FVector2D CenterRightTop() const
+	{
+		FVector2D Location;
+		Location.X = Location.X + Scale.hX();
+		Location.Y = Location.Y - Scale.hY();
+		return Location;
+	}
+
 	FVector2D CenterRightBottom() const
 	{
 		return Location + Scale.Half();
+	}
+
+	float CenterRight() const
+	{
+		return Location.X + Scale.hX();
+	}
+
+	float CenterBottom() const
+	{
+		return Location.Y + Scale.hY();
 	}
 };
 
@@ -253,7 +338,7 @@ public:
 
 	FIntPoint operator+(FIntPoint _Other) const
 	{
-		FIntPoint Result; 
+		FIntPoint Result;
 		Result.X = X + _Other.X;
 		Result.Y = Y + _Other.Y;
 		return Result;
@@ -282,8 +367,6 @@ public:
 
 
 };
-
-
 
 
 class UColor

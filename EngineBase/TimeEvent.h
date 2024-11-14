@@ -30,7 +30,6 @@ public:
 		Events.push_front({ _Time, _Time, _Function, _IsUpdate, _Loop });
 	}
 
-
 	void Update(float _DeltaTime)
 	{
 		std::list<TimeEventFunction>::iterator StartIter = Events.begin();
