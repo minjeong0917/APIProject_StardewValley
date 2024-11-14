@@ -16,13 +16,15 @@ public:
 	AItem& operator=(AItem&& _Other) noexcept = delete;
 
 	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
-	void SetForce(FVector2D _TileLocation, FVector2D _PlayerLocation);
+	void SetForce();
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
+	void Force(float _DeltaTime);
+
 	class USpriteRenderer* ItemSpriteRenderer = nullptr;
 	FVector2D ForceDir;
 	float Speed = 0.0f;

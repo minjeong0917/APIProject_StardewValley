@@ -9,7 +9,7 @@ AItem::AItem()
 {
 
 	ItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	ItemSpriteRenderer->SetOrder(ERenderOrder::PLAYER);
+	ItemSpriteRenderer->SetOrder(ERenderOrder::UI);
 }
 
 AItem::~AItem()
@@ -24,7 +24,33 @@ void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	ItemSpriteRenderer->SetOrder(GetActorLocation().Y);
+	Force(_DeltaTime);
+}
+
+
+void AItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
+{
+	ItemSpriteRenderer->SetSprite(_SprtieName, _SpriteIndex);
+	ItemSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
+
+}
+
+void AItem::SetForce()
+{
+	UEngineRandom Random;
+	FVector2D RandomDir = { Random.RandomInt(-1, 1),  Random.RandomInt(-1, 1) };
+	ForceDir = /*(_TileLocation - _PlayerLocation) +*/ RandomDir;
+	ForceDir.Normalize();
+
+	Speed = Random.Randomfloat(10.0f, 80.0f);
+	CurSpeed = Speed;
+	CurUpForce = UpForce;
+
+	UpForceDir = FVector2D::UP;
+}
+
+void AItem::Force(float _DeltaTime)
+{
 	CurSpeed -= _DeltaTime * SlowSpeed;
 
 	if (0.0f >= Speed)
@@ -71,26 +97,4 @@ void AItem::Tick(float _DeltaTime)
 	{
 		++JumpCount;
 	}
-}
-
-
-void AItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
-{
-	ItemSpriteRenderer->SetSprite(_SprtieName, _SpriteIndex);
-	ItemSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
-
-}
-
-void AItem::SetForce(FVector2D _TileLocation, FVector2D _PlayerLocation)
-{
-	UEngineRandom Random;
-
-	ForceDir = _TileLocation - _PlayerLocation;
-	ForceDir.Normalize();
-
-	Speed = Random.Randomfloat(10.0f, 80.0f);
-	CurSpeed = Speed;
-	CurUpForce = UpForce;
-
-	UpForceDir = FVector2D::UP;
 }

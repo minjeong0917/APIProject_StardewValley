@@ -271,7 +271,7 @@ void AFarmGameMode::ItemDrop( std::string _ItemName, FVector2D _ItemLocatioln, F
     AItem* Item = GetWorld()->SpawnActor<AItem>();
     Item->SetSprite(_ItemName, _ItemIndex, _ItemScale);
     Item->SetActorLocation(_ItemLocatioln);
-    Item->SetForce(_ItemLocatioln, _PlayerPos);
+    Item->SetForce();
 }
 
 void AFarmGameMode::TileChange()
