@@ -13,8 +13,6 @@
 #include "FarmMap.h"
 #include "Player.h"
 
-
-
 AFarmGameMode::AFarmGameMode()
 {
 }
@@ -34,15 +32,12 @@ void AFarmGameMode::BeginPlay()
     FarmTileMap = GetWorld()->SpawnActor<ATileMap>();
     FarmTileMap->Create({ 69,56 }, { 70, 70 });
 
-
-
     Player->SetTileMap(FarmTileMap);
     Player->SetTileMap(CropTileMap);
 
     AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 
     Player->SetActorLocation({ 3700, 1050 });
-
 
     float PlayerLocationX = Player->GetActorLocation().X;
     float PlayerLocationY = Player->GetActorLocation().Y - 10;
@@ -57,8 +52,6 @@ void AFarmGameMode::BeginPlay()
     FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint1, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint2, { 0, -110 }, { 144, 240 }, 0, false, 0);
-
-
 
 }
 
@@ -105,19 +98,10 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 
-    float MousePosX = MousePos.X + PlayerLocation.X - Size.Half().X;
-    float MousePosY = MousePos.Y + PlayerLocation.Y - Size.Half().Y;
+    FVector2D CameraPos = GetWorld()->GetCameraPos();
+    float MousePosX = MousePos.X + CameraPos.X;
+    float MousePosY = MousePos.Y + CameraPos.Y;
 
-    FVector2D Direction = { MousePosX - PlayerLocation.X, MousePosY - PlayerLocation.Y };
-    float DirectionAbsX = std::abs(Direction.X);
-    float DirectionAbsY = std::abs(Direction.Y);
-
-    bool IsMouseInPlayerPos = false;
-
-    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
-    {
-        IsMouseInPlayerPos = true;
-    }
 
 
     float TilePosX = MousePos.X - FarmTileMap->GetActorLocation().X;
@@ -126,32 +110,13 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     FIntPoint Point = FarmTileMap->LocationToIndex({ TilePosX, TilePosY });
     FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
 
-
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
     {
         switch (TileImages)
         {
         case ETileImage::Dirt:
-            // 이거 플레이어로 옮기자
-            if (IsMouseInPlayerPos)
+            if (Player->IsMouseInPlayerPos == true)
             {
-                if (DirectionAbsX > DirectionAbsY) {
-                    if (Direction.X > 0) {
-                        Player->PlayerDir = EPlayerDir::Right;
-                    }
-                    else {
-                        Player->PlayerDir = EPlayerDir::Left;
-                    }
-                }
-                else {
-                    if (Direction.Y > 0) {
-                        Player->PlayerDir = EPlayerDir::Down;
-                    }
-                    else {
-                        Player->PlayerDir = EPlayerDir::Up;
-                    }
-                }
-
                 FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
             }
             else
@@ -163,7 +128,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
                     break;
                 case EPlayerDir::Right:
                     PlayerLocation += {FarmTileMap->GetTileSize().X, 0.0};
-
                     break;
                 case EPlayerDir::Up:
                     PlayerLocation += {0.0, -FarmTileMap->GetTileSize().Y};
@@ -186,7 +150,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Crops:
-            if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == IsMouseInPlayerPos)
+            if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos)
             {
                 CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 5);
             }
@@ -215,10 +179,14 @@ void AFarmGameMode::TileDestroy()
 
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     FVector2D TileLocation = { PlayerLocationX, PlayerLocationY };
+
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-    float MousePosX = MousePos.X + Player->GetActorLocation().X - Size.Half().X;
-    float MousePosY = MousePos.Y + Player->GetActorLocation().Y - Size.Half().Y;
-    FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+    FVector2D CameraPos = GetWorld()->GetCameraPos();
+    float MousePosX = MousePos.X + CameraPos.X;
+    float MousePosY = MousePos.Y + CameraPos.Y;
+
+    FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY});
+
 
     switch (Player->PlayerDir)
     {
@@ -237,32 +205,31 @@ void AFarmGameMode::TileDestroy()
     default:
         break;
     }
+
     FIntPoint CurTileLocation = FarmTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
 
     if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
     {
-        if (GetTileSpriteName({ MousePosX, MousePosY }) == "TREETILE" && GetTileSpriteName(TileLocation) == "TREETILE")
+        if ( GetTileSpriteName(TileLocation) == "TREETILE")
         {
-            if (MousePoint == CurTileLocation)
+
+            Tile* Tile = FarmTileMap->GetTileRef(CurTileLocation);
+
+            if (nullptr != Tile->SpriteRenderer)
             {
-                Tile* Tile = FarmTileMap->GetTileRef(MousePoint);
+                Tile->SpriteRenderer->Destroy();
+                Tile->SpriteRenderer = nullptr;
+                FarmTileMap->TileDestroy(CurTileLocation);
 
-                if (nullptr != Tile->SpriteRenderer)
-                {
-                    Tile->SpriteRenderer->Destroy();
-                    Tile->SpriteRenderer = nullptr;
-                    FarmTileMap->TileDestroy(MousePoint);
-
-                    // 플레이어의 TreeTile 포인터 초기화
-                    Player->TreeTile = nullptr;
-                    Player->PreviousTreeTile = nullptr;
-                }
-
-                // Tree Item Drop
-                ItemDrop("Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
+                // 플레이어의 TreeTile 포인터 초기화
+                Player->TreeTile = nullptr;
+                Player->PreviousTreeTile = nullptr;
             }
 
+            // Tree Item Drop
+            ItemDrop("Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
         }
+
     }
 }
 

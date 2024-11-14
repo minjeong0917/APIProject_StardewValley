@@ -58,6 +58,7 @@ public:
 
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	bool IsPlayerMove = false;
+	bool IsMouseInPlayerPos = false;
 	Tile* TreeTile = nullptr;
 	Tile* PreviousTreeTile = nullptr;
 protected:
@@ -65,7 +66,6 @@ protected:
 private:
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
-
 	float Speed = 220.0f;
 	int MySpriteIndex = 0;
 	class USpriteRenderer* SpriteRenderer;

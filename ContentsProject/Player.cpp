@@ -179,8 +179,15 @@ void APlayer::LevelChangeCheck()
 
 void APlayer::DebugCheck(float _DeltaTime)
 {
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    FVector2D PlayerLocation = GetActorLocation();
+
+    float MousePosX = MousePos.X + Size.Half().X;
+    float MousePosY = MousePos.Y + Size.Half().Y;
     UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
     UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
+
 
     if (true == UEngineInput::GetInst().IsDown(VK_F1))
     {
@@ -405,14 +412,52 @@ void APlayer::CameraCheck()
     }
 
     GetWorld()->SetCameraPos(CameraPos);
-
 }
 
 void APlayer::PlayerAnimationPlay()
 {
     AFarmGameMode* Farm = GetWorld()->GetGameMode<AFarmGameMode>();
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    FVector2D CameraPos = GetWorld()->GetCameraPos();
+    float MousePosX = MousePos.X + CameraPos.X;
+    float MousePosY = MousePos.Y + CameraPos.Y;
+
+    FVector2D Direction = { MousePosX - GetActorLocation().X, MousePosY - GetActorLocation().Y};
+    float DirectionAbsX = std::abs(Direction.X);
+    float DirectionAbsY = std::abs(Direction.Y);
+
+
+    IsMouseInPlayerPos = false;
+
+    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    {
+        IsMouseInPlayerPos = true;
+    }
+
+    if (IsMouseInPlayerPos)
+    {
+        if (DirectionAbsX > DirectionAbsY) {
+            if (Direction.X > 0) {
+                PlayerDir = EPlayerDir::Right;
+            }
+            else {
+                PlayerDir = EPlayerDir::Left;
+            }
+        }
+        else {
+            if (Direction.Y > 0) {
+                PlayerDir = EPlayerDir::Down;
+            }
+            else {
+                PlayerDir = EPlayerDir::Up;
+            }
+        }
+
+    }
+
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) || true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
     {
         switch (PlayerDir)
         {
@@ -431,7 +476,6 @@ void APlayer::PlayerAnimationPlay()
         default:
             break;
         }
-
     }
 }
 
