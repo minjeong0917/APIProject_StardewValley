@@ -160,19 +160,34 @@ bool ATime::AMCheck(int _Hour)
 	}
 }
 
-int ATime::DayCheck(int _Hour)
+int ATime::WeekCheck(int _Hour)
 {
 
 	if (_Hour >= 26)
 	{
-		if (Day >= 6)
+		if (Week >= 6)
 		{
-			Day = 0;
-			return Day;
+			Week = 0;
+			return Week;
 		}
 
-		 ++Day;
-		 return Day;
+		 ++Week;
+		 return Week;
 	}
-	 return Day;
+	 return Week;
+}
+
+int ATime::DayCheck(int _Hour)
+{
+	if (_Hour >= 26)
+	{
+		if (Day >= 30)
+		{
+			Day = 1;
+			return Day;
+		}
+		++Day;
+		return Day;
+	}
+	return Day;
 }

@@ -41,6 +41,7 @@ public:
 		return Speed;
 	}
 	bool AMCheck(int _Hour);
+	int WeekCheck(int _Hour);
 	int DayCheck(int _Hour);
 
 protected:
@@ -49,7 +50,8 @@ protected:
 
 
 private:
-	int Day = 0;
+	int Week = 0;
+	int Day = 1;
 	int Speed = 1;
 	float minutes = 0;
 	int hours = 6;

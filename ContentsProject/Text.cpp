@@ -19,6 +19,8 @@ AText::~AText()
 void AText::BeginPlay()
 {
 	Super::BeginPlay();
+
+
 }
 
 void AText::Tick(float _DeltaTime)
@@ -32,9 +34,10 @@ void AText::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
 	TextSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
 }
 
-void AText::SetValue(int _Gold)
+void AText::SetValue(int _Text)
 {
-	std::string Number = std::to_string(_Gold);
+
+	std::string Number = std::to_string(_Text);
 
 	if (Renders.size() <= Number.size())
 	{

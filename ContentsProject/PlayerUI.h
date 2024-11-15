@@ -9,7 +9,7 @@
 #include "InventoryBar.h"
 #include "Slot.h"
 #include "Text.h"
-
+#include "Gold.h"
 // Ό³Έν :
 class APlayerUI : public AActor
 {
@@ -37,10 +37,14 @@ protected:
 
 private:
 	ACursor* Cursor = nullptr;
+
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
+
 	AText* APText = nullptr;
-	AText* DayText = nullptr;
+	AText* WeekText = nullptr;
+	AGold* DayText = nullptr;
+
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 

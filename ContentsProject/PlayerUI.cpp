@@ -3,7 +3,7 @@
 #include <EngineCore/EngineAPICore.h>
 #include "ContentsEnum.h"
 #include "Clock.h"
-#include "Gold.h"
+
 
 #include "Item.h"
 #include "FarmGameMode.h"
@@ -47,10 +47,17 @@ void APlayerUI::Tick(float _DeltaTime)
         APText->SetActorLocation({ Size.iX() - 80, 145 });
     }
 
-    int Day = HourTime->DayCheck(Min);
-    DayText->SetSprite("Day.png", Day, 1.0f);
-    DayText->SetActorLocation({ Size.iX() - 130, 50 });
+    int Week = HourTime->WeekCheck(Min);
+    WeekText->SetSprite("Week.png", Week, 1.0f);
+    WeekText->SetActorLocation({ Size.iX() - 140, 50 });
 
+    int Day = HourTime->DayCheck(Min);
+
+    DayText->SetActorLocation({ Size.iX() - 70 , 50 });
+    DayText->SetTextSpriteName("Time.png");
+    DayText->SetOrder(ERenderOrder::UIFont);
+    DayText->SetTextScale({ 20, 28 });
+    DayText->SetValue(Day);
 }
 
 
@@ -67,7 +74,6 @@ void APlayerUI::UIImageRender()
 
     // Gold
     AGold* Gold = GetWorld()->SpawnActor<AGold>();
-
     Gold->SetActorLocation({ Size.iX() - 54 , 218 });
     Gold->SetTextSpriteName("Gold3.png");
     Gold->SetOrder(ERenderOrder::UIFont);
@@ -84,7 +90,8 @@ void APlayerUI::UIImageRender()
     MText->SetActorLocation({ Size.iX() - 50, 145 });
 
     APText = GetWorld()->SpawnActor<AText>();
-    DayText = GetWorld()->SpawnActor<AText>();
+    WeekText = GetWorld()->SpawnActor<AText>();
+    DayText = GetWorld()->SpawnActor<AGold>();
 
 
     // Cursor
