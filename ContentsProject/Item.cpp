@@ -5,6 +5,8 @@
 #include <EngineBase/EngineRandom.h>
 #include "Item.h"
 #include "Player.h"
+#include "PlayerUI.h"
+#include "FarmGameMode.h"
 
 AItem::AItem()
 {
@@ -64,10 +66,12 @@ void AItem::GainItem(float _DeltaTime)
 			ItemToPlayerDir.Normalize();
 			AddActorLocation(ItemToPlayerDir * _DeltaTime * 500);
 			DestroyItem();
+			IsItemGet = true;
 		}
 
 	}
 }
+
 void AItem::DestroyItem()
 {
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
@@ -80,10 +84,44 @@ void AItem::DestroyItem()
 
 	if (ItemToPlayerDistanceX < 1.0f || ItemToPlayerDistanceY < 1.0f)
 	{
-		this->Destroy();
+		Player->AddItem(this);
+		//Player->addItem();
+
+		//this->Destroy();
+	}
+	
+}
+
+
+
+
+void AItem::ItemTypeCheck(EItemType _ItemType)
+{
+	if (_ItemType == EItemType::DUPivot)
+	{
+		return;
+	}
+	else if(_ItemType > EItemType::DUPivot)
+	{
+		// 한개만
+		return;
+
+	}
+	else if (_ItemType < EItemType::DUPivot)
+	{
+		// 여러개 
+		return;
+
 	}
 }
 
+void AItem::SetItemType(std::string _ItemName)
+{
+	if ("Wood" == _ItemName)
+	{
+		// EItemType::Wood;
+	}
+}
 
 void AItem::SetForce()
 {
@@ -98,6 +136,8 @@ void AItem::SetForce()
 
 	UpForceDir = FVector2D::UP;
 }
+
+
 
 void AItem::Force(float _DeltaTime)
 {

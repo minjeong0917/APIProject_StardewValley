@@ -318,6 +318,11 @@ FVector2D APlayer::PlayerMoveDir()
     return Vector;
 }
 
+void APlayer::AddItem(AItem* _Item)
+{
+    PlayerUI->AddItem(_Item);
+}
+
 
 void APlayer::PlayerMove(float _DeltaTime)
 {

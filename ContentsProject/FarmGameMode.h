@@ -27,7 +27,6 @@ public:
 	std::string GetTileSpriteName(FVector2D Location);
 
 
-
 	ATileMap* GetFarmTilMap()
 	{
 		if (nullptr != FarmTileMap)
@@ -37,11 +36,12 @@ public:
 		return nullptr;
 	}
 	void TileDestroy();
+	std::string DestroyItemName = "NONE";
 
 protected:
 
 private:
-	void ItemDrop(std::string _ItemName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
+	void ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
 
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
@@ -49,7 +49,7 @@ private:
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;
 	ATileMap* GroundTileMap = nullptr;
-
+	AItem* Item = nullptr;
 	ATime* Time = nullptr;
 	int speed = 1;
 	bool IsNextDay = false;

@@ -24,7 +24,10 @@ public:
 	APlayerUI& operator=(const APlayerUI& _Other) = delete;
 	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
 	void UIImageRender();
-	void SlotCheck(std::string _SpriteName, int _Index);
+	//void SlotCheck(std::string _SpriteName, int _Index);
+
+	void AddItem(class AItem* _Item);
+
 
 protected:
 	void BeginPlay();
@@ -35,11 +38,13 @@ private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
-	ASlot* Slot_1 = nullptr;
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 
 	std::vector<ASlot*> AllSlots;
+	// std::vector<ASlot*> AllSlots;
 	bool IsEmptySlot = true;
+
+
 };
 

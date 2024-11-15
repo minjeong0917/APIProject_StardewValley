@@ -16,6 +16,7 @@ class APlayer : public AActor
 {
 public:
 	friend class AFarmGameMode;
+	//friend class APlayerUI;
 	// constrcuter destructer
 	APlayer();
 	~APlayer();
@@ -64,6 +65,8 @@ public:
 	bool IsMouseInPlayerPos = false;
 	Tile* TreeTile = nullptr;
 	Tile* PreviousTreeTile = nullptr;
+
+	void AddItem(class AItem* _Item);
 
 
 protected:

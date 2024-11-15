@@ -21,12 +21,20 @@ public:
 	void SetComponentLocation(FVector2D _Location);
 	void SetColisionLocation(FVector2D _Location);
 	void SetScale(FVector2D _Scale);
-
+	void SetSlotItemCount(int _Value)
+	{
+		SlotItemCount = _Value;
+	}
+	int GetSlotItemCount()
+	{
+		return SlotItemCount;
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
+	int SlotItemCount = 1;
 	U2DCollision* CollisionComponent = nullptr;
 	class USpriteRenderer* SlotSpriteRenderer = nullptr;
 };

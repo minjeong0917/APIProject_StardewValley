@@ -87,6 +87,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     GetTileSpriteName(Player->GetActorLocation());
 
+
 }
 
 
@@ -210,7 +211,7 @@ void AFarmGameMode::TileDestroy()
 
     FIntPoint CurTileLocation = FarmTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
 
-    if (true == UEngineInput::GetInst().IsPress(VK_RBUTTON))
+    if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
     {
         if ( GetTileSpriteName(TileLocation) == "TREETILE")
         {
@@ -229,19 +230,21 @@ void AFarmGameMode::TileDestroy()
             }
 
             // Tree Item Drop
-            ItemDrop("Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
-            Player->PlayerUI->SlotCheck("Items.png", 941);
+            ItemDrop("Wood","Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
+
+            // Player->PlayerUI->SlotCheck("Items.png", 941);
         }
 
     }
 }
 
-void AFarmGameMode::ItemDrop( std::string _ItemName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
+void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
 {
-    AItem* Item = GetWorld()->SpawnActor<AItem>();
-    Item->SetSprite(_ItemName, _ItemIndex, _ItemScale);
+    Item = GetWorld()->SpawnActor<AItem>();
+    Item->SetSprite(_SpriteName, _ItemIndex, _ItemScale);
     Item->SetActorLocation(_ItemLocatioln);
     Item->SetForce();
+    Item->SetItemType(_ItemName);
 }
 
 void AFarmGameMode::TileChange()
