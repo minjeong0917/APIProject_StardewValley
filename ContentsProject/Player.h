@@ -8,11 +8,12 @@
 #include "TileMap.h"
 #include "Inventory.h"
 #include "InventoryBar.h"
+#include "Slot.h"
+
 // Ό³Έν :
 class APlayer : public AActor
 {
 public:
-
 	// constrcuter destructer
 	APlayer();
 	~APlayer();
@@ -54,7 +55,6 @@ public:
 	{
 		return PlayerGold;
 	}
-	void UIImageRender();
 
 
 	EPlayerDir PlayerDir = EPlayerDir::Down;
@@ -80,12 +80,7 @@ private:
 	bool TileCheck = true;
 	int PlayerGold = 789;
 
-	ACursor* Cursor = nullptr;
-	ATime* MinTime = nullptr;
-	ATime* HourTime = nullptr;
 
-	AInventory* Inventory = nullptr;
-	AInventoryBar* InventoryBar = nullptr;
 	USoundPlayer BGMPlayer;
 };
 

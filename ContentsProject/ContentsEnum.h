@@ -29,3 +29,9 @@ enum class EPlayerDir
 	Right,
 	Up
 };
+
+enum class ECollisionGroup
+{
+	SLOT,
+
+};

@@ -16,8 +16,8 @@
 #include "Text.h"
 #include "Item.h"
 
-#include"FarmGameMode.h"
-
+#include "FarmGameMode.h"
+#include "PlayerUI.h"
 
 
 APlayer::APlayer()
@@ -44,7 +44,8 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
     Super::BeginPlay();
-    
+    PlayerUI* APlayerUI = GetWorld()->SpawnActor<PlayerUI>();
+
     BGMPlayer = UEngineSound::Play("Spring.wav");
     FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
 
@@ -59,13 +60,13 @@ void APlayer::BeginPlay()
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
-    UIImageRender();
+    //UIImageRender();
 }
 
 
 void APlayer::Tick(float _DeltaTime)
 {
-    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
 
     Super::Tick(_DeltaTime);
 
@@ -88,11 +89,6 @@ void APlayer::Tick(float _DeltaTime)
 
     CameraCheck();
 
-    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-    Cursor->SetActorLocation({ MousePos.X + 10, MousePos.Y + 15 });
-
-    int Min = MinTime->SetMinute(_DeltaTime);
-    HourTime->SetHour(Min);
     PlayerAnimationPlay();
 
     // Inventory
@@ -522,45 +518,3 @@ void APlayer::PlayerAnimation()
 
 }
 
-void APlayer::UIImageRender()
-{
-
-    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
-    // Clock
-    AClock* Clock = GetWorld()->SpawnActor<AClock>();
-    Clock->SetActorLocation({ Size.iX() - 154, 128 });
-
-    // Gold
-    AGold* Gold = GetWorld()->SpawnActor<AGold>();
-
-    Gold->SetActorLocation({ Size.iX() - 54 , 218 });
-    Gold->SetTextSpriteName("Gold3.png");
-    Gold->SetOrder(ERenderOrder::UIFont);
-    Gold->SetTextScale({ 22, 33 });
-    Gold->SetValue(PlayerGold);
-
-    // Text
-    AText* Text = GetWorld()->SpawnActor<AText>();
-    Text->SetSprite("apm.png", 0, 1.0f);
-    Text->SetActorLocation({ Size.iX() - 130, 138 });
-
-    // Cursor
-    Cursor = GetWorld()->SpawnActor<ACursor>();
-
-    // Time
-    MinTime = GetWorld()->SpawnActor<ATime>();
-    MinTime->SetActorLocation({ Size.iX() - 98 , 138 });
-    MinTime->SetTextSpriteName("Time.png");
-
-    HourTime = GetWorld()->SpawnActor<ATime>();
-    HourTime->SetActorLocation({ Size.iX() - 145 , 138 });
-    HourTime->SetTextSpriteName("Time.png");
-
-    // InventoryBar
-    InventoryBar = GetWorld()->SpawnActor<AInventoryBar>();
-    InventoryBar->SetActorLocation({ Size.Half().iX(), Size.iY() - 80 });
-
-
-
-}

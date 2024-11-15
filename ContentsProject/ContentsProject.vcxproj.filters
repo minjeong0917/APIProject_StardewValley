@@ -96,6 +96,9 @@
     <ClCompile Include="Item.cpp">
       <Filter>ContentsObject\Items</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerUI.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>ContentsObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI.h">
+      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

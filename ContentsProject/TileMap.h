@@ -5,7 +5,7 @@
 class Tile
 {
 public:
-	USpriteRenderer* SpriteRenderer;
+	USpriteRenderer* SpriteRenderer = nullptr;
 	bool IsMove = true;
 	int TileType = -1;
 	FVector2D Scale;
