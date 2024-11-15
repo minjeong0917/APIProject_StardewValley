@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "EngineAPICore.h"
 #include <EnginePlatform/EngineInput.h>
-
+#include <EnginePlatform/EngineSound.h>
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineDelegate.h>
 #include <EngineBase/EngineDebug.h>
@@ -33,6 +33,7 @@ UEngineAPICore::~UEngineAPICore()
 	}
 
 	Levels.clear();
+	UEngineSound::Release();
 }
 
 // 프로그램 실행 시 
@@ -107,7 +108,7 @@ void UEngineAPICore::Tick()
 	// 현재 시간 측정 후 DeltaTime값 가져오기
 	DeltaTimer.TimeCheck();
 	float DeltaTime = DeltaTimer.GetDeltaTime();
-
+	UEngineSound::Update();
 	// 키체크
 	UEngineInput::GetInst().KeyCheck(DeltaTime);
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <EnginePlatform/EngineSound.h>
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include "ContentsEnum.h"
@@ -85,5 +86,6 @@ private:
 
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
+	USoundPlayer BGMPlayer;
 };
 

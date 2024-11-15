@@ -5,6 +5,8 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineDebug.h>
 
+#include <EnginePlatform/EngineSound.h>
+
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/ImageManager.h>
 
@@ -45,89 +47,110 @@ void ContentsCore::Tick()
 
 void ContentsCore::ReadySprite()
 {
-	UEngineDirectory Dir;
-
 	// Images 폴더 찾기
-	if (false == Dir.MoveParentToDirectory("Resources"))
 	{
-		MSGASSERT("이미지 폴더를 찾지 못했습니다.");
-		return;
-	}
-	Dir.Append("Images");
+		UEngineDirectory Dir;
 
-	std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
 
-	for (size_t i = 0; i < ImageFiles.size(); i++)
-	{
-		std::string FilePath = ImageFiles[i].GetPathToString();
-		UImageManager::GetInst().Load(FilePath);
-	}
-	// ------------------------------- [ Tile ] -------------------------------------------
-	// dirt
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("TileMap//DirtTile");
-		UImageManager::GetInst().CuttingSprite("Dirt.png", { 48, 48 });
+		if (false == Dir.MoveParentToDirectory("Resources"))
+		{
+			MSGASSERT("이미지 폴더를 찾지 못했습니다.");
+			return;
+		}
+		Dir.Append("Images");
 
-	}
-	// tree
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("TileMap//TreeTile");
-		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
-	}
-	// house
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("TileMap//HouseTile");
-		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
-	}
-	// crops
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("TileMap//CropsTile");
-		UImageManager::GetInst().CuttingSprite("parsnip.png", { 15, 16 });
+		std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
 
+		for (size_t i = 0; i < ImageFiles.size(); i++)
+		{
+			std::string FilePath = ImageFiles[i].GetPathToString();
+			UImageManager::GetInst().Load(FilePath);
+		}
+		// ------------------------------- [ Tile ] -------------------------------------------
+		// dirt
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("TileMap//DirtTile");
+			UImageManager::GetInst().CuttingSprite("Dirt.png", { 48, 48 });
+
+		}
+		// tree
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("TileMap//TreeTile");
+			UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+		}
+		// house
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("TileMap//HouseTile");
+			UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+		}
+		// crops
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("TileMap//CropsTile");
+			UImageManager::GetInst().CuttingSprite("parsnip.png", { 15, 16 });
+
+		}
+
+		// ------------------------------- [ UI ] -------------------------------------------
+		// Clock & Cursor & InventotyBar
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("UI");
+			UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+		}
+		// Font
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("Font");
+			UImageManager::GetInst().CuttingSprite("Gold3.png", { 77, 110 });
+			UImageManager::GetInst().CuttingSprite("Time.png", { 18, 28 });
+			UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
+		}
+		// ------------------------------- [ Item ] -------------------------------------------
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("Item");
+			UImageManager::GetInst().CuttingSprite("Items.png", { 16, 16 });
+		}
+
+		// ------------------------------- [ Player ] -------------------------------------------
+		// player
+		{
+			UEngineDirectory Dir;
+			Dir.MoveParentToDirectory("Resources//Images");
+			Dir.Append("Player");
+			UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
+			UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
+			UImageManager::GetInst().CuttingSprite("Farmer_Right_2.png", { 64, 128 });
+			UImageManager::GetInst().CuttingSprite("Farmer_Left_2.png", { 64, 128 });
+		}
 	}
 
-	// ------------------------------- [ UI ] -------------------------------------------
-	// Clock & Cursor & InventotyBar
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("UI");
-		UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
-	}
-	// Font
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("Font");
-		UImageManager::GetInst().CuttingSprite("Gold3.png", { 77, 110 });
-		UImageManager::GetInst().CuttingSprite("Time.png", { 18, 28 });
-		UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
-	}
-	// ------------------------------- [ Item ] -------------------------------------------
-	{
-		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("Item");
-		UImageManager::GetInst().CuttingSprite("Items.png", { 16, 16 });
-	}
 
-	// ------------------------------- [ Player ] -------------------------------------------
-	// player
+	// 사운드 폴더 찾기
 	{
 		UEngineDirectory Dir;
-		Dir.MoveParentToDirectory("Resources//Images");
-		Dir.Append("Player");
-		UImageManager::GetInst().CuttingSprite("Farmer_Right.png", { 64, 128 });
-		UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
-		UImageManager::GetInst().CuttingSprite("Farmer_Right_2.png", { 64, 128 });
-		UImageManager::GetInst().CuttingSprite("Farmer_Left_2.png", { 64, 128 });
+		if (false == Dir.MoveParentToDirectory("Resources"))
+		{
+			MSGASSERT("리소스 폴더를 찾지 못했습니다.");
+			return;
+		}
+		Dir.Append("Sounds");
+		std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
+		for (size_t i = 0; i < ImageFiles.size(); i++)
+		{
+			std::string FilePath = ImageFiles[i].GetPathToString();
+			UEngineSound::Load(FilePath);
+		}
 	}
 }
