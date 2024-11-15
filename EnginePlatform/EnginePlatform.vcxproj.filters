@@ -10,6 +10,12 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{5a6094aa-9a4b-48c4-adbb-fc56ae810e0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{9a55f8a2-ecee-4efb-aecf-bceed329a963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{7dca176f-0344-43b4-9041-dc60ddbbf72d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineWindow.h">
@@ -21,8 +27,12 @@
     <ClInclude Include="EngineInput.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="EngineWinImage.h" />
-    <ClInclude Include="EngineWinDebug.h" />
+    <ClInclude Include="EngineWinDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineWinImage.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -34,7 +44,11 @@
     <ClCompile Include="EngineInput.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="EngineWinImage.cpp" />
-    <ClCompile Include="EngineWinDebug.cpp" />
+    <ClCompile Include="EngineWinDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineWinImage.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

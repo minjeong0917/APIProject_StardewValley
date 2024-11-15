@@ -18,7 +18,7 @@ public:
 
 
 // Ό³Έν :
-class ULevel
+class ULevel : public UObject
 {
 public:
 	friend class U2DCollision;

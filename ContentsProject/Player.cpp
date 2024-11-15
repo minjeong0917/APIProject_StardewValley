@@ -196,7 +196,9 @@ void APlayer::DebugCheck(float _DeltaTime)
 
     if (true == UEngineInput::GetInst().IsDown(VK_F2))
     {
-        UEngineDebug::SwitchIsDebug();
+        // static½è´Ù. 
+        UEngineAPICore::GetCore()->ResetLevel<AFarmGameMode, APlayer>("Play");
+        UEngineAPICore::GetCore()->OpenLevel("Play");
     }
 
 }
