@@ -14,8 +14,6 @@ ASlot::ASlot()
 	SlotSpriteRenderer->SetComponentScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
 
 	{
-
-
 		CollisionComponent = CreateDefaultSubObject<U2DCollision>();
 		CollisionComponent->SetComponentScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
 		CollisionComponent->SetCollisionGroup(ECollisionGroup::SLOT);
@@ -39,12 +37,16 @@ void ASlot::SetComponentLocation(FVector2D _Location)
 {
 	SlotSpriteRenderer->SetComponentLocation(_Location);
 }
+
 void ASlot::SetColisionLocation(FVector2D _Location)
 {
 	CollisionComponent->SetComponentLocation(_Location);
 
 }
-
+void ASlot::SetScale(FVector2D _Scale)
+{
+	SlotSpriteRenderer->SetComponentScale(_Scale);
+}
 
 void ASlot::BeginPlay()
 {

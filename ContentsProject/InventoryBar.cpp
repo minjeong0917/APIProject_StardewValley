@@ -21,11 +21,7 @@ AInventoryBar::~AInventoryBar()
 void AInventoryBar::BeginPlay()
 {
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
 	Super::BeginPlay();
-
-
-	//AllSlots.push_back(Slot_1);
 
 }
 

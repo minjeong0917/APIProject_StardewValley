@@ -7,20 +7,20 @@
 #include "Text.h"
 #include "Item.h"
 
-PlayerUI::PlayerUI()
+APlayerUI::APlayerUI()
 {
 }
 
-PlayerUI::~PlayerUI()
+APlayerUI::~APlayerUI()
 {
 }
 
-void PlayerUI::BeginPlay()
+void APlayerUI::BeginPlay()
 {
     UIImageRender();
 }
 
-void PlayerUI::Tick(float _DeltaTime)
+void APlayerUI::Tick(float _DeltaTime)
 {
     Super::Tick(_DeltaTime);
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
@@ -39,7 +39,7 @@ void PlayerUI::Tick(float _DeltaTime)
 }
 
 
-void PlayerUI::UIImageRender()
+void APlayerUI::UIImageRender()
 {
 
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
@@ -83,6 +83,39 @@ void PlayerUI::UIImageRender()
     // Slot
     Slot_1 = GetWorld()->SpawnActor<ASlot>();
     Slot_1->SetSprite("UI", 5);
+    Slot_1->SetName("EmptySlot");
     Slot_1->SetComponentLocation({ Size.Half().iX() - 311, Size.iY() - 81 });
+    AllSlots.push_back(Slot_1);
 
+    ASlot* Slot_2 = GetWorld()->SpawnActor<ASlot>();
+    Slot_2->SetSprite("UI", 5);
+    Slot_2->SetName("EmptySlot");
+    Slot_2->SetActorLocation({ Size.Half().iX() - 255, Size.iY() - 81 });
+    AllSlots.push_back(Slot_2);
+}
+
+
+void APlayerUI::SlotCheck(std::string _SpriteName, int _Index)
+{
+    for (size_t i = 0; i < AllSlots.size(); i++)
+    {
+        std::string SlotSpriteName = AllSlots[i]->GetName();
+        if (SlotSpriteName != "EmptySlot")
+        {
+            IsEmptySlot = false;
+        }
+        else if (SlotSpriteName == "EmptySlot")
+        {
+            IsEmptySlot = true;
+        }
+
+        if (true == IsEmptySlot)
+        {
+            AllSlots[i]->SetSprite(_SpriteName, _Index);
+            AllSlots[i]->SetName(_SpriteName);
+            AllSlots[i]->SetActorLocation(AllSlots[i]->GetActorLocation());
+            AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+            break;
+        }
+    }
 }

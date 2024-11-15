@@ -24,7 +24,6 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	class USpriteRenderer* InvenBarSpriteRenderer = nullptr;
-	std::vector<ASlot*> AllSlots;
 
 };
 

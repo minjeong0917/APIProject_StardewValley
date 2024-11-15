@@ -10,24 +10,27 @@
 #include "Slot.h"
 
 // Ό³Έν :
-class PlayerUI : public AActor
+class APlayerUI : public AActor
 {
 public:
+
 	// constrcuter destructer
-	PlayerUI();
-	~PlayerUI();
+	APlayerUI();
+	~APlayerUI();
 
 	// delete Function
-	PlayerUI(const PlayerUI& _Other) = delete;
-	PlayerUI(PlayerUI&& _Other) noexcept = delete;
-	PlayerUI& operator=(const PlayerUI& _Other) = delete;
-	PlayerUI& operator=(PlayerUI&& _Other) noexcept = delete;
+	APlayerUI(const APlayerUI& _Other) = delete;
+	APlayerUI(APlayerUI&& _Other) noexcept = delete;
+	APlayerUI& operator=(const APlayerUI& _Other) = delete;
+	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
 	void UIImageRender();
+	void SlotCheck(std::string _SpriteName, int _Index);
 
 protected:
 	void BeginPlay();
 
 	void Tick(float _DeltaTime);
+
 private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
@@ -35,5 +38,8 @@ private:
 	ASlot* Slot_1 = nullptr;
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
+
+	std::vector<ASlot*> AllSlots;
+	bool IsEmptySlot = true;
 };
 

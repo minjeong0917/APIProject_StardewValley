@@ -2,8 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/2DCollision.h>
-#include <vector>
-//#include "Item.h"
+
 
 // Ό³Έν :
 class ASlot : public AActor
@@ -21,6 +20,7 @@ public:
 	void SetSprite(std::string _SprtieName, int _SpriteIndex);
 	void SetComponentLocation(FVector2D _Location);
 	void SetColisionLocation(FVector2D _Location);
+	void SetScale(FVector2D _Scale);
 
 protected:
 	void BeginPlay() override;
@@ -29,6 +29,5 @@ protected:
 private:
 	U2DCollision* CollisionComponent = nullptr;
 	class USpriteRenderer* SlotSpriteRenderer = nullptr;
-	std::vector<std::string> ItemName;
 };
 

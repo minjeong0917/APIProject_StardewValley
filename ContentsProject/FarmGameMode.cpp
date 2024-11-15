@@ -12,6 +12,8 @@
 // contents
 #include "FarmMap.h"
 #include "Player.h"
+#include "PlayerUI.h"
+
 
 AFarmGameMode::AFarmGameMode()
 {
@@ -228,6 +230,7 @@ void AFarmGameMode::TileDestroy()
 
             // Tree Item Drop
             ItemDrop("Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
+            Player->PlayerUI->SlotCheck("Items.png", 941);
         }
 
     }

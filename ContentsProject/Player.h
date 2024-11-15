@@ -9,11 +9,13 @@
 #include "Inventory.h"
 #include "InventoryBar.h"
 #include "Slot.h"
+#include "PlayerUI.h"
 
 // Ό³Έν :
 class APlayer : public AActor
 {
 public:
+	friend class AFarmGameMode;
 	// constrcuter destructer
 	APlayer();
 	~APlayer();
@@ -62,9 +64,12 @@ public:
 	bool IsMouseInPlayerPos = false;
 	Tile* TreeTile = nullptr;
 	Tile* PreviousTreeTile = nullptr;
+
+
 protected:
 
 private:
+	class APlayerUI* PlayerUI = nullptr;
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
 	float Speed = 220.0f;

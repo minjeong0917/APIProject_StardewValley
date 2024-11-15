@@ -17,7 +17,7 @@
 #include "Item.h"
 
 #include "FarmGameMode.h"
-#include "PlayerUI.h"
+
 
 
 APlayer::APlayer()
@@ -44,7 +44,7 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
     Super::BeginPlay();
-    PlayerUI* APlayerUI = GetWorld()->SpawnActor<PlayerUI>();
+    PlayerUI = GetWorld()->SpawnActor<APlayerUI>();
 
     BGMPlayer = UEngineSound::Play("Spring.wav");
     FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
