@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "InventoryBar.h"
 #include "Slot.h"
+#include "Text.h"
 
 // Ό³Έν :
 class APlayerUI : public AActor
@@ -38,6 +39,8 @@ private:
 	ACursor* Cursor = nullptr;
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;
+	AText* APText = nullptr;
+	AText* DayText = nullptr;
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 

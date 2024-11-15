@@ -40,6 +40,8 @@ public:
 	{
 		return Speed;
 	}
+	bool AMCheck(int _Hour);
+	int DayCheck(int _Hour);
 
 protected:
 	void BeginPlay() override;
@@ -47,6 +49,7 @@ protected:
 
 
 private:
+	int Day = 0;
 	int Speed = 1;
 	float minutes = 0;
 	int hours = 6;

@@ -115,6 +115,7 @@ void ContentsCore::ReadySprite()
 			UImageManager::GetInst().CuttingSprite("Time.png", { 18, 28 });
 			UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
 			UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
+			UImageManager::GetInst().CuttingSprite("Day.png", { 81, 33 });
 		}
 		// ------------------------------- [ Item ] -------------------------------------------
 		{

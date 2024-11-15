@@ -31,7 +31,6 @@ void AItem::Tick(float _DeltaTime)
 	if (false == IsIn)
 	{
 		Force(_DeltaTime);
-
 	}
 
 }
@@ -66,7 +65,6 @@ void AItem::GainItem(float _DeltaTime)
 			ItemToPlayerDir.Normalize();
 			AddActorLocation(ItemToPlayerDir * _DeltaTime * 500);
 			DestroyItem();
-			IsItemGet = true;
 		}
 
 	}
@@ -85,14 +83,10 @@ void AItem::DestroyItem()
 	if (ItemToPlayerDistanceX < 1.0f || ItemToPlayerDistanceY < 1.0f)
 	{
 		Player->AddItem(this);
-		//Player->addItem();
 
-		//this->Destroy();
 	}
 	
 }
-
-
 
 
 void AItem::ItemTypeCheck(EItemType _ItemType)
@@ -119,7 +113,7 @@ void AItem::SetItemType(std::string _ItemName)
 {
 	if ("Wood" == _ItemName)
 	{
-		// EItemType::Wood;
+		Item = EItemType::Wood;
 	}
 }
 

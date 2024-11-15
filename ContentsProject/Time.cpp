@@ -40,7 +40,7 @@ void ATime::BeginPlay()
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
 	SetOrder(ERenderOrder::UIFont);
-	SetTextScale({ 20, 24 });
+	SetTextScale({ 20, 26 });
 
 }
 
@@ -117,9 +117,9 @@ int ATime::SetMinute(float _DeltaTime)
 
 		return hours;
 	}
-	if (24 <= hours)
+	if (26 <= hours)
 	{
-		hours = 0;
+		hours = 6;
 	}
 	return hours;
 }
@@ -127,8 +127,7 @@ int ATime::SetMinute(float _DeltaTime)
 void ATime::SetHour(int _Hour)
 {
 	int Hour = 0;
-
-	if (_Hour >= 0 && _Hour <= 12)
+	if (_Hour >= 6 && _Hour <= 12)
 	{
 		Hour = _Hour;
 	}
@@ -136,7 +135,44 @@ void ATime::SetHour(int _Hour)
 	{
 		Hour = _Hour - 12;
 	}
+	else if (_Hour >= 24 && _Hour < 26)
+	{
+		Hour = _Hour - 24;
+	}
 
 	std::string Number = std::to_string(Hour);
 	SetValue(Number);
+}
+
+bool ATime::AMCheck(int _Hour)
+{
+	if (_Hour >= 6 && _Hour < 12)
+	{
+		return true;
+	}
+	else if (_Hour >= 12 && _Hour < 24)
+	{
+		return false;
+	}
+	else if (_Hour >= 24 && _Hour < 26)
+	{
+		return true;
+	}
+}
+
+int ATime::DayCheck(int _Hour)
+{
+
+	if (_Hour >= 26)
+	{
+		if (Day >= 6)
+		{
+			Day = 0;
+			return Day;
+		}
+
+		 ++Day;
+		 return Day;
+	}
+	 return Day;
 }

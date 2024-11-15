@@ -4,7 +4,7 @@
 #include "ContentsEnum.h"
 #include "Clock.h"
 #include "Gold.h"
-#include "Text.h"
+
 #include "Item.h"
 #include "FarmGameMode.h"
 
@@ -35,21 +35,21 @@ void APlayerUI::Tick(float _DeltaTime)
     int Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
 
-    // slot
-    FVector2D CameraPos = GetWorld()->GetCameraPos();
-    //Slot_1->SetColisionLocation({ CameraPos.X + Size.Half().X - 311, CameraPos.Y + Size.Y - 81 });
-    //Slot_2->SetColisionLocation({ CameraPos.X + Size.Half().X - 255, CameraPos.Y + Size.Y - 81 });
-    //Slot_3->SetColisionLocation({ CameraPos.X + Size.Half().X - 199, CameraPos.Y + Size.Y - 81 });
-    //Slot_4->SetColisionLocation({ CameraPos.X + Size.Half().X - 143, CameraPos.Y + Size.Y - 81 });
-    //Slot_5->SetColisionLocation({ CameraPos.X + Size.Half().X - 87, CameraPos.Y + Size.Y - 81 });
-    //Slot_6->SetColisionLocation({ CameraPos.X + Size.Half().X - 31, CameraPos.Y + Size.Y - 81 });
-    //Slot_7->SetColisionLocation({ CameraPos.X + Size.Half().X + 25, CameraPos.Y + Size.Y - 81 });
-    //Slot_8->SetColisionLocation({ CameraPos.X + Size.Half().X + 81, CameraPos.Y + Size.Y - 81 });
-    //Slot_9->SetColisionLocation({ CameraPos.X + Size.Half().X + 137, CameraPos.Y + Size.Y - 81 });
-    //Slot_10->SetColisionLocation({ CameraPos.X + Size.Half().X + 193, CameraPos.Y + Size.Y - 81 });
-    //Slot_11->SetColisionLocation({ CameraPos.X + Size.Half().X + 249, CameraPos.Y + Size.Y - 81 });
-    //Slot_12->SetColisionLocation({ CameraPos.X + Size.Half().X + 305, CameraPos.Y + Size.Y - 81 });
-    
+    bool IsAM = HourTime->AMCheck(Min);
+    if (true == IsAM)
+    {
+        APText->SetSprite("apm.png", 1, 1.0f);
+        APText->SetActorLocation({ Size.iX() - 80, 145 });
+    }
+    else if (false == IsAM)
+    {
+        APText->SetSprite("apm.png", 2, 1.0f);
+        APText->SetActorLocation({ Size.iX() - 80, 145 });
+    }
+
+    int Day = HourTime->DayCheck(Min);
+    DayText->SetSprite("Day.png", Day, 1.0f);
+    DayText->SetActorLocation({ Size.iX() - 130, 50 });
 
 }
 
@@ -77,18 +77,26 @@ void APlayerUI::UIImageRender()
     // Text
     AText* Text = GetWorld()->SpawnActor<AText>();
     Text->SetSprite("apm.png", 0, 1.0f);
-    Text->SetActorLocation({ Size.iX() - 130, 138 });
+    Text->SetActorLocation({ Size.iX() - 140, 138 });
+
+    AText* MText = GetWorld()->SpawnActor<AText>();
+    MText->SetSprite("apm.png", 3, 1.0f);
+    MText->SetActorLocation({ Size.iX() - 50, 145 });
+
+    APText = GetWorld()->SpawnActor<AText>();
+    DayText = GetWorld()->SpawnActor<AText>();
+
 
     // Cursor
     Cursor = GetWorld()->SpawnActor<ACursor>();
 
     // Time
     MinTime = GetWorld()->SpawnActor<ATime>();
-    MinTime->SetActorLocation({ Size.iX() - 98 , 138 });
+    MinTime->SetActorLocation({ Size.iX() - 108 , 138 });
     MinTime->SetTextSpriteName("Time.png");
 
     HourTime = GetWorld()->SpawnActor<ATime>();
-    HourTime->SetActorLocation({ Size.iX() - 145 , 138 });
+    HourTime->SetActorLocation({ Size.iX() - 155 , 138 });
     HourTime->SetTextSpriteName("Time.png");
 
     // InventoryBar
@@ -101,11 +109,11 @@ void APlayerUI::UIImageRender()
     // Slot
     for (size_t i = 0; i < 12; i++)
     {
-        ASlot* Slot_1 = GetWorld()->SpawnActor<ASlot>();
-        Slot_1->SetSprite("UI", 5);
-        Slot_1->SetName("EmptySlot");
-        Slot_1->SetComponentLocation(StartLocation + (InterLocation * i));
-        AllSlots.push_back(Slot_1);
+        ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
+        Slot->SetSprite("UI", 5);
+        Slot->SetName("EmptySlot");
+        Slot->SetComponentLocation(StartLocation + (InterLocation * i));
+        AllSlots.push_back(Slot);
     }
 }
 
@@ -113,7 +121,6 @@ void APlayerUI::UIImageRender()
 
 void APlayerUI::AddItem(AItem* _Item)
 {
-
     _Item->Destroy();
 }
 

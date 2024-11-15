@@ -26,8 +26,6 @@ public:
 	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
 	void SetForce();
 	void GainItem(float _DeltaTime);
-	bool IsItemGet = false;
-
 	void ItemTypeCheck(EItemType _ItemType);
 	void SetItemType(std::string _ItemName);
 
