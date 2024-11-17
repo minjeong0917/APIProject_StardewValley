@@ -15,7 +15,7 @@
 class APlayer : public AActor
 {
 public:
-	friend class AFarmGameMode;
+	//friend class AFarmGameMode;
 	//friend class APlayerUI;
 	// constrcuter destructer
 	APlayer();
@@ -29,16 +29,18 @@ public:
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
 	void PlayerAnimation();
 	void PlayerAnimationPlay();
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
+
 	void SetColImage(std::string_view _ColImageName);
 	void SetBackImage(std::string_view _BackImageName);
 
-
 	void LevelChangeCheck();
+
 	void DebugCheck(float _DeltaTime);
 
 	FVector2D PlayerMoveDir();
@@ -59,10 +61,11 @@ public:
 		return PlayerGold;
 	}
 
-
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+
 	bool IsPlayerMove = false;
 	bool IsMouseInPlayerPos = false;
+
 	Tile* TreeTile = nullptr;
 	Tile* PreviousTreeTile = nullptr;
 
@@ -72,22 +75,23 @@ public:
 protected:
 
 private:
-	class APlayerUI* PlayerUI = nullptr;
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
+
 	float Speed = 220.0f;
 	int MySpriteIndex = 0;
+
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
 	class ATileMap* FarmTileMap = nullptr;
 	class AFarmGameMode* FarmGameMode = nullptr;
+	class APlayerUI* PlayerUI = nullptr;
 
 	bool ColorCheck = false;
 	int IsOpenIven = 0;
 	bool TileCheck = true;
 	int PlayerGold = 1;
-
 
 	USoundPlayer BGMPlayer;
 };

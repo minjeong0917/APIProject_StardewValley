@@ -117,7 +117,7 @@ void APlayerUI::UIImageRender()
     for (size_t i = 0; i < 12; i++)
     {
         ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
-        Slot->SetSprite("UI", 5);
+        Slot->SetSprite("UI", 6);
         Slot->SetName("EmptySlot");
         Slot->SetComponentLocation(StartLocation + (InterLocation * i));
         AllSlots.push_back(Slot);

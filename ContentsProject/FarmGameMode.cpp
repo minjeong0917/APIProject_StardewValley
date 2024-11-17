@@ -54,7 +54,6 @@ void AFarmGameMode::BeginPlay()
     FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint1, { 0, -110 }, { 144, 240 }, 0, false, 0);
     FarmTileMap->SetTileIndex("TreeTile", TreePoint2, { 0, -110 }, { 144, 240 }, 0, false, 0);
-
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
@@ -87,7 +86,6 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     GetTileSpriteName(Player->GetActorLocation());
 
-
 }
 
 
@@ -104,8 +102,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     FVector2D CameraPos = GetWorld()->GetCameraPos();
     float MousePosX = MousePos.X + CameraPos.X;
     float MousePosY = MousePos.Y + CameraPos.Y;
-
-
 
     float TilePosX = MousePos.X - FarmTileMap->GetActorLocation().X;
     float TilePosY = MousePos.Y - FarmTileMap->GetActorLocation().Y + 53;
@@ -141,14 +137,11 @@ void AFarmGameMode::PutTile(float _DeltaTime)
                 default:
                     break;
                 }
-
                 FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
-
             break;
 
         case ETileImage::Tree001:
-
             FarmTileMap->SetTileIndex("TreeTile", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
             break;
 
@@ -169,7 +162,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     {
         FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
         CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 5, true, 5);
-
     }
     
 }
@@ -189,7 +181,6 @@ void AFarmGameMode::TileDestroy()
     float MousePosY = MousePos.Y + CameraPos.Y;
 
     FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY});
-
 
     switch (Player->PlayerDir)
     {

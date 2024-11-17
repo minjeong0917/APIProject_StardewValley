@@ -17,6 +17,8 @@ protected:
 	void BeginPlay() override;
 
 	void Tick(float _DeltaTime) override;
+	void CameraMove(float _DeltaTime);
+
 
 private:
 
