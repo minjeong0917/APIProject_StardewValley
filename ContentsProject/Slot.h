@@ -50,26 +50,16 @@ public:
 		return Text;
 	}
 
-	void ItemInfoSave(AItem* _Item);
 
-	EItemType GetItemType()
-	{
-		return ItemType;
-	}
-
-	std::string GetItemSpriteName()
-	{
-		return ItemSpriteName;
-	}
-
+	void SetItemIndex(int _Index);
+	void SetItemSpriteName(std::string _SpriteName);
 	int GetItemIndex()
 	{
 		return ItemIndex;
 	}
-	
-	bool GetItemTypeCheck()
+	std::string GetItemSpriteName()
 	{
-		return IsItem;
+		return ItemSpriteName;
 	}
 
 protected:
@@ -81,12 +71,8 @@ private:
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;
 	AGold* Text = nullptr;
-	AItem* Item = nullptr;
-
-	EItemType ItemType = EItemType::DUPivot;
-	std::string ItemSpriteName = "NONE";
-	bool IsItem = false;
 	int ItemIndex = 0;
+	std::string ItemSpriteName = "NONE";
 
 };
 

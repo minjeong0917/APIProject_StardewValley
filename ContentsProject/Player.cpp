@@ -446,7 +446,7 @@ void APlayer::PlayerAnimationPlay()
         switch (PlayerDir)
         {
         case EPlayerDir::Left:
-            if (PlayerUI->CurSlotItemTypeCheck())
+            if (PlayerUI->CurSlotItemName() == "Seeds")
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -457,7 +457,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Right:
-            if (PlayerUI->CurSlotItemTypeCheck())
+            if (PlayerUI->CurSlotItemName() == "Seeds")
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -468,7 +468,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Up:
-            if (PlayerUI->CurSlotItemTypeCheck())
+            if (PlayerUI->CurSlotItemName() == "Seeds")
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -479,7 +479,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Down:
-            if (PlayerUI->CurSlotItemTypeCheck())
+            if (PlayerUI->CurSlotItemName() == "Seeds")
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -583,7 +583,7 @@ void APlayer::PlayerAnimationPlay()
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            if (PlayerUI->CurSlotItemTypeCheck())
+            if (PlayerUI->CurSlotItemName() == "Seeds")
             {
                 SpriteRenderer->ChangeAnimation("Item_Run_front");
             }
@@ -633,8 +633,10 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 },  0.1f, true);
 
-
-
+    SpriteRenderer->CreateAnimation("Item_Run_Right", "Farmer_Right_2.png", { 3,5,4,29,8,4 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Item_Idle_Right", "Farmer_Right_2.png", { 4,4 }, 0.1f, true);
+    SpriteRenderer->CreateAnimation("Item_Run_Left", "Farmer_Left_2.png", { 3,5,4,29,8,4 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Item_Idle_Left", "Farmer_Left_2.png", { 4,4 }, 0.1f, true);
 }
 
 void APlayer::SetAnimationDuration(float _Duration)

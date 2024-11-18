@@ -72,11 +72,12 @@ void ASlot::CountText()
 	Text->SetValue(SlotItemCount);
 }
 
-void ASlot::ItemInfoSave(AItem* _Item)
+void ASlot::SetItemIndex(int _Index)
 {
-	ItemType = _Item->GetItemType();
-	ItemSpriteName = _Item->GetItemSpriteName();
-	ItemIndex = _Item->GetItemIndex();
-	IsItem = _Item->ItemTypeCheck(ItemType);
+	ItemIndex = _Index;
 
+}
+void ASlot::SetItemSpriteName(std::string _SpriteName)
+{
+	ItemSpriteName = _SpriteName;
 }

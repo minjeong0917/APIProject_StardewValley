@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CurItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Item.h">
       <SubType>
       </SubType>
@@ -228,6 +232,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CurItem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
       <SubType>
       </SubType>

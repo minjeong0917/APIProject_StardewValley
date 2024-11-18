@@ -10,6 +10,8 @@
 #include "Slot.h"
 #include "Text.h"
 #include "Gold.h"
+#include "CurItem.h"
+
 // Ό³Έν :
 class APlayerUI : public AActor
 {
@@ -35,7 +37,7 @@ public:
 		return CurSlotNum;
 	}
 	std::string CurSlotItemName();
-	bool CurSlotItemTypeCheck();
+	//bool CurSlotItemTypeCheck(AItem* _Item);
 
 	void CurSlotItemSpawn();
 
@@ -62,8 +64,7 @@ private:
 
 	std::vector<ASlot*> AllSlots;
 	ASlot* CurSlot = nullptr;
-	
-	// std::vector<ASlot*> AllSlots;
+	ACurItem* CurItem = nullptr;
 	bool IsEmptySlot = true;
 
 	AGold* CurText = nullptr;

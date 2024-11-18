@@ -129,7 +129,11 @@ void AItem::SetItemType(std::string _ItemName)
 	{
 		Item = EItemType::Crop;
 	}
-	else if ("Tool" == _ItemName)
+	else if ("parsnip" == _ItemName)
+	{
+		Item = EItemType::Crop;
+	}
+	else if ("Hoe" == _ItemName)
 	{
 		Item = EItemType::Tools;
 	}

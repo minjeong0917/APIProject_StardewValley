@@ -246,7 +246,7 @@ void AFarmGameMode::TileDestroy()
             {
                 Tile->SpriteRenderer->Destroy();
                 Tile->SpriteRenderer = nullptr;
-                FarmTileMap->TileDestroy(CropCurTileLocation);
+                CropTileMap->TileDestroy(CropCurTileLocation);
 
                 // 플레이어의 TreeTile 포인터 초기화
                 Player->TreeTile = nullptr;
