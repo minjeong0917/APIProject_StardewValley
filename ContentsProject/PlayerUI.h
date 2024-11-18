@@ -25,7 +25,8 @@ public:
 	APlayerUI& operator=(const APlayerUI& _Other) = delete;
 	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
 	void UIImageRender();
-	void SlotCheck(std::string _SpriteName, int _Index, bool IsOver);
+	void SlotCheck(std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
+	void SetCurSlot();
 
 	void AddItem(class AItem* _Item);
 
@@ -49,9 +50,11 @@ private:
 	AInventoryBar* InventoryBar = nullptr;
 
 	std::vector<ASlot*> AllSlots;
+	ASlot* CurSlot = nullptr;
+	
 	// std::vector<ASlot*> AllSlots;
 	bool IsEmptySlot = true;
-	AGold* Text = nullptr;
+
 	AGold* CurText = nullptr;
 
 };

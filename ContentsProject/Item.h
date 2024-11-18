@@ -5,6 +5,7 @@
 enum class EItemType
 {
 	Wood,
+	Crop,
 	DUPivot,
 	Tools,
 };
@@ -28,7 +29,7 @@ public:
 	void GainItem(float _DeltaTime);
 	bool ItemTypeCheck(EItemType _ItemType);
 	void SetItemType(std::string _ItemName);
-	void GainItemInfo(std::string _SpriteName, int _ItemIndex, float _ItemScale);
+	void GainItemInfo(std::string _ItemName, std::string _SpriteName, int _ItemIndex, float _ItemScale);
 
 	int GetItemIndex()
 	{
@@ -38,6 +39,10 @@ public:
 	std::string GetItemSpriteName()
 	{
 		return GainItemSpriteName;
+	}
+	std::string GetItemName()
+	{
+		return GainItemName;
 	}
 
 	EItemType GetItemType()
@@ -72,6 +77,7 @@ private:
 	int GainItemIndex = 0;
 	float GainItemScale = 0;
 	std::string GainItemSpriteName = "NONE";
+	std::string GainItemName = "NONE";
 
 	EItemType Item = EItemType::DUPivot;
 	//int ItemCount = 0;

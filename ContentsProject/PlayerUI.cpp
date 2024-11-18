@@ -19,6 +19,7 @@ APlayerUI::~APlayerUI()
 void APlayerUI::BeginPlay()
 {
     UIImageRender();
+    SetCurSlot();
 }
 
 void APlayerUI::Tick(float _DeltaTime)
@@ -58,6 +59,7 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetOrder(ERenderOrder::UIFont);
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
+
 }
 
 
@@ -113,6 +115,8 @@ void APlayerUI::UIImageRender()
     FVector2D StartLocation = { Size.Half().iX() - 311, Size.iY() - 81 };
     FVector2D InterLocation = { 56.0f, 0.0f };
 
+
+
     // Slot
     for (size_t i = 0; i < 12; i++)
     {
@@ -122,6 +126,11 @@ void APlayerUI::UIImageRender()
         Slot->SetComponentLocation(StartLocation + (InterLocation * i));
         AllSlots.push_back(Slot);
     }
+
+    AllSlots[0]->SetSprite("Items.png", 624);
+    AllSlots[0]->SetName("Seeds");
+    AllSlots[0]->SetActorLocation(AllSlots[0]->GetActorLocation());
+    AllSlots[0]->SetScale({ 14 * 3.5f, 14 * 3.5f });
 }
 
 
@@ -130,11 +139,11 @@ void APlayerUI::AddItem(AItem* _Item)
 {
     bool IsOver = _Item->ItemTypeCheck(_Item->GetItemType());
     _Item->Destroy();
-    SlotCheck(_Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
+    SlotCheck(_Item->GetItemName(),_Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
 }
 
 
-void APlayerUI::SlotCheck(std::string _SpriteName, int _Index, bool IsOver)
+void APlayerUI::SlotCheck(std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
@@ -156,12 +165,16 @@ void APlayerUI::SlotCheck(std::string _SpriteName, int _Index, bool IsOver)
         if (true == IsEmptySlot)
         {
             AllSlots[i]->SetSprite(_SpriteName, _Index);
-            AllSlots[i]->SetName(_SpriteName);
+            AllSlots[i]->SetName(_ItemName);
             AllSlots[i]->SetActorLocation(Location);
             AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
             break;
         }
-        else if (SlotSpriteName == AllSlots[i]->GetName())
+        else if (false == IsEmptySlot && SlotSpriteName != _ItemName)
+        {
+            continue;
+        }
+        else if (SlotSpriteName == _ItemName)
         {
             if (true == IsOver)
             {
@@ -169,17 +182,12 @@ void APlayerUI::SlotCheck(std::string _SpriteName, int _Index, bool IsOver)
                 AllSlots[i]->SetSlotItemCount(CurItemCount);
 
 
-                if (nullptr != Text)
+                if (nullptr != AllSlots[i]->GetText())
                 {
-                    Text->Destroy();
+                    AllSlots[i]->GetText()->Destroy();
                 }
 
-                Text = GetWorld()->SpawnActor<AGold>();
-                Text->SetActorLocation(AllSlots[i]->GetLocation() + AllSlots[i]->GeScale().Half());
-                Text->SetTextSpriteName("Item.png");
-                Text->SetOrder(ERenderOrder::SLOTFont);
-                Text->SetTextScale({ 13, 15 });
-                Text->SetValue(CurItemCount);
+                AllSlots[i]->CountText();
 
                 return;
 
@@ -197,3 +205,14 @@ void APlayerUI::SlotCheck(std::string _SpriteName, int _Index, bool IsOver)
     }
 }
 
+void APlayerUI::SetCurSlot()
+{
+
+    CurSlot = GetWorld()->SpawnActor<ASlot>();
+    CurSlot->SetSprite("UI",5);
+    CurSlot->SetOrder(ERenderOrder::CURSLOT);
+    CurSlot->SetComponentLocation(AllSlots[0]->GetLocation());
+    CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
+
+
+}

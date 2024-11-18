@@ -24,7 +24,8 @@ public:
 	void TileChange();
 	void PutTile(float _DeltaTime);
 
-	std::string GetTileSpriteName(FVector2D Location);
+	std::string GetFarmTileSpriteName(FVector2D Location);
+	std::string GetCropTileSpriteName(FVector2D Location);
 
 
 	ATileMap* GetFarmTilMap()

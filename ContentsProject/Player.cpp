@@ -119,7 +119,7 @@ std::string APlayer::TileLocationName()
     for (int offsetY = 0; offsetY <= searchRangeY; ++offsetY)
     {
         FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y + 30+ offsetY };
-        TileName = FarmGameMode->GetTileSpriteName(TileLocation);
+        TileName = FarmGameMode->GetFarmTileSpriteName(TileLocation);
 
         if (TileName == "TREETILE")
         {

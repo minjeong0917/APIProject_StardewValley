@@ -5,7 +5,6 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
-#include "ContentsEnum.h"
 ASlot::ASlot()
 {
 	SlotSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
@@ -26,6 +25,11 @@ ASlot::ASlot()
 
 ASlot::~ASlot()
 {
+}
+
+void ASlot::SetOrder(ERenderOrder _RenderOder)
+{
+	SlotSpriteRenderer->SetOrder(_RenderOder);
 }
 
 void ASlot::SetSprite(std::string _SprtieName, int _SpriteIndex)
@@ -56,4 +60,14 @@ void ASlot::BeginPlay()
 void ASlot::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+}
+
+void ASlot::CountText()
+{
+	Text = GetWorld()->SpawnActor<AGold>();
+	Text->SetActorLocation(GetLocation() + GetScale().Half());
+	Text->SetTextSpriteName("Item.png");
+	Text->SetOrder(ERenderOrder::SLOTFont);
+	Text->SetTextScale({ 13, 15 });
+	Text->SetValue(SlotItemCount);
 }

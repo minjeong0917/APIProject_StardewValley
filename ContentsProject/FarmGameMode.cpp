@@ -84,7 +84,8 @@ void AFarmGameMode::Tick(float _DeltaTime)
         TileDestroy();
     }
 
-    GetTileSpriteName(Player->GetActorLocation());
+    GetFarmTileSpriteName(Player->GetActorLocation());
+    GetCropTileSpriteName(Player->GetActorLocation());
 
 }
 
@@ -146,9 +147,9 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Crops:
-            if (GetTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos)
+            if (GetFarmTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos)
             {
-                CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 5);
+                CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
             }
 
             break;
@@ -180,7 +181,8 @@ void AFarmGameMode::TileDestroy()
     float MousePosX = MousePos.X + CameraPos.X;
     float MousePosY = MousePos.Y + CameraPos.Y;
 
-    FIntPoint MousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY});
+    FIntPoint FarmMousePoint = FarmTileMap->LocationToIndex({ MousePosX, MousePosY });
+    FIntPoint CropMousePoint = CropTileMap->LocationToIndex({ MousePosX, MousePosY});
 
     switch (Player->PlayerDir)
     {
@@ -200,20 +202,23 @@ void AFarmGameMode::TileDestroy()
         break;
     }
 
-    FIntPoint CurTileLocation = FarmTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
+    FIntPoint FarmCurTileLocation = FarmTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
+    FIntPoint CropCurTileLocation = CropTileMap->LocationToIndex({ TileLocation.X, TileLocation.Y });
+    UEngineDebug::CoreOutPutString(GetFarmTileSpriteName(TileLocation));
+    UEngineDebug::CoreOutPutString(GetCropTileSpriteName(TileLocation));
 
     if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
     {
-        if ( GetTileSpriteName(TileLocation) == "TREETILE")
+        if ( GetFarmTileSpriteName(TileLocation) == "TREETILE")
         {
 
-            Tile* Tile = FarmTileMap->GetTileRef(CurTileLocation);
+            Tile* Tile = FarmTileMap->GetTileRef(FarmCurTileLocation);
 
             if (nullptr != Tile->SpriteRenderer)
             {
                 Tile->SpriteRenderer->Destroy();
                 Tile->SpriteRenderer = nullptr;
-                FarmTileMap->TileDestroy(CurTileLocation);
+                FarmTileMap->TileDestroy(FarmCurTileLocation);
 
                 // 플레이어의 TreeTile 포인터 초기화
                 Player->TreeTile = nullptr;
@@ -223,7 +228,25 @@ void AFarmGameMode::TileDestroy()
             // Tree Item Drop
             ItemDrop("Wood","Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
         }
+        if (GetCropTileSpriteName(TileLocation) == "PARSNIP.PNG")
+        {
 
+            Tile* Tile = CropTileMap->GetTileRef(CropCurTileLocation);
+
+            if (nullptr != Tile->SpriteRenderer)
+            {
+                Tile->SpriteRenderer->Destroy();
+                Tile->SpriteRenderer = nullptr;
+                FarmTileMap->TileDestroy(CropCurTileLocation);
+
+                // 플레이어의 TreeTile 포인터 초기화
+                Player->TreeTile = nullptr;
+                Player->PreviousTreeTile = nullptr;
+            }
+
+            // Tree Item Drop
+            ItemDrop("parsnip", "Items.png", TileLocation, Player->GetActorLocation(), 32, 3.0f);
+        }
     }
 }
 
@@ -234,7 +257,7 @@ void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVe
     Item->SetActorLocation(_ItemLocatioln);
     Item->SetForce();
     Item->SetItemType(_ItemName);
-    Item->GainItemInfo(_SpriteName, _ItemIndex, _ItemScale);
+    Item->GainItemInfo(_ItemName,_SpriteName, _ItemIndex, _ItemScale);
 }
 
 void AFarmGameMode::TileChange()
@@ -282,7 +305,7 @@ void AFarmGameMode::TileChange()
     }
 }
 
-std::string AFarmGameMode::GetTileSpriteName(FVector2D Location)
+std::string AFarmGameMode::GetFarmTileSpriteName(FVector2D Location)
 {
     Tile* TileRef = FarmTileMap->GetTileRef(Location);
     if (TileRef)
@@ -298,4 +321,21 @@ std::string AFarmGameMode::GetTileSpriteName(FVector2D Location)
     }
     
 }
+std::string AFarmGameMode::GetCropTileSpriteName(FVector2D Location)
+{
+    Tile* TileRef = CropTileMap->GetTileRef(Location);
+    if (TileRef)
+    {
+        std::string SpriteName = TileRef->GetSpriteName();
+
+        return SpriteName;
+    }
+    else
+    {
+        return "NONE";
+
+    }
+
+}
+
 

@@ -3,7 +3,9 @@
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/2DCollision.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "Gold.h"
 
+#include "ContentsEnum.h"
 
 // Ό³Έν :
 class ASlot : public AActor
@@ -22,6 +24,8 @@ public:
 	void SetComponentLocation(FVector2D _Location);
 	void SetColisionLocation(FVector2D _Location);
 	void SetScale(FVector2D _Scale);
+	void SetOrder(ERenderOrder _RenderOder);
+
 	void SetSlotItemCount(int _Value)
 	{
 		SlotItemCount = _Value;
@@ -34,10 +38,17 @@ public:
 	{
 		return SlotSpriteRenderer->GetComponentLocation();
 	}
-	FVector2D GeScale()
+	FVector2D GetScale()
 	{
 		return SlotSpriteRenderer->GetComponentScale();
 	}
+	void CountText();
+
+	AGold* GetText()
+	{
+		return Text;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -46,5 +57,6 @@ private:
 	int SlotItemCount = 1;
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;
+	AGold* Text = nullptr;
 };
 
