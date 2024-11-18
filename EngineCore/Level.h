@@ -126,7 +126,7 @@ public:
 
 		for (size_t i = 0; i < CollisionLink.size(); i++)
 		{
-			if (CollisionLink[i].Key == _Right)
+			if (CollisionLink[i].Key == LinkData.Key)
 			{
 				return;
 			}

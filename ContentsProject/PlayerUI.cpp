@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "PlayerUI.h"
 #include <EngineCore/EngineAPICore.h>
+#include <EnginePlatform/EngineInput.h>
+
 #include "ContentsEnum.h"
 #include "Clock.h"
 
@@ -19,11 +21,12 @@ APlayerUI::~APlayerUI()
 void APlayerUI::BeginPlay()
 {
     UIImageRender();
-    SetCurSlot();
+
 }
 
 void APlayerUI::Tick(float _DeltaTime)
 {
+
     Super::Tick(_DeltaTime);
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
@@ -60,6 +63,7 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
 
+    SetCurSlot();
 }
 
 
@@ -118,7 +122,7 @@ void APlayerUI::UIImageRender()
 
 
     // Slot
-    for (size_t i = 0; i < 12; i++)
+    for (float i = 0; i < 12; i++)
     {
         ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
         Slot->SetSprite("UI", 6);
@@ -131,6 +135,13 @@ void APlayerUI::UIImageRender()
     AllSlots[0]->SetName("Seeds");
     AllSlots[0]->SetActorLocation(AllSlots[0]->GetActorLocation());
     AllSlots[0]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+
+    // CulSlot
+    CurSlot = GetWorld()->SpawnActor<ASlot>();
+    CurSlot->SetSprite("UI", 5);
+    CurSlot->SetOrder(ERenderOrder::CURSLOT);
+    CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
+    CurSlot->SetComponentLocation(AllSlots[CurSlotNum]->GetLocation());
 }
 
 
@@ -204,15 +215,74 @@ void APlayerUI::SlotCheck(std::string _ItemName ,std::string _SpriteName, int _I
 
     }
 }
+std::string APlayerUI::CurSlotItemName()
+{
+    std::string CurSlotSpriteName = AllSlots[CurSlotNum]->GetName();
+    return CurSlotSpriteName;
+}
+
 
 void APlayerUI::SetCurSlot()
 {
-
-    CurSlot = GetWorld()->SpawnActor<ASlot>();
-    CurSlot->SetSprite("UI",5);
-    CurSlot->SetOrder(ERenderOrder::CURSLOT);
-    CurSlot->SetComponentLocation(AllSlots[0]->GetLocation());
-    CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
-
-
+    if (true == UEngineInput::GetInst().IsDown('1'))
+    {
+        CurSlotNum = 0;
+        CurSlot->SetComponentLocation(AllSlots[0]->GetLocation());
+        return;
+    }
+    else if (true == UEngineInput::GetInst().IsDown('2'))
+    {
+        CurSlotNum = 1;
+        CurSlot->SetComponentLocation(AllSlots[1]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('3'))
+    {
+        CurSlotNum = 2;
+        CurSlot->SetComponentLocation(AllSlots[2]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('4'))
+    {
+        CurSlotNum = 3;
+        CurSlot->SetComponentLocation(AllSlots[3]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('5'))
+    {
+        CurSlotNum = 4;
+        CurSlot->SetComponentLocation(AllSlots[4]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('6'))
+    {
+        CurSlotNum = 5;
+        CurSlot->SetComponentLocation(AllSlots[5]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('7'))
+    {
+        CurSlotNum = 6;
+        CurSlot->SetComponentLocation(AllSlots[6]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('8'))
+    {
+        CurSlotNum = 7;
+        CurSlot->SetComponentLocation(AllSlots[7]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('9'))
+    {
+        CurSlotNum = 8;
+        CurSlot->SetComponentLocation(AllSlots[8]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown('0'))
+    {
+        CurSlotNum = 9;
+        CurSlot->SetComponentLocation(AllSlots[9]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown(VK_OEM_MINUS))
+    {
+        CurSlotNum = 10;
+        CurSlot->SetComponentLocation(AllSlots[10]->GetLocation());
+    }
+    else if (true == UEngineInput::GetInst().IsDown(VK_OEM_PLUS))
+    {
+        CurSlotNum = 11;
+        CurSlot->SetComponentLocation(AllSlots[11]->GetLocation());
+    }
 }

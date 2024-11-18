@@ -158,6 +158,8 @@ bool ATime::AMCheck(int _Hour)
 	{
 		return true;
 	}
+	return false;
+
 }
 
 int ATime::WeekCheck(int _Hour)

@@ -115,6 +115,8 @@ bool AItem::ItemTypeCheck(EItemType _ItemType)
 		return true;
 
 	}
+	return false;
+
 }
 
 void AItem::SetItemType(std::string _ItemName)

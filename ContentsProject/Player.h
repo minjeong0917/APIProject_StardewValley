@@ -70,6 +70,11 @@ public:
 	Tile* PreviousTreeTile = nullptr;
 
 	void AddItem(class AItem* _Item);
+	int GetCurSlotNum();
+	std::string CurSlotCheck();
+
+	void PlayerAnimationTimer(float _DeltaTime, float _Duration);
+	void SetAnimationDuration(float _Duration);
 
 
 protected:
@@ -86,6 +91,7 @@ private:
 	class UEngineWinImage* BackImage = nullptr;
 	class ATileMap* FarmTileMap = nullptr;
 	class AFarmGameMode* FarmGameMode = nullptr;
+
 	class APlayerUI* PlayerUI = nullptr;
 
 	bool ColorCheck = false;
@@ -94,5 +100,9 @@ private:
 	int PlayerGold = 1;
 
 	USoundPlayer BGMPlayer;
+
+	bool IsAnimationPlay = false; // 애니메이션 잠금 플래그
+	float AnimationDuration = 0.0f;
+	float AnimationTimer = 0.0f;    
 };
 

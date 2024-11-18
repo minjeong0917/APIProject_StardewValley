@@ -138,6 +138,8 @@ UEngineInput::UEngineInput()
 	Keys.insert({ '8', UEngineKey('8') });
 	Keys.insert({ '9', UEngineKey('9') });
 	Keys.insert({ '0', UEngineKey('0') });
+	Keys.insert({ VK_OEM_MINUS, UEngineKey(VK_OEM_MINUS) });
+	Keys.insert({ VK_OEM_PLUS, UEngineKey(VK_OEM_PLUS) });
 
 	// 마우스 및 방향키
 	Keys.insert({ VK_LBUTTON , UEngineKey(VK_LBUTTON) });

@@ -14,7 +14,7 @@
 class APlayerUI : public AActor
 {
 public:
-
+	friend class APlayer;
 	// constrcuter destructer
 	APlayerUI();
 	~APlayerUI();
@@ -29,6 +29,14 @@ public:
 	void SetCurSlot();
 
 	void AddItem(class AItem* _Item);
+
+	int GetCulSlotNum()
+	{
+		return CurSlotNum;
+	}
+	std::string CurSlotItemName();
+
+
 
 
 protected:
@@ -56,6 +64,6 @@ private:
 	bool IsEmptySlot = true;
 
 	AGold* CurText = nullptr;
-
+	int CurSlotNum = 1;
 };
 

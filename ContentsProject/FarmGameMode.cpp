@@ -147,14 +147,16 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Crops:
-            if (GetFarmTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos)
-            {
-                CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
-            }
+
 
             break;
         default:
             break;
+        }
+        std::string CurSlotName = Player->CurSlotCheck();
+        if (GetFarmTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos && "Seeds" == CurSlotName)
+        {
+            CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
         }
     }
 

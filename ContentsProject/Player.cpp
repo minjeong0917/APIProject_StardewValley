@@ -60,7 +60,6 @@ void APlayer::BeginPlay()
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
-    //UIImageRender();
 }
 
 
@@ -74,7 +73,7 @@ void APlayer::Tick(float _DeltaTime)
 
     LevelChangeCheck();
     DebugCheck(_DeltaTime);
-    PlayerMove(_DeltaTime);
+
 
     BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
 
@@ -89,7 +88,13 @@ void APlayer::Tick(float _DeltaTime)
 
     CameraCheck();
 
-    PlayerAnimationPlay();
+    PlayerAnimationTimer(_DeltaTime, AnimationDuration);
+    if (IsAnimationPlay == false)
+    {
+        PlayerAnimationPlay();
+        PlayerMove(_DeltaTime);
+
+    }
 
     // Inventory
     //if (true == UEngineInput::GetInst().IsDown(VK_ESCAPE) && IsOpenIven == 1)
@@ -221,7 +226,6 @@ FVector2D APlayer::PlayerMoveDir()
     // 대각선 이동
     if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))
     {
-        SpriteRenderer->ChangeAnimation("Run_Right");
         IsPlayerMove = true;
         Vector += FVector2D::RIGHT;
         Vector += FVector2D::UP;
@@ -229,14 +233,12 @@ FVector2D APlayer::PlayerMoveDir()
     }
     else if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('S'))
     {
-        SpriteRenderer->ChangeAnimation("Run_Right");
         IsPlayerMove = true;
         Vector += FVector2D::RIGHT;
         Vector += FVector2D::DOWN;
     }
     else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('W'))
     {
-        SpriteRenderer->ChangeAnimation("Run_Left");
         IsPlayerMove = true;
         Vector += FVector2D::LEFT;
         Vector += FVector2D::UP;
@@ -244,7 +246,6 @@ FVector2D APlayer::PlayerMoveDir()
     }
     else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('S'))
     {
-        SpriteRenderer->ChangeAnimation("Run_Left");
         IsPlayerMove = true;
         Vector += FVector2D::LEFT;
         Vector += FVector2D::DOWN;
@@ -255,27 +256,23 @@ FVector2D APlayer::PlayerMoveDir()
         if (true == UEngineInput::GetInst().IsPress('D'))
         {
 
-            SpriteRenderer->ChangeAnimation("Run_Right");
             IsPlayerMove = true;
             Vector = FVector2D::RIGHT;
 
         }
         else if (true == UEngineInput::GetInst().IsPress('A'))
         {
-            SpriteRenderer->ChangeAnimation("Run_Left");
             IsPlayerMove = true;
             Vector = FVector2D::LEFT;
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            SpriteRenderer->ChangeAnimation("Run_Front");
             IsPlayerMove = true;
             Vector = FVector2D::DOWN;
 
         }
         else if (true == UEngineInput::GetInst().IsPress('W'))
         {
-            SpriteRenderer->ChangeAnimation("Run_Back");
             IsPlayerMove = true;
             Vector = FVector2D::UP;
 
@@ -284,7 +281,6 @@ FVector2D APlayer::PlayerMoveDir()
         // 정지
         if (true == UEngineInput::GetInst().IsUp('D'))
         {
-            SpriteRenderer->ChangeAnimation("Idle_Right");
             
             PlayerDir = EPlayerDir::Right;
             IsPlayerMove = false;
@@ -292,7 +288,6 @@ FVector2D APlayer::PlayerMoveDir()
         }
         else if (true == UEngineInput::GetInst().IsUp('A'))
         {
-            SpriteRenderer->ChangeAnimation("Idle_Left");
             IsPlayerMove = false;
             PlayerDir = EPlayerDir::Left;
 
@@ -300,14 +295,12 @@ FVector2D APlayer::PlayerMoveDir()
         else if (true == UEngineInput::GetInst().IsUp('S'))
         {
 
-            SpriteRenderer->ChangeAnimation("Idle_front");
             IsPlayerMove = false;
             PlayerDir = EPlayerDir::Down;
 
         }
         else if (true == UEngineInput::GetInst().IsUp('W'))
         {
-            SpriteRenderer->ChangeAnimation("Idle_Back");
             IsPlayerMove = false;
             PlayerDir = EPlayerDir::Up;
         }
@@ -468,21 +461,142 @@ void APlayer::PlayerAnimationPlay()
 
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) || true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
+
+    if (false == IsPlayerMove && false == IsAnimationPlay)
+    {
+        switch (PlayerDir)
+        {
+        case EPlayerDir::Left:
+            if (CurSlotCheck() == "Seeds")
+            {
+                SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
+            }
+            else
+            {
+            SpriteRenderer->ChangeAnimation("Idle_Left", true);
+            }
+
+            break;
+        case EPlayerDir::Right:
+            if (CurSlotCheck() == "Seeds")
+            {
+                SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Idle_Right", true);
+            }
+
+            break;
+        case EPlayerDir::Up:
+            if (CurSlotCheck() == "Seeds")
+            {
+                SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Idle_Back");
+            }
+
+            break;
+        case EPlayerDir::Down:
+            if (CurSlotCheck() == "Seeds")
+            {
+                SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Idle_front");
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))
+    {
+        SpriteRenderer->ChangeAnimation("Run_Right");
+
+
+    }
+    else if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('S'))
+    {
+        SpriteRenderer->ChangeAnimation("Run_Right");
+
+    }
+    else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('W'))
+    {
+        SpriteRenderer->ChangeAnimation("Run_Left");
+
+
+    }
+    else if (true == UEngineInput::GetInst().IsPress('A') && true == UEngineInput::GetInst().IsPress('S'))
+    {
+        SpriteRenderer->ChangeAnimation("Run_Left");
+
+    }
+    else
+    {
+        // 상하좌우 이동
+        if (true == UEngineInput::GetInst().IsPress('D'))
+        {
+
+            SpriteRenderer->ChangeAnimation("Run_Right");
+
+
+        }
+        else if (true == UEngineInput::GetInst().IsPress('A'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Left");
+
+        }
+        else if (true == UEngineInput::GetInst().IsPress('S'))
+        {
+            if (CurSlotCheck() == "Seeds")
+            {
+                SpriteRenderer->ChangeAnimation("Item_Run_front");
+            }
+            else
+            {
+                SpriteRenderer->ChangeAnimation("Run_Front");
+            }
+
+        }
+        else if (true == UEngineInput::GetInst().IsPress('W'))
+        {
+            SpriteRenderer->ChangeAnimation("Run_Back");
+
+
+        }
+
+    }
+
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove)
     {
         switch (PlayerDir)
         {
         case EPlayerDir::Left:
             SpriteRenderer->ChangeAnimation("Dig_Left", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
             break;
         case EPlayerDir::Right:
             SpriteRenderer->ChangeAnimation("Dig_Right", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
             break;
         case EPlayerDir::Up:
             SpriteRenderer->ChangeAnimation("Dig_Back", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
             break;
         case EPlayerDir::Down:
             SpriteRenderer->ChangeAnimation("Dig_Front", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
+
+
             break;
         default:
             break;
@@ -516,10 +630,41 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
 
 
-    SpriteRenderer->CreateAnimation("Item_font", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
+    SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 },  0.1f, true);
 
 
 
 }
 
+void APlayer::SetAnimationDuration(float _Duration)
+{
+    AnimationDuration = _Duration;
+
+}
+
+void APlayer::PlayerAnimationTimer(float _DeltaTime, float _Duration)
+{
+
+    if (IsAnimationPlay)
+    {
+        AnimationTimer += _DeltaTime;
+        if (AnimationTimer >= _Duration)
+        {
+            IsAnimationPlay = false;
+            AnimationTimer = 0.0f;
+        }
+    }
+}
+
+
+int APlayer::GetCurSlotNum()
+{
+    int CurSlotNum = PlayerUI->GetCulSlotNum();
+    return CurSlotNum;
+}
+
+std::string APlayer::CurSlotCheck()
+{
+    return PlayerUI->CurSlotItemName();
+}
