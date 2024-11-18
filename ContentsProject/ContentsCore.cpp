@@ -117,12 +117,13 @@ void ContentsCore::ReadySprite()
 			UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
 			UImageManager::GetInst().CuttingSprite("Week.png", { 81, 33 });
 		}
-		// ------------------------------- [ Item ] -------------------------------------------
+		// ------------------------------- [ Item & Tools] -------------------------------------------
 		{
 			UEngineDirectory Dir;
 			Dir.MoveParentToDirectory("Resources//Images");
 			Dir.Append("Item");
 			UImageManager::GetInst().CuttingSprite("Items.png", { 16, 16 });
+			UImageManager::GetInst().CuttingSprite("Tools.png", { 16, 32 });
 		}
 
 		// ------------------------------- [ Player ] -------------------------------------------

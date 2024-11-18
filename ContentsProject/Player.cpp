@@ -440,45 +440,24 @@ void APlayer::PlayerAnimationPlay()
         IsMouseInPlayerPos = true;
     }
 
-    if (IsMouseInPlayerPos)
-    {
-        if (DirectionAbsX > DirectionAbsY) {
-            if (Direction.X > 0) {
-                PlayerDir = EPlayerDir::Right;
-            }
-            else {
-                PlayerDir = EPlayerDir::Left;
-            }
-        }
-        else {
-            if (Direction.Y > 0) {
-                PlayerDir = EPlayerDir::Down;
-            }
-            else {
-                PlayerDir = EPlayerDir::Up;
-            }
-        }
-
-    }
-
 
     if (false == IsPlayerMove && false == IsAnimationPlay)
     {
         switch (PlayerDir)
         {
         case EPlayerDir::Left:
-            if (CurSlotCheck() == "Seeds")
+            if (PlayerUI->CurSlotItemTypeCheck())
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
             else
             {
-            SpriteRenderer->ChangeAnimation("Idle_Left", true);
+                SpriteRenderer->ChangeAnimation("Idle_Left", true);
             }
 
             break;
         case EPlayerDir::Right:
-            if (CurSlotCheck() == "Seeds")
+            if (PlayerUI->CurSlotItemTypeCheck())
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -489,7 +468,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Up:
-            if (CurSlotCheck() == "Seeds")
+            if (PlayerUI->CurSlotItemTypeCheck())
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -500,7 +479,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Down:
-            if (CurSlotCheck() == "Seeds")
+            if (PlayerUI->CurSlotItemTypeCheck())
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -508,6 +487,57 @@ void APlayer::PlayerAnimationPlay()
             {
                 SpriteRenderer->ChangeAnimation("Idle_front");
             }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && CurSlotCheck() == "Hoe")
+    {
+        if (IsMouseInPlayerPos)
+        {
+            if (DirectionAbsX > DirectionAbsY) {
+                if (Direction.X > 0) {
+                    PlayerDir = EPlayerDir::Right;
+                }
+                else {
+                    PlayerDir = EPlayerDir::Left;
+                }
+            }
+            else {
+                if (Direction.Y > 0) {
+                    PlayerDir = EPlayerDir::Down;
+                }
+                else {
+                    PlayerDir = EPlayerDir::Up;
+                }
+            }
+
+        }
+        switch (PlayerDir)
+        {
+        case EPlayerDir::Left:
+            SpriteRenderer->ChangeAnimation("Dig_Left", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
+            break;
+        case EPlayerDir::Right:
+            SpriteRenderer->ChangeAnimation("Dig_Right", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
+            break;
+        case EPlayerDir::Up:
+            SpriteRenderer->ChangeAnimation("Dig_Back", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
+            break;
+        case EPlayerDir::Down:
+            SpriteRenderer->ChangeAnimation("Dig_Front", true);
+            IsAnimationPlay = true;
+            SetAnimationDuration(0.5f);
+
+
             break;
         default:
             break;
@@ -553,7 +583,7 @@ void APlayer::PlayerAnimationPlay()
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            if (CurSlotCheck() == "Seeds")
+            if (PlayerUI->CurSlotItemTypeCheck())
             {
                 SpriteRenderer->ChangeAnimation("Item_Run_front");
             }
@@ -571,37 +601,7 @@ void APlayer::PlayerAnimationPlay()
         }
 
     }
-
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove)
-    {
-        switch (PlayerDir)
-        {
-        case EPlayerDir::Left:
-            SpriteRenderer->ChangeAnimation("Dig_Left", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Right:
-            SpriteRenderer->ChangeAnimation("Dig_Right", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Up:
-            SpriteRenderer->ChangeAnimation("Dig_Back", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Down:
-            SpriteRenderer->ChangeAnimation("Dig_Front", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-
-
-            break;
-        default:
-            break;
-        }
-    }
+   
 }
 
 void APlayer::PlayerAnimation()

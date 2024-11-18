@@ -4,6 +4,7 @@
 #include <EngineCore/2DCollision.h>
 #include <EngineCore/SpriteRenderer.h>
 #include "Gold.h"
+#include "Item.h"
 
 #include "ContentsEnum.h"
 
@@ -49,6 +50,28 @@ public:
 		return Text;
 	}
 
+	void ItemInfoSave(AItem* _Item);
+
+	EItemType GetItemType()
+	{
+		return ItemType;
+	}
+
+	std::string GetItemSpriteName()
+	{
+		return ItemSpriteName;
+	}
+
+	int GetItemIndex()
+	{
+		return ItemIndex;
+	}
+	
+	bool GetItemTypeCheck()
+	{
+		return IsItem;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -58,5 +81,12 @@ private:
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;
 	AGold* Text = nullptr;
+	AItem* Item = nullptr;
+
+	EItemType ItemType = EItemType::DUPivot;
+	std::string ItemSpriteName = "NONE";
+	bool IsItem = false;
+	int ItemIndex = 0;
+
 };
 

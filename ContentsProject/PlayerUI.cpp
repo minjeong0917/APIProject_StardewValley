@@ -131,10 +131,15 @@ void APlayerUI::UIImageRender()
         AllSlots.push_back(Slot);
     }
 
-    AllSlots[0]->SetSprite("Items.png", 624);
-    AllSlots[0]->SetName("Seeds");
-    AllSlots[0]->SetActorLocation(AllSlots[0]->GetActorLocation());
-    AllSlots[0]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+    AllSlots[0]->SetSprite("Tools.png", 26);
+    AllSlots[0]->SetName("Hoe");
+    AllSlots[0]->SetActorLocation({ AllSlots[0]->GetActorLocation().X, AllSlots[0]->GetActorLocation().Y + 25 });
+    AllSlots[0]->SetScale({ 14 * 3.5f, 28 * 3.5f });
+
+    AllSlots[1]->SetSprite("Items.png", 624);
+    AllSlots[1]->SetName("Seeds");
+    AllSlots[1]->SetActorLocation(AllSlots[1]->GetActorLocation());
+    AllSlots[1]->SetScale({ 14 * 3.5f, 14 * 3.5f });
 
     // CulSlot
     CurSlot = GetWorld()->SpawnActor<ASlot>();
@@ -150,11 +155,12 @@ void APlayerUI::AddItem(AItem* _Item)
 {
     bool IsOver = _Item->ItemTypeCheck(_Item->GetItemType());
     _Item->Destroy();
-    SlotCheck(_Item->GetItemName(),_Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
+    SlotCheck(_Item, _Item->GetItemName(),_Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
+
 }
 
 
-void APlayerUI::SlotCheck(std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
+void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
@@ -179,6 +185,7 @@ void APlayerUI::SlotCheck(std::string _ItemName ,std::string _SpriteName, int _I
             AllSlots[i]->SetName(_ItemName);
             AllSlots[i]->SetActorLocation(Location);
             AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+            AllSlots[i]->ItemInfoSave(_Item);
             break;
         }
         else if (false == IsEmptySlot && SlotSpriteName != _ItemName)
@@ -215,10 +222,26 @@ void APlayerUI::SlotCheck(std::string _ItemName ,std::string _SpriteName, int _I
 
     }
 }
+
 std::string APlayerUI::CurSlotItemName()
 {
     std::string CurSlotSpriteName = AllSlots[CurSlotNum]->GetName();
     return CurSlotSpriteName;
+}
+
+bool APlayerUI::CurSlotItemTypeCheck()
+{
+    bool check = AllSlots[CurSlotNum]->GetItemTypeCheck();
+    return check;
+}
+
+void APlayerUI::CurSlotItemSpawn()
+{
+    std::string SpriteName = AllSlots[CurSlotNum]->GetItemSpriteName();
+    int Index = AllSlots[CurSlotNum]->GetItemIndex();
+
+    AItem* Item = GetWorld()->SpawnActor<AItem>();
+    Item->SetSprite(SpriteName, Index, 1.0f);
 }
 
 

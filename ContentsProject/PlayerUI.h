@@ -25,7 +25,7 @@ public:
 	APlayerUI& operator=(const APlayerUI& _Other) = delete;
 	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
 	void UIImageRender();
-	void SlotCheck(std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
+	void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
 	void SetCurSlot();
 
 	void AddItem(class AItem* _Item);
@@ -35,6 +35,9 @@ public:
 		return CurSlotNum;
 	}
 	std::string CurSlotItemName();
+	bool CurSlotItemTypeCheck();
+
+	void CurSlotItemSpawn();
 
 
 

@@ -115,6 +115,24 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         switch (TileImages)
         {
         case ETileImage::Dirt:
+          
+            break;
+
+        case ETileImage::Tree001:
+            FarmTileMap->SetTileIndex("TreeTile", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+            break;
+
+        case ETileImage::Crops:
+
+
+            break;
+        default:
+            break;
+        }
+        std::string CurSlotName = Player->CurSlotCheck();
+
+        if ("Hoe" == CurSlotName)
+        {
             if (Player->IsMouseInPlayerPos == true)
             {
                 FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
@@ -140,20 +158,9 @@ void AFarmGameMode::PutTile(float _DeltaTime)
                 }
                 FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
-            break;
-
-        case ETileImage::Tree001:
-            FarmTileMap->SetTileIndex("TreeTile", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
-            break;
-
-        case ETileImage::Crops:
-
-
-            break;
-        default:
-            break;
         }
-        std::string CurSlotName = Player->CurSlotCheck();
+
+
         if (GetFarmTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos && "Seeds" == CurSlotName)
         {
             CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
@@ -164,7 +171,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
     if (true == UEngineInput::GetInst().IsDown(VK_HOME))
     {
         FarmTileMap->SetTileLocation("Dirt.png", { MousePosX, MousePosY }, 0);
-        CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 5, true, 5);
+        CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 4, true, 4);
     }
     
 }

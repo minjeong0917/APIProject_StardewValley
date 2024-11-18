@@ -71,3 +71,12 @@ void ASlot::CountText()
 	Text->SetTextScale({ 13, 15 });
 	Text->SetValue(SlotItemCount);
 }
+
+void ASlot::ItemInfoSave(AItem* _Item)
+{
+	ItemType = _Item->GetItemType();
+	ItemSpriteName = _Item->GetItemSpriteName();
+	ItemIndex = _Item->GetItemIndex();
+	IsItem = _Item->ItemTypeCheck(ItemType);
+
+}
