@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/2DCollision.h>
+#include <EngineCore/SpriteRenderer.h>
 
 
 // Ό³Έν :
@@ -29,6 +30,14 @@ public:
 	{
 		return SlotItemCount;
 	}
+	FVector2D GetLocation()
+	{
+		return SlotSpriteRenderer->GetComponentLocation();
+	}
+	FVector2D GeScale()
+	{
+		return SlotSpriteRenderer->GetComponentScale();
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -36,6 +45,6 @@ protected:
 private:
 	int SlotItemCount = 1;
 	U2DCollision* CollisionComponent = nullptr;
-	class USpriteRenderer* SlotSpriteRenderer = nullptr;
+	USpriteRenderer* SlotSpriteRenderer = nullptr;
 };
 

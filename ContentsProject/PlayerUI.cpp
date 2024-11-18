@@ -128,51 +128,72 @@ void APlayerUI::UIImageRender()
 
 void APlayerUI::AddItem(AItem* _Item)
 {
+    bool IsOver = _Item->ItemTypeCheck(_Item->GetItemType());
     _Item->Destroy();
+    SlotCheck(_Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
 }
 
 
-//void APlayerUI::SlotCheck(std::string _SpriteName, int _Index)
-//{
-//    for (size_t i = 0; i < AllSlots.size(); i++)
-//    {
-//        std::string SlotSpriteName = AllSlots[i]->GetName();
-//        if (SlotSpriteName != "EmptySlot")
-//        {
-//            IsEmptySlot = false;
-//        }
-//        else if (SlotSpriteName == "EmptySlot")
-//        {
-//            IsEmptySlot = true;
-//        }
-//
-//        int CurItemCount = AllSlots[i]->GetSlotItemCount();
-//
-//        if (true == IsEmptySlot)
-//        {
-//            AllSlots[i]->SetSprite(_SpriteName, _Index);
-//            AllSlots[i]->SetName(_SpriteName);
-//            AllSlots[i]->SetActorLocation(AllSlots[i]->GetActorLocation());
-//            AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
-//            break;
-//        }
-//        else if (SlotSpriteName == AllSlots[i]->GetName())
-//        {
-//            ++CurItemCount;
-//            AllSlots[i]->SetSlotItemCount(CurItemCount);
-//        }
-//
-//        //if (SlotSpriteName != "EmptySlot")
-//        //{
-//        //    AText* Text = GetWorld()->SpawnActor<AText>();
-//        //    Text->SetActorLocation(AllSlots[i]->GetActorLocation());
-//        //    Text->SetTextSpriteName("Item.png");
-//        //    Text->SetOrder(ERenderOrder::UIFont);
-//        //    Text->SetTextScale({ 13, 15 });
-//        //    Text->SetValue(CurItemCount);
-//        //}
-//
-//
-//    }
-//}
+void APlayerUI::SlotCheck(std::string _SpriteName, int _Index, bool IsOver)
+{
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    for (size_t i = 0; i < AllSlots.size(); i++)
+    {
+        std::string SlotSpriteName = AllSlots[i]->GetName();
+        FVector2D Location = AllSlots[i]->GetActorLocation();
+        if (SlotSpriteName != "EmptySlot")
+        {
+            IsEmptySlot = false;
+        }
+        else if (SlotSpriteName == "EmptySlot")
+        {
+            IsEmptySlot = true;
+        }
+
+        int CurItemCount = AllSlots[i]->GetSlotItemCount();
+
+        if (true == IsEmptySlot)
+        {
+            AllSlots[i]->SetSprite(_SpriteName, _Index);
+            AllSlots[i]->SetName(_SpriteName);
+            AllSlots[i]->SetActorLocation(Location);
+            AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+            break;
+        }
+        else if (SlotSpriteName == AllSlots[i]->GetName())
+        {
+            if (true == IsOver)
+            {
+                ++CurItemCount;
+                AllSlots[i]->SetSlotItemCount(CurItemCount);
+
+
+                if (nullptr != Text)
+                {
+                    Text->Destroy();
+                }
+
+                Text = GetWorld()->SpawnActor<AGold>();
+                Text->SetActorLocation(AllSlots[i]->GetLocation() + AllSlots[i]->GeScale().Half());
+                Text->SetTextSpriteName("Item.png");
+                Text->SetOrder(ERenderOrder::SLOTFont);
+                Text->SetTextScale({ 13, 15 });
+                Text->SetValue(CurItemCount);
+
+                return;
+
+            }
+            else if (false == IsOver)
+            {
+
+                AllSlots[i]->SetSlotItemCount(CurItemCount);
+                return;
+
+            }
+
+        }
+
+    }
+}
 

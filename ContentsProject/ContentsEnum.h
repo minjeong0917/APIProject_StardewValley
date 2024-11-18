@@ -10,6 +10,7 @@ enum class ERenderOrder
 	UIFont = 10001,
 	INVEN = 20000,
 	SLOT = 20001,
+	SLOTFont = 20002,
 	CURSOR = 100000
 
 };

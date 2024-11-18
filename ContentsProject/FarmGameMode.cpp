@@ -222,8 +222,6 @@ void AFarmGameMode::TileDestroy()
 
             // Tree Item Drop
             ItemDrop("Wood","Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
-
-            // Player->PlayerUI->SlotCheck("Items.png", 941);
         }
 
     }
@@ -236,6 +234,7 @@ void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVe
     Item->SetActorLocation(_ItemLocatioln);
     Item->SetForce();
     Item->SetItemType(_ItemName);
+    Item->GainItemInfo(_SpriteName, _ItemIndex, _ItemScale);
 }
 
 void AFarmGameMode::TileChange()

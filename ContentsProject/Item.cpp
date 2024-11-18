@@ -43,6 +43,13 @@ void AItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
 
 }
 
+void AItem::GainItemInfo(std::string _SpriteName, int _ItemIndex, float _ItemScale)
+{
+	GainItemIndex = _ItemIndex;
+	GainItemSpriteName = _SpriteName;
+	GainItemScale = _ItemScale;
+}
+
 void AItem::GainItem(float _DeltaTime)
 {
 	Time += _DeltaTime;
@@ -89,22 +96,22 @@ void AItem::DestroyItem()
 }
 
 
-void AItem::ItemTypeCheck(EItemType _ItemType)
+bool AItem::ItemTypeCheck(EItemType _ItemType)
 {
 	if (_ItemType == EItemType::DUPivot)
 	{
-		return;
+		return false;
 	}
 	else if(_ItemType > EItemType::DUPivot)
 	{
 		// 한개만
-		return;
+		return false;
 
 	}
 	else if (_ItemType < EItemType::DUPivot)
 	{
 		// 여러개 
-		return;
+		return true;
 
 	}
 }
@@ -114,6 +121,10 @@ void AItem::SetItemType(std::string _ItemName)
 	if ("Wood" == _ItemName)
 	{
 		Item = EItemType::Wood;
+	}
+	else if ("Tool" == _ItemName)
+	{
+		Item = EItemType::Tools;
 	}
 }
 

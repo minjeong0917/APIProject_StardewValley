@@ -25,7 +25,7 @@ public:
 	APlayerUI& operator=(const APlayerUI& _Other) = delete;
 	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
 	void UIImageRender();
-	//void SlotCheck(std::string _SpriteName, int _Index);
+	void SlotCheck(std::string _SpriteName, int _Index, bool IsOver);
 
 	void AddItem(class AItem* _Item);
 
@@ -51,7 +51,8 @@ private:
 	std::vector<ASlot*> AllSlots;
 	// std::vector<ASlot*> AllSlots;
 	bool IsEmptySlot = true;
-
+	AGold* Text = nullptr;
+	AGold* CurText = nullptr;
 
 };
 
