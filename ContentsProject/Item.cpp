@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
-#include "ContentsEnum.h"
+
 #include <EngineBase/EngineRandom.h>
 #include "Item.h"
 #include "Player.h"
@@ -12,7 +12,7 @@ AItem::AItem()
 {
 
 	ItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	ItemSpriteRenderer->SetOrder(ERenderOrder::UI);
+
 }
 
 AItem::~AItem()
@@ -20,7 +20,7 @@ AItem::~AItem()
 }
 void AItem::BeginPlay()
 {
-
+	Super::BeginPlay();
 }
 
 void AItem::Tick(float _DeltaTime)
@@ -34,12 +34,21 @@ void AItem::Tick(float _DeltaTime)
 	}
 
 }
+void AItem::SetCameraEffect(bool _IsCamera)
+{
+	ItemSpriteRenderer->SetCameraEffect(_IsCamera);
 
+}
 
-void AItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
+void AItem::ItemSetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale)
 {
 	ItemSpriteRenderer->SetSprite(_SprtieName, _SpriteIndex);
 	ItemSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
+
+}
+void AItem::SetOrder(ERenderOrder _Order)
+{
+	ItemSpriteRenderer->SetOrder(_Order);
 
 }
 
@@ -119,24 +128,33 @@ bool AItem::ItemTypeCheck(EItemType _ItemType)
 
 }
 
-void AItem::SetItemType(std::string _ItemName)
+EItemType AItem::SetItemType(std::string _ItemName)
 {
 	if ("Wood" == _ItemName)
 	{
 		Item = EItemType::Wood;
+		return Item;
 	}
 	else if ("Seeds" == _ItemName)
 	{
 		Item = EItemType::Crop;
+		return Item;
+
 	}
 	else if ("parsnip" == _ItemName)
 	{
 		Item = EItemType::Crop;
+		return Item;
+
 	}
 	else if ("Hoe" == _ItemName)
 	{
 		Item = EItemType::Tools;
+		return Item;
+
 	}
+	return Item;
+
 }
 
 void AItem::SetForce()

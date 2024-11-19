@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
-
+#include "ContentsEnum.h"
 enum class EItemType
 {
 	Wood,
@@ -16,7 +16,7 @@ class AItem : public AActor
 public:
 	// constrcuter destructer
 	AItem();
-	~AItem();
+	virtual ~AItem();
 
 	// delete Function
 	AItem(const AItem& _Other) = delete;
@@ -24,12 +24,13 @@ public:
 	AItem& operator=(const AItem& _Other) = delete;
 	AItem& operator=(AItem&& _Other) noexcept = delete;
 
-	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
+	void ItemSetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
 	void SetForce();
-	void GainItem(float _DeltaTime);
 	bool ItemTypeCheck(EItemType _ItemType);
-	void SetItemType(std::string _ItemName);
+	EItemType SetItemType(std::string _ItemName);
+	void SetOrder(ERenderOrder _Order);
 	void GainItemInfo(std::string _ItemName, std::string _SpriteName, int _ItemIndex, float _ItemScale);
+	void SetCameraEffect(bool _IsCamera = true);
 
 	int GetItemIndex()
 	{
@@ -55,6 +56,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	void GainItem(float _DeltaTime);
 	void Force(float _DeltaTime);
 	void DestroyItem();
 

@@ -446,7 +446,7 @@ void APlayer::PlayerAnimationPlay()
         switch (PlayerDir)
         {
         case EPlayerDir::Left:
-            if (PlayerUI->CurSlotItemName() == "Seeds")
+            if (PlayerUI->TypeCheck)
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -457,7 +457,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Right:
-            if (PlayerUI->CurSlotItemName() == "Seeds")
+            if (PlayerUI->TypeCheck)
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -468,7 +468,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Up:
-            if (PlayerUI->CurSlotItemName() == "Seeds")
+            if (PlayerUI->TypeCheck)
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -479,7 +479,7 @@ void APlayer::PlayerAnimationPlay()
 
             break;
         case EPlayerDir::Down:
-            if (PlayerUI->CurSlotItemName() == "Seeds")
+            if (PlayerUI->TypeCheck)
             {
                 SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
             }
@@ -583,7 +583,7 @@ void APlayer::PlayerAnimationPlay()
         }
         else if (true == UEngineInput::GetInst().IsPress('S'))
         {
-            if (PlayerUI->CurSlotItemName() == "Seeds")
+            if (PlayerUI->TypeCheck)
             {
                 SpriteRenderer->ChangeAnimation("Item_Run_front");
             }

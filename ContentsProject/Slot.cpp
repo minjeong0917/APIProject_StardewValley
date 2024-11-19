@@ -81,3 +81,11 @@ void ASlot::SetItemSpriteName(std::string _SpriteName)
 {
 	ItemSpriteName = _SpriteName;
 }
+
+
+void ASlot::SlotItemInfoSave(std::string _SpriteName, int _Index)
+{
+	ItemSpriteName = _SpriteName;
+	ItemIndex = _Index;
+
+}

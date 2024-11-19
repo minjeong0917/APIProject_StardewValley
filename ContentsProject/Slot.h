@@ -53,6 +53,8 @@ public:
 
 	void SetItemIndex(int _Index);
 	void SetItemSpriteName(std::string _SpriteName);
+	void SlotItemInfoSave(std::string _SpriteName, int _Index);
+
 	int GetItemIndex()
 	{
 		return ItemIndex;

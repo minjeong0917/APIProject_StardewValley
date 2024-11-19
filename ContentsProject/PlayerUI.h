@@ -43,13 +43,13 @@ public:
 
 
 
-
 protected:
 	void BeginPlay();
 
 	void Tick(float _DeltaTime);
 
 private:
+	bool TypeCheck = false;
 	ACursor* Cursor = nullptr;
 
 	ATime* MinTime = nullptr;
@@ -61,10 +61,10 @@ private:
 
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
-
 	std::vector<ASlot*> AllSlots;
 	ASlot* CurSlot = nullptr;
 	ACurItem* CurItem = nullptr;
+
 	bool IsEmptySlot = true;
 
 	AGold* CurText = nullptr;

@@ -262,8 +262,9 @@ void AFarmGameMode::TileDestroy()
 void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
 {
     Item = GetWorld()->SpawnActor<AItem>();
-    Item->SetSprite(_SpriteName, _ItemIndex, _ItemScale);
+    Item->ItemSetSprite(_SpriteName, _ItemIndex, _ItemScale);
     Item->SetActorLocation(_ItemLocatioln);
+    Item->SetOrder(ERenderOrder::UI);
     Item->SetForce();
     Item->SetItemType(_ItemName);
     Item->GainItemInfo(_ItemName,_SpriteName, _ItemIndex, _ItemScale);

@@ -62,8 +62,11 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
 
+
+
     SetCurSlot();
-    CurItem->SetActorLocation({ Player->GetActorLocation().X,Player->GetActorLocation().Y - 90 });
+    CurSlotItemSpawn();
+
 }
 
 
@@ -152,8 +155,8 @@ void APlayerUI::UIImageRender()
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetComponentLocation(AllSlots[CurSlotNum]->GetLocation());
-    CurSlotItemSpawn();
 
+    CurItem = GetWorld()->SpawnActor<ACurItem>();
 
 }
 
@@ -189,12 +192,20 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
 
         if (true == IsEmptySlot)
         {
-            AllSlots[i]->SetSprite(_SpriteName, _Index);
+            //_Item = GetWorld()->SpawnActor<AItem>();
+            //_Item->SetSprite(_SpriteName, _Index, 3.0f);
+            //_Item->SetCameraEffect(false);
+            //_Item->SetActorLocation(AllSlots[i]->GetLocation());
+            //_Item->SetOrder(ERenderOrder::SLOTITEM);
+            //AllSlots[i]->SlotItemInfoSave(_SpriteName, _Index);
             AllSlots[i]->SetName(_ItemName);
+
             AllSlots[i]->SetActorLocation(Location);
+            AllSlots[i]->SetSprite(_SpriteName, _Index);
             AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
             AllSlots[i]->SetItemIndex(_Index);
             AllSlots[i]->SetItemSpriteName(_SpriteName);
+
             break;
         }
         else if (false == IsEmptySlot && SlotSpriteName != _ItemName)
@@ -242,11 +253,26 @@ std::string APlayerUI::CurSlotItemName()
 
 void APlayerUI::CurSlotItemSpawn()
 {
-    std::string SpriteName = AllSlots[CurSlotNum]->GetItemSpriteName();
-    int Index = AllSlots[CurSlotNum]->GetItemIndex();
+    std::string ItemName = AllSlots[CurSlotNum]->GetName();
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+    EItemType ItemType = CurItem->SetItemType(ItemName);
+    TypeCheck = CurItem->ItemTypeCheck(ItemType);
+    if (ItemName != "EmptySlot" && true == TypeCheck)
+    {
+        CurItem->SetActive(true);
 
-    CurItem = GetWorld()->SpawnActor<ACurItem>();
-    CurItem->SetSprite(SpriteName, Index, 3.0f);
+        std::string SpriteName = AllSlots[CurSlotNum]->GetItemSpriteName();
+        int Index = AllSlots[CurSlotNum]->GetItemIndex();
+
+        CurItem->SetSprite(SpriteName, Index, 3.0f);
+        CurItem->SetActorLocation({ Player->GetActorLocation().X,Player->GetActorLocation().Y - 90 });
+
+    }
+    else if (ItemName == "EmptySlot" || false == TypeCheck)
+    {
+        CurItem->SetActive(false);
+
+    }
 
 }
 
