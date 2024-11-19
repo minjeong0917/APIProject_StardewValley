@@ -71,8 +71,10 @@ void APlayerUI::Tick(float _DeltaTime)
     }
 
     // Inventory
+    // 인벤토리 닫기
     if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
     {
+        Player->IsOpenIven = false;
         --IsOpenIven;
         Inventory->SetActive(false);
         InventoryBar->SetActive(true);
@@ -87,9 +89,9 @@ void APlayerUI::Tick(float _DeltaTime)
                 AllSlots[0][i]->SetTextLocation(Loc2);
             }
         }
-        for (size_t y = 1; y < 3; y++)
+        for (int y = 1; y < 3; y++)
         {
-            for (float i = 0; i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 AllSlots[y][i]->SetActive(false);
                 if (AllSlots[y][i]->GetText() != nullptr)
@@ -102,8 +104,10 @@ void APlayerUI::Tick(float _DeltaTime)
         CurSlot->SetActive(true);
 
     }
+    // 인벤토리 열기
     else if (true == UEngineInput::GetInst().IsDown('E'))
     {
+        Player->IsOpenIven = true;
 
         Inventory->SetActive(true);
 
@@ -124,7 +128,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
         for (int y = 1; y < 3; y++)
         {
-            for (float i = 0; i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 AllSlots[y][i]->SetActive(true);
                 if (AllSlots[y][i]->GetText() != nullptr)
@@ -211,7 +215,7 @@ void APlayerUI::UIImageRender()
 
     StartLocation = { Size.Half().iX() - 311, Size.Half().iY() - 50 };
 
-    for (int y = 1; y < 3; y++)
+    for (float y = 1; y < 3; y++)
     {
         for (float i = 0; i < 12; i++)
         {
@@ -223,7 +227,8 @@ void APlayerUI::UIImageRender()
             FVector2D Location = { 0, 60 };
             Slot->SetComponentLocation(StartLocation + (InterLocation * i) + (Location * y));
             Slot->SetActive(false);
-            AllSlots[y].push_back(Slot);
+
+            AllSlots[static_cast<int>(y)].push_back(Slot);
         }
     }
 

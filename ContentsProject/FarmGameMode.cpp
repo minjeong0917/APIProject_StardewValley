@@ -47,13 +47,15 @@ void AFarmGameMode::BeginPlay()
 
     // house
     FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
-    FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f, 1200.0f });
-    FIntPoint TreePoint1 = FarmTileMap->LocationToIndex({ 3860.0f, 1200.0f });
-    FIntPoint TreePoint2 = FarmTileMap->LocationToIndex({ 3930.0f, 1200.0f });
     FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
-    FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
-    FarmTileMap->SetTileIndex("TreeTile", TreePoint1, { 0, -110 }, { 144, 240 }, 0, false, 0);
-    FarmTileMap->SetTileIndex("TreeTile", TreePoint2, { 0, -110 }, { 144, 240 }, 0, false, 0);
+
+    for (int i = 0; i < 10; i++)
+    {
+        FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + ( 70 * i), 1200.0f });
+        FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+
+    }
+
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)
@@ -241,21 +243,25 @@ void AFarmGameMode::TileDestroy()
         {
 
             Tile* Tile = CropTileMap->GetTileRef(CropCurTileLocation);
-
-            if (nullptr != Tile->SpriteRenderer)
+             
+            if (Tile->SpriteIndex == Tile->MaxSpriteIndex) // 다 자라야 캐지도록
             {
-                Tile->SpriteRenderer->Destroy();
-                Tile->SpriteRenderer = nullptr;
-                CropTileMap->TileDestroy(CropCurTileLocation);
+                if (nullptr != Tile->SpriteRenderer)
+                {
+                    Tile->SpriteRenderer->Destroy();
+                    Tile->SpriteRenderer = nullptr;
+                    CropTileMap->TileDestroy(CropCurTileLocation);
 
-                // 플레이어의 TreeTile 포인터 초기화
-                Player->TreeTile = nullptr;
-                Player->PreviousTreeTile = nullptr;
+                    // 플레이어의 TreeTile 포인터 초기화
+                    Player->TreeTile = nullptr;
+                    Player->PreviousTreeTile = nullptr;
+                }
+
+                // Tree Item Drop
+                ItemDrop("parsnip", "Items.png", TileLocation, Player->GetActorLocation(), 32, 3.0f);
             }
-
-            // Tree Item Drop
-            ItemDrop("parsnip", "Items.png", TileLocation, Player->GetActorLocation(), 32, 3.0f);
         }
+
     }
 }
 

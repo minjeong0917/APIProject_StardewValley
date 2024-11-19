@@ -303,7 +303,7 @@ void APlayer::AddItem(AItem* _Item)
 
 void APlayer::PlayerMove(float _DeltaTime)
 {
-    if (true == ColorCheck && true == TileCheck)
+    if (true == ColorCheck && true == TileCheck && false == IsOpenIven)
     {
         AddActorLocation(PlayerMoveDir() * _DeltaTime * Speed);
     }

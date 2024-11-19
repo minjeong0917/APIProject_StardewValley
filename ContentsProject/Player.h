@@ -64,6 +64,7 @@ public:
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 
 	bool IsPlayerMove = false;
+	bool IsOpenIven = false;
 	bool IsMouseInPlayerPos = false;
 
 	Tile* TreeTile = nullptr;
