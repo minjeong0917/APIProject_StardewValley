@@ -166,6 +166,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         if (GetFarmTileSpriteName({ MousePosX ,MousePosY }) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos && "Seeds" == CurSlotName)
         {
             CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
+            //CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { -3, -40 }, { 70, 138 }, 0, true, 7);
         }
     }
 

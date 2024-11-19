@@ -14,9 +14,12 @@ ASlot::ASlot()
 
 	{
 		CollisionComponent = CreateDefaultSubObject<U2DCollision>();
+		CollisionComponent->SetComponentLocation({ 0, 0 });
+
 		CollisionComponent->SetComponentScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
 		CollisionComponent->SetCollisionGroup(ECollisionGroup::SLOT);
 		CollisionComponent->SetCollisionType(ECollisionType::Rect);
+		CollisionComponent->SetCameraEffect(false);
 
 		DebugOn();
 	}
@@ -65,7 +68,7 @@ void ASlot::Tick(float _DeltaTime)
 void ASlot::CountText()
 {
 	Text = GetWorld()->SpawnActor<AGold>();
-	Text->SetActorLocation(GetLocation() + GetScale().Half());
+	Text->SetActorLocation(GetActorLocation() + GetScale().Half());
 	Text->SetTextSpriteName("Item.png");
 	Text->SetOrder(ERenderOrder::SLOTFont);
 	Text->SetTextScale({ 13, 15 });

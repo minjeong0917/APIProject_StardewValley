@@ -81,12 +81,12 @@ void APlayerUI::Tick(float _DeltaTime)
         for (int i = 0; i < 12; i++)
         {
             FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            FVector2D Loc2 = AllSlots[0][i]->GetLocation() + AllSlots[0][i]->GetScale().Half();
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
             AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 347.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2);
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 347.0f);
             }
         }
         for (int y = 1; y < 3; y++)
@@ -117,7 +117,7 @@ void APlayerUI::Tick(float _DeltaTime)
         {
 
             FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            FVector2D Loc2 = AllSlots[0][i]->GetLocation() + AllSlots[0][i]->GetScale().Half();
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
             AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 347.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
@@ -209,7 +209,7 @@ void APlayerUI::UIImageRender()
         Slot->SetName("EmptySlot");
         Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
         Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
-        Slot->SetComponentLocation(StartLocation + (InterLocation * i));
+        Slot->SetActorLocation(StartLocation + (InterLocation * i));
         AllSlots[0].push_back(Slot);
     }
 
@@ -225,7 +225,7 @@ void APlayerUI::UIImageRender()
             Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
             Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
             FVector2D Location = { 0, 60 };
-            Slot->SetComponentLocation(StartLocation + (InterLocation * i) + (Location * y));
+            Slot->SetActorLocation(StartLocation + (InterLocation * i) + (Location * y));
             Slot->SetActive(false);
 
             AllSlots[static_cast<int>(y)].push_back(Slot);
@@ -255,7 +255,7 @@ void APlayerUI::UIImageRender()
     CurSlot->SetSprite("UI", 5);
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
-    CurSlot->SetComponentLocation(AllSlots[0][CurSlotNum]->GetLocation());
+    CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
 
     CurItem = GetWorld()->SpawnActor<ACurItem>();
 

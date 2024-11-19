@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EngineCore/2DCollision.h>
 
 // Ό³Έν :
 class ACursor : public AActor
@@ -22,5 +23,7 @@ protected:
 
 private:
 	class USpriteRenderer* CursorSpriteRenderer = nullptr;
+	U2DCollision* CollisionComponent = nullptr;
+
 };
 

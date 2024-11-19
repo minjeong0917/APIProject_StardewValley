@@ -95,6 +95,7 @@ void ContentsCore::ReadySprite()
 			Dir.MoveParentToDirectory("Resources//Images");
 			Dir.Append("TileMap//CropsTile");
 			UImageManager::GetInst().CuttingSprite("parsnip.png", { 15, 16 });
+			UImageManager::GetInst().CuttingSprite("GreenBean.png", { 15, 27 });
 
 		}
 

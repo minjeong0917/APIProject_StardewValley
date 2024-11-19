@@ -87,11 +87,17 @@ public:
 	void SetCollisionStay(std::function<void(AActor*)> _Function);
 	void SetCollisionEnd(std::function<void(AActor*)> _Function);
 
+	void SetCameraEffect(bool _IsCameraEffect)
+	{
+		IsCameraEffect = _IsCameraEffect;
+	}
+
 protected:
 
 private:
 	void CollisionEventCheck(class U2DCollision* _Other);
 
+	bool IsCameraEffect = true;
 
 	ECollisionType CollisionType = ECollisionType::CirCle;
 	int CollisionGroup = -1;

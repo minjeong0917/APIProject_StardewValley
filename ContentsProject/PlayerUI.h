@@ -63,10 +63,6 @@ private:
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 
-	// std::vector<ASlot*> AllSlots;
-
-	// 0¹ø ½½·Ô Äü½½·Ô
-
 	std::vector<std::vector<ASlot*>> AllSlots;
 
 	ASlot* CurSlot = nullptr;
