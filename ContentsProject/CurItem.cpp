@@ -24,12 +24,12 @@ void ACurItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale
 void ACurItem::BeginPlay()
 {
 	CurItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	CurItemSpriteRenderer->SetOrder(ERenderOrder::SLOT);
 
 }
 
 void ACurItem::Tick(float _DeltaTime)
 {
+	CurItemSpriteRenderer->SetOrder(GetActorLocation().Y + 91);
 
 }
 

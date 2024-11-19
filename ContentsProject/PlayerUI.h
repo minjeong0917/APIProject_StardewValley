@@ -29,6 +29,7 @@ public:
 	void UIImageRender();
 	void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
 	void SetCurSlot();
+	void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = {0,0});
 
 	void AddItem(class AItem* _Item);
 
@@ -62,10 +63,11 @@ private:
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
 
-	std::vector<ASlot*> AllSlots;
+	// std::vector<ASlot*> AllSlots;
 
+	// 0¹ø ½½·Ô Äü½½·Ô
 
-	std::vector<std::vector<ASlot*>> AllQuickbars;
+	std::vector<std::vector<ASlot*>> AllSlots;
 
 	ASlot* CurSlot = nullptr;
 	ACurItem* CurItem = nullptr;

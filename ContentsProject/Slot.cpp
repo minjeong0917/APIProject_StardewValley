@@ -72,6 +72,11 @@ void ASlot::CountText()
 	Text->SetValue(SlotItemCount);
 }
 
+void ASlot::SetTextLocation(FVector2D _Location)
+{
+	Text->SetActorLocation(_Location);
+}
+
 void ASlot::SaveItemInfo(std::string _SpriteName, int _Index, FVector2D _Scale)
 {
 	ItemIndex = _Index;

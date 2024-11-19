@@ -78,7 +78,21 @@ void APlayerUI::Tick(float _DeltaTime)
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
         {
-            AllSlots[i]->SetActive(true);
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            FVector2D Loc2 = AllSlots[0][i]->GetLocation() + AllSlots[0][i]->GetScale().Half();
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 347.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+                AllSlots[0][i]->SetTextLocation(Loc2);
+            }
+        }
+        for (size_t y = 1; y < 3; y++)
+        {
+            for (float i = 0; i < 12; i++)
+            {
+                AllSlots[y][i]->SetActive(false);
+            }
         }
         CurItem->SetActive(true);
         CurSlot->SetActive(true);
@@ -93,7 +107,23 @@ void APlayerUI::Tick(float _DeltaTime)
         InventoryBar->SetActive(false);
         for (int i = 0; i < 12; i++)
         {
-            AllSlots[i]->SetActive(false);
+
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            FVector2D Loc2 = AllSlots[0][i]->GetLocation() + AllSlots[0][i]->GetScale().Half();
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 347.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+               AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 347.0f);
+            }
+        }
+
+        for (size_t y = 1; y < 3; y++)
+        {
+            for (float i = 0; i < 12; i++)
+            {
+                AllSlots[y][i]->SetActive(true);
+            }
         }
 
         CurItem->SetActive(false);
@@ -156,30 +186,45 @@ void APlayerUI::UIImageRender()
     FVector2D StartLocation = { Size.Half().iX() - 311, Size.iY() - 81 };
     FVector2D InterLocation = { 56.0f, 0.0f };
 
+    AllSlots.resize(3);
 
     // Slot
+
     for (float i = 0; i < 12; i++)
     {
         ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
-        Slot->SetSprite("UI", 6);
+        // Slot->SetSprite("UI", 6);
         Slot->SetName("EmptySlot");
         Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
         Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
         Slot->SetComponentLocation(StartLocation + (InterLocation * i));
-        AllSlots.push_back(Slot);
+        AllSlots[0].push_back(Slot);
     }
 
-    AllSlots[0]->SetSprite("Tools.png", 26);
-    AllSlots[0]->SetName("Hoe");
-    AllSlots[0]->SetActorLocation({ AllSlots[0]->GetActorLocation().X, AllSlots[0]->GetActorLocation().Y + 25 });
-    AllSlots[0]->SetScale({ 14 * 3.5f, 28 * 3.5f });
-    AllSlots[0]->SaveItemInfo("Tools.png", 26, { 14 * 3.5f, 28 * 3.5f });
+    StartLocation = { Size.Half().iX() - 311, Size.Half().iY() - 50 };
 
-    AllSlots[1]->SetSprite("Items.png", 624);
-    AllSlots[1]->SetName("Seeds");
-    AllSlots[1]->SetActorLocation(AllSlots[1]->GetActorLocation());
-    AllSlots[1]->SetScale({ 14 * 3.5f, 14 * 3.5f });
-    AllSlots[1]->SaveItemInfo("Items.png", 624, { 14 * 3.5f, 14 * 3.5f });
+    for (size_t y = 1; y < 3; y++)
+    {
+        for (float i = 0; i < 12; i++)
+        {
+            ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
+            //Slot->SetSprite("UI", 6);
+            Slot->SetName("EmptySlot");
+            Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
+            Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
+            FVector2D Location = { 0, 60 };
+            Slot->SetComponentLocation(StartLocation + (InterLocation * i) + (Location * y));
+            Slot->SetActive(false);
+            AllSlots[y].push_back(Slot);
+        }
+    }
+
+
+
+
+    // 기본 아이템 지급
+    DefaultItem({ 0,0 }, "Tools.png", "Hoe", 26, { 14 * 3.5f, 30 * 3.5f }, { 0,25 });
+    DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
 
 
     // CulSlot
@@ -187,17 +232,26 @@ void APlayerUI::UIImageRender()
     CurSlot->SetSprite("UI", 5);
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
-    CurSlot->SetComponentLocation(AllSlots[CurSlotNum]->GetLocation());
+    CurSlot->SetComponentLocation(AllSlots[0][CurSlotNum]->GetLocation());
 
     CurItem = GetWorld()->SpawnActor<ACurItem>();
 
     // Inventory
     Inventory = GetWorld()->SpawnActor<AInventory>();
-    Inventory->SetActorLocation({ Size.Half().iX(), Size.Half().iY() });
+    Inventory->SetActorLocation({ Size.Half().iX()+1, Size.Half().iY() });
     Inventory->SetActive(false);
 
 }
 
+void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location)
+{
+    FVector2D DefaultLocation = AllSlots[_SlotIndex.X][_SlotIndex.Y]->GetActorLocation();
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetSprite(_SpriteName, _ItemIndex);
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetName(_ItemName);
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetActorLocation(DefaultLocation + _Location);
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetScale(_Scale);
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SaveItemInfo(_SpriteName, _ItemIndex, _Scale);
+}
 
 
 void APlayerUI::AddItem(AItem* _Item)
@@ -207,15 +261,14 @@ void APlayerUI::AddItem(AItem* _Item)
     SlotCheck(_Item, _Item->GetItemName(), _Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
 }
 
-
 void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
     for (size_t i = 0; i < AllSlots.size(); i++)
     {
-        std::string SlotSpriteName = AllSlots[i]->GetName();
-        FVector2D Location = AllSlots[i]->GetActorLocation();
+        std::string SlotSpriteName = AllSlots[0][i]->GetName();
+        FVector2D Location = AllSlots[0][i]->GetActorLocation();
         if (SlotSpriteName != "EmptySlot")
         {
             IsEmptySlot = false;
@@ -225,7 +278,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             IsEmptySlot = true;
         }
 
-        int CurItemCount = AllSlots[i]->GetSlotItemCount();
+        int CurItemCount = AllSlots[0][i]->GetSlotItemCount();
 
         if (true == IsEmptySlot)
         {
@@ -235,12 +288,12 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             //_Item->SetActorLocation(AllSlots[i]->GetLocation());
             //_Item->SetOrder(ERenderOrder::SLOTITEM);
             //AllSlots[i]->SaveItemInfo(_SpriteName, _Index, { 14 * 3.5f, 14 * 3.5f });
-            AllSlots[i]->SetName(_ItemName);
-            AllSlots[i]->SetActorLocation(Location);
-            AllSlots[i]->SetSprite(_SpriteName, _Index);
-            AllSlots[i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+            AllSlots[0][i]->SetName(_ItemName);
+            AllSlots[0][i]->SetActorLocation(Location);
+            AllSlots[0][i]->SetSprite(_SpriteName, _Index);
+            AllSlots[0][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
 
-            AllSlots[i]->SaveItemInfo(_SpriteName, _Index, { 14 * 3.5f, 14 * 3.5f });
+            AllSlots[0][i]->SaveItemInfo(_SpriteName, _Index, { 14 * 3.5f, 14 * 3.5f });
 
 
             break;
@@ -254,15 +307,15 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             if (true == IsOver)
             {
                 ++CurItemCount;
-                AllSlots[i]->SetSlotItemCount(CurItemCount);
+                AllSlots[0][i]->SetSlotItemCount(CurItemCount);
 
 
-                if (nullptr != AllSlots[i]->GetText())
+                if (nullptr != AllSlots[0][i]->GetText())
                 {
-                    AllSlots[i]->GetText()->Destroy();
+                    AllSlots[0][i]->GetText()->Destroy();
                 }
 
-                AllSlots[i]->CountText();
+                AllSlots[0][i]->CountText();
 
                 return;
 
@@ -270,7 +323,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             else if (false == IsOver)
             {
 
-                AllSlots[i]->SetSlotItemCount(CurItemCount);
+                AllSlots[0][i]->SetSlotItemCount(CurItemCount);
                 return;
 
             }
@@ -280,7 +333,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
 
 std::string APlayerUI::CurSlotItemName()
 {
-    std::string CurSlotSpriteName = AllSlots[CurSlotNum]->GetName();
+    std::string CurSlotSpriteName = AllSlots[0][CurSlotNum]->GetName();
     return CurSlotSpriteName;
 }
 
@@ -288,7 +341,7 @@ std::string APlayerUI::CurSlotItemName()
 
 void APlayerUI::CurSlotItemSpawn()
 {
-    std::string ItemName = AllSlots[CurSlotNum]->GetName();
+    std::string ItemName = AllSlots[0][CurSlotNum]->GetName();
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     EItemType ItemType = CurItem->SetItemType(ItemName);
@@ -298,8 +351,8 @@ void APlayerUI::CurSlotItemSpawn()
     {
         CurItem->SetActive(true);
 
-        std::string SpriteName = AllSlots[CurSlotNum]->GetItemSpriteName();
-        int Index = AllSlots[CurSlotNum]->GetItemIndex();
+        std::string SpriteName = AllSlots[0][CurSlotNum]->GetItemSpriteName();
+        int Index = AllSlots[0][CurSlotNum]->GetItemIndex();
 
         CurItem->SetSprite(SpriteName, Index, 3.0f);
         CurItem->SetActorLocation({ Player->GetActorLocation().X,Player->GetActorLocation().Y - 90 });
@@ -315,65 +368,31 @@ void APlayerUI::CurSlotItemSpawn()
 
 void APlayerUI::SetCurSlot()
 {
-    if (true == UEngineInput::GetInst().IsDown('1'))
+    int Key = '1';
+
+    for (size_t i = 0; i < 9; i++)
     {
-        CurSlotNum = 0;
-        CurSlot->SetComponentLocation(AllSlots[0]->GetLocation());
-        return;
+        if (true == UEngineInput::GetInst().IsDown(i + Key))
+        {
+            CurSlotNum = i;
+            CurSlot->SetComponentLocation(AllSlots[0][i]->GetLocation());
+            return;
+        }
     }
-    else if (true == UEngineInput::GetInst().IsDown('2'))
-    {
-        CurSlotNum = 1;
-        CurSlot->SetComponentLocation(AllSlots[1]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('3'))
-    {
-        CurSlotNum = 2;
-        CurSlot->SetComponentLocation(AllSlots[2]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('4'))
-    {
-        CurSlotNum = 3;
-        CurSlot->SetComponentLocation(AllSlots[3]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('5'))
-    {
-        CurSlotNum = 4;
-        CurSlot->SetComponentLocation(AllSlots[4]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('6'))
-    {
-        CurSlotNum = 5;
-        CurSlot->SetComponentLocation(AllSlots[5]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('7'))
-    {
-        CurSlotNum = 6;
-        CurSlot->SetComponentLocation(AllSlots[6]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('8'))
-    {
-        CurSlotNum = 7;
-        CurSlot->SetComponentLocation(AllSlots[7]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('9'))
-    {
-        CurSlotNum = 8;
-        CurSlot->SetComponentLocation(AllSlots[8]->GetLocation());
-    }
-    else if (true == UEngineInput::GetInst().IsDown('0'))
+
+    if (true == UEngineInput::GetInst().IsDown('0'))
     {
         CurSlotNum = 9;
-        CurSlot->SetComponentLocation(AllSlots[9]->GetLocation());
+        CurSlot->SetComponentLocation(AllSlots[0][9]->GetLocation());
     }
-    else if (true == UEngineInput::GetInst().IsDown(VK_OEM_MINUS))
+    if (true == UEngineInput::GetInst().IsDown(VK_OEM_MINUS))
     {
         CurSlotNum = 10;
-        CurSlot->SetComponentLocation(AllSlots[10]->GetLocation());
+        CurSlot->SetComponentLocation(AllSlots[0][10]->GetLocation());
     }
-    else if (true == UEngineInput::GetInst().IsDown(VK_OEM_PLUS))
+    if (true == UEngineInput::GetInst().IsDown(VK_OEM_PLUS))
     {
         CurSlotNum = 11;
-        CurSlot->SetComponentLocation(AllSlots[11]->GetLocation());
+        CurSlot->SetComponentLocation(AllSlots[0][11]->GetLocation());
     }
 }

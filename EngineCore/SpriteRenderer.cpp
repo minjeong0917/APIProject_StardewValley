@@ -17,7 +17,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 {
 	if (nullptr == Sprite)
 	{
-		MSGASSERT("스프라이트가 세팅되지 않은 액터를 랜더링을 할수 없습니다.");
+		// MSGASSERT("스프라이트가 세팅되지 않은 액터를 랜더링을 할수 없습니다.");
 		return;
 	}
 	UEngineWindow& MainWindow = UEngineAPICore::GetCore()->GetMainWindow();
