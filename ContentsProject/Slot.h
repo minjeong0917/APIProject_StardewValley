@@ -51,9 +51,8 @@ public:
 	}
 
 
-	void SetItemIndex(int _Index);
-	void SetItemSpriteName(std::string _SpriteName);
-	void SlotItemInfoSave(std::string _SpriteName, int _Index);
+	void SaveItemInfo(std::string _SpriteName, int _Index, FVector2D _Scale);
+
 
 	int GetItemIndex()
 	{
@@ -62,6 +61,10 @@ public:
 	std::string GetItemSpriteName()
 	{
 		return ItemSpriteName;
+	}
+	FVector2D GetItemScale()
+	{
+		return ItemScale;
 	}
 
 protected:
@@ -75,6 +78,7 @@ private:
 	AGold* Text = nullptr;
 	int ItemIndex = 0;
 	std::string ItemSpriteName = "NONE";
+	FVector2D ItemScale = {0,0};
 
 };
 

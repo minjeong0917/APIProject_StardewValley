@@ -95,7 +95,7 @@ private:
 	class APlayerUI* PlayerUI = nullptr;
 
 	bool ColorCheck = false;
-	int IsOpenIven = 0;
+
 	bool TileCheck = true;
 	int PlayerGold = 1;
 

@@ -42,7 +42,6 @@ public:
 	void CurSlotItemSpawn();
 
 
-
 protected:
 	void BeginPlay();
 
@@ -50,6 +49,7 @@ protected:
 
 private:
 	bool TypeCheck = false;
+	int IsOpenIven = 0;
 	ACursor* Cursor = nullptr;
 
 	ATime* MinTime = nullptr;
@@ -61,7 +61,12 @@ private:
 
 	AInventory* Inventory = nullptr;
 	AInventoryBar* InventoryBar = nullptr;
+
 	std::vector<ASlot*> AllSlots;
+
+
+	std::vector<std::vector<ASlot*>> AllQuickbars;
+
 	ASlot* CurSlot = nullptr;
 	ACurItem* CurItem = nullptr;
 

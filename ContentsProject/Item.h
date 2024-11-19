@@ -4,9 +4,11 @@
 #include "ContentsEnum.h"
 enum class EItemType
 {
+	
 	Wood,
 	Crop,
 	DUPivot,
+	EmptySlot,
 	Tools,
 };
 

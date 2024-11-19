@@ -80,6 +80,12 @@ EItemType ACurItem::SetItemType(std::string _ItemName)
 		return ItemType;
 
 	}
+	else if ("EmptySlot" == _ItemName)
+	{
+		ItemType = EItemType::EmptySlot;
+		return ItemType;
+
+	}
 	return ItemType;
 
 }
