@@ -64,7 +64,8 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
 
-    SetCurSlot();
+
+
     if (IsOpenIven == 0)
     {
         CurSlotItemSpawn();
@@ -142,7 +143,7 @@ void APlayerUI::Tick(float _DeltaTime)
         CurSlot->SetActive(false);
 
     }
-
+    SetCurSlot();
 }
 
 
@@ -234,8 +235,9 @@ void APlayerUI::UIImageRender()
 
 
     // 기본 아이템 지급
-    DefaultItem({ 0,0 }, "Tools.png", "Hoe", 26, { 14 * 3.5f, 30 * 3.5f }, { 0,25 });
+    DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 14 * 3.5f, 14 * 3.5f });
     DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
+    DefaultItem({ 0,2 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
     //DefaultItem({ 0,2 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
     //DefaultItem({ 0,3 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
     //DefaultItem({ 0,4 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
@@ -289,7 +291,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     for (int y = 0; y < 3; y++)
     {
-        for (int i = 0; i < AllSlots.size(); i++)
+        for (int i = 0; i < AllSlots[y].size(); i++)
         {
             std::string SlotSpriteName = AllSlots[y][i]->GetName();
             FVector2D Location = AllSlots[y][i]->GetActorLocation();
@@ -408,7 +410,7 @@ void APlayerUI::SetCurSlot()
         if (true == UEngineInput::GetInst().IsDown(i + Key))
         {
             CurSlotNum = i;
-            CurSlot->SetComponentLocation(AllSlots[0][i]->GetLocation());
+            CurSlot->SetActorLocation(AllSlots[0][i]->GetActorLocation());
             return;
         }
     }
@@ -416,16 +418,16 @@ void APlayerUI::SetCurSlot()
     if (true == UEngineInput::GetInst().IsDown('0'))
     {
         CurSlotNum = 9;
-        CurSlot->SetComponentLocation(AllSlots[0][9]->GetLocation());
+        CurSlot->SetActorLocation(AllSlots[0][9]->GetActorLocation());
     }
     if (true == UEngineInput::GetInst().IsDown(VK_OEM_MINUS))
     {
         CurSlotNum = 10;
-        CurSlot->SetComponentLocation(AllSlots[0][10]->GetLocation());
+        CurSlot->SetActorLocation(AllSlots[0][10]->GetActorLocation());
     }
     if (true == UEngineInput::GetInst().IsDown(VK_OEM_PLUS))
     {
         CurSlotNum = 11;
-        CurSlot->SetComponentLocation(AllSlots[0][11]->GetLocation());
+        CurSlot->SetActorLocation(AllSlots[0][11]->GetActorLocation());
     }
 }

@@ -118,13 +118,15 @@ void ContentsCore::ReadySprite()
 			UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
 			UImageManager::GetInst().CuttingSprite("Week.png", { 81, 33 });
 		}
-		// ------------------------------- [ Item & Tools] -------------------------------------------
+		// ------------------------------- [ Item & Tools ] -------------------------------------------
 		{
 			UEngineDirectory Dir;
 			Dir.MoveParentToDirectory("Resources//Images");
 			Dir.Append("Item");
 			UImageManager::GetInst().CuttingSprite("Items.png", { 16, 16 });
 			UImageManager::GetInst().CuttingSprite("Tools.png", { 16, 32 });
+			UImageManager::GetInst().CuttingSprite("Hoe.png", { 16, 16 });
+			UImageManager::GetInst().CuttingSprite("Ax.png", { 16, 16 });
 		}
 
 		// ------------------------------- [ Player ] -------------------------------------------

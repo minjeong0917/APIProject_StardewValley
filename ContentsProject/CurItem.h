@@ -5,7 +5,7 @@
 #include "Item.h"
 
 // Ό³Έν :
-class ACurItem : public AActor
+class ACurItem : public AItem
 {
 public:
 	// constrcuter destructer
@@ -18,8 +18,8 @@ public:
 	ACurItem& operator=(const ACurItem& _Other) = delete;
 	ACurItem& operator=(ACurItem&& _Other) noexcept = delete;
 	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
-	bool ItemTypeCheck(EItemType _ItemType);
-	EItemType SetItemType(std::string _ItemName);
+	//bool ItemTypeCheck(EItemType _ItemType);
+	//EItemType SetItemType(std::string _ItemName);
 
 protected:
 	void BeginPlay() override;

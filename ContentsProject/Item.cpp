@@ -147,7 +147,7 @@ EItemType AItem::SetItemType(std::string _ItemName)
 		return Item;
 
 	}
-	else if ("Hoe" == _ItemName)
+	else if ("Hoe" == _ItemName || "Ax" == _ItemName)
 	{
 		Item = EItemType::Tools;
 		return Item;

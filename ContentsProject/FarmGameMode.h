@@ -36,7 +36,8 @@ public:
 		}
 		return nullptr;
 	}
-	void TileDestroy();
+	void TileDestroyLocation();
+	void TileDestroy(ATileMap* _TileMap, FIntPoint _Location);
 	std::string DestroyItemName = "NONE";
 
 protected:
