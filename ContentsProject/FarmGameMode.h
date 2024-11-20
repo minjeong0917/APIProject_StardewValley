@@ -44,6 +44,7 @@ protected:
 
 private:
 	void ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
+	FVector2D PlayerDirToTileMap(ATileMap* _TileMap);
 
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;

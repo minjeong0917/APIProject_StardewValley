@@ -15,7 +15,6 @@ void U2DCollision::BeginPlay()
 {
 	Super::BeginPlay();
 
-
 	AActor* Actor = GetActor();
 	ULevel* Level = Actor->GetWorld();
 
@@ -43,10 +42,12 @@ void U2DCollision::ComponentTick(float _DeltaTime)
 		FTransform ActorTransform = GetActorTransform();
 		FVector2D CameraPos = GetActor()->GetWorld()->GetCameraPos();
 
+
 		if (true == IsCameraEffect)
 		{
 			ActorTransform.Location -= CameraPos;
 		}
+
 		switch (CollisionType)
 		{
 		case ECollisionType::Rect:
@@ -65,7 +66,6 @@ void U2DCollision::ComponentTick(float _DeltaTime)
 
 bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Result, FVector2D _NextPos, unsigned int  _Limite)
 {
-
 	U2DCollision* ThisCollision = this;
 
 	if (false == ThisCollision->IsActive())
@@ -83,6 +83,7 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 	for (; StartIter != EndIter; ++StartIter)
 	{
 		U2DCollision* DestCollision = *StartIter;
+
 		if (ThisCollision == DestCollision)
 		{
 			continue;
@@ -92,7 +93,7 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 		{
 			continue;
 		}
-		
+
 		FTransform ThisTrans = ThisCollision->GetActorTransform();
 		FTransform DestTrans = DestCollision->GetActorTransform();
 
@@ -117,7 +118,6 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 
 	return 0 != _Result.size();
 }
-
 
 
 
@@ -159,7 +159,6 @@ void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
 
 }
 
-
 void U2DCollision::CollisionEventCheck(class U2DCollision* _Other)
 {
 
@@ -194,6 +193,7 @@ void U2DCollision::CollisionEventCheck(class U2DCollision* _Other)
 	}
 	else
 	{
+
 		if (true == CollisionCheckSet.contains(DestCollision))
 		{
 			if (nullptr != End)

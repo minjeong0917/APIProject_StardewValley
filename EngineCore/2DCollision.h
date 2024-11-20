@@ -48,7 +48,6 @@ public:
 	template<typename EnumType>
 	AActor* CollisionOnce(EnumType _OtherCollisionGroup, FVector2D _NextPos = FVector2D::ZERO)
 	{
-
 		std::vector<AActor*> Result;
 		Collision(static_cast<int>(_OtherCollisionGroup), Result, _NextPos, 1);
 
@@ -63,7 +62,6 @@ public:
 	template<typename EnumType>
 	std::vector<AActor*> CollisionAll(EnumType _OtherCollisionGroup, FVector2D _NextDir)
 	{
-
 		std::vector<AActor*> Result;
 		Collision(static_cast<int>(_OtherCollisionGroup), Result, _NextDir, -1);
 
@@ -82,27 +80,26 @@ public:
 		return CollisionType;
 	}
 
-
-	void SetCollisionEnter(std::function<void(AActor*)> _Function);
-	void SetCollisionStay(std::function<void(AActor*)> _Function);
-	void SetCollisionEnd(std::function<void(AActor*)> _Function);
-
 	void SetCameraEffect(bool _IsCameraEffect)
 	{
 		IsCameraEffect = _IsCameraEffect;
 	}
+
+	void SetCollisionEnter(std::function<void(AActor*)> _Function);
+	void SetCollisionStay(std::function<void(AActor*)> _Function);
+	void SetCollisionEnd(std::function<void(AActor*)> _Function);
 
 protected:
 
 private:
 	void CollisionEventCheck(class U2DCollision* _Other);
 
-	bool IsCameraEffect = true;
-
 	ECollisionType CollisionType = ECollisionType::CirCle;
 	int CollisionGroup = -1;
 
 	std::set<U2DCollision*> CollisionCheckSet;
+
+	bool IsCameraEffect = true;
 
 	std::function<void(AActor*)> Enter;
 	std::function<void(AActor*)> Stay;

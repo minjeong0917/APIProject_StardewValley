@@ -15,6 +15,8 @@ public:
 	ACursor(ACursor&& _Other) noexcept = delete;
 	ACursor& operator=(const ACursor& _Other) = delete;
 	ACursor& operator=(ACursor&& _Other) noexcept = delete;
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
 
 protected:
 
@@ -26,4 +28,5 @@ private:
 	U2DCollision* CollisionComponent = nullptr;
 
 };
+
 

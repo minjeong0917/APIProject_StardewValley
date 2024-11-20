@@ -19,6 +19,9 @@ APlayerUI::~APlayerUI()
 
 void APlayerUI::BeginPlay()
 {
+    Super::BeginPlay();
+
+
     UIImageRender();
 
 }
@@ -199,8 +202,8 @@ void APlayerUI::UIImageRender()
     FVector2D StartLocation = { Size.Half().iX() - 311, Size.iY() - 81 };
     FVector2D InterLocation = { 56.0f, 0.0f };
 
-    AllSlots.resize(3);
 
+    AllSlots.resize(3);
     // Slot
 
     for (float i = 0; i < 12; i++)
@@ -216,9 +219,9 @@ void APlayerUI::UIImageRender()
 
     StartLocation = { Size.Half().iX() - 311, Size.Half().iY() - 50 };
 
-    for (float y = 1; y < 3; y++)
+    for (float y = 1; y < AllSlots.size(); y++)
     {
-        for (float i = 0; i < 12; i++)
+        for (int i = 0; i < 12; i++)
         {
             ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
             //Slot->SetSprite("UI", 6);

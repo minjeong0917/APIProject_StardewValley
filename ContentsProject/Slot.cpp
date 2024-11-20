@@ -16,7 +16,7 @@ ASlot::ASlot()
 		CollisionComponent = CreateDefaultSubObject<U2DCollision>();
 		CollisionComponent->SetComponentLocation({ 0, 0 });
 
-		CollisionComponent->SetComponentScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
+		CollisionComponent->SetComponentScale(FVector2D{ 14 * 3.5f, 14 * 3.5f });
 		CollisionComponent->SetCollisionGroup(ECollisionGroup::SLOT);
 		CollisionComponent->SetCollisionType(ECollisionType::Rect);
 		CollisionComponent->SetCameraEffect(false);

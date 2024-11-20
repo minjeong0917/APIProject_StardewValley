@@ -415,11 +415,11 @@ void APlayer::PlayerAnimationPlay()
     FVector2D Direction = { MousePosX - GetActorLocation().X, MousePosY - GetActorLocation().Y};
     float DirectionAbsX = std::abs(Direction.X);
     float DirectionAbsY = std::abs(Direction.Y);
-
+    float FarmTileSize = Farm->GetFarmTilMap()->GetTileSize().X;
 
     IsMouseInPlayerPos = false;
 
-    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    if (DirectionAbsX <= FarmTileSize && DirectionAbsY <= FarmTileSize && DirectionAbsX >= 0 && DirectionAbsY >= 0)
     {
         IsMouseInPlayerPos = true;
     }
@@ -512,36 +512,39 @@ void APlayer::PlayerAnimationPlay()
         }
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && CurSlotCheck() == "Hoe")
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove )
     {
-
-        switch (PlayerDir)
+        if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Ax")
         {
-        case EPlayerDir::Left:
-            SpriteRenderer->ChangeAnimation("Dig_Left", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Right:
-            SpriteRenderer->ChangeAnimation("Dig_Right", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Up:
-            SpriteRenderer->ChangeAnimation("Dig_Back", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
-            break;
-        case EPlayerDir::Down:
-            SpriteRenderer->ChangeAnimation("Dig_Front", true);
-            IsAnimationPlay = true;
-            SetAnimationDuration(0.5f);
+            switch (PlayerDir)
+            {
+            case EPlayerDir::Left:
+                SpriteRenderer->ChangeAnimation("Dig_Left", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Right:
+                SpriteRenderer->ChangeAnimation("Dig_Right", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Up:
+                SpriteRenderer->ChangeAnimation("Dig_Back", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Down:
+                SpriteRenderer->ChangeAnimation("Dig_Front", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
 
 
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
+            }
         }
+
     }
 
 

@@ -24,7 +24,7 @@ void ATileMap::Create(FIntPoint _Count, FVector2D _TileSize)
 
     for (size_t y = 0; y < AllTiles.size(); y++)
     {
-        AllTiles[y].resize(_Count.X);;
+        AllTiles[y].resize(_Count.X);
     }
 }
 

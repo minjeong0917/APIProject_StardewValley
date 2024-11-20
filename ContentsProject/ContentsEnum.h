@@ -35,7 +35,7 @@ enum class EPlayerDir
 
 enum class ECollisionGroup
 {
-	SLOT,
 	CURSOR,
+	SLOT,
 
 };

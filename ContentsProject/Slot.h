@@ -67,7 +67,7 @@ public:
 		return ItemScale;
 	}
 	void SetTextLocation(FVector2D _Location);
-
+	
 
 protected:
 	void BeginPlay() override;
