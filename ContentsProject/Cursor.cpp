@@ -26,10 +26,6 @@ ACursor::ACursor()
 		DebugOn();
 	}
 
-	GetWorld()->CollisionGroupLink(ECollisionGroup::SLOT, ECollisionGroup::CURSOR);
-
-	CollisionComponent->SetCollisionEnter(std::bind(&ACursor::CollisionEnter, this, std::placeholders::_1));
-	CollisionComponent->SetCollisionStay(std::bind(&ACursor::CollisionStay, this, std::placeholders::_1));
 
 }
 
@@ -45,8 +41,6 @@ void ACursor::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-
-	//bool IsColision = CollisionComponent->Collision(static_cast<int>(ECollisionGroup::SLOT));
 	AActor* Result = CollisionComponent->CollisionOnce(ECollisionGroup::SLOT);
 	if (nullptr != Result)
 	{
@@ -55,12 +49,3 @@ void ACursor::Tick(float _DeltaTime)
 	}
 }
 
-
-void ACursor::CollisionEnter(AActor* _ColActor)
-{
-	int a = 0;
-}
-void ACursor::CollisionStay(AActor* _ColActor)
-{
-	int a = 0;
-}

@@ -68,85 +68,16 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
 
+    InventoryCheck();
 
     if (IsOpenIven == 0)
     {
         CurSlotItemSpawn();
     }
 
-    // Inventory
-    // 인벤토리 닫기
-    if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
-    {
-        Player->IsOpenIven = false;
-        --IsOpenIven;
-        Inventory->SetActive(false);
-        InventoryBar->SetActive(true);
-        for (int i = 0; i < 12; i++)
-        {
-            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
-
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 347.0f);
-            if (AllSlots[0][i]->GetText() != nullptr)
-            {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 347.0f);
-            }
-        }
-        for (int y = 1; y < 3; y++)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                AllSlots[y][i]->SetActive(false);
-                if (AllSlots[y][i]->GetText() != nullptr)
-                {
-                    AllSlots[y][i]->GetText()->SetActive(false);
-                }
-            }
-        }
-        CurItem->SetActive(true);
-        CurSlot->SetActive(true);
-
-    }
-    // 인벤토리 열기
-    else if (true == UEngineInput::GetInst().IsDown('E'))
-    {
-        Player->IsOpenIven = true;
-
-        Inventory->SetActive(true);
-
-        ++IsOpenIven;
-        InventoryBar->SetActive(false);
-        for (int i = 0; i < 12; i++)
-        {
-
-            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
-
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 347.0f);
-            if (AllSlots[0][i]->GetText() != nullptr)
-            {
-               AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 347.0f);
-            }
-        }
-
-        for (int y = 1; y < 3; y++)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                AllSlots[y][i]->SetActive(true);
-                if (AllSlots[y][i]->GetText() != nullptr)
-                {
-                    AllSlots[y][i]->GetText()->SetActive(true);
-                }
-            }
-        }
-
-        CurItem->SetActive(false);
-        CurSlot->SetActive(false);
-
-    }
     SetCurSlot();
+
+
 }
 
 
@@ -271,6 +202,84 @@ void APlayerUI::UIImageRender()
 
 }
 
+void APlayerUI::InventoryCheck()
+{
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
+    // Inventory
+    // 인벤토리 닫기
+    if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
+    {
+        Player->IsOpenIven = false;
+        --IsOpenIven;
+        Inventory->SetActive(false);
+        InventoryBar->SetActive(true);
+        for (int i = 0; i < 12; i++)
+        {
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 347.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 347.0f);
+            }
+        }
+        for (int y = 1; y < 3; y++)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                AllSlots[y][i]->SetActive(false);
+                if (AllSlots[y][i]->GetText() != nullptr)
+                {
+                    AllSlots[y][i]->GetText()->SetActive(false);
+                }
+            }
+        }
+        CurItem->SetActive(true);
+        CurSlot->SetActive(true);
+
+    }
+    // 인벤토리 열기
+    else if (true == UEngineInput::GetInst().IsDown('E'))
+    {
+        Player->IsOpenIven = true;
+
+        Inventory->SetActive(true);
+
+        ++IsOpenIven;
+        InventoryBar->SetActive(false);
+        for (int i = 0; i < 12; i++)
+        {
+
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 347.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 347.0f);
+            }
+        }
+
+        for (int y = 1; y < 3; y++)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                AllSlots[y][i]->SetActive(true);
+                if (AllSlots[y][i]->GetText() != nullptr)
+                {
+                    AllSlots[y][i]->GetText()->SetActive(true);
+                }
+            }
+        }
+
+        CurItem->SetActive(false);
+        CurSlot->SetActive(false);
+
+    }
+}
+
 void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location)
 {
     FVector2D DefaultLocation = AllSlots[_SlotIndex.X][_SlotIndex.Y]->GetActorLocation();
@@ -288,6 +297,8 @@ void APlayerUI::AddItem(AItem* _Item)
     _Item->Destroy();
     SlotCheck(_Item, _Item->GetItemName(), _Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
 }
+
+
 
 void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
 {

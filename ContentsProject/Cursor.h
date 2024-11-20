@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineCore/2DCollision.h>
+#include "Slot.h"
 
 // Ό³Έν :
 class ACursor : public AActor
@@ -15,8 +16,7 @@ public:
 	ACursor(ACursor&& _Other) noexcept = delete;
 	ACursor& operator=(const ACursor& _Other) = delete;
 	ACursor& operator=(ACursor&& _Other) noexcept = delete;
-	void CollisionEnter(AActor* _ColActor);
-	void CollisionStay(AActor* _ColActor);
+
 
 protected:
 

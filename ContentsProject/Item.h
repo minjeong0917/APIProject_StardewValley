@@ -30,9 +30,9 @@ public:
 	void SetForce();
 	bool ItemTypeCheck(EItemType _ItemType);
 	EItemType SetItemType(std::string _ItemName);
-	void SetOrder(ERenderOrder _Order);
+	virtual void SetOrder(ERenderOrder _Order);
 	void GainItemInfo(std::string _ItemName, std::string _SpriteName, int _ItemIndex, float _ItemScale);
-	void SetCameraEffect(bool _IsCamera = true);
+	virtual void SetCameraEffect(bool _IsCamera = true);
 
 	int GetItemIndex()
 	{

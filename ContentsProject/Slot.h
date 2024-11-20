@@ -4,7 +4,8 @@
 #include <EngineCore/2DCollision.h>
 #include <EngineCore/SpriteRenderer.h>
 #include "Gold.h"
-#include "Item.h"
+
+#include "SelectedItem.h"
 
 #include "ContentsEnum.h"
 
@@ -23,7 +24,7 @@ public:
 	ASlot& operator=(ASlot&& _Other) noexcept = delete;
 	void SetSprite(std::string _SprtieName, int _SpriteIndex);
 	void SetComponentLocation(FVector2D _Location);
-	void SetColisionLocation(FVector2D _Location);
+	//void SetColisionLocation(FVector2D _Location);
 	void SetScale(FVector2D _Scale);
 	void SetOrder(ERenderOrder _RenderOder);
 
@@ -62,12 +63,20 @@ public:
 	{
 		return ItemSpriteName;
 	}
+
 	FVector2D GetItemScale()
 	{
 		return ItemScale;
 	}
 	void SetTextLocation(FVector2D _Location);
 	
+	void CollisionEnd(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
+
+	bool GetIsSelectedItem()
+	{
+		return IsSelectedItem;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -82,5 +91,12 @@ private:
 	std::string ItemSpriteName = "NONE";
 	FVector2D ItemScale = {0,0};
 
+	int IsSelectedItem = 0;
+
+
+	std::string SelectedItemName = "NONE";
+	std::string SelectedItemSpriteName = "NONE";
+	int SelectedItemIndex = 0;
+	FVector2D SelecteItemScale = { 0,0 };
 };
 

@@ -43,12 +43,15 @@ public:
 	void CurSlotItemSpawn();
 
 
+
 protected:
 	void BeginPlay();
 
 	void Tick(float _DeltaTime);
 
 private:
+	void InventoryCheck();
+
 	bool TypeCheck = false;
 	int IsOpenIven = 0;
 	ACursor* Cursor = nullptr;

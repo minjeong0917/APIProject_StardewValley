@@ -10,7 +10,7 @@
 #include "InventoryBar.h"
 #include "Slot.h"
 #include "PlayerUI.h"
-
+#include "SelectedItem.h"
 // 설명 :
 class APlayer : public AActor
 {
@@ -77,6 +77,21 @@ public:
 	void PlayerAnimationTimer(float _DeltaTime, float _Duration);
 	void SetAnimationDuration(float _Duration);
 
+	
+	std::string GetSelectedItemName()
+	{
+		return SelectedItemName;
+	}
+
+	std::string GetSelectedItemSpriteName()
+	{
+		return SelectedItemSpriteName;
+	}
+
+	int GetSelectedItemIndex()
+	{
+		return SelectedItemIndex;
+	}
 
 protected:
 
@@ -105,5 +120,11 @@ private:
 	bool IsAnimationPlay = false; // 애니메이션 잠금 플래그
 	float AnimationDuration = 0.0f;
 	float AnimationTimer = 0.0f;    
+
+	std::string SelectedItemName = "NONE";
+	std::string SelectedItemSpriteName = "NONE";
+	int SelectedItemIndex = 0;
+
+
 };
 

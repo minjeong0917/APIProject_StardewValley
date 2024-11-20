@@ -60,6 +60,9 @@ void APlayer::BeginPlay()
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
+
+
+
 }
 
 
@@ -299,7 +302,6 @@ void APlayer::AddItem(AItem* _Item)
 {
     PlayerUI->AddItem(_Item);
 }
-
 
 void APlayer::PlayerMove(float _DeltaTime)
 {
@@ -722,3 +724,5 @@ std::string APlayer::CurSlotCheck()
 {
     return PlayerUI->CurSlotItemName();
 }
+
+

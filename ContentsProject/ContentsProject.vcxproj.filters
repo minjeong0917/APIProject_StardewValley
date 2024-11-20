@@ -102,6 +102,9 @@
     <ClCompile Include="CurItem.cpp">
       <Filter>ContentsObject\Items</Filter>
     </ClCompile>
+    <ClCompile Include="SelectedItem.cpp">
+      <Filter>ContentsObject\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -168,6 +171,9 @@
       <Filter>ContentsObject\Global</Filter>
     </ClInclude>
     <ClInclude Include="CurItem.h">
+      <Filter>ContentsObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedItem.h">
       <Filter>ContentsObject\Items</Filter>
     </ClInclude>
   </ItemGroup>

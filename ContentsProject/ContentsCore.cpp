@@ -159,4 +159,7 @@ void ContentsCore::ReadySprite()
 			UEngineSound::Load(FilePath);
 		}
 	}
+
+	ULevel::CollisionGroupLink(ECollisionGroup::SLOT, ECollisionGroup::CURSOR);
+	//ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::SLOT);
 }

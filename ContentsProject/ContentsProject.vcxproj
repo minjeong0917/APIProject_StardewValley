@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SelectedItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CurItem.h">
       <SubType>
       </SubType>
@@ -232,6 +236,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SelectedItem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CurItem.cpp">
       <SubType>
       </SubType>
