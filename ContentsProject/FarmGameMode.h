@@ -26,6 +26,7 @@ public:
 
 	std::string GetFarmTileSpriteName(FVector2D Location);
 	std::string GetCropTileSpriteName(FVector2D Location);
+	void UseItem();
 
 
 	ATileMap* GetFarmTilMap()

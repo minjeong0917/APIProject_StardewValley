@@ -142,6 +142,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos && "Seeds" == CurSlotName)
         {
             CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
+            UseItem();
             //CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { -3, -40 }, { 70, 138 }, 0, true, 7);
         }
     }
@@ -254,7 +255,11 @@ void AFarmGameMode::TileDestroy(ATileMap* _TileMap, FIntPoint _Location)
         Player->PreviousTreeTile = nullptr;
     }
 }
-
+void AFarmGameMode::UseItem()
+{
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+    Player->UseItem();
+}
 
 void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
 {

@@ -40,7 +40,7 @@ public:
 	std::string CurSlotItemName();
 
 	void CurSlotItemSpawn();
-
+	void UseItem();
 
 
 protected:

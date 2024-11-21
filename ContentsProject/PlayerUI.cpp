@@ -469,6 +469,26 @@ void APlayerUI::SlotItemChange()
     }
 }
 
+void APlayerUI::UseItem()
+{
+    int Count = AllSlots[0][CurSlotNum]->GetSlotItemCount();
+    Count -= 1;
+    if (Count == 0)
+    {
+        AllSlots[0][CurSlotNum]->SetSprite("UI", 6);
+        AllSlots[0][CurSlotNum]->SetScale({ 16 * 3.5f , 16 * 3.5f });
+        AllSlots[0][CurSlotNum]->SetName("EmptySlot");
+        return;
+    }
+
+    AllSlots[0][CurSlotNum]->SetSlotItemCount(Count);
+    AllSlots[0][CurSlotNum]->CountTextDestroy();
+    if (Count > 1)
+    {
+        AllSlots[0][CurSlotNum]->CountText();
+    }
+}
+
 
 std::string APlayerUI::CurSlotItemName()
 {

@@ -303,6 +303,13 @@ void APlayer::AddItem(AItem* _Item)
     PlayerUI->AddItem(_Item);
 }
 
+void APlayer::UseItem()
+{
+    PlayerUI->UseItem();
+
+}
+
+
 void APlayer::PlayerMove(float _DeltaTime)
 {
     if (true == ColorCheck && true == TileCheck && false == IsOpenIven)

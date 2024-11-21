@@ -76,6 +76,7 @@ public:
 
 	void PlayerAnimationTimer(float _DeltaTime, float _Duration);
 	void SetAnimationDuration(float _Duration);
+	void UseItem();
 
 	
 	std::string GetSelectedItemName()
