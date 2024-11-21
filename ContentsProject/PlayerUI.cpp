@@ -22,7 +22,6 @@ void APlayerUI::BeginPlay()
 {
     Super::BeginPlay();
 
-
     UIImageRender();
 
 }
@@ -66,9 +65,6 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
 
-
-
-
     InventoryCheck();
 
     if (IsOpenIven == 0)
@@ -88,69 +84,11 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
 }
-void APlayerUI::SlotItemChange()
-{
-    for (size_t y = 0; y < 3; y++)
-    {
-        for (size_t i = 0; i < 12; i++)
-        {
-
-            UEngineDebug::CoreOutPutString(AllSlots[y][i]->GetNameView());
-
-            if (AllSlots[y][i]->GetIsSelectedItem() == 1 && false == IsChoose)
-            {
-                std::string SelectedName = AllSlots[y][i]->GetSelectedItemName();
-                std::string SelectedSpriteName = AllSlots[y][i]->GetSelectedItemSpriteName();
-                int SelectedIndex = AllSlots[y][i]->GetSelectedItemIndex();
-
-                SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
-                SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
-                SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
-                SelectedItem->SetSelectedItemName(SelectedName);
-                SelectedItem->SetSelectedItemIndex(SelectedIndex);
-
-                AllSlots[y][i]->SetName("EmptySlot");
-                AllSlots[y][i]->SetSprite("UI", 6);
-                AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
-                AllSlots[y][i]->SaveItemInfo("UI", 6, { 16 * 3.5f, 16 * 3.5f });
-
-                IsChoose = true;
-                AllSlots[y][i]->SetIsSelectedItem(0);
-            }
-
-            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && false == IsChoose)
-            {
-                AllSlots[y][i]->SetIsSelectedItem(0);
-            }
-
-            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
-            {
-                IsChoose = false;
-                std::string SelectedName = SelectedItem->GetSelectedItemName();
-                std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
-                int SelectedIndex = SelectedItem->GetSelectedItemIndex();
-
-
-                AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
-                AllSlots[y][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
-                AllSlots[y][i]->SetName(SelectedName);
-                AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, { 14 * 3.5f, 14 * 3.5f });
-                AllSlots[y][i]->SetIsSelectedItem(0);
-
-                SelectedItem->Destroy();
-                SelectedItem = nullptr;
-
-            }
-        }
-    }
-}
 
 void APlayerUI::UIImageRender()
 {
-
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
-
 
     // Clock
     AClock* Clock = GetWorld()->SpawnActor<AClock>();
@@ -177,7 +115,6 @@ void APlayerUI::UIImageRender()
     WeekText = GetWorld()->SpawnActor<AText>();
     DayText = GetWorld()->SpawnActor<AGold>();
 
-
     // Cursor
     Cursor = GetWorld()->SpawnActor<ACursor>();
 
@@ -197,9 +134,7 @@ void APlayerUI::UIImageRender()
     FVector2D StartLocation = { Size.Half().iX() - 311, Size.iY() - 81 };
     FVector2D InterLocation = { 56.0f, 0.0f };
 
-
     AllSlots.resize(3);
-    // Slot
 
     for (float i = 0; i < 12; i++)
     {
@@ -231,24 +166,10 @@ void APlayerUI::UIImageRender()
         }
     }
 
-
     // 기본 아이템 지급
     DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 14 * 3.5f, 14 * 3.5f });
-    DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
+    DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
     DefaultItem({ 0,2 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,2 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,3 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,4 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,5 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,6 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,7 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,8 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,9 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,10 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-    //DefaultItem({ 0,11 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f });
-
-
-
 
     // CulSlot
     CurSlot = GetWorld()->SpawnActor<ASlot>();
@@ -257,14 +178,13 @@ void APlayerUI::UIImageRender()
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
 
+    // CulItem
     CurItem = GetWorld()->SpawnActor<ACurItem>();
 
     // Inventory
     Inventory = GetWorld()->SpawnActor<AInventory>();
     Inventory->SetActorLocation({ Size.Half().iX()+1, Size.Half().iY() });
     Inventory->SetActive(false);
-
-
  
 }
 
@@ -347,13 +267,19 @@ void APlayerUI::InventoryCheck()
     }
 }
 
-void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location)
+void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location, int ItemCount)
 {
     FVector2D DefaultLocation = AllSlots[_SlotIndex.X][_SlotIndex.Y]->GetActorLocation();
     AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetSprite(_SpriteName, _ItemIndex);
     AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetName(_ItemName);
     AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetActorLocation(DefaultLocation + _Location);
     AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetScale(_Scale);
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SetSlotItemCount(ItemCount);
+    if (ItemCount > 1)
+    {
+        AllSlots[_SlotIndex.X][_SlotIndex.Y]->CountText();
+    }
+    AllSlots[_SlotIndex.X][_SlotIndex.Y]->SaveItemInfo(_SpriteName, _ItemIndex, _Scale);
     AllSlots[_SlotIndex.X][_SlotIndex.Y]->SaveItemInfo(_SpriteName, _ItemIndex, _Scale);
 }
 
@@ -370,6 +296,32 @@ void APlayerUI::AddItem(AItem* _Item)
 void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    bool HasItem = false;
+    int HasItemY = 0;
+    int HasItemX = 0;
+
+    for (int y = 0; y < 3; y++)
+    {
+        for (int i = 0; i < AllSlots[y].size(); i++)
+        {
+            std::string SlotSpriteName = AllSlots[y][i]->GetName();
+
+            if (SlotSpriteName == _ItemName)
+            {
+                HasItem = true;
+                HasItemY = y;
+                HasItemX = i;
+            }
+        }
+    }
+
+    if (true == HasItem)
+    {
+        SlotItemText(HasItemY, HasItemX);
+        return;
+    }
+
     for (int y = 0; y < 3; y++)
     {
         for (int i = 0; i < AllSlots[y].size(); i++)
@@ -385,21 +337,14 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
                 IsEmptySlot = true;
             }
 
-            int CurItemCount = AllSlots[y][i]->GetSlotItemCount();
 
             if (true == IsEmptySlot)
             {
-                //_Item = GetWorld()->SpawnActor<AItem>();
-                //_Item->SetSprite(_SpriteName, _Index, 3.0f);
-                //_Item->SetCameraEffect(false);
-                //_Item->SetActorLocation(AllSlots[i]->GetLocation());
-                //_Item->SetOrder(ERenderOrder::SLOTITEM);
-                //AllSlots[i]->SaveItemInfo(_SpriteName, _Index, { 14 * 3.5f, 14 * 3.5f });
+                
                 AllSlots[y][i]->SetName(_ItemName);
                 AllSlots[y][i]->SetActorLocation(Location);
                 AllSlots[y][i]->SetSprite(_SpriteName, _Index);
                 AllSlots[y][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
-
                 AllSlots[y][i]->SaveItemInfo(_SpriteName, _Index, { 14 * 3.5f, 14 * 3.5f });
 
 
@@ -410,36 +355,18 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             {
                 continue;
             }
+
             else if (SlotSpriteName == _ItemName)
             {
                 if (true == IsOver)
                 {
-                    ++CurItemCount;
-                    AllSlots[y][i]->SetSlotItemCount(CurItemCount);
-
-
-                    if (nullptr != AllSlots[y][i]->GetText())
-                    {
-                        AllSlots[y][i]->GetText()->Destroy();
-                    }
-
-                    AllSlots[y][i]->CountText();
-
-                    if (y >= 1)
-                    {
-                        if (nullptr != AllSlots[y][i]->GetText())
-                        {
-                            AllSlots[y][i]->GetText()->SetActive(false);
-                        }
-                    }
+                    SlotItemText(y, i);
                     return;
 
                 }
                 else if (false == IsOver)
                 {
-
-                    AllSlots[y][i]->SetSlotItemCount(CurItemCount);
-                    return;
+                    continue;
 
                 }
             }
@@ -448,13 +375,106 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
     
 }
 
+void APlayerUI::SlotItemText(int _Y, int _X)
+{
+    int CurItemCount = AllSlots[_Y][_X]->GetSlotItemCount();
+    ++CurItemCount;
+    AllSlots[_Y][_X]->SetSlotItemCount(CurItemCount);
+
+
+    if (nullptr != AllSlots[_Y][_X]->GetText())
+    {
+        AllSlots[_Y][_X]->CountTextDestroy();
+    }
+
+    AllSlots[_Y][_X]->CountText();
+
+    if (_Y >= 1)
+    {
+        if (nullptr != AllSlots[_Y][_X]->GetText())
+        {
+            AllSlots[_Y][_X]->GetText()->SetActive(false);
+        }
+    }
+}
+
+void APlayerUI::SlotItemChange()
+{
+    for (size_t y = 0; y < 3; y++)
+    {
+        for (size_t i = 0; i < 12; i++)
+        {
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 1 && false == IsChoose)
+            {
+                std::string SelectedName = AllSlots[y][i]->GetSelectedItemName();
+                std::string SelectedSpriteName = AllSlots[y][i]->GetSelectedItemSpriteName();
+                int SelectedIndex = AllSlots[y][i]->GetSelectedItemIndex();
+                int ItemCount = AllSlots[y][i]->GetSlotItemCount();
+
+                SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
+                SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
+                SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
+                SelectedItem->SetSelectedItemName(SelectedName);
+                SelectedItem->SetSelectedItemIndex(SelectedIndex);
+                SelectedItem->SetSelectedItemCount(ItemCount);
+
+                AllSlots[y][i]->SetName("EmptySlot");
+                AllSlots[y][i]->SetSprite("UI", 6);
+                AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
+                AllSlots[y][i]->SaveItemInfo("UI", 6, { 16 * 3.5f, 16 * 3.5f });
+
+                if (ItemCount > 1)
+                {
+                    AllSlots[y][i]->CountTextDestroy();
+                }
+
+                IsChoose = true;
+                AllSlots[y][i]->SetIsSelectedItem(0);
+
+            }
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && false == IsChoose)
+            {
+                AllSlots[y][i]->SetIsSelectedItem(0);
+            }
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
+            {
+                IsChoose = false;
+                std::string SelectedName = SelectedItem->GetSelectedItemName();
+                std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
+                int SelectedIndex = SelectedItem->GetSelectedItemIndex();
+                int ItemCount = SelectedItem->GetSelectedItemCount();
+
+
+                AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
+                AllSlots[y][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+                AllSlots[y][i]->SetName(SelectedName);
+                AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, { 14 * 3.5f, 14 * 3.5f });
+
+                if (ItemCount > 1)
+                {
+                    AllSlots[y][i]->SetSlotItemCount(ItemCount);
+                    AllSlots[y][i]->CountText();
+                }
+
+                AllSlots[y][i]->SetIsSelectedItem(0);
+
+                SelectedItem->Destroy();
+                SelectedItem = nullptr;
+
+            }
+        }
+    }
+}
+
+
 std::string APlayerUI::CurSlotItemName()
 {
     std::string CurSlotSpriteName = AllSlots[0][CurSlotNum]->GetName();
     return CurSlotSpriteName;
 }
-
-
 
 void APlayerUI::CurSlotItemSpawn()
 {
@@ -477,9 +497,7 @@ void APlayerUI::CurSlotItemSpawn()
     else if (ItemName == "EmptySlot" || false == TypeCheck)
     {
         CurItem->SetActive(false);
-
     }
-
 }
 
 

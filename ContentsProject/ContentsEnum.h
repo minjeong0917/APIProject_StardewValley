@@ -40,3 +40,12 @@ enum class ECollisionGroup
 	SLOT,
 
 };
+
+enum class EItemType
+{
+	Crop,
+	Wood,
+	DUPivot,
+	EmptySlot,
+	Tools,
+};

@@ -32,10 +32,15 @@ public:
 	{
 		SlotItemCount = _Value;
 	}
+
+
 	int GetSlotItemCount()
 	{
 		return SlotItemCount;
 	}
+
+
+
 	FVector2D GetLocation()
 	{
 		return SlotSpriteRenderer->GetComponentLocation();
@@ -98,6 +103,8 @@ public:
 		return SelectedItemIndex;
 	}
 
+	void CountTextDestroy();
+
 
 protected:
 	void BeginPlay() override;
@@ -105,9 +112,11 @@ protected:
 
 private:
 	int SlotItemCount = 1;
+
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;
 	AGold* Text = nullptr;
+
 	int ItemIndex = 0;
 	std::string ItemSpriteName = "NONE";
 	FVector2D ItemScale = {0,0};

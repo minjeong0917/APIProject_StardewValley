@@ -44,7 +44,6 @@ void ASlot::CollisionEnd(AActor* _ColActor)
 
 void ASlot::CollisionStay(AActor* _ColActor)
 {
-	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
 	if (this->GetName() == "EmptySlot")
 	{
@@ -121,6 +120,13 @@ void ASlot::CountText()
 	Text->SetOrder(ERenderOrder::SLOTFont);
 	Text->SetTextScale({ 13, 15 });
 	Text->SetValue(SlotItemCount);
+}
+
+void ASlot::CountTextDestroy()
+{
+
+	Text->Destroy();
+	Text = nullptr;
 }
 
 void ASlot::SetTextLocation(FVector2D _Location)

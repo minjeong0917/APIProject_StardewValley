@@ -2,15 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include "ContentsEnum.h"
-enum class EItemType
-{
-	
-	Wood,
-	Crop,
-	DUPivot,
-	EmptySlot,
-	Tools,
-};
+
 
 // Ό³Έν :
 class AItem : public AActor

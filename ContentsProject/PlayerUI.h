@@ -29,7 +29,7 @@ public:
 	void UIImageRender();
 	void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
 	void SetCurSlot();
-	void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = {0,0});
+	void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = {0,0}, int ItemCount = 1);
 
 	void AddItem(class AItem* _Item);
 
@@ -49,6 +49,9 @@ protected:
 	void Tick(float _DeltaTime);
 
 private:
+	void SlotItemText(int _Y, int _X);
+
+
 	void InventoryCheck();
 	void SlotItemChange();
 

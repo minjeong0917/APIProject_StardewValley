@@ -36,7 +36,7 @@ public:
 
 	void SetSelectedItemCount(int _Count)
 	{
-		SelectedIndex = _Count;
+		SelectedItemCount = _Count;
 	}
 
 	std::string GetSelectedItemName()
