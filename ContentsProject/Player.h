@@ -93,6 +93,11 @@ public:
 	{
 		return SelectedItemIndex;
 	}
+	
+	bool GetIsEnter()
+	{
+		return IsEnter;
+	}
 
 protected:
 
@@ -102,6 +107,7 @@ private:
 
 	float Speed = 220.0f;
 	int MySpriteIndex = 0;
+	bool IsEnter = false;
 
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;

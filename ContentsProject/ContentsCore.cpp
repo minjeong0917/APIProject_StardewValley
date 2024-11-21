@@ -173,5 +173,5 @@ void ContentsCore::ReadySprite()
 	}
 
 	ULevel::CollisionGroupLink(ECollisionGroup::SLOT, ECollisionGroup::CURSOR);
-	//ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::SLOT);
+	ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::SLOT);
 }

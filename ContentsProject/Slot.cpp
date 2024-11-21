@@ -29,18 +29,13 @@ ASlot::ASlot()
 		DebugOn();
 	}
 
-	//CollisionComponent->SetCollisionEnter(std::bind(&ASlot::CollisionEnter, this, std::placeholders::_1));
+	
 	CollisionComponent->SetCollisionStay(std::bind(&ASlot::CollisionStay, this, std::placeholders::_1));
-	CollisionComponent->SetCollisionEnd(std::bind(&ASlot::CollisionEnd, this, std::placeholders::_1));
 
-
-}
-
-void ASlot::CollisionEnd(AActor* _ColActor)
-{
 
 
 }
+
 
 void ASlot::CollisionStay(AActor* _ColActor)
 {

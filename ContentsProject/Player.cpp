@@ -74,6 +74,8 @@ void APlayer::Tick(float _DeltaTime)
 
     SpriteRenderer->SetOrder(GetActorLocation().Y);
 
+    IsEnter = PlayerUI->GetIsInventoryEnter();
+
     LevelChangeCheck();
     DebugCheck(_DeltaTime);
 
@@ -100,8 +102,9 @@ void APlayer::Tick(float _DeltaTime)
     }
 
 
-
 }
+
+
 std::string APlayer::TileLocationName()
 {
     FVector2D PlayerLocation = GetActorLocation();
@@ -527,7 +530,7 @@ void APlayer::PlayerAnimationPlay()
         }
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove )
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsEnter)
     {
         if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Ax")
         {
@@ -699,7 +702,7 @@ void APlayer::PlayerAnimation()
 {
     // ¾Õ
     SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
-    SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f });
+    SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", { 0, 15,0 }, { 2.0f,0.1f,2.0f });
     SpriteRenderer->CreateAnimation("Idle_front_once", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f },false);
 
     // µÚ

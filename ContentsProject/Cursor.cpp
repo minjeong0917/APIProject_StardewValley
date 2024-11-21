@@ -25,13 +25,26 @@ ACursor::ACursor()
 
 		DebugOn();
 	}
-
-
+	CollisionComponent->SetCollisionEnter(std::bind(&ACursor::CollisionEnter, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnd(std::bind(&ACursor::CollisionEnd, this, std::placeholders::_1));
 }
 
 ACursor::~ACursor()
 {
 }
+
+void ACursor::CollisionEnter(AActor* _ColActor)
+{
+	IsEnter = true;
+
+}
+
+void ACursor::CollisionEnd(AActor* _ColActor)
+{
+
+	IsEnter = false;
+}
+
 
 void ACursor::BeginPlay()
 {
@@ -45,7 +58,7 @@ void ACursor::Tick(float _DeltaTime)
 	if (nullptr != Result)
 	{
 		UEngineDebug::CoreOutPutString("Ãæµ¹ÇÔ");
-
 	}
 }
+
 

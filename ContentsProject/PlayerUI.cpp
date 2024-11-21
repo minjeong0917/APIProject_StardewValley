@@ -81,6 +81,9 @@ void APlayerUI::Tick(float _DeltaTime)
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
         SelectedItem->SetCameraEffect(false);
     }
+
+
+    IsInventoryEnter = Cursor->GetIsEnter();
 }
 
 void APlayerUI::UIImageRender()
@@ -186,6 +189,14 @@ void APlayerUI::UIImageRender()
     Inventory->SetActorLocation({ Size.Half().iX() + 1, Size.Half().iY() });
     Inventory->SetActive(false);
 
+    InvenPlayer = GetWorld()->SpawnActor<AUI>();
+    InvenPlayer->SetSprite("Farmer_Right.png", 0, 3.5f);
+    InvenPlayer->SetComponentScale({ 220, 440 });
+    InvenPlayer->SetOrder(ERenderOrder::SLOTITEM);
+    InvenPlayer->SetActorLocation({ Size.Half().iX() - 227, Size.Half().iY()+ 188 });
+    InvenPlayer->CreateAnimation("Idle", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,2.0f });
+    InvenPlayer->SetActive(false);
+
 }
 
 
@@ -200,6 +211,8 @@ void APlayerUI::InventoryCheck()
         Player->IsOpenIven = false;
         --IsOpenIven;
         Inventory->SetActive(false);
+        InvenPlayer->SetActive(false);
+
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
         {
@@ -234,6 +247,10 @@ void APlayerUI::InventoryCheck()
         Player->IsOpenIven = true;
 
         Inventory->SetActive(true);
+        InvenPlayer->SetActive(true);
+        InvenPlayer->ChangeAnimation("Idle", true);
+
+ 
 
         ++IsOpenIven;
         InventoryBar->SetActive(false);

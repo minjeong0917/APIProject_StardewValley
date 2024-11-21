@@ -11,6 +11,7 @@
 #include "Text.h"
 #include "Gold.h"
 #include "CurItem.h"
+#include "UI.h"
 
 // Ό³Έν :
 class APlayerUI : public AActor
@@ -41,7 +42,10 @@ public:
 
 	void CurSlotItemSpawn();
 	void UseItem();
-
+	bool GetIsInventoryEnter()
+	{
+		return IsInventoryEnter;
+	}
 
 protected:
 	void BeginPlay();
@@ -51,13 +55,15 @@ protected:
 private:
 	void SlotItemText(int _Y, int _X);
 
-
 	void InventoryCheck();
 	void SlotItemChange();
 
 	bool TypeCheck = false;
+	bool IsInventoryEnter = false;
+
 	int IsOpenIven = 0;
 	ACursor* Cursor = nullptr;
+	AUI* InvenPlayer = nullptr;
 
 	ATime* MinTime = nullptr;
 	ATime* HourTime = nullptr;

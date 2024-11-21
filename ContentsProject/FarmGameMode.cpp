@@ -81,7 +81,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     TileChange();
 
-    if (false == Player->IsPlayerMove)
+    if (false == Player->IsPlayerMove && false == Player->GetIsEnter())
     {
         PutTile(_DeltaTime);
         TileDestroyLocation();

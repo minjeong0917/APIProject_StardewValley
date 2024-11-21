@@ -7,7 +7,6 @@
 
 AClock::AClock()
 {
-
 	ClockSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	ClockSpriteRenderer->SetCameraEffect(false);
 	ClockSpriteRenderer->SetOrder(ERenderOrder::UI);

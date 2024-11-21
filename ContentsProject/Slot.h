@@ -74,9 +74,11 @@ public:
 		return ItemScale;
 	}
 	void SetTextLocation(FVector2D _Location);
-	
-	void CollisionEnd(AActor* _ColActor);
+
 	void CollisionStay(AActor* _ColActor);
+
+
+
 
 	int GetIsSelectedItem()
 	{
@@ -114,6 +116,7 @@ public:
 	}
 
 	void CountTextDestroy();
+
 
 
 protected:

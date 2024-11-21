@@ -17,7 +17,13 @@ public:
 	ACursor& operator=(const ACursor& _Other) = delete;
 	ACursor& operator=(ACursor&& _Other) noexcept = delete;
 
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionEnd(AActor* _ColActor);
 
+	bool GetIsEnter()
+	{
+		return IsEnter;
+	}
 protected:
 
 	void BeginPlay() override;
@@ -26,7 +32,7 @@ protected:
 private:
 	class USpriteRenderer* CursorSpriteRenderer = nullptr;
 	U2DCollision* CollisionComponent = nullptr;
-
+	bool IsEnter = false;
 };
 
 

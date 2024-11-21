@@ -105,6 +105,9 @@
     <ClCompile Include="SelectedItem.cpp">
       <Filter>ContentsObject\Items</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>ContentsObject\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="SelectedItem.h">
       <Filter>ContentsObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>ContentsObject\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
