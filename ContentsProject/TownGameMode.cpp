@@ -28,7 +28,7 @@ void ATownGameMode::BeginPlay()
 
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
 
-	Player->SetActorLocation({ 80,2180});
+	Player->SetActorLocation({ 80, 2700});
 
 }
 

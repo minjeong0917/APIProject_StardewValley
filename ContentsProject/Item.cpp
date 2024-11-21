@@ -135,7 +135,7 @@ EItemType AItem::SetItemType(std::string _ItemName)
 		Item = EItemType::Wood;
 		return Item;
 	}
-	else if ("Seeds" == _ItemName)
+	else if ("Seeds" == _ItemName||"GreenBeanSeed" == _ItemName)
 	{
 		Item = EItemType::Crop;
 		return Item;

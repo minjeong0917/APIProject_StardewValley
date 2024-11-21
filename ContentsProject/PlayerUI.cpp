@@ -81,8 +81,6 @@ void APlayerUI::Tick(float _DeltaTime)
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
         SelectedItem->SetCameraEffect(false);
     }
-
-
 }
 
 void APlayerUI::UIImageRender()
@@ -168,9 +166,10 @@ void APlayerUI::UIImageRender()
 
     // 기본 아이템 지급
     DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 14 * 3.5f, 14 * 3.5f });
-    DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
-    DefaultItem({ 0,2 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
-    DefaultItem({ 0,3 }, "WateringCan.png", "WateringCan", 2, { 20 * 3.5f, 20 * 3.5f });
+    DefaultItem({ 0,1 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
+    DefaultItem({ 0,2 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
+    DefaultItem({ 0,3 }, "Items.png", "GreenBeanSeed", 625, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
+    DefaultItem({ 0,4 }, "WateringCan.png", "WateringCan", 2, { 20 * 3.5f, 20 * 3.5f });
 
     // CulSlot
     CurSlot = GetWorld()->SpawnActor<ASlot>();

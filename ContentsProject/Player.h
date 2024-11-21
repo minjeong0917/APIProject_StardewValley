@@ -93,6 +93,7 @@ public:
 	{
 		return SelectedItemIndex;
 	}
+
 protected:
 
 private:
@@ -107,7 +108,6 @@ private:
 	class UEngineWinImage* BackImage = nullptr;
 	class ATileMap* FarmTileMap = nullptr;
 	class AFarmGameMode* FarmGameMode = nullptr;
-
 	class APlayerUI* PlayerUI = nullptr;
 
 	bool ColorCheck = false;
@@ -117,14 +117,13 @@ private:
 
 	USoundPlayer BGMPlayer;
 
-	bool IsAnimationPlay = false; // 애니메이션 잠금 플래그
+	bool IsAnimationPlay = false;
+
 	float AnimationDuration = 0.0f;
 	float AnimationTimer = 0.0f;    
 
 	std::string SelectedItemName = "NONE";
 	std::string SelectedItemSpriteName = "NONE";
 	int SelectedItemIndex = 0;
-
-
 };
 

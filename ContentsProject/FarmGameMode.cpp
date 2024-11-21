@@ -122,6 +122,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         default:
             break;
         }
+
         std::string CurSlotName = Player->CurSlotCheck();
 
         if ("Hoe" == CurSlotName )
@@ -149,17 +150,23 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             }
             else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "DIRT.PNG")
             {
-
                 FarmTileMap->SetTileLocation("WetDirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
         }
 
-
-        if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" && true == Player->IsMouseInPlayerPos && "Seeds" == CurSlotName)
+        if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" )&& true == Player->IsMouseInPlayerPos)
         {
-            CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
-            UseItem();
-            //CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { -3, -40 }, { 70, 138 }, 0, true, 7);
+            if ("Seeds" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
+                UseItem();
+            }
+            if ("GreenBeanSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { 0, -50 }, { 70, 138 }, 0, true, 6);
+                UseItem();
+            }
+
         }
     }
 
@@ -271,6 +278,7 @@ void AFarmGameMode::TileDestroy(ATileMap* _TileMap, FIntPoint _Location)
         Player->PreviousTreeTile = nullptr;
     }
 }
+
 void AFarmGameMode::UseItem()
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
@@ -313,7 +321,6 @@ void AFarmGameMode::TileChange()
 
     if (true == UEngineInput::GetInst().IsDown(VK_RIGHT))
     {
-
         TileImages = static_cast<ETileImage>(curTileImg + 1);
         if (TileImages >= ETileImage::End)
         {

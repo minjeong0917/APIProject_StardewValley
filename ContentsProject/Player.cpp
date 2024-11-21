@@ -62,7 +62,7 @@ void APlayer::BeginPlay()
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
 
 
-
+    UEngineDebug::SwitchIsDebug();
 }
 
 
@@ -424,14 +424,20 @@ void APlayer::PlayerAnimationPlay()
     FVector2D Direction = { MousePosX - GetActorLocation().X, MousePosY - GetActorLocation().Y};
     float DirectionAbsX = std::abs(Direction.X);
     float DirectionAbsY = std::abs(Direction.Y);
-    float FarmTileSize = Farm->GetFarmTilMap()->GetTileSize().X;
-
     IsMouseInPlayerPos = false;
+    //if (Farm != nullptr)
+    //{
+    //    float FarmTileSize = Farm->GetFarmTilMap()->GetTileSize().X;
+        if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+        {
+            IsMouseInPlayerPos = true;
+        }
+    //}
 
-    if (DirectionAbsX <= FarmTileSize && DirectionAbsY <= FarmTileSize && DirectionAbsX >= 0 && DirectionAbsY >= 0)
-    {
-        IsMouseInPlayerPos = true;
-    }
+
+
+
+
 
 
     if (false == IsPlayerMove && false == IsAnimationPlay)
