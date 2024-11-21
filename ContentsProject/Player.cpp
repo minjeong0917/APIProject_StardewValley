@@ -553,6 +553,36 @@ void APlayer::PlayerAnimationPlay()
                 break;
             }
         }
+        else if (CurSlotCheck() == "WateringCan")
+        {
+            switch (PlayerDir)
+            {
+            case EPlayerDir::Left:
+                SpriteRenderer->ChangeAnimation("Water_Left", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Right:
+                SpriteRenderer->ChangeAnimation("Water_Right", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Up:
+                SpriteRenderer->ChangeAnimation("Water_Back", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+                break;
+            case EPlayerDir::Down:
+                SpriteRenderer->ChangeAnimation("Water_Front", true);
+                IsAnimationPlay = true;
+                SetAnimationDuration(0.5f);
+
+
+                break;
+            default:
+                break;
+            }
+        }
 
     }
 
@@ -678,13 +708,19 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Run_Left", "Farmer_Left.png", { 19, 16, 6, 73, 10, 6 }, { 0.15f, 0.1f, 0.1f, 0.15f , 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Idle_Left", "Farmer_Left.png", 6, 6, 0.1f);
 
-
+    // 땅 파기
     SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 80, 93, 80, 81, 82, 83, 6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 80, 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 47,48,90,91,0 }, { 0.05f , 0.05f, 0.05f , 0.25f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
 
+    // 물 주기
+    SpriteRenderer->CreateAnimation("Water_Right", "Farmer_Right.png", { 46, 103}, { 0.15f, 0.15f }, false);
+    SpriteRenderer->CreateAnimation("Water_Left", "Farmer_Left.png",  {46, 103}, { 0.15f, 0.15f }, false);
+    SpriteRenderer->CreateAnimation("Water_Front", "Farmer_Right.png", { 41,42,22 }, { 0.1f , 0.1f, 0.1f }, false);
+    SpriteRenderer->CreateAnimation("Water_Back", "Farmer_Right.png", { 43,45,104 }, { 0.1f , 0.1f,  0.2f }, false);
 
+    // 아이템 들고 이동
     SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 },  0.1f, true);
 
@@ -696,6 +732,8 @@ void APlayer::PlayerAnimation()
 
     SpriteRenderer->CreateAnimation("Item_Run_Left", "Farmer_Left_2.png", { 3,5,4,29,8,4 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_Left", "Farmer_Left_2.png", { 4,4 }, 0.1f, true);
+
+
 
 
 }

@@ -78,6 +78,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
     }
 
     CropTileMap->CropCheck(_DeltaTime * speed * 10);
+
     TileChange();
 
     if (false == Player->IsPlayerMove)
@@ -135,6 +136,21 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             {
 
                 FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+            }
+        }
+
+        if ("WateringCan" == CurSlotName)
+        {
+            FVector2D PlayerLocation = PlayerDirToTileMap(FarmTileMap);
+
+            if (Player->IsMouseInPlayerPos == true && GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG")
+            {
+                FarmTileMap->SetTileLocation("WetDirt.png", MouseLocation, 0);
+            }
+            else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "DIRT.PNG")
+            {
+
+                FarmTileMap->SetTileLocation("WetDirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
         }
 

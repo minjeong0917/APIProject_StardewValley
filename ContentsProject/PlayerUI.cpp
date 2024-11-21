@@ -170,6 +170,7 @@ void APlayerUI::UIImageRender()
     DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 14 * 3.5f, 14 * 3.5f });
     DefaultItem({ 0,1 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
     DefaultItem({ 0,2 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
+    DefaultItem({ 0,3 }, "WateringCan.png", "WateringCan", 2, { 20 * 3.5f, 20 * 3.5f });
 
     // CulSlot
     CurSlot = GetWorld()->SpawnActor<ASlot>();

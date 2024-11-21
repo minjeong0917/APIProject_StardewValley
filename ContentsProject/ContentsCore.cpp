@@ -73,6 +73,7 @@ void ContentsCore::ReadySprite()
 			Dir.MoveParentToDirectory("Resources//Images");
 			Dir.Append("TileMap//DirtTile");
 			UImageManager::GetInst().CuttingSprite("Dirt.png", { 48, 48 });
+			UImageManager::GetInst().CuttingSprite("WetDirt.png", { 48, 48 });
 
 		}
 		// tree
@@ -127,6 +128,8 @@ void ContentsCore::ReadySprite()
 			UImageManager::GetInst().CuttingSprite("Tools.png", { 16, 32 });
 			UImageManager::GetInst().CuttingSprite("Hoe.png", { 16, 16 });
 			UImageManager::GetInst().CuttingSprite("Ax.png", { 16, 16 });
+			UImageManager::GetInst().CuttingSprite("Axs.png", { 21, 21 });
+			UImageManager::GetInst().CuttingSprite("WateringCan.png", { 20, 20 });
 		}
 
 		// ------------------------------- [ Player ] -------------------------------------------
