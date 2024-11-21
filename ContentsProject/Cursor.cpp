@@ -12,7 +12,7 @@ ACursor::ACursor()
 	CursorSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	CursorSpriteRenderer->SetCameraEffect(false);
 	CursorSpriteRenderer->SetOrder(ERenderOrder::CURSOR);
-	CursorSpriteRenderer->SetSprite("UI", 1);
+	CursorSpriteRenderer->SetSprite("Cursor.png", 0);
 	CursorSpriteRenderer->SetComponentScale({ 24,30 });
 
 	{

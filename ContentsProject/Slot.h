@@ -103,6 +103,16 @@ public:
 		return SelectedItemIndex;
 	}
 
+	FVector2D GetSelecteItemScale()
+	{
+		return SelecteItemScale;
+	}
+
+	void SetSelecteItemScale(FVector2D _SelecteItemScale)
+	{
+		SelecteItemScale = _SelecteItemScale;
+	}
+
 	void CountTextDestroy();
 
 

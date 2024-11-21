@@ -107,6 +107,15 @@ void ContentsCore::ReadySprite()
 			Dir.MoveParentToDirectory("Resources//Images");
 			Dir.Append("UI");
 			UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+			UImageManager::GetInst().CuttingSprite("Clock.png", { 72, 59 });
+			UImageManager::GetInst().CuttingSprite("Cursor.png", { 24, 30 });
+			UImageManager::GetInst().CuttingSprite("Inventory.png", { 214, 74 });
+			UImageManager::GetInst().CuttingSprite("Inventory2.png", { 216, 159 });
+			UImageManager::GetInst().CuttingSprite("InventoryBar.png", { 203, 26 });
+			UImageManager::GetInst().CuttingSprite("Logo.png", { 400, 220 });
+			UImageManager::GetInst().CuttingSprite("SelectedSlot.png", { 16, 16 });
+			UImageManager::GetInst().CuttingSprite("Slot.png", { 16, 16 });
+
 		}
 		// Font
 		{

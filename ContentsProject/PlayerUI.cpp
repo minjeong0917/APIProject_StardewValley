@@ -140,12 +140,12 @@ void APlayerUI::UIImageRender()
         // Slot->SetSprite("UI", 6);
         Slot->SetName("EmptySlot");
         Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
-        Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
+        Slot->SaveItemInfo("Slot.png", 0, FVector2D{ 16 * 3.5f, 16 * 3.5f });
         Slot->SetActorLocation(StartLocation + (InterLocation * i));
         AllSlots[0].push_back(Slot);
     }
 
-    StartLocation = { Size.Half().iX() - 311, Size.Half().iY() - 50 };
+    StartLocation = { Size.Half().iX() - 310, Size.Half().iY() - 143 };
 
     for (float y = 1; y < AllSlots.size(); y++)
     {
@@ -155,7 +155,7 @@ void APlayerUI::UIImageRender()
             //Slot->SetSprite("UI", 6);
             Slot->SetName("EmptySlot");
             Slot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
-            Slot->SaveItemInfo("UI", 6, FVector2D{ 16 * 3.5f, 16 * 3.5f });
+            Slot->SaveItemInfo("Slot.png", 0, FVector2D{ 16 * 3.5f, 16 * 3.5f });
             FVector2D Location = { 0, 60 };
             Slot->SetActorLocation(StartLocation + (InterLocation * i) + (Location * y));
             Slot->SetActive(false);
@@ -165,15 +165,15 @@ void APlayerUI::UIImageRender()
     }
 
     // 기본 아이템 지급
-    DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 14 * 3.5f, 14 * 3.5f });
-    DefaultItem({ 0,1 }, "Ax.png", "Ax", 0, { 14 * 3.5f, 14 * 3.5f });
+    DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 16 * 3.5f, 16 * 3.5f });
+    DefaultItem({ 0,1 }, "Ax.png", "Ax", 0, { 16 * 3.5f, 16 * 3.5f });
     DefaultItem({ 0,2 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
     DefaultItem({ 0,3 }, "Items.png", "GreenBeanSeed", 625, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
     DefaultItem({ 0,4 }, "WateringCan.png", "WateringCan", 2, { 20 * 3.5f, 20 * 3.5f });
 
     // CulSlot
     CurSlot = GetWorld()->SpawnActor<ASlot>();
-    CurSlot->SetSprite("UI", 5);
+    CurSlot->SetSprite("SelectedSlot.png", 0);
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
@@ -183,9 +183,9 @@ void APlayerUI::UIImageRender()
 
     // Inventory
     Inventory = GetWorld()->SpawnActor<AInventory>();
-    Inventory->SetActorLocation({ Size.Half().iX()+1, Size.Half().iY() });
+    Inventory->SetActorLocation({ Size.Half().iX() + 1, Size.Half().iY() });
     Inventory->SetActive(false);
- 
+
 }
 
 
@@ -204,12 +204,13 @@ void APlayerUI::InventoryCheck()
         for (int i = 0; i < 12; i++)
         {
             FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            Loc = { Loc.X - 1, Loc.Y };
             FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 347.0f);
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 440.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 347.0f);
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 440.0f);
             }
         }
         for (int y = 1; y < 3; y++)
@@ -240,12 +241,13 @@ void APlayerUI::InventoryCheck()
         {
 
             FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            Loc = { Loc.X + 1, Loc.Y };
             FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 347.0f);
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 440.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 347.0f);
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 440.0f);
             }
         }
 
@@ -293,7 +295,7 @@ void APlayerUI::AddItem(AItem* _Item)
 
 
 
-void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _SpriteName, int _Index, bool IsOver)
+void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver)
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
@@ -340,7 +342,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
 
             if (true == IsEmptySlot)
             {
-                
+
                 AllSlots[y][i]->SetName(_ItemName);
                 AllSlots[y][i]->SetActorLocation(Location);
                 AllSlots[y][i]->SetSprite(_SpriteName, _Index);
@@ -372,7 +374,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
             }
         }
     }
-    
+
 }
 
 void APlayerUI::SlotItemText(int _Y, int _X)
@@ -411,6 +413,7 @@ void APlayerUI::SlotItemChange()
                 std::string SelectedSpriteName = AllSlots[y][i]->GetSelectedItemSpriteName();
                 int SelectedIndex = AllSlots[y][i]->GetSelectedItemIndex();
                 int ItemCount = AllSlots[y][i]->GetSlotItemCount();
+                FVector2D ItemScale = AllSlots[y][i]->GetSelecteItemScale();
 
                 SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
                 SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
@@ -418,11 +421,12 @@ void APlayerUI::SlotItemChange()
                 SelectedItem->SetSelectedItemName(SelectedName);
                 SelectedItem->SetSelectedItemIndex(SelectedIndex);
                 SelectedItem->SetSelectedItemCount(ItemCount);
+                SelectedItem->SetSelectedScale(ItemScale);
 
                 AllSlots[y][i]->SetName("EmptySlot");
-                AllSlots[y][i]->SetSprite("UI", 6);
+                AllSlots[y][i]->SetSprite("Slot.png", 0);
                 AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
-                AllSlots[y][i]->SaveItemInfo("UI", 6, { 16 * 3.5f, 16 * 3.5f });
+                AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
 
                 if (ItemCount > 1)
                 {
@@ -444,18 +448,21 @@ void APlayerUI::SlotItemChange()
                 IsChoose = false;
                 std::string SelectedName = SelectedItem->GetSelectedItemName();
                 std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
+                FVector2D SelectedScale = SelectedItem->GetSelectedScale();
+
+
                 int SelectedIndex = SelectedItem->GetSelectedItemIndex();
                 int ItemCount = SelectedItem->GetSelectedItemCount();
 
 
                 AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
-                AllSlots[y][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+                AllSlots[y][i]->SetScale(SelectedScale);
                 AllSlots[y][i]->SetName(SelectedName);
-                AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, { 14 * 3.5f, 14 * 3.5f });
+                AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, SelectedScale);
+                AllSlots[y][i]->SetSlotItemCount(ItemCount);
 
                 if (ItemCount > 1)
                 {
-                    AllSlots[y][i]->SetSlotItemCount(ItemCount);
                     AllSlots[y][i]->CountText();
                 }
 
@@ -475,10 +482,13 @@ void APlayerUI::UseItem()
     Count -= 1;
     if (Count == 0)
     {
-        AllSlots[0][CurSlotNum]->SetSprite("UI", 6);
+        AllSlots[0][CurSlotNum]->SetSprite("Slot.png", 0);
         AllSlots[0][CurSlotNum]->SetScale({ 16 * 3.5f , 16 * 3.5f });
         AllSlots[0][CurSlotNum]->SetName("EmptySlot");
+        AllSlots[0][CurSlotNum]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
+
         return;
+
     }
 
     AllSlots[0][CurSlotNum]->SetSlotItemCount(Count);

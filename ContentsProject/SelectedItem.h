@@ -59,12 +59,23 @@ public:
 		return SelectedItemCount;
 	}
 
+	FVector2D GetSelectedScale()
+	{
+		return SelectedScale;
+	}
+
+	void SetSelectedScale(FVector2D _SelectedScale)
+	{
+		SelectedScale = _SelectedScale;
+	}
+
 protected:
 
 private:
 	class USpriteRenderer* ItemSpriteRenderer = nullptr;
 	std::string SelectedName = "NONE";
 	std::string SelectedSpriteName = "NONE";
+	FVector2D SelectedScale{ 0,0 };
 	int SelectedIndex = 0;
 	int SelectedItemCount = 0;
 };

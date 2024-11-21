@@ -10,8 +10,8 @@ AInventoryBar::AInventoryBar()
 	InvenBarSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	InvenBarSpriteRenderer->SetCameraEffect(false);
 	InvenBarSpriteRenderer->SetOrder(ERenderOrder::UI);
-	InvenBarSpriteRenderer->SetSprite("UI", 3);
-	InvenBarSpriteRenderer->SetComponentScale(FVector2D{ 203 * 3.5f, 26 * 3.5f } );
+	InvenBarSpriteRenderer->SetSprite("InventoryBar.png", 0);
+	InvenBarSpriteRenderer->SetComponentScale(FVector2D{ 203 * 3.5f, 26 * 3.5f });
 }
 
 AInventoryBar::~AInventoryBar()

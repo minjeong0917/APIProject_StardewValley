@@ -11,7 +11,7 @@ AClock::AClock()
 	ClockSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	ClockSpriteRenderer->SetCameraEffect(false);
 	ClockSpriteRenderer->SetOrder(ERenderOrder::UI);
-	ClockSpriteRenderer->SetSprite("UI", 0);
+	ClockSpriteRenderer->SetSprite("Clock.png", 0);
 	ClockSpriteRenderer->SetSpriteScale(4.0f);
 }
 

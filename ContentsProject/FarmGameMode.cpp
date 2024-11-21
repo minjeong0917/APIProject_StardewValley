@@ -51,7 +51,7 @@ void AFarmGameMode::BeginPlay()
 
     for (int i = 0; i < 10; i++)
     {
-        FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + ( 70 * i), 1200.0f });
+        FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + (70 * i), 1200.0f });
         FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
 
     }
@@ -108,7 +108,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         switch (TileImages)
         {
         case ETileImage::Dirt:
-          
+
             break;
 
         case ETileImage::Tree001:
@@ -125,7 +125,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
         std::string CurSlotName = Player->CurSlotCheck();
 
-        if ("Hoe" == CurSlotName )
+        if ("Hoe" == CurSlotName)
         {
             FVector2D PlayerLocation = PlayerDirToTileMap(FarmTileMap);
 
@@ -133,7 +133,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             {
                 FarmTileMap->SetTileLocation("Dirt.png", MouseLocation, 0);
             }
-            else if(GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "NONE")
+            else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "NONE")
             {
 
                 FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
@@ -154,7 +154,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             }
         }
 
-        if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" )&& true == Player->IsMouseInPlayerPos)
+        if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" || GetFarmTileSpriteName(MouseLocation) == "WETDIRT.PNG") && true == Player->IsMouseInPlayerPos)
         {
             if ("Seeds" == CurSlotName)
             {
@@ -176,7 +176,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         FarmTileMap->SetTileLocation("Dirt.png", MouseLocation, 0);
         CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 4, true, 4);
     }
-    
+
 }
 
 void AFarmGameMode::TileDestroyLocation()
@@ -215,8 +215,8 @@ void AFarmGameMode::TileDestroyLocation()
                 ItemDrop("Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
             }
         }
-            
-        
+
+
         if (GetCropTileSpriteName(MouseLocation) == "PARSNIP.PNG")
         {
 
@@ -293,7 +293,7 @@ void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVe
     Item->SetOrder(ERenderOrder::UI);
     Item->SetForce();
     Item->SetItemType(_ItemName);
-    Item->GainItemInfo(_ItemName,_SpriteName, _ItemIndex, _ItemScale);
+    Item->GainItemInfo(_ItemName, _SpriteName, _ItemIndex, _ItemScale);
 }
 
 void AFarmGameMode::TileChange()
@@ -303,7 +303,7 @@ void AFarmGameMode::TileChange()
     switch (TileImages)
     {
     case ETileImage::Dirt:
-        TileImageName = "Dirt"; 
+        TileImageName = "Dirt";
         break;
     case ETileImage::Tree001:
         TileImageName = "Tree001";
@@ -354,7 +354,7 @@ std::string AFarmGameMode::GetFarmTileSpriteName(FVector2D Location)
         return "NONE";
 
     }
-    
+
 }
 std::string AFarmGameMode::GetCropTileSpriteName(FVector2D Location)
 {
