@@ -2,6 +2,7 @@
 #include "PlayerUI.h"
 #include <EngineCore/EngineAPICore.h>
 #include <EnginePlatform/EngineInput.h>
+#include <EngineCore/EngineCoreDebug.h>
 
 #include "ContentsEnum.h"
 #include "Clock.h"
@@ -76,10 +77,73 @@ void APlayerUI::Tick(float _DeltaTime)
     }
 
     SetCurSlot();
+    SlotItemChange();
+
+
+    if (SelectedItem != nullptr)
+    {
+        SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
+        SelectedItem->SetCameraEffect(false);
+    }
 
 
 }
+void APlayerUI::SlotItemChange()
+{
+    for (size_t y = 0; y < 3; y++)
+    {
+        for (size_t i = 0; i < 12; i++)
+        {
 
+            UEngineDebug::CoreOutPutString(AllSlots[y][i]->GetNameView());
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 1 && false == IsChoose)
+            {
+                std::string SelectedName = AllSlots[y][i]->GetSelectedItemName();
+                std::string SelectedSpriteName = AllSlots[y][i]->GetSelectedItemSpriteName();
+                int SelectedIndex = AllSlots[y][i]->GetSelectedItemIndex();
+
+                SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
+                SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
+                SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
+                SelectedItem->SetSelectedItemName(SelectedName);
+                SelectedItem->SetSelectedItemIndex(SelectedIndex);
+
+                AllSlots[y][i]->SetName("EmptySlot");
+                AllSlots[y][i]->SetSprite("UI", 6);
+                AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
+                AllSlots[y][i]->SaveItemInfo("UI", 6, { 16 * 3.5f, 16 * 3.5f });
+
+                IsChoose = true;
+                AllSlots[y][i]->SetIsSelectedItem(0);
+            }
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && false == IsChoose)
+            {
+                AllSlots[y][i]->SetIsSelectedItem(0);
+            }
+
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
+            {
+                IsChoose = false;
+                std::string SelectedName = SelectedItem->GetSelectedItemName();
+                std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
+                int SelectedIndex = SelectedItem->GetSelectedItemIndex();
+
+
+                AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
+                AllSlots[y][i]->SetScale({ 14 * 3.5f, 14 * 3.5f });
+                AllSlots[y][i]->SetName(SelectedName);
+                AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, { 14 * 3.5f, 14 * 3.5f });
+                AllSlots[y][i]->SetIsSelectedItem(0);
+
+                SelectedItem->Destroy();
+                SelectedItem = nullptr;
+
+            }
+        }
+    }
+}
 
 void APlayerUI::UIImageRender()
 {
@@ -152,7 +216,7 @@ void APlayerUI::UIImageRender()
 
     for (float y = 1; y < AllSlots.size(); y++)
     {
-        for (int i = 0; i < 12; i++)
+        for (float i = 0; i < 12; i++)
         {
             ASlot* Slot = GetWorld()->SpawnActor<ASlot>();
             //Slot->SetSprite("UI", 6);
@@ -200,7 +264,10 @@ void APlayerUI::UIImageRender()
     Inventory->SetActorLocation({ Size.Half().iX()+1, Size.Half().iY() });
     Inventory->SetActive(false);
 
+
+ 
 }
+
 
 void APlayerUI::InventoryCheck()
 {
@@ -338,6 +405,7 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName ,std::string _Spri
 
                 return;
             }
+
             else if (false == IsEmptySlot && SlotSpriteName != _ItemName)
             {
                 continue;

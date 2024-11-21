@@ -44,25 +44,25 @@ void ASlot::CollisionEnd(AActor* _ColActor)
 
 void ASlot::CollisionStay(AActor* _ColActor)
 {
+	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
-	if (this->GetName() != "EmptySlot")
+	if (this->GetName() == "EmptySlot")
 	{
 		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 		{
-
-
+			IsSelectedItem = 2;
+		}
+	}
+	else if (this->GetName() != "EmptySlot")
+	{
+		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) )
+		{
 			SelectedItemName = GetName();
 			SelectedItemSpriteName = GetItemSpriteName();
 			SelectedItemIndex = GetItemIndex();
 			SelecteItemScale = GetItemScale();
 
-		}
-	}
-	else if (this->GetName() == "EmptySlot")
-	{
-		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
-		{
-
+			IsSelectedItem = 1;
 		}
 	}
 }

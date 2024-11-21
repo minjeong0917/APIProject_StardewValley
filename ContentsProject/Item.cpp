@@ -139,7 +139,6 @@ EItemType AItem::SetItemType(std::string _ItemName)
 	{
 		Item = EItemType::Crop;
 		return Item;
-
 	}
 	else if ("parsnip" == _ItemName)
 	{

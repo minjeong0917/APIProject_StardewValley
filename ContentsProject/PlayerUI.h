@@ -38,7 +38,6 @@ public:
 		return CurSlotNum;
 	}
 	std::string CurSlotItemName();
-	//bool CurSlotItemTypeCheck(AItem* _Item);
 
 	void CurSlotItemSpawn();
 
@@ -51,6 +50,7 @@ protected:
 
 private:
 	void InventoryCheck();
+	void SlotItemChange();
 
 	bool TypeCheck = false;
 	int IsOpenIven = 0;
@@ -70,10 +70,16 @@ private:
 
 	ASlot* CurSlot = nullptr;
 	ACurItem* CurItem = nullptr;
+	AGold* CurText = nullptr;
 
 	bool IsEmptySlot = true;
-
-	AGold* CurText = nullptr;
 	int CurSlotNum = 1;
+
+	bool IsSelected = false;
+
+	class ASelectedItem* SelectedItem = nullptr;
+
+	int a = 0;
+	bool IsChoose = false;
 };
 

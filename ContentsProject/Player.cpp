@@ -429,7 +429,7 @@ void APlayer::PlayerAnimationPlay()
 
     if (false == IsPlayerMove && false == IsAnimationPlay)
     {
-        if (PlayerUI->TypeCheck)
+        if (PlayerUI->TypeCheck && CurSlotCheck() != "EmptySlot")
         {
             switch (PlayerDir)
             {
@@ -550,7 +550,7 @@ void APlayer::PlayerAnimationPlay()
     }
 
 
-    if (PlayerUI->TypeCheck)
+    if (PlayerUI->TypeCheck && CurSlotCheck() != "EmptySlot")
     {
         if (true == UEngineInput::GetInst().IsPress('D') && true == UEngineInput::GetInst().IsPress('W'))
         {
@@ -724,5 +724,4 @@ std::string APlayer::CurSlotCheck()
 {
     return PlayerUI->CurSlotItemName();
 }
-
 

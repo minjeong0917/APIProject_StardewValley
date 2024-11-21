@@ -92,7 +92,6 @@ public:
 	{
 		return SelectedItemIndex;
 	}
-
 protected:
 
 private:

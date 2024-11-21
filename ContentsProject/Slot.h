@@ -73,10 +73,31 @@ public:
 	void CollisionEnd(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
 
-	bool GetIsSelectedItem()
+	int GetIsSelectedItem()
 	{
 		return IsSelectedItem;
 	}
+	
+	void SetIsSelectedItem(int _Value)
+	{
+		IsSelectedItem = _Value;
+	}
+
+	std::string GetSelectedItemName()
+	{
+		return SelectedItemName;
+	}
+
+	std::string GetSelectedItemSpriteName()
+	{
+		return SelectedItemSpriteName;
+	}
+
+	int GetSelectedItemIndex()
+	{
+		return SelectedItemIndex;
+	}
+
 
 protected:
 	void BeginPlay() override;
@@ -92,7 +113,6 @@ private:
 	FVector2D ItemScale = {0,0};
 
 	int IsSelectedItem = 0;
-
 
 	std::string SelectedItemName = "NONE";
 	std::string SelectedItemSpriteName = "NONE";
