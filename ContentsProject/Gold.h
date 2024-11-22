@@ -32,6 +32,7 @@ public:
 	void SetOrder(int _Order);
 
 	void SetValue(int _Gold);
+	void SetText(std::string _Text);
 
 protected:
 	void BeginPlay() override;

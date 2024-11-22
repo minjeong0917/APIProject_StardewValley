@@ -17,78 +17,82 @@
 class APlayerUI : public AActor
 {
 public:
-	friend class APlayer;
-	// constrcuter destructer
-	APlayerUI();
-	~APlayerUI();
+    friend class APlayer;
+    // constrcuter destructer
+    APlayerUI();
+    ~APlayerUI();
 
-	// delete Function
-	APlayerUI(const APlayerUI& _Other) = delete;
-	APlayerUI(APlayerUI&& _Other) noexcept = delete;
-	APlayerUI& operator=(const APlayerUI& _Other) = delete;
-	APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
-	void UIImageRender();
-	void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
-	void SetCurSlot();
-	void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = {0,0}, int ItemCount = 1);
+    // delete Function
+    APlayerUI(const APlayerUI& _Other) = delete;
+    APlayerUI(APlayerUI&& _Other) noexcept = delete;
+    APlayerUI& operator=(const APlayerUI& _Other) = delete;
+    APlayerUI& operator=(APlayerUI&& _Other) noexcept = delete;
+    void UIImageRender();
+    void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
+    void SetCurSlot();
+    void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = { 0,0 }, int ItemCount = 1);
 
-	void AddItem(class AItem* _Item);
+    void AddItem(class AItem* _Item);
 
-	int GetCulSlotNum()
-	{
-		return CurSlotNum;
-	}
-	std::string CurSlotItemName();
+    int GetCulSlotNum()
+    {
+        return CurSlotNum;
+    }
+    std::string CurSlotItemName();
 
-	void CurSlotItemSpawn();
-	void UseItem();
-	bool GetIsInventoryEnter()
-	{
-		return IsInventoryEnter;
-	}
+    void CurSlotItemSpawn();
+    void UseItem();
+    bool GetIsInventoryEnter()
+    {
+        return IsInventoryEnter;
+    }
 
 protected:
-	void BeginPlay();
+    void BeginPlay();
 
-	void Tick(float _DeltaTime);
+    void Tick(float _DeltaTime);
 
 private:
-	void SlotItemText(int _Y, int _X);
+    void SlotItemText(int _Y, int _X);
 
-	void InventoryCheck();
-	void SlotItemChange();
+    void InventoryCheck();
+    void SlotItemChange();
 
-	bool TypeCheck = false;
-	bool IsInventoryEnter = false;
+    bool TypeCheck = false;
+    bool IsInventoryEnter = false;
 
-	int IsOpenIven = 0;
-	ACursor* Cursor = nullptr;
-	AUI* InvenPlayer = nullptr;
+    int IsOpenIven = 0;
+    ACursor* Cursor = nullptr;
+    AUI* InvenPlayer = nullptr;
+    AUI* ExplainText = nullptr;
 
-	ATime* MinTime = nullptr;
-	ATime* HourTime = nullptr;
+    ATime* MinTime = nullptr;
+    ATime* HourTime = nullptr;
 
-	AText* APText = nullptr;
-	AText* WeekText = nullptr;
-	AGold* DayText = nullptr;
+    AText* APText = nullptr;
+    AText* WeekText = nullptr;
 
-	AInventory* Inventory = nullptr;
-	AInventoryBar* InventoryBar = nullptr;
+    AGold* Text = nullptr;
 
-	std::vector<std::vector<ASlot*>> AllSlots;
+    AGold* DayText = nullptr;
 
-	ASlot* CurSlot = nullptr;
-	ACurItem* CurItem = nullptr;
-	AGold* CurText = nullptr;
+    AInventory* Inventory = nullptr;
+    AInventoryBar* InventoryBar = nullptr;
 
-	bool IsEmptySlot = true;
-	int CurSlotNum = 1;
+    std::vector<std::vector<ASlot*>> AllSlots;
 
-	bool IsSelected = false;
+    ASlot* CurSlot = nullptr;
+    ACurItem* CurItem = nullptr;
+    AGold* CurText = nullptr;
 
-	class ASelectedItem* SelectedItem = nullptr;
+    bool IsEmptySlot = true;
+    int CurSlotNum = 1;
 
-	int a = 0;
-	bool IsChoose = false;
+    bool IsSelected = false;
+
+    class ASelectedItem* SelectedItem = nullptr;
+
+    int a = 0;
+    bool IsChoose = false;
 };
 

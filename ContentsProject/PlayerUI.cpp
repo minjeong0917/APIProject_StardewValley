@@ -65,6 +65,8 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
 
+
+
     InventoryCheck();
 
     if (IsOpenIven == 0)
@@ -104,15 +106,23 @@ void APlayerUI::UIImageRender()
     Gold->SetValue(Player->GetGold());
 
     // Text
-    AText* Text = GetWorld()->SpawnActor<AText>();
-    Text->SetSprite("apm.png", 0, 1.0f);
-    Text->SetActorLocation({ Size.iX() - 140, 138 });
+    AText* APMText = GetWorld()->SpawnActor<AText>();
+    APMText->SetSprite("apm.png", 0, 1.0f);
+    APMText->SetActorLocation({ Size.iX() - 140, 138 });
 
     AText* MText = GetWorld()->SpawnActor<AText>();
     MText->SetSprite("apm.png", 3, 1.0f);
     MText->SetActorLocation({ Size.iX() - 50, 145 });
 
     APText = GetWorld()->SpawnActor<AText>();
+
+    //Text = GetWorld()->SpawnActor<AGold>();
+    //Text->SetActorLocation({ Size.Half().X , 50.0f });
+    //Text->SetTextSpriteName("Alphabet.png");
+    //Text->SetOrder(ERenderOrder::UIFont);
+    //Text->SetTextScale({ 27, 31 });
+    //Text->SetText("Seeds");
+
     WeekText = GetWorld()->SpawnActor<AText>();
     DayText = GetWorld()->SpawnActor<AGold>();
 
@@ -193,7 +203,7 @@ void APlayerUI::UIImageRender()
     InvenPlayer->SetSprite("Farmer_Right.png", 0, 3.5f);
     InvenPlayer->SetComponentScale({ 220, 440 });
     InvenPlayer->SetOrder(ERenderOrder::SLOTITEM);
-    InvenPlayer->SetActorLocation({ Size.Half().iX() - 227, Size.Half().iY()+ 188 });
+    InvenPlayer->SetActorLocation({ Size.Half().iX() - 227, Size.Half().iY() + 188 });
     InvenPlayer->CreateAnimation("Idle", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,2.0f });
     InvenPlayer->SetActive(false);
 
@@ -250,7 +260,7 @@ void APlayerUI::InventoryCheck()
         InvenPlayer->SetActive(true);
         InvenPlayer->ChangeAnimation("Idle", true);
 
- 
+
 
         ++IsOpenIven;
         InventoryBar->SetActive(false);
