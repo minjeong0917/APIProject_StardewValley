@@ -27,6 +27,7 @@ ACursor::ACursor()
 	}
 	CollisionComponent->SetCollisionEnter(std::bind(&ACursor::CollisionEnter, this, std::placeholders::_1));
 	CollisionComponent->SetCollisionEnd(std::bind(&ACursor::CollisionEnd, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionStay(std::bind(&ACursor::CollisionStay, this, std::placeholders::_1));
 }
 
 ACursor::~ACursor()
@@ -36,13 +37,18 @@ ACursor::~ACursor()
 void ACursor::CollisionEnter(AActor* _ColActor)
 {
 	IsEnter = true;
-
+	SlotName = _ColActor->GetName();
 }
 
 void ACursor::CollisionEnd(AActor* _ColActor)
 {
-
 	IsEnter = false;
+}
+
+void ACursor::CollisionStay(AActor* _ColActor)
+{
+	IsEnter = true;
+	SlotName = _ColActor->GetName();
 }
 
 

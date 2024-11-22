@@ -127,8 +127,8 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("apm.png", { 27, 30 });
             UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
             UImageManager::GetInst().CuttingSprite("Week.png", { 81, 33 });
-            UImageManager::GetInst().CuttingSprite("Alphabet.png", { 27, 39 });
-            UImageManager::GetInst().CuttingSprite("TextBox.png", { 197, 50 });
+            UImageManager::GetInst().CuttingSprite("Alphabet.png", { 33, 39 });
+            UImageManager::GetInst().CuttingSprite("TextBox.png", { 81, 33 });
         }
         // ------------------------------- [ Item & Tools ] -------------------------------------------
         {

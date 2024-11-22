@@ -10,7 +10,6 @@
 
 AItem::AItem()
 {
-
 	ItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 
 }
@@ -100,7 +99,6 @@ void AItem::DestroyItem()
 	if (ItemToPlayerDistanceX < 1.0f || ItemToPlayerDistanceY < 1.0f)
 	{
 		Player->AddItem(this);
-
 	}
 	
 }
@@ -135,7 +133,7 @@ EItemType AItem::SetItemType(std::string _ItemName)
 		Item = EItemType::Wood;
 		return Item;
 	}
-	else if ("Seeds" == _ItemName||"GreenBeanSeed" == _ItemName)
+	else if ("ParsnipSeed" == _ItemName||"BeanStarter" == _ItemName)
 	{
 		Item = EItemType::Crop;
 		return Item;
@@ -146,7 +144,7 @@ EItemType AItem::SetItemType(std::string _ItemName)
 		return Item;
 
 	}
-	else if ("Hoe" == _ItemName || "Ax" == _ItemName || "WateringCan" == _ItemName)
+	else if ("Hoe" == _ItemName || "Axe" == _ItemName || "WateringCan" == _ItemName)
 	{
 		Item = EItemType::Tools;
 		return Item;

@@ -19,10 +19,16 @@ public:
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionEnd(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
 
 	bool GetIsEnter()
 	{
 		return IsEnter;
+	}
+
+	std::string GetSlotName()
+	{
+		return SlotName;
 	}
 protected:
 
@@ -33,6 +39,7 @@ private:
 	class USpriteRenderer* CursorSpriteRenderer = nullptr;
 	U2DCollision* CollisionComponent = nullptr;
 	bool IsEnter = false;
+	std::string SlotName = "NONE";
 };
 
 

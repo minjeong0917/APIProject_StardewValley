@@ -65,6 +65,19 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
 
+    if (false == IsChoose)
+    {
+        TextLocation = { 70 , 85 };
+        InventoryCheck(TextLocation.iX(), TextLocation.iY());
+        ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
+
+    }
+    else if (true == IsChoose)
+    {
+        InventoryCheck(TextLocation.iX() + 30, TextLocation.iY() + 30);
+        ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
+
+    }
 
 
     InventoryCheck();
@@ -76,6 +89,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
     SetCurSlot();
     SlotItemChange();
+    ItemExplainText();
 
 
     if (SelectedItem != nullptr)
@@ -86,6 +100,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
     IsInventoryEnter = Cursor->GetIsEnter();
+
 }
 
 void APlayerUI::UIImageRender()
@@ -115,13 +130,6 @@ void APlayerUI::UIImageRender()
     MText->SetActorLocation({ Size.iX() - 50, 145 });
 
     APText = GetWorld()->SpawnActor<AText>();
-
-    //Text = GetWorld()->SpawnActor<AGold>();
-    //Text->SetActorLocation({ Size.Half().X , 50.0f });
-    //Text->SetTextSpriteName("Alphabet.png");
-    //Text->SetOrder(ERenderOrder::UIFont);
-    //Text->SetTextScale({ 27, 31 });
-    //Text->SetText("Seeds");
 
     WeekText = GetWorld()->SpawnActor<AText>();
     DayText = GetWorld()->SpawnActor<AGold>();
@@ -179,9 +187,9 @@ void APlayerUI::UIImageRender()
 
     // 기본 아이템 지급
     DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 16 * 3.5f, 16 * 3.5f });
-    DefaultItem({ 0,1 }, "Ax.png", "Ax", 0, { 16 * 3.5f, 16 * 3.5f });
-    DefaultItem({ 0,2 }, "Items.png", "Seeds", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
-    DefaultItem({ 0,3 }, "Items.png", "GreenBeanSeed", 625, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
+    DefaultItem({ 0,1 }, "Ax.png", "Axe", 0, { 16 * 3.5f, 16 * 3.5f });
+    DefaultItem({ 0,2 }, "Items.png", "ParsnipSeed", 624, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
+    DefaultItem({ 0,3 }, "Items.png", "BeanStarter", 625, { 14 * 3.5f, 14 * 3.5f }, { 0,0 }, 10);
     DefaultItem({ 0,4 }, "WateringCan.png", "WateringCan", 2, { 20 * 3.5f, 20 * 3.5f });
 
     // CulSlot
@@ -190,6 +198,7 @@ void APlayerUI::UIImageRender()
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
+    CurSlot->SetName(AllSlots[0][CurSlotNum]->GetName());
 
     // CulItem
     CurItem = GetWorld()->SpawnActor<ACurItem>();
@@ -207,7 +216,53 @@ void APlayerUI::UIImageRender()
     InvenPlayer->CreateAnimation("Idle", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,2.0f });
     InvenPlayer->SetActive(false);
 
+    ExplainNameText = GetWorld()->SpawnActor<AUI>();
+    ExplainNameText->SetSprite("TextBox.png", 0, 1.0f);
+    ExplainNameText->SetComponentScale({350,120});
+    ExplainNameText->SetOrder(ERenderOrder::SelectedItem);
+    ExplainNameText->SetActive(false);
+
+    ExplainText = GetWorld()->SpawnActor<AUI>();
+    ExplainText->SetSprite("TextBox.png", 0, 1.0f);
+    ExplainText->SetComponentScale({ 350,90 });
+    ExplainText->SetOrder(ERenderOrder::SelectedItem);
+    ExplainText->SetActive(false);
+
+
+    Text = GetWorld()->SpawnActor<AGold>();
+    Text2 = GetWorld()->SpawnActor<AGold>();
+    Text3 = GetWorld()->SpawnActor<AGold>();
+
+    Text->SetTextSpriteName("Alphabet.png");
+    Text->SetOrder(ERenderOrder::ExplainText);
+    Text->SetTextScale({ 27, 31 });
+    Text->SetActive(false);
+
+    Text2->SetTextSpriteName("Alphabet.png");
+    Text2->SetOrder(ERenderOrder::ExplainText);
+    Text2->SetTextScale({ 21, 24 });
+    Text2->SetActive(false);
+
+    Text3->SetTextSpriteName("Alphabet.png");
+    Text3->SetOrder(ERenderOrder::ExplainText);
+    Text3->SetTextScale({ 23, 26 });
+    Text3->SetActive(false);
+
+    ExplianBoxScaleY = ExplainText->GetScale().Y;
 }
+
+void APlayerUI::InventoryCheck(int X, int Y)
+{
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+
+    Text->SetActorLocation({ MousePos.X + X , MousePos.Y + Y +5});
+    Text2->SetActorLocation({ MousePos.X + X, MousePos.Y + Y + 35 });
+    Text3->SetActorLocation({ MousePos.X + X - 5, MousePos.Y + Y + 100 });
+
+    ExplainNameText->SetActorLocation({ MousePos.X + X + 130, MousePos.Y + Y + 25 });
+    ExplainText->SetActorLocation({ MousePos.X + X + 130, MousePos.Y + Y + 95 });
+}
+
 
 
 void APlayerUI::InventoryCheck()
@@ -429,6 +484,8 @@ void APlayerUI::SlotItemText(int _Y, int _X)
 
 void APlayerUI::SlotItemChange()
 {
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+
     for (size_t y = 0; y < 3; y++)
     {
         for (size_t i = 0; i < 12; i++)
@@ -454,6 +511,7 @@ void APlayerUI::SlotItemChange()
                 AllSlots[y][i]->SetSprite("Slot.png", 0);
                 AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
                 AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
+
 
                 if (ItemCount > 1)
                 {
@@ -481,7 +539,6 @@ void APlayerUI::SlotItemChange()
                 int SelectedIndex = SelectedItem->GetSelectedItemIndex();
                 int ItemCount = SelectedItem->GetSelectedItemCount();
 
-
                 AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
                 AllSlots[y][i]->SetScale(SelectedScale);
                 AllSlots[y][i]->SetName(SelectedName);
@@ -502,6 +559,75 @@ void APlayerUI::SlotItemChange()
         }
     }
 }
+
+void APlayerUI::ItemExplainText()
+{
+    if (true == IsInventoryEnter)
+    {
+        std::string Name = Cursor->GetSlotName();
+        if (Name != "EmptySlot")
+        {
+            ExplainNameText->SetActive(true);
+            ExplainText->SetActive(true);
+            Text->SetActive(true);
+            Text->SetText(Name);
+            ItemExplain(Name);
+            Text2->SetActive(true);
+            Text3->SetActive(true);
+
+
+        }
+    }
+
+
+    if (false == IsInventoryEnter)
+    {
+        ExplainNameText->SetActive(false);
+        ExplainText->SetActive(false);
+        Text->SetActive(false);
+        Text2->SetActive(false);
+        Text3->SetActive(false);
+    }
+}
+
+void APlayerUI::ItemExplain(std::string _Name)
+{
+
+    if (_Name == "Axe")
+    {
+        Text2Explain = "Tool";
+        Text3Explain = "Used to chop wood";
+    }
+    else if (_Name == "Hoe")
+    {
+        Text2Explain = "Tool";
+        Text3Explain = "Used to dig and till soil";
+    }
+    else if (_Name == "ParsnipSeed")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring.";
+    }
+    else if (_Name == "BeanStarter")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring. Keeps producing after that. Grows on a trellis.";
+    }
+    else if (_Name == "WateringCan")
+    {
+        Text2Explain = "Tool";
+        Text3Explain = "Used to water crops. It can be refilled at any water source.";
+    }
+
+
+    Text2->SetText(Text2Explain);
+    Text3->SetText(Text3Explain);
+
+    ExplainText->SetComponentScale({ ExplainText->GetScale().X,  ExplianBoxScaleY + 30 * Text3->GetTextOverCount() });
+
+
+}
+
 
 void APlayerUI::UseItem()
 {

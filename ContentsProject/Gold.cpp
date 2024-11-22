@@ -4,14 +4,12 @@
 
 AGold::AGold()
 {
-
-    for (size_t i = 0; i < 10; i++)
+    for (size_t i = 0; i < 200; i++)
     {
-        USpriteRenderer* Sprite = CreateDefaultSubObject<USpriteRenderer>();
+        Sprite = CreateDefaultSubObject<USpriteRenderer>();
         Sprite->SetCameraEffect(false);
         Renders.push_back(Sprite);
     }
-
 }
 
 AGold::~AGold()
@@ -53,7 +51,8 @@ void AGold::SetValue(int _Gold)
 
     if (Renders.size() <= Number.size())
     {
-        MSGASSERT("자리수를 넘겼습니다.");
+
+        //MSGASSERT("자리수를 넘겼습니다.");
         return;
     }
 
@@ -78,9 +77,13 @@ void AGold::SetValue(int _Gold)
 
 void AGold::SetText(std::string _Text)
 {
+    int IsTextOver = 0;
     if (Renders.size() <= _Text.size())
     {
-        MSGASSERT("자리수를 넘겼습니다.");
+        for (size_t i = 0; i < _Text.size() - Renders.size(); i++)
+        {
+            Renders.push_back(Sprite);
+        }
         return;
     }
 
@@ -90,19 +93,44 @@ void AGold::SetText(std::string _Text)
     {
         char Value = _Text[i] - 'A';
 
+        if (Value <= -20 )
+        {
+            Value = 29;
+        }
+        else if (Value > -20 && Value <0)
+        {
+            Value = 26;
+        }
+
         Renders[i]->SetSprite(TextSpriteName, Value);
         Renders[i]->SetComponentScale(TextScale);
         Renders[i]->SetComponentLocation(Pos);
 
-
-        if (Value > 27)
+        if (Value == 'm' - 'A')
         {
-            Pos.X += static_cast<float>(TextScale.X - 13.0f);
+            Pos.X += static_cast<float>(TextScale.X);
+        }
+        else if (Value > 27)
+        {
+            Pos.X += static_cast<float>(TextScale.X - 10.0f);
+        }
+        else if (Value == 26)
+        {
+            Pos.X += static_cast<float>(TextScale.X - 20.0f);
         }
         else
         {
             Pos.X += static_cast<float>(TextScale.X);
         }
+
+        if (Pos.X > 240 && Value == 29)
+        {
+
+            Pos.X = 5;
+            Pos.Y += TextScale.Y;
+            IsTextOver +=1;
+        }
+
         Renders[i]->SetActive(true);
     }
 
@@ -110,4 +138,6 @@ void AGold::SetText(std::string _Text)
     {
         Renders[i]->SetActive(false);
     }
+
+    TextOverCount = IsTextOver;
 }

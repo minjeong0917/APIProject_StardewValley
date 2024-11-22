@@ -156,12 +156,12 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
         if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" || GetFarmTileSpriteName(MouseLocation) == "WETDIRT.PNG") && true == Player->IsMouseInPlayerPos)
         {
-            if ("Seeds" == CurSlotName)
+            if ("ParsnipSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
                 UseItem();
             }
-            if ("GreenBeanSeed" == CurSlotName)
+            if ("BeanStarter" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { 0, -50 }, { 70, 138 }, 0, true, 6);
                 UseItem();
@@ -202,7 +202,7 @@ void AFarmGameMode::TileDestroyLocation()
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
     {
-        if (CurSlotName == "Ax")
+        if (CurSlotName == "Axe")
         {
             if (GetFarmTileSpriteName(MouseLocation) == "TREETILE" && Player->IsMouseInPlayerPos == true)
             {

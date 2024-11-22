@@ -34,13 +34,20 @@ public:
 	void SetValue(int _Gold);
 	void SetText(std::string _Text);
 
+	int GetTextOverCount()
+	{
+		return TextOverCount;
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
 	std::string TextSpriteName;
+	USpriteRenderer* Sprite = nullptr;
 	FVector2D TextScale;
+
+	int TextOverCount = 0;
 	std::vector<class USpriteRenderer*> Renders;
 };
 

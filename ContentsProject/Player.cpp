@@ -506,7 +506,7 @@ void APlayer::PlayerAnimationPlay()
 
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && CurSlotCheck() != "Seeds")
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && CurSlotCheck() != "ParsnipSeed")
     {
         if (IsMouseInPlayerPos)
         {
@@ -532,7 +532,7 @@ void APlayer::PlayerAnimationPlay()
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsEnter)
     {
-        if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Ax")
+        if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Axe")
         {
             switch (PlayerDir)
             {

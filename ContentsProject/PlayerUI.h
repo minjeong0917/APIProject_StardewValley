@@ -54,6 +54,9 @@ protected:
 
 private:
     void SlotItemText(int _Y, int _X);
+    void ItemExplainText();
+    void ItemExplain(std::string _Name);
+    void InventoryCheck(int X, int Y);
 
     void InventoryCheck();
     void SlotItemChange();
@@ -64,6 +67,7 @@ private:
     int IsOpenIven = 0;
     ACursor* Cursor = nullptr;
     AUI* InvenPlayer = nullptr;
+    AUI* ExplainNameText = nullptr;
     AUI* ExplainText = nullptr;
 
     ATime* MinTime = nullptr;
@@ -73,6 +77,12 @@ private:
     AText* WeekText = nullptr;
 
     AGold* Text = nullptr;
+    AGold* Text2 = nullptr;
+    AGold* Text3 = nullptr;
+
+    std::string Text2Explain = "NONE";
+    std::string Text3Explain = "NONE";
+
 
     AGold* DayText = nullptr;
 
@@ -87,11 +97,11 @@ private:
 
     bool IsEmptySlot = true;
     int CurSlotNum = 1;
-
+    FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
 
     class ASelectedItem* SelectedItem = nullptr;
-
+    float ExplianBoxScaleY = 0;
     int a = 0;
     bool IsChoose = false;
 };

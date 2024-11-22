@@ -36,11 +36,14 @@ void AUI::SetOrder(ERenderOrder _Order)
 {
 	SpriteRenderer->SetOrder(_Order);
 
-}void AUI::SetComponentScale(FVector2D _Scale)
-{
-
-	SpriteRenderer->SetComponentScale(_Scale);
 }
+
+void AUI::SetComponentScale(FVector2D _Scale)
+{
+	SpriteRenderer->SetComponentScale(_Scale);
+	Scale = _Scale;
+}
+
 void AUI::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop /*= true*/)
 {
 	SpriteRenderer->CreateAnimation(_AnimationName, _SpriteName, _Indexs, _Frame, _Loop);

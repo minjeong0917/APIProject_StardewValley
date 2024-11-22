@@ -21,12 +21,17 @@ public:
 	void SetComponentScale(FVector2D _Scale);
 	void CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop = true);
 	void ChangeAnimation(std::string_view _AnimationName, bool _Force = false);
+	FVector2D GetScale()
+	{
+		return Scale;
+	}
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
 	class USpriteRenderer* SpriteRenderer = nullptr;
+	FVector2D Scale = { 0,0 };
 
 };
 
