@@ -70,6 +70,8 @@ private:
     AUI* ExplainNameText = nullptr;
     AUI* ExplainText = nullptr;
 
+    AUI* Tools = nullptr;
+
     ATime* MinTime = nullptr;
     ATime* HourTime = nullptr;
 

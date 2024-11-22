@@ -123,7 +123,7 @@ void AGold::SetText(std::string _Text)
             Pos.X += static_cast<float>(TextScale.X);
         }
 
-        if (Pos.X > 240 && Value == 29)
+        if (Pos.X > 245 && Value == 29)
         {
 
             Pos.X = 5;

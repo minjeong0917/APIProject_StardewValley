@@ -69,16 +69,15 @@ void APlayerUI::Tick(float _DeltaTime)
     {
         TextLocation = { 70 , 85 };
         InventoryCheck(TextLocation.iX(), TextLocation.iY());
-        ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
+        //ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
 
     }
     else if (true == IsChoose)
     {
         InventoryCheck(TextLocation.iX() + 30, TextLocation.iY() + 30);
-        ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
+        //ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
 
     }
-
 
     InventoryCheck();
 
@@ -217,14 +216,12 @@ void APlayerUI::UIImageRender()
     InvenPlayer->SetActive(false);
 
     ExplainNameText = GetWorld()->SpawnActor<AUI>();
-    ExplainNameText->SetSprite("TextBox.png", 0, 1.0f);
-    ExplainNameText->SetComponentScale({350,120});
+    ExplainNameText->SetSprite("TextBox.png", 0, 3.5f);
     ExplainNameText->SetOrder(ERenderOrder::SelectedItem);
     ExplainNameText->SetActive(false);
 
     ExplainText = GetWorld()->SpawnActor<AUI>();
-    ExplainText->SetSprite("TextBox.png", 0, 1.0f);
-    ExplainText->SetComponentScale({ 350,90 });
+    ExplainText->SetSprite("TextBox.png", 0, 3.5f);
     ExplainText->SetOrder(ERenderOrder::SelectedItem);
     ExplainText->SetActive(false);
 
@@ -245,10 +242,12 @@ void APlayerUI::UIImageRender()
 
     Text3->SetTextSpriteName("Alphabet.png");
     Text3->SetOrder(ERenderOrder::ExplainText);
-    Text3->SetTextScale({ 23, 26 });
+    Text3->SetTextScale({ 21, 24 });
     Text3->SetActive(false);
 
     ExplianBoxScaleY = ExplainText->GetScale().Y;
+
+
 }
 
 void APlayerUI::InventoryCheck(int X, int Y)
@@ -512,7 +511,6 @@ void APlayerUI::SlotItemChange()
                 AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
                 AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
 
-
                 if (ItemCount > 1)
                 {
                     AllSlots[y][i]->CountTextDestroy();
@@ -574,8 +572,6 @@ void APlayerUI::ItemExplainText()
             ItemExplain(Name);
             Text2->SetActive(true);
             Text3->SetActive(true);
-
-
         }
     }
 
