@@ -2,7 +2,7 @@
 
 #include "UI.h"
 #include <EngineCore/EngineAPICore.h>
-#include <EngineCore/SpriteRenderer.h>
+
 
 AUI::AUI()
 {
@@ -38,10 +38,26 @@ void AUI::SetOrder(ERenderOrder _Order)
 
 }
 
+void AUI::SetPivotType(PivotType _Type)
+{
+	SpriteRenderer->SetPivotType(_Type);
+
+}
+
+void AUI::SetPivot(FVector2D _Pivot)
+{
+	SpriteRenderer->SetPivot(_Pivot);
+}
+
 void AUI::SetComponentScale(FVector2D _Scale)
 {
 	SpriteRenderer->SetComponentScale(_Scale);
 	Scale = _Scale;
+}
+FVector2D AUI::GetLocation()
+{
+	Location = SpriteRenderer->GetComponentLocation();
+	return Location;
 }
 
 void AUI::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop /*= true*/)

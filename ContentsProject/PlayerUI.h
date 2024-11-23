@@ -55,7 +55,7 @@ protected:
 private:
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
-    void ItemExplain(std::string _Name);
+    int ItemExplain(std::string _Name);
     void InventoryCheck(int X, int Y);
 
     void InventoryCheck();
@@ -68,7 +68,9 @@ private:
     ACursor* Cursor = nullptr;
     AUI* InvenPlayer = nullptr;
     AUI* ExplainNameText = nullptr;
-    AUI* ExplainText = nullptr;
+    AUI* TextBoxTop = nullptr;
+    AUI* TextBoxMid = nullptr;
+    AUI* TextBoxBot = nullptr;
 
     AUI* Tools = nullptr;
 
@@ -104,7 +106,7 @@ private:
 
     class ASelectedItem* SelectedItem = nullptr;
     float ExplianBoxScaleY = 0;
-    int a = 0;
+    int TextBoxScale = 0;
     bool IsChoose = false;
 };
 

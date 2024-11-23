@@ -115,6 +115,10 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Logo.png", { 400, 220 });
             UImageManager::GetInst().CuttingSprite("SelectedSlot.png", { 16, 16 });
             UImageManager::GetInst().CuttingSprite("Slot.png", { 16, 16 });
+            UImageManager::GetInst().CuttingSprite("TextBox.png", { 100, 35 });
+            UImageManager::GetInst().CuttingSprite("TextBox_Top.png", { 100, 6 });
+            UImageManager::GetInst().CuttingSprite("TextBox_Mid.png", { 100, 7 });
+            UImageManager::GetInst().CuttingSprite("TextBox_Bot.png", { 100, 7 });
 
         }
         // Font
@@ -128,7 +132,7 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
             UImageManager::GetInst().CuttingSprite("Week.png", { 81, 33 });
             UImageManager::GetInst().CuttingSprite("Alphabet.png", { 33, 39 });
-            UImageManager::GetInst().CuttingSprite("TextBox.png", { 100, 35 });
+
         }
         // ------------------------------- [ Item & Tools ] -------------------------------------------
         {

@@ -14,7 +14,8 @@ enum class ERenderOrder
 	CURSLOT = 20003,
 	SLOTFont = 20004,
 	SelectedItem = 20005,
-	ExplainText = 20006,
+	ExplainTextBox = 20006,
+	ExplainText = 20007,
 	CURSOR = 100000
 
 };

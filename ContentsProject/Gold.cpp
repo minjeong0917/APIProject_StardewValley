@@ -77,7 +77,7 @@ void AGold::SetValue(int _Gold)
 
 void AGold::SetText(std::string _Text)
 {
-    int IsTextOver = 0;
+    int IsTextOver = 1;
     if (Renders.size() <= _Text.size())
     {
         for (size_t i = 0; i < _Text.size() - Renders.size(); i++)

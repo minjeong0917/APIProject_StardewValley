@@ -64,18 +64,20 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetOrder(ERenderOrder::UIFont);
     DayText->SetTextScale({ 20, 28 });
     DayText->SetValue(Day);
+    TextLocation = { 60 , 90 };
 
     if (false == IsChoose)
     {
-        TextLocation = { 70 , 85 };
-        InventoryCheck(TextLocation.iX(), TextLocation.iY());
-        //ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
 
+        InventoryCheck(TextLocation.iX(), TextLocation.iY());
+
+
+    
     }
     else if (true == IsChoose)
     {
         InventoryCheck(TextLocation.iX() + 30, TextLocation.iY() + 30);
-        //ExplainText->SetActorLocation({ ExplainText->GetActorLocation().X, ExplainText->GetActorLocation().Y + 15 * Text3->GetTextOverCount() });
+      
 
     }
 
@@ -220,11 +222,23 @@ void APlayerUI::UIImageRender()
     ExplainNameText->SetOrder(ERenderOrder::SelectedItem);
     ExplainNameText->SetActive(false);
 
-    ExplainText = GetWorld()->SpawnActor<AUI>();
-    ExplainText->SetSprite("TextBox.png", 0, 3.5f);
-    ExplainText->SetOrder(ERenderOrder::SelectedItem);
-    ExplainText->SetActive(false);
+    TextBoxTop = GetWorld()->SpawnActor<AUI>();
+    TextBoxTop->SetComponentScale({ 100 * 3.5f,6 * 3.5f });
+    TextBoxTop->SetSprite("TextBox_Top.png", 0, 3.5f);
+    TextBoxTop->SetOrder(ERenderOrder::ExplainTextBox);
+    TextBoxTop->SetActive(false);
 
+    TextBoxMid = GetWorld()->SpawnActor<AUI>();
+    TextBoxMid->SetComponentScale({ 100 * 3.5f, 14 * 3.5f });
+    TextBoxMid->SetSprite("TextBox_Mid.png", 0, 3.5f);
+    TextBoxMid->SetOrder(ERenderOrder::ExplainTextBox);
+    TextBoxMid->SetActive(false);
+
+    TextBoxBot = GetWorld()->SpawnActor<AUI>();
+    TextBoxBot->SetComponentScale({ 100 * 3.5f,7 * 3.5f });
+    TextBoxBot->SetSprite("TextBox_Bot.png", 0, 3.5f);
+    TextBoxBot->SetOrder(ERenderOrder::ExplainTextBox);
+    TextBoxBot->SetActive(false);
 
     Text = GetWorld()->SpawnActor<AGold>();
     Text2 = GetWorld()->SpawnActor<AGold>();
@@ -245,7 +259,7 @@ void APlayerUI::UIImageRender()
     Text3->SetTextScale({ 21, 24 });
     Text3->SetActive(false);
 
-    ExplianBoxScaleY = ExplainText->GetScale().Y;
+    ExplianBoxScaleY = TextBoxTop->GetScale().Y;
 
 
 }
@@ -254,12 +268,15 @@ void APlayerUI::InventoryCheck(int X, int Y)
 {
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 
-    Text->SetActorLocation({ MousePos.X + X , MousePos.Y + Y +5});
-    Text2->SetActorLocation({ MousePos.X + X, MousePos.Y + Y + 35 });
-    Text3->SetActorLocation({ MousePos.X + X - 5, MousePos.Y + Y + 100 });
+    Text->SetActorLocation({ MousePos.X + X , MousePos.Y + Y });
+    Text2->SetActorLocation({ MousePos.X + X, MousePos.Y + Y + 30 });
+    Text3->SetActorLocation({ MousePos.X + X, MousePos.Y + Y + 95 });
 
-    ExplainNameText->SetActorLocation({ MousePos.X + X + 130, MousePos.Y + Y + 25 });
-    ExplainText->SetActorLocation({ MousePos.X + X + 130, MousePos.Y + Y + 95 });
+    ExplainNameText->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 20 });
+    TextBoxTop->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 60 });
+    TextBoxMid->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 50 + TextBoxTop->GetScale().Y + TextBoxScale / 2 - 1 });
+    TextBoxBot->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 60 + TextBoxTop->GetScale().Y + TextBoxMid->GetScale().Y });
+
 }
 
 
@@ -560,16 +577,21 @@ void APlayerUI::SlotItemChange()
 
 void APlayerUI::ItemExplainText()
 {
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+
     if (true == IsInventoryEnter)
     {
         std::string Name = Cursor->GetSlotName();
         if (Name != "EmptySlot")
         {
             ExplainNameText->SetActive(true);
-            ExplainText->SetActive(true);
+            TextBoxTop->SetActive(true);
+            TextBoxMid->SetActive(true);
+            TextBoxBot->SetActive(true);
             Text->SetActive(true);
             Text->SetText(Name);
-            ItemExplain(Name);
+            TextBoxScale = ItemExplain(Name);
+
             Text2->SetActive(true);
             Text3->SetActive(true);
         }
@@ -579,14 +601,16 @@ void APlayerUI::ItemExplainText()
     if (false == IsInventoryEnter)
     {
         ExplainNameText->SetActive(false);
-        ExplainText->SetActive(false);
+        TextBoxTop->SetActive(false);
+        TextBoxMid->SetActive(false);
+        TextBoxBot->SetActive(false);
         Text->SetActive(false);
         Text2->SetActive(false);
         Text3->SetActive(false);
     }
 }
 
-void APlayerUI::ItemExplain(std::string _Name)
+int APlayerUI::ItemExplain(std::string _Name)
 {
 
     if (_Name == "Axe")
@@ -619,7 +643,12 @@ void APlayerUI::ItemExplain(std::string _Name)
     Text2->SetText(Text2Explain);
     Text3->SetText(Text3Explain);
 
-    ExplainText->SetComponentScale({ ExplainText->GetScale().X,  ExplianBoxScaleY + 30 * Text3->GetTextOverCount() });
+    int Scale = ExplianBoxScaleY + 25 * Text3->GetTextOverCount();
+
+    TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().iX(), Scale});
+    
+
+    return Scale;
 
 
 }
