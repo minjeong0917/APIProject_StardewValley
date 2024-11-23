@@ -157,6 +157,13 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Farmer_Left.png", { 64, 128 });
             UImageManager::GetInst().CuttingSprite("Farmer_Right_2.png", { 64, 128 });
             UImageManager::GetInst().CuttingSprite("Farmer_Left_2.png", { 64, 128 });
+
+            // player tool animation
+            UImageManager::GetInst().CuttingSprite("Farmer_Right_Axe.png", { 64, 128 });
+            UImageManager::GetInst().CuttingSprite("Farmer_Left_Axe.png", { 64, 128 });
+            UImageManager::GetInst().CuttingSprite("Farmer_Right_Hoe.png", { 64, 128 });
+            UImageManager::GetInst().CuttingSprite("Farmer_Left_Hoe.png", { 64, 128 });
+
         }
     }
 

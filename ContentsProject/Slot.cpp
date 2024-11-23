@@ -26,6 +26,7 @@ ASlot::ASlot()
 		CollisionComponent->SetCollisionType(ECollisionType::Rect);
 		CollisionComponent->SetCameraEffect(false);
 
+
 		DebugOn();
 	}
 
@@ -90,6 +91,12 @@ void ASlot::SetOrder(ERenderOrder _RenderOder)
 {
 	SlotSpriteRenderer->SetOrder(_RenderOder);
 }
+
+void ASlot::CollisionDestroy()
+{
+	CollisionComponent->Destroy();
+}
+
 
 void ASlot::SetSprite(std::string _SprtieName, int _SpriteIndex)
 {

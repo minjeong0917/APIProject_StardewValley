@@ -108,6 +108,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>ContentsObject\UI</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerToolsAnimation.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>ContentsObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerToolsAnimation.h">
+      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

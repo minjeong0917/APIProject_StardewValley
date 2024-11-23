@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PlayerToolsAnimation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UI.h">
       <SubType>
       </SubType>
@@ -240,6 +244,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PlayerToolsAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI.cpp">
       <SubType>
       </SubType>

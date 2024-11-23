@@ -27,6 +27,7 @@ public:
 	//void SetColisionLocation(FVector2D _Location);
 	void SetScale(FVector2D _Scale);
 	void SetOrder(ERenderOrder _RenderOder);
+	void CollisionDestroy();
 
 	void SetSlotItemCount(int _Value)
 	{

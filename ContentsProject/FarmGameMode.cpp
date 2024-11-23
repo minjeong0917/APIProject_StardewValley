@@ -204,10 +204,13 @@ void AFarmGameMode::TileDestroyLocation()
     {
         if (CurSlotName == "Axe")
         {
-            if (GetFarmTileSpriteName(MouseLocation) == "TREETILE" && Player->IsMouseInPlayerPos == true)
+            if (GetFarmTileSpriteName(MouseLocation) == "TREETILE"   && Player->IsMouseInPlayerPos == true)
             {
+
                 TileDestroy(FarmTileMap, FarmMousePoint);
                 ItemDrop("Wood", "Items.png", MouseLocation, Player->GetActorLocation(), 941, 3.0f);
+
+                
             }
             else if (GetFarmTileSpriteName(TileLocation) == "TREETILE")
             {
@@ -244,16 +247,16 @@ FVector2D AFarmGameMode::PlayerDirToTileMap(ATileMap* _TileMap)
     switch (Player->PlayerDir)
     {
     case EPlayerDir::Left:
-        TileLocation += {-_TileMap->GetTileSize().Half().X, 0.0};
+        TileLocation += {-_TileMap->GetTileSize().X, 0.0};
         break;
     case EPlayerDir::Right:
-        TileLocation += {_TileMap->GetTileSize().Half().X, 0.0};
+        TileLocation += {_TileMap->GetTileSize().X, 0.0};
         break;
     case EPlayerDir::Up:
-        TileLocation += {0.0, -_TileMap->GetTileSize().Half().Y};
+        TileLocation += {0.0, -_TileMap->GetTileSize().Y};
         break;
     case EPlayerDir::Down:
-        TileLocation += {0.0, _TileMap->GetTileSize().Half().Y};
+        TileLocation += {0.0, _TileMap->GetTileSize().Y};
         break;
     default:
         break;

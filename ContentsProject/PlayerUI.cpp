@@ -36,7 +36,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
     // cursor
     Cursor->SetActorLocation({ MousePos.X + 10, MousePos.Y + 15 });
-
+    ToolsAnimation->SetActorLocation(Player->GetActorLocation());
     // time
     int Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
@@ -68,20 +68,25 @@ void APlayerUI::Tick(float _DeltaTime)
 
     if (false == IsChoose)
     {
-
-        InventoryCheck(TextLocation.iX(), TextLocation.iY());
-
-
-    
+        SlotItemTextLocation(TextLocation.iX(), TextLocation.iY());
+        if (TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() >= Size.iY())
+        {
+            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
+            SlotItemTextLocation(TextLocation.iX() + 10, TextLocation.iY() - InterY);
+        }
     }
     else if (true == IsChoose)
     {
-        InventoryCheck(TextLocation.iX() + 30, TextLocation.iY() + 30);
-      
-
+        SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
+        if (TextBoxBot->GetActorLocation().Y + TextBoxBot->GetScale().Half().Y >= Size.Y)
+        {
+            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
+            SlotItemTextLocation(TextLocation.iX() + 40, TextLocation.iY() - InterY);
+        }
     }
 
-    InventoryCheck();
+
+
 
     if (IsOpenIven == 0)
     {
@@ -91,8 +96,8 @@ void APlayerUI::Tick(float _DeltaTime)
     SetCurSlot();
     SlotItemChange();
     ItemExplainText();
-
-
+    ToolsAnimationCheck();
+    InventoryCheck();
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -101,6 +106,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
     IsInventoryEnter = Cursor->GetIsEnter();
+    ToolsAnimationTimer(_DeltaTime, AnimationDuration);
 
 }
 
@@ -200,6 +206,7 @@ void APlayerUI::UIImageRender()
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
     CurSlot->SetName(AllSlots[0][CurSlotNum]->GetName());
+    CurSlot->CollisionDestroy();
 
     // CulItem
     CurItem = GetWorld()->SpawnActor<ACurItem>();
@@ -208,7 +215,7 @@ void APlayerUI::UIImageRender()
     Inventory = GetWorld()->SpawnActor<AInventory>();
     Inventory->SetActorLocation({ Size.Half().iX() + 1, Size.Half().iY() });
     Inventory->SetActive(false);
-
+    
     InvenPlayer = GetWorld()->SpawnActor<AUI>();
     InvenPlayer->SetSprite("Farmer_Right.png", 0, 3.5f);
     InvenPlayer->SetComponentScale({ 220, 440 });
@@ -261,10 +268,120 @@ void APlayerUI::UIImageRender()
 
     ExplianBoxScaleY = TextBoxTop->GetScale().Y;
 
+    ToolsAnimation = GetWorld()->SpawnActor<APlayerToolsAnimation>();
+
+
 
 }
 
-void APlayerUI::InventoryCheck(int X, int Y)
+void APlayerUI::ToolsAnimationCheck()
+{
+
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == Player->IsPlayerMove && false == GetIsInventoryEnter())
+    {
+        if (CurSlotItemName() == "Axe")
+        {
+            IsAnimationPlay = true;
+            ToolsAnimation->SetActive(true);
+            ToolsAnimationDir("Axe", 0.45f);
+
+        }
+        else if (CurSlotItemName() == "Hoe")
+        {
+            IsAnimationPlay = true;
+            ToolsAnimation->SetActive(true);
+            ToolsAnimationDir("Hoe", 0.45f);
+
+        }
+
+        else if (CurSlotItemName() == "WateringCan")
+        {
+            //switch (Player->PlayerDir)
+            //{
+            //case EPlayerDir::Left:
+            //    SpriteRenderer->ChangeAnimation("Water_Left", true);
+            //    IsAnimationPlay = true;
+            //    SetAnimationDuration(0.5f);
+            //    break;
+            //case EPlayerDir::Right:
+            //    SpriteRenderer->ChangeAnimation("Water_Right", true);
+            //    IsAnimationPlay = true;
+            //    SetAnimationDuration(0.5f);
+            //    break;
+            //case EPlayerDir::Up:
+            //    SpriteRenderer->ChangeAnimation("Water_Back", true);
+            //    IsAnimationPlay = true;
+            //    SetAnimationDuration(0.5f);
+            //    break;
+            //case EPlayerDir::Down:
+            //    SpriteRenderer->ChangeAnimation("Water_Front", true);
+            //    IsAnimationPlay = true;
+            //    SetAnimationDuration(0.5f);
+
+
+            //    break;
+            //default:
+            //    break;
+            //}
+        }
+    }
+}
+
+void APlayerUI::ToolsAnimationDir(std::string _AnimationName, float _time)
+{
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
+    switch (Player->PlayerDir)
+    {
+    case EPlayerDir::Left:
+        ToolsAnimation->ChangeAnimation(_AnimationName +"_Left", true);
+        SetAnimationDuration(_time);
+        break;
+    case EPlayerDir::Right:
+        ToolsAnimation->ChangeAnimation(_AnimationName + "_Right", true);
+        SetAnimationDuration(_time);
+
+        break;
+    case EPlayerDir::Up:
+        ToolsAnimation->ChangeAnimation(_AnimationName + "_Back", true);
+        SetAnimationDuration(_time);
+
+        break;
+    case EPlayerDir::Down:
+        ToolsAnimation->ChangeAnimation(_AnimationName + "_Front", true);
+        SetAnimationDuration(_time);
+
+        break;
+    default:
+        break;
+    }
+}
+
+void APlayerUI::SetAnimationDuration(float _Duration)
+{
+    AnimationDuration = _Duration;
+
+}
+
+void APlayerUI::ToolsAnimationTimer(float _DeltaTime, float _Duration)
+{
+
+    if (IsAnimationPlay)
+    {
+        AnimationTimer += _DeltaTime;
+        if (AnimationTimer >= _Duration)
+        {
+            IsAnimationPlay = false;
+            AnimationTimer = 0.0f;
+            ToolsAnimation->SetActive(false);
+        }
+    }
+}
+
+
+void APlayerUI::SlotItemTextLocation(int X, int Y)
 {
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 

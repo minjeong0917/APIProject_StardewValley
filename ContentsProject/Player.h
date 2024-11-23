@@ -102,6 +102,7 @@ public:
 protected:
 
 private:
+	bool IsAnimationPlay = false;
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
 
@@ -123,7 +124,6 @@ private:
 
 	USoundPlayer BGMPlayer;
 
-	bool IsAnimationPlay = false;
 
 	float AnimationDuration = 0.0f;
 	float AnimationTimer = 0.0f;    

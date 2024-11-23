@@ -6,6 +6,7 @@ enum class ERenderOrder
 	COLMAP = -1001,
 	BACKGROUND = -1000,
 	PLAYER = 0,
+	TOOLSANIMATION = 9999,
 	UI = 10000,
 	UIFont = 10001,
 	INVEN = 20000,

@@ -12,6 +12,7 @@
 #include "Gold.h"
 #include "CurItem.h"
 #include "UI.h"
+#include "PlayerToolsAnimation.h"
 
 // Ό³Έν :
 class APlayerUI : public AActor
@@ -56,23 +57,30 @@ private:
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
     int ItemExplain(std::string _Name);
-    void InventoryCheck(int X, int Y);
-
+    void SlotItemTextLocation(int X, int Y);
+    void ToolsAnimationCheck();
+    void ToolsAnimationTimer(float _DeltaTime, float _Duration);
+    void SetAnimationDuration(float _Duration);
     void InventoryCheck();
     void SlotItemChange();
+    void ToolsAnimationDir(std::string _AnimationName, float _time);
 
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
+    bool IsAnimationPlay = false;
 
     int IsOpenIven = 0;
     ACursor* Cursor = nullptr;
     AUI* InvenPlayer = nullptr;
+    APlayerToolsAnimation* ToolsAnimation = nullptr;
+
     AUI* ExplainNameText = nullptr;
     AUI* TextBoxTop = nullptr;
     AUI* TextBoxMid = nullptr;
     AUI* TextBoxBot = nullptr;
 
     AUI* Tools = nullptr;
+
 
     ATime* MinTime = nullptr;
     ATime* HourTime = nullptr;
@@ -99,12 +107,15 @@ private:
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
 
+    class ASelectedItem* SelectedItem = nullptr;
+
     bool IsEmptySlot = true;
     int CurSlotNum = 1;
     FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
 
-    class ASelectedItem* SelectedItem = nullptr;
+    float AnimationDuration = 0.0f;
+    float AnimationTimer = 0.0f;
     float ExplianBoxScaleY = 0;
     int TextBoxScale = 0;
     bool IsChoose = false;
