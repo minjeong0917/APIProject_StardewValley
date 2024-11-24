@@ -22,9 +22,6 @@
     <Filter Include="ContentsObject\Map">
       <UniqueIdentifier>{91466eed-6629-488b-9331-3ec8615cb354}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Title">
-      <UniqueIdentifier>{cce7b728-1c3a-4db1-a2b4-e8e3d21eb907}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ContentsObject\Map\TileMap">
       <UniqueIdentifier>{dc7d6f07-3ac2-45f7-82c8-ff1fbec1562e}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="ContentsObject\UI\Inventory">
       <UniqueIdentifier>{1af7cbf5-7eed-41ca-80f6-77e9747832b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\UI\Title">
+      <UniqueIdentifier>{cce7b728-1c3a-4db1-a2b4-e8e3d21eb907}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,7 @@
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
-      <Filter>ContentsObject\Title</Filter>
+      <Filter>ContentsObject\UI\Title</Filter>
     </ClCompile>
     <ClCompile Include="TownGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
@@ -111,6 +111,9 @@
     <ClCompile Include="PlayerToolsAnimation.cpp">
       <Filter>ContentsObject\Global</Filter>
     </ClCompile>
+    <ClCompile Include="TitleButton.cpp">
+      <Filter>ContentsObject\UI\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -135,7 +138,7 @@
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
-      <Filter>ContentsObject\Title</Filter>
+      <Filter>ContentsObject\UI\Title</Filter>
     </ClInclude>
     <ClInclude Include="TownGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="PlayerToolsAnimation.h">
       <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleButton.h">
+      <Filter>ContentsObject\UI\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

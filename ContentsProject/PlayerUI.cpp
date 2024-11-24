@@ -298,33 +298,9 @@ void APlayerUI::ToolsAnimationCheck()
 
         else if (CurSlotItemName() == "WateringCan")
         {
-            //switch (Player->PlayerDir)
-            //{
-            //case EPlayerDir::Left:
-            //    SpriteRenderer->ChangeAnimation("Water_Left", true);
-            //    IsAnimationPlay = true;
-            //    SetAnimationDuration(0.5f);
-            //    break;
-            //case EPlayerDir::Right:
-            //    SpriteRenderer->ChangeAnimation("Water_Right", true);
-            //    IsAnimationPlay = true;
-            //    SetAnimationDuration(0.5f);
-            //    break;
-            //case EPlayerDir::Up:
-            //    SpriteRenderer->ChangeAnimation("Water_Back", true);
-            //    IsAnimationPlay = true;
-            //    SetAnimationDuration(0.5f);
-            //    break;
-            //case EPlayerDir::Down:
-            //    SpriteRenderer->ChangeAnimation("Water_Front", true);
-            //    IsAnimationPlay = true;
-            //    SetAnimationDuration(0.5f);
-
-
-            //    break;
-            //default:
-            //    break;
-            //}
+            IsAnimationPlay = true;
+            ToolsAnimation->SetActive(true);
+            ToolsAnimationDir("Water", 0.55f);
         }
     }
 }

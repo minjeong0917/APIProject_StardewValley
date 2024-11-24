@@ -5,6 +5,9 @@ enum class ERenderOrder
 {
 	COLMAP = -1001,
 	BACKGROUND = -1000,
+	TitleUI2 = -3,
+	TitleUI1 = -2,
+	LOGO = -1,
 	PLAYER = 0,
 	TOOLSANIMATION = 9999,
 	UI = 10000,
@@ -41,7 +44,7 @@ enum class ECollisionGroup
 {
 	CURSOR,
 	SLOT,
-
+	BUTTON
 };
 
 enum class EItemType

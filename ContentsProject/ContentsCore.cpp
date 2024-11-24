@@ -38,7 +38,7 @@ void ContentsCore::BeginPlay()
     UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
     UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
     UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-    UEngineAPICore::GetCore()->OpenLevel("Farm");
+    UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 
 void ContentsCore::Tick()
@@ -112,13 +112,33 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Inventory.png", { 214, 74 });
             UImageManager::GetInst().CuttingSprite("Inventory2.png", { 216, 159 });
             UImageManager::GetInst().CuttingSprite("InventoryBar.png", { 203, 26 });
-            UImageManager::GetInst().CuttingSprite("Logo.png", { 400, 220 });
+            UImageManager::GetInst().CuttingSprite("Logo.png", { 796, 374 });
             UImageManager::GetInst().CuttingSprite("SelectedSlot.png", { 16, 16 });
             UImageManager::GetInst().CuttingSprite("Slot.png", { 16, 16 });
             UImageManager::GetInst().CuttingSprite("TextBox.png", { 100, 35 });
             UImageManager::GetInst().CuttingSprite("TextBox_Top.png", { 100, 6 });
             UImageManager::GetInst().CuttingSprite("TextBox_Mid.png", { 100, 7 });
             UImageManager::GetInst().CuttingSprite("TextBox_Bot.png", { 100, 7 });
+
+
+
+
+        }
+        {
+            UEngineDirectory Dir;
+            Dir.MoveParentToDirectory("Resources//Images");
+            Dir.Append("UI//LogoAnimation");
+            UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+
+        }
+        {
+            UEngineDirectory Dir;
+            Dir.MoveParentToDirectory("Resources//Images");
+            Dir.Append("UI//LogoAnimation");
+            UImageManager::GetInst().CuttingSprite("Tree.png", { 1280, 383 });
+            UImageManager::GetInst().CuttingSprite("Mountain1.png", { 1280, 296 });
+            UImageManager::GetInst().CuttingSprite("Mountain2.png", { 1280, 296 });
+            UImageManager::GetInst().CuttingSprite("NewButton.png", { 148, 116 });
 
         }
         // Font
@@ -163,7 +183,8 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Farmer_Left_Axe.png", { 64, 128 });
             UImageManager::GetInst().CuttingSprite("Farmer_Right_Hoe.png", { 64, 128 });
             UImageManager::GetInst().CuttingSprite("Farmer_Left_Hoe.png", { 64, 128 });
-
+            UImageManager::GetInst().CuttingSprite("Farmer_Right_WateringCan.png", { 64, 128 });
+            UImageManager::GetInst().CuttingSprite("Farmer_Left_WateringCan.png", { 64, 128 });
         }
     }
 
@@ -187,4 +208,5 @@ void ContentsCore::ReadySprite()
 
     ULevel::CollisionGroupLink(ECollisionGroup::SLOT, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::SLOT);
+    ULevel::CollisionGroupLink(ECollisionGroup::BUTTON, ECollisionGroup::CURSOR);
 }

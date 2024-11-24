@@ -569,22 +569,22 @@ void APlayer::PlayerAnimationPlay()
             case EPlayerDir::Left:
                 SpriteRenderer->ChangeAnimation("Water_Left", true);
                 IsAnimationPlay = true;
-                SetAnimationDuration(0.5f);
+                SetAnimationDuration(0.55f);
                 break;
             case EPlayerDir::Right:
                 SpriteRenderer->ChangeAnimation("Water_Right", true);
                 IsAnimationPlay = true;
-                SetAnimationDuration(0.5f);
+                SetAnimationDuration(0.55f);
                 break;
             case EPlayerDir::Up:
                 SpriteRenderer->ChangeAnimation("Water_Back", true);
                 IsAnimationPlay = true;
-                SetAnimationDuration(0.5f);
+                SetAnimationDuration(0.55f);
                 break;
             case EPlayerDir::Down:
                 SpriteRenderer->ChangeAnimation("Water_Front", true);
                 IsAnimationPlay = true;
-                SetAnimationDuration(0.5f);
+                SetAnimationDuration(0.55f);
 
 
                 break;
@@ -724,10 +724,10 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
 
     // 물 주기
-    SpriteRenderer->CreateAnimation("Water_Right", "Farmer_Right.png", { 46, 103}, { 0.1f, 0.2f }, false);
-    SpriteRenderer->CreateAnimation("Water_Left", "Farmer_Left.png",  {46, 103}, { 0.10f, 0.2f }, false);
-    SpriteRenderer->CreateAnimation("Water_Front", "Farmer_Right.png", { 41,42,22 }, { 0.07f , 0.1f, 0.2f }, false);
-    SpriteRenderer->CreateAnimation("Water_Back", "Farmer_Right.png", { 43,45,104 }, { 0.07f , 0.1f, 0.2f }, false);
+    SpriteRenderer->CreateAnimation("Water_Right", "Farmer_Right.png", { 46, 103}, { 0.1f, 0.5f }, false);
+    SpriteRenderer->CreateAnimation("Water_Left", "Farmer_Left.png",  {46, 103}, { 0.10f, 0.5f }, false);
+    SpriteRenderer->CreateAnimation("Water_Front", "Farmer_Right.png", { 41,42,22 }, { 0.07f , 0.1f, 0.4f }, false);
+    SpriteRenderer->CreateAnimation("Water_Back", "Farmer_Right.png", { 43,45,104 }, { 0.07f , 0.1f, 0.4f }, false);
 
     // 아이템 들고 이동
     SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });

@@ -2,23 +2,55 @@
 #include "TitleLogo.h"
 
 #include <EngineCore/EngineAPICore.h>
-#include <EngineCore/SpriteRenderer.h>
-#include "ContentsEnum.h"
+
 
 ATitleLogo::ATitleLogo()
 {
 
-	USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	SpriteRenderer->SetOrder(ERenderOrder::BACKGROUND);
-	SpriteRenderer->SetSprite("Logo.png");
+	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 
-	FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
-	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-	SetActorLocation(Size.Half());
 
 }
 
 ATitleLogo::~ATitleLogo()
 {
 }
+
+void ATitleLogo::BeginPlay()
+{
+	Super::BeginPlay();
+}
+void ATitleLogo::Tick(float _DeltaTime)
+{
+	Super::Tick(_DeltaTime);
+}
+
+FVector2D ATitleLogo::GetScale()
+{
+	return SpriteRenderer->GetComponentScale();
+}
+
+
+void ATitleLogo::SetSprite(std::string _SptriteName , int _Index, float _Scale)
+{
+	SpriteRenderer->SetSprite(_SptriteName, _Index);
+	SpriteRenderer->SetSpriteScale(_Scale);
+}
+
+void ATitleLogo::SetOrder(ERenderOrder _Order)
+{
+	SpriteRenderer->SetOrder(_Order);
+
+}
+
+void ATitleLogo::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop /*= true*/)
+{
+	SpriteRenderer->CreateAnimation(_AnimationName, _SpriteName, _Indexs, _Frame, _Loop);
+}
+void ATitleLogo::ChangeAnimation(std::string_view _AnimationName, bool _Force /*= false*/)
+{
+	SpriteRenderer->ChangeAnimation(_AnimationName, _Force);
+
+}
+
 
