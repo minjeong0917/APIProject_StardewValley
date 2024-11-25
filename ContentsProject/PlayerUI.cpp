@@ -301,6 +301,15 @@ void APlayerUI::UIImageRender()
     StoreGoldText->SetTextScale({ 22, 33 });
     StoreGoldText->SetValue(Player->GetGold(),4.3f);
     StoreGoldText->SetActive(false);
+
+    StoreExitButton = GetWorld()->SpawnActor<AUI>();
+    StoreExitButton->SetComponentScale({ 12 * 3.5f,12 * 3.5f });
+    StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
+    StoreExitButton->SetSprite("ExitButton.png", 0, 3.5f);
+    StoreExitButton->SetOrder(ERenderOrder::GLODTEXT);
+    StoreExitButton->SetActorLocation({ Size.X  - 100 , 50.f });
+    StoreExitButton->SetCollisionComponentLocation({ 0.0f , 0.0f });
+    StoreExitButton->SetActive(false);
 }
 
 
@@ -507,6 +516,8 @@ void APlayerUI::StoreInvenCheck()
         Fade->SetActive(false);
         StoreGoldText->SetActive(false);
 
+        StoreExitButton->SetActive(false);
+        StoreExitButton->SetCollisionActive(false);
 
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
@@ -551,6 +562,9 @@ void APlayerUI::StoreInvenCheck()
         StoreBox->SetActive(true);
         Fade->SetActive(true);
         StoreGoldText->SetActive(true);
+        StoreExitButton->SetActive(true);
+        StoreExitButton->SetCollisionActive(true);
+
 
         ++IsOpenStore;
         InventoryBar->SetActive(false);

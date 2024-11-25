@@ -2,6 +2,8 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include <EngineCore/2DCollision.h>
+
 #include "ContentsEnum.h"
 
 // Ό³Έν :
@@ -32,11 +34,22 @@ public:
 
 	FVector2D GetLocation();
 
+	void SetCollisionActive(bool _IsActive = false);
+	void SetCollisionComponentScale(FVector2D _Scale);
+	void SetCollisionComponentLocation(FVector2D _Location);
+
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionEnd(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
+
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
 	class USpriteRenderer* SpriteRenderer = nullptr;
+	U2DCollision* CollisionComponent = nullptr;
+
 	FVector2D Scale = { 0,0 };
 	FVector2D Location = { 0,0 };
 

@@ -10,6 +10,19 @@ AUI::AUI()
 	SpriteRenderer->SetCameraEffect(false);
 	SpriteRenderer->SetOrder(ERenderOrder::UI);
 
+	{
+		CollisionComponent = CreateDefaultSubObject<U2DCollision>();
+		CollisionComponent->SetCollisionGroup(ECollisionGroup::UI);
+		CollisionComponent->SetCollisionType(ECollisionType::Rect);
+		CollisionComponent->SetCameraEffect(false);
+
+
+	}
+	DebugOn();
+
+	CollisionComponent->SetCollisionEnter(std::bind(&AUI::CollisionEnter, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnd(std::bind(&AUI::CollisionEnd, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionStay(std::bind(&AUI::CollisionStay, this, std::placeholders::_1));
 }
 
 AUI::~AUI()
@@ -24,6 +37,27 @@ void AUI::BeginPlay()
 void AUI::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+}
+
+void AUI::CollisionEnter(AActor* _ColActor)
+{
+
+}
+
+void AUI::CollisionEnd(AActor* _ColActor)
+{
+
+}
+
+void AUI::CollisionStay(AActor* _ColActor)
+{
+
+}
+
+
+void AUI::SetCollisionActive(bool _IsActive)
+{
+	CollisionComponent->SetActive(_IsActive);
 }
 
 void AUI::SetSprite(std::string _SpriteName, int _Index, float _Scale)
@@ -53,6 +87,16 @@ void AUI::SetComponentScale(FVector2D _Scale)
 {
 	SpriteRenderer->SetComponentScale(_Scale);
 	Scale = _Scale;
+}
+
+void AUI::SetCollisionComponentLocation(FVector2D _Location)
+{
+	CollisionComponent->SetComponentLocation(_Location);
+}
+
+void AUI::SetCollisionComponentScale(FVector2D _Scale)
+{
+	CollisionComponent->SetComponentScale(_Scale);
 }
 FVector2D AUI::GetLocation()
 {

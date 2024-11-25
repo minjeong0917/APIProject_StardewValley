@@ -30,8 +30,8 @@ void AStoreGameMode::BeginPlay()
 
 	FIntPoint CounterPoint1 = StoreTileMap->LocationToIndex({ 350, 1150 });
 	StoreTileMap->SetTileIndex("Counter.png", CounterPoint1, { 192, -43 }, { 388.f, 200.f }, 0);
-	FIntPoint CounterPoint2 = StoreTileMap->LocationToIndex({ 390, 1150 });
 
+	FIntPoint CounterPoint2 = StoreTileMap->LocationToIndex({ 390, 1150 });
 	StoreTileMap->SetTileIndex("Counter.png", CounterPoint2, { -195, -43 }, { 388.f, 200.f }, 0);
 
 }

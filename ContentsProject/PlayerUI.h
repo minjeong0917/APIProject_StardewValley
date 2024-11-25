@@ -82,11 +82,11 @@ private:
     AUI* TextBoxTop = nullptr;
     AUI* TextBoxMid = nullptr;
     AUI* TextBoxBot = nullptr;
-
     AUI* StoreBox = nullptr;
-
-
     AUI* Tools = nullptr;
+    AUI* StoreExitButton = nullptr;
+
+
     AFade* Fade = nullptr;
 
     ATime* MinTime = nullptr;
