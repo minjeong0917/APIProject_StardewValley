@@ -41,9 +41,27 @@ public:
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionEnd(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
+	bool GetIsCollisionStay()
+	{
+		return IsCollisionStay;
+	}
 
+	bool GetIsCollisionEnter()
+	{
+		return IsCollisionEnter;
+	}
 
+	bool GetIsCollisionEnd()
+	{
+		return IsCollisionEnd;
+	}
+
+	bool GetIsClick()
+	{
+		return IsClick;
+	}
 protected:
+
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
@@ -52,6 +70,12 @@ private:
 
 	FVector2D Scale = { 0,0 };
 	FVector2D Location = { 0,0 };
+
+	bool IsCollisionStay = false;
+	bool IsCollisionEnter = false;
+	bool IsCollisionEnd = false;
+	bool IsClick = false;
+
 
 };
 

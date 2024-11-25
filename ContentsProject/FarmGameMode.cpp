@@ -37,7 +37,7 @@ void AFarmGameMode::BeginPlay()
     Player->SetTileMap(FarmTileMap);
     Player->SetTileMap(CropTileMap);
 
-    //AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
+    AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 
     Player->SetActorLocation({ 3700, 1050 });
 
@@ -55,7 +55,11 @@ void AFarmGameMode::BeginPlay()
         FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
 
     }
-
+    {
+        AFade* Actor = GetWorld()->SpawnActor<AFade>();
+        Actor->SetOrder(ERenderOrder::FADE);
+        Actor->FadeOut();
+    }
 }
 
 void AFarmGameMode::Tick(float _DeltaTime)

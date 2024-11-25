@@ -2,6 +2,7 @@
 
 #include "UI.h"
 #include <EngineCore/EngineAPICore.h>
+#include <EnginePlatform/EngineInput.h>
 
 
 AUI::AUI()
@@ -41,16 +42,27 @@ void AUI::Tick(float _DeltaTime)
 
 void AUI::CollisionEnter(AActor* _ColActor)
 {
+	IsCollisionEnter = true;
+	IsCollisionEnd = false;
 
 }
 
 void AUI::CollisionEnd(AActor* _ColActor)
 {
+	IsCollisionEnd = true;
+	IsCollisionEnter = false;
+	IsClick = false;
 
 }
 
 void AUI::CollisionStay(AActor* _ColActor)
 {
+	IsCollisionStay = true;
+
+	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	{
+		IsClick = true;
+	}
 
 }
 

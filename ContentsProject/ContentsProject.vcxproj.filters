@@ -123,6 +123,9 @@
     <ClCompile Include="Fade.cpp">
       <Filter>ContentsObject\UI</Filter>
     </ClCompile>
+    <ClCompile Include="StoreColumn.cpp">
+      <Filter>ContentsObject\UI\Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Fade.h">
       <Filter>ContentsObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreColumn.h">
+      <Filter>ContentsObject\UI\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

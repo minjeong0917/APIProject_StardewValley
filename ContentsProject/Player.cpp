@@ -436,11 +436,6 @@ void APlayer::PlayerAnimationPlay()
     //}
 
 
-
-
-
-
-
     if (false == IsPlayerMove && false == IsAnimationPlay)
     {
         if (PlayerUI->TypeCheck && CurSlotCheck() != "EmptySlot")
@@ -528,7 +523,7 @@ void APlayer::PlayerAnimationPlay()
         }
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsEnter)
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsButtonClick && false == IsEnter)
     {
         if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Axe")
         {

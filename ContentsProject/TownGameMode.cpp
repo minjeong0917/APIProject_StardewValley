@@ -29,7 +29,11 @@ void ATownGameMode::BeginPlay()
 	ATownMap* Town = GetWorld()->SpawnActor<ATownMap>();
 
 	Player->SetActorLocation({ 80, 2700});
-
+	{
+		AFade* Actor = GetWorld()->SpawnActor<AFade>();
+		Actor->SetOrder(ERenderOrder::FADE);
+		Actor->FadeOut();
+	}
 }
 
 

@@ -98,6 +98,7 @@ public:
 	{
 		return IsEnter;
 	}
+	bool IsButtonClick = false;
 
 protected:
 

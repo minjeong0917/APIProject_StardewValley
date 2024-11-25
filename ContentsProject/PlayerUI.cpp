@@ -110,8 +110,19 @@ void APlayerUI::Tick(float _DeltaTime)
     IsInventoryEnter = Cursor->GetIsEnter();
     ToolsAnimationTimer(_DeltaTime, AnimationDuration);
 
+    if (true == StoreExitButton->GetIsCollisionEnter())
+    {
+        StoreExitButton->SetComponentScale({ 14 * 3.5f,14 * 3.5f });
+        StoreExitButton->SetCollisionComponentScale({ 14 * 3.5f,14 * 3.5f });
+
+    }
+    else if (true == StoreExitButton->GetIsCollisionEnd())
+    {
+        StoreExitButton->SetComponentScale({ 12 * 3.5f,12 * 3.5f });
+        StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
 
 
+    }
 }
 
 void APlayerUI::UIImageRender()
@@ -347,31 +358,34 @@ void APlayerUI::ToolsAnimationCheck()
 void APlayerUI::ToolsAnimationDir(std::string _AnimationName, float _time)
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
-
-    switch (Player->PlayerDir)
+    if (false == Player->IsButtonClick)
     {
-    case EPlayerDir::Left:
-        ToolsAnimation->ChangeAnimation(_AnimationName +"_Left", true);
-        SetAnimationDuration(_time);
-        break;
-    case EPlayerDir::Right:
-        ToolsAnimation->ChangeAnimation(_AnimationName + "_Right", true);
-        SetAnimationDuration(_time);
+        switch (Player->PlayerDir)
+        {
+        case EPlayerDir::Left:
+            ToolsAnimation->ChangeAnimation(_AnimationName + "_Left", true);
+            SetAnimationDuration(_time);
+            break;
+        case EPlayerDir::Right:
+            ToolsAnimation->ChangeAnimation(_AnimationName + "_Right", true);
+            SetAnimationDuration(_time);
 
-        break;
-    case EPlayerDir::Up:
-        ToolsAnimation->ChangeAnimation(_AnimationName + "_Back", true);
-        SetAnimationDuration(_time);
+            break;
+        case EPlayerDir::Up:
+            ToolsAnimation->ChangeAnimation(_AnimationName + "_Back", true);
+            SetAnimationDuration(_time);
 
-        break;
-    case EPlayerDir::Down:
-        ToolsAnimation->ChangeAnimation(_AnimationName + "_Front", true);
-        SetAnimationDuration(_time);
+            break;
+        case EPlayerDir::Down:
+            ToolsAnimation->ChangeAnimation(_AnimationName + "_Front", true);
+            SetAnimationDuration(_time);
 
-        break;
-    default:
-        break;
+            break;
+        default:
+            break;
+        }
     }
+
 }
 
 void APlayerUI::SetAnimationDuration(float _Duration)
@@ -422,6 +436,7 @@ void APlayerUI::InventoryCheck()
     if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
     {
         Player->IsOpenIven = false;
+
         --IsOpenIven;
         Inventory->SetActive(false);
         InvenPlayer->SetActive(false);
@@ -505,12 +520,19 @@ void APlayerUI::StoreInvenCheck()
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     AStoreGameMode* StoreGameMode = Player->GetWorld()->GetGameMode<AStoreGameMode>();
+    
+    if(nullptr == StoreGameMode)
+    {
+        return;
+    }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && IsOpenStore == 1)
+    if ((true == UEngineInput::GetInst().IsDown('E') || true == StoreExitButton->GetIsClick()) && IsOpenStore == 1)
     {
         Player->IsOpenIven = false;
+        Player->IsButtonClick = false;
 
         --IsOpenStore;
+
         StoreInven->SetActive(false);
         StoreBox->SetActive(false);
         Fade->SetActive(false);
@@ -554,9 +576,10 @@ void APlayerUI::StoreInvenCheck()
 
     }
     // 인벤토리 열기
-    else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenIven != 1)
+    else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenStore == 0)
     {
         Player->IsOpenIven = true;
+        Player->IsButtonClick = true;
 
         StoreInven->SetActive(true);
         StoreBox->SetActive(true);
@@ -590,7 +613,7 @@ void APlayerUI::StoreInvenCheck()
             for (int i = 0; i < 12; i++)
             {
                 FVector2D Loc = AllSlots[y][i]->GetActorLocation();
-                Loc = { Loc.X - 1, Loc.Y };
+                Loc = { Loc.X + 1, Loc.Y };
                 FVector2D Loc2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
 
                 AllSlots[y][i]->SetActive(true);

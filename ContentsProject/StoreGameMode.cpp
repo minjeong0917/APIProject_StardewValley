@@ -26,13 +26,13 @@ void AStoreGameMode::BeginPlay()
 	Player->SetActorLocation({ 400, /*1800*/1300 });
 
 	StoreTileMap = GetWorld()->SpawnActor<ATileMap>();
-	StoreTileMap->Create({ 39,30 }, { 388, 70 });
+	StoreTileMap->Create({ 39,30 }, { 200, 70 });
 
-	FIntPoint CounterPoint1 = StoreTileMap->LocationToIndex({ 350, 1150 });
-	StoreTileMap->SetTileIndex("Counter.png", CounterPoint1, { 192, -43 }, { 388.f, 200.f }, 0);
+	FIntPoint CounterPoint1 = StoreTileMap->LocationToIndex({ 380, 1150 });
+	StoreTileMap->SetTileIndex("Counter.png", CounterPoint1, { 85, -43 }, { 388.f, 200.f }, 0);
 
-	FIntPoint CounterPoint2 = StoreTileMap->LocationToIndex({ 390, 1150 });
-	StoreTileMap->SetTileIndex("Counter.png", CounterPoint2, { -195, -43 }, { 388.f, 200.f }, 0);
+	//FIntPoint CounterPoint2 = StoreTileMap->LocationToIndex({ 390, 1150 });
+	//StoreTileMap->SetTileIndex("Counter.png", CounterPoint2, { -195, -43 }, { 388.f, 200.f }, 0);
 
 }
 
@@ -47,15 +47,15 @@ void AStoreGameMode::Tick(float _DeltaTime)
 	FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 	FVector2D MouseLocation = MousePos + CameraPos;
 
-	if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
+
+	if (GetStoreTileSpriteName(MouseLocation) == "COUNTER.PNG")
 	{
-		if (GetStoreTileSpriteName(MouseLocation) == "COUNTER.PNG" && Player->IsMouseInPlayerPos == true)
+		if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
 		{
-
 			IsOpenCounter = true;
-
 		}
 	}
+
 
 	if (true == UEngineInput::GetInst().IsUp(VK_RBUTTON))
 	{
