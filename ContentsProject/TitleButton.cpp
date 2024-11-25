@@ -1,4 +1,5 @@
 #include "PreCompile.h"
+#include <EnginePlatform/EngineInput.h>
 
 #include "TitleButton.h"
 
@@ -23,6 +24,8 @@ ATitleButton::ATitleButton()
 		DebugOn();
 	}
 	CollisionComponent->SetCollisionStay(std::bind(&ATitleButton::CollisionStay, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnter(std::bind(&ATitleButton::CollisionEnter, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnd(std::bind(&ATitleButton::CollisionEnd, this, std::placeholders::_1));
 
 }
 
@@ -51,7 +54,38 @@ void ATitleButton::SetSprite(std::string _SprtieName, int _SpriteIndex)
 	SpriteRenderer->SetSprite(_SprtieName, _SpriteIndex);
 }
 
+void ATitleButton::SetScale(float _Scale)
+{
+	SpriteRenderer->SetSpriteScale(_Scale);
+}
+
+void ATitleButton::SetCameraEffect(bool _Effect)
+{
+	SpriteRenderer->SetCameraEffect(_Effect);
+}
+
+
 void ATitleButton::CollisionStay(AActor* _ColActor)
 {
-	int a = 0;
+	IsCollisionStay = true;
+
+	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	{
+		IsClick = true;
+	}
+
+}
+
+void ATitleButton::CollisionEnter(AActor* _ColActor)
+{
+	IsCollisionEnter = true;
+	IsCollisionEnd = false;
+
+}
+
+void ATitleButton::CollisionEnd(AActor* _ColActor)
+{
+	IsCollisionEnd = true;
+	IsCollisionEnter = false;
+
 }

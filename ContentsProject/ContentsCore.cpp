@@ -134,11 +134,13 @@ void ContentsCore::ReadySprite()
         {
             UEngineDirectory Dir;
             Dir.MoveParentToDirectory("Resources//Images");
-            Dir.Append("UI//LogoAnimation");
+            Dir.Append("UI//Title");
             UImageManager::GetInst().CuttingSprite("Tree.png", { 1280, 383 });
             UImageManager::GetInst().CuttingSprite("Mountain1.png", { 1280, 296 });
             UImageManager::GetInst().CuttingSprite("Mountain2.png", { 1280, 296 });
             UImageManager::GetInst().CuttingSprite("NewButton.png", { 148, 116 });
+            UImageManager::GetInst().CuttingSprite("NewButtonHover.png", { 148, 116 });
+            UImageManager::GetInst().CuttingSprite("Cloud.png", { 512, 136 });
 
         }
         // Font

@@ -35,6 +35,9 @@ private:
 	ATitleLogo* Tree = nullptr;
 	ATitleLogo* Mountain_1 = nullptr;
 	ATitleLogo* Mountain_2 = nullptr;
+	ATitleLogo* Cloud = nullptr;
+	ATitleLogo* Cloud2 = nullptr;
+	ATitleLogo* Cloud3 = nullptr;
 	ATitleButton* NewButton = nullptr;
 
 	ACursor* Cursor = nullptr;
@@ -44,6 +47,11 @@ private:
 	FVector2D TreePos = { 0,0 };
 	FVector2D Mountain1Pos = { 0,0 };
 	FVector2D Mountain2Pos = { 0,0 };
+	FVector2D CloudPos = { 0,0 };
+	FVector2D Cloud2Pos = { 0,0 };
+	FVector2D Cloud3Pos = { 0,0 };
+	FVector2D LogoPos = { 0,0 };
+
 	bool IsArrive = false;
 
 };

@@ -5,6 +5,7 @@ enum class ERenderOrder
 {
 	COLMAP = -1001,
 	BACKGROUND = -1000,
+	Cloud = -5,
 	TitleUI2 = -3,
 	TitleUI1 = -2,
 	LOGO = -1,

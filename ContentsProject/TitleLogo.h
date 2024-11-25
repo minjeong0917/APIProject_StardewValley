@@ -17,6 +17,8 @@ public:
 	ATitleLogo& operator=(const ATitleLogo& _Other) = delete;
 	ATitleLogo& operator=(ATitleLogo&& _Other) noexcept = delete;
 	FVector2D GetScale();
+	void SetCameraEffect(bool _Effect);
+
 
 	void SetSprite(std::string _SptriteName, int _Index, float _Scale);
 

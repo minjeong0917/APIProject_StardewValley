@@ -42,6 +42,11 @@ void ATitleLogo::SetOrder(ERenderOrder _Order)
 	SpriteRenderer->SetOrder(_Order);
 
 }
+void ATitleLogo::SetCameraEffect(bool _Effect)
+{
+	SpriteRenderer->SetCameraEffect(_Effect);
+}
+
 
 void ATitleLogo::CreateAnimation(std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, std::vector<float> _Frame, bool _Loop /*= true*/)
 {

@@ -18,13 +18,42 @@ public:
 	ATitleButton& operator=(ATitleButton&& _Other) noexcept = delete;
 	void SetSprite(std::string _SprtieName, int _SpriteIndex);
 	void SetOrder(ERenderOrder _RenderOder);
-	void CollisionStay(AActor* _ColActor);
+	void SetScale(float _Scale);
+	void SetCameraEffect(bool _Effect);
 
+	void CollisionStay(AActor* _ColActor);
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionEnd(AActor* _ColActor);
+
+	bool GetIsCollisionStay()
+	{
+		return IsCollisionStay;
+	}
+
+	bool GetIsCollisionEnter()
+	{
+		return IsCollisionEnter;
+	}
+
+	bool GetIsCollisionEnd()
+	{
+		return IsCollisionEnd;
+	}
+
+	bool GetIsClick()
+	{
+		return IsClick;
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SpriteRenderer = nullptr;
+
+	bool IsCollisionStay = false;
+	bool IsCollisionEnter = false;
+	bool IsCollisionEnd = false;
+	bool IsClick = false;
 };
 

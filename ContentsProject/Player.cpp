@@ -61,8 +61,6 @@ void APlayer::BeginPlay()
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
 
-
-    UEngineDebug::SwitchIsDebug();
 }
 
 
