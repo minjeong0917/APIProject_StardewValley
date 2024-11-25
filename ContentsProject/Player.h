@@ -120,7 +120,7 @@ private:
 	bool ColorCheck = false;
 
 	bool TileCheck = true;
-	int PlayerGold = 1;
+	int PlayerGold = 852741;
 
 	USoundPlayer BGMPlayer;
 

@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Fade.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StoreMap.h">
       <SubType>
       </SubType>
@@ -256,6 +260,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Fade.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StoreMap.cpp">
       <SubType>
       </SubType>

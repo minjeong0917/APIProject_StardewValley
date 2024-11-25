@@ -12,6 +12,8 @@
 #include "Gold.h"
 #include "CurItem.h"
 #include "UI.h"
+#include "Fade.h"
+
 #include "PlayerToolsAnimation.h"
 
 // Ό³Έν :
@@ -85,7 +87,7 @@ private:
 
 
     AUI* Tools = nullptr;
-
+    AFade* Fade = nullptr;
 
     ATime* MinTime = nullptr;
     ATime* HourTime = nullptr;
@@ -96,6 +98,8 @@ private:
     AGold* Text = nullptr;
     AGold* Text2 = nullptr;
     AGold* Text3 = nullptr;
+
+    AGold* StoreGoldText = nullptr;
 
     std::string Text2Explain = "NONE";
     std::string Text3Explain = "NONE";

@@ -64,7 +64,7 @@ void APlayerUI::Tick(float _DeltaTime)
     DayText->SetTextSpriteName("Time.png");
     DayText->SetOrder(ERenderOrder::UIFont);
     DayText->SetTextScale({ 20, 28 });
-    DayText->SetValue(Day);
+    DayText->SetValue(Day, 1.6f);
     TextLocation = { 60 , 90 };
 
     if (false == IsChoose)
@@ -129,7 +129,7 @@ void APlayerUI::UIImageRender()
     Gold->SetTextSpriteName("Gold3.png");
     Gold->SetOrder(ERenderOrder::UIFont);
     Gold->SetTextScale({ 22, 33 });
-    Gold->SetValue(Player->GetGold());
+    Gold->SetValue(Player->GetGold(), 1.6f);
 
     // Text
     AText* APMText = GetWorld()->SpawnActor<AText>();
@@ -226,9 +226,8 @@ void APlayerUI::UIImageRender()
     StoreInven->SetActive(false);
     StoreInven->SetSprite("Inventory.png", 0);
     StoreInven->SetComponentScale(FVector2D{ 214 * 3.5f, 74 * 3.5f });
-    StoreInven->SetActorLocation({ Size.iX() - 214 * 3.5f /2 - 120, Size.iY() - 74 * 3.5f/2 });
+    StoreInven->SetActorLocation({ Size.iX() - 214 * 3.5f / 2 - 120, Size.iY() - 74 * 3.5f / 2 });
 
-    
     InvenPlayer = GetWorld()->SpawnActor<AUI>();
     InvenPlayer->SetSprite("Farmer_Right.png", 0, 3.5f);
     InvenPlayer->SetComponentScale({ 220, 440 });
@@ -290,9 +289,20 @@ void APlayerUI::UIImageRender()
 
     ToolsAnimation = GetWorld()->SpawnActor<APlayerToolsAnimation>();
 
+    Fade = GetWorld()->SpawnActor<AFade>();
+    Fade->SetOrder(ERenderOrder::Black);
+    Fade->SetActive(false);
+    Fade->SetAlphaChar(150);
 
-
+    StoreGoldText = GetWorld()->SpawnActor<AGold>();
+    StoreGoldText->SetActorLocation({ 355.f , Size.Y - 196.f });
+    StoreGoldText->SetTextSpriteName("Gold3.png");
+    StoreGoldText->SetOrder(ERenderOrder::GLODTEXT);
+    StoreGoldText->SetTextScale({ 22, 33 });
+    StoreGoldText->SetValue(Player->GetGold(),4.3f);
+    StoreGoldText->SetActive(false);
 }
+
 
 void APlayerUI::ToolsAnimationCheck()
 {
@@ -402,7 +412,7 @@ void APlayerUI::InventoryCheck()
     // 인벤토리 닫기
     if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
     {
-        //Player->IsOpenIven = false;
+        Player->IsOpenIven = false;
         --IsOpenIven;
         Inventory->SetActive(false);
         InvenPlayer->SetActive(false);
@@ -438,10 +448,11 @@ void APlayerUI::InventoryCheck()
     // 인벤토리 열기
     else if (true == UEngineInput::GetInst().IsDown('E') && IsOpenStore != 1)
     {
-        //Player->IsOpenIven = true;
+        Player->IsOpenIven = true;
 
         Inventory->SetActive(true);
         InvenPlayer->SetActive(true);
+
         InvenPlayer->ChangeAnimation("Idle", true);
 
 
@@ -488,9 +499,14 @@ void APlayerUI::StoreInvenCheck()
 
     if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && IsOpenStore == 1)
     {
+        Player->IsOpenIven = false;
+
         --IsOpenStore;
         StoreInven->SetActive(false);
         StoreBox->SetActive(false);
+        Fade->SetActive(false);
+        StoreGoldText->SetActive(false);
+
 
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
@@ -529,9 +545,13 @@ void APlayerUI::StoreInvenCheck()
     // 인벤토리 열기
     else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenIven != 1)
     {
+        Player->IsOpenIven = true;
 
         StoreInven->SetActive(true);
         StoreBox->SetActive(true);
+        Fade->SetActive(true);
+        StoreGoldText->SetActive(true);
+
         ++IsOpenStore;
         InventoryBar->SetActive(false);
         for (int i = 0; i < 12; i++)

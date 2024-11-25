@@ -45,7 +45,7 @@ void AGold::SetOrder(int _Order)
 
 }
 
-void AGold::SetValue(int _Gold)
+void AGold::SetValue(int _Gold, float _inter)
 {
     std::string Number = std::to_string(_Gold);
 
@@ -64,7 +64,7 @@ void AGold::SetValue(int _Gold)
         Renders[i]->SetSprite(TextSpriteName, Value);
         Renders[i]->SetComponentScale(TextScale);
         Renders[i]->SetComponentLocation(Pos);
-        Pos.X -= static_cast<float>(TextScale.X + 1.6);
+        Pos.X -= static_cast<float>(TextScale.X + _inter);
         Renders[i]->SetActive(true);
     }
 

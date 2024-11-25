@@ -121,7 +121,7 @@ void ASlot::CountText()
 	Text->SetTextSpriteName("Item.png");
 	Text->SetOrder(ERenderOrder::SLOTFont);
 	Text->SetTextScale({ 13, 15 });
-	Text->SetValue(SlotItemCount);
+	Text->SetValue(SlotItemCount, 1.3f);
 }
 
 void ASlot::CountTextDestroy()

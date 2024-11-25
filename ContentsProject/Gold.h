@@ -31,7 +31,7 @@ public:
 
 	void SetOrder(int _Order);
 
-	void SetValue(int _Gold);
+	void SetValue(int _Gold, float _inter);
 	void SetText(std::string _Text);
 
 	int GetTextOverCount()

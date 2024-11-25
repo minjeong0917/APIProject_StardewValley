@@ -13,7 +13,9 @@ enum class ERenderOrder
 	TOOLSANIMATION = 9999,
 	UI = 10000,
 	UIFont = 10001,
-	INVEN = 20000,
+	Black = 10002,
+	INVEN = 19999,
+	GLODTEXT = 20000,
 	SLOT = 20001,
 	SLOTITEM = 20002,
 	CURSLOT = 20003,
@@ -21,6 +23,7 @@ enum class ERenderOrder
 	SelectedItem = 20005,
 	ExplainTextBox = 20006,
 	ExplainText = 20007,
+	FADE = 30000,
 	CURSOR = 100000
 
 };
