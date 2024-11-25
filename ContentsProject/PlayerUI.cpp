@@ -9,6 +9,7 @@
 
 #include "Item.h"
 #include "FarmGameMode.h"
+#include "StoreGameMode.h"
 
 APlayerUI::APlayerUI()
 {
@@ -98,6 +99,7 @@ void APlayerUI::Tick(float _DeltaTime)
     ItemExplainText();
     ToolsAnimationCheck();
     InventoryCheck();
+    StoreInvenCheck();
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -107,6 +109,8 @@ void APlayerUI::Tick(float _DeltaTime)
 
     IsInventoryEnter = Cursor->GetIsEnter();
     ToolsAnimationTimer(_DeltaTime, AnimationDuration);
+
+
 
 }
 
@@ -215,6 +219,15 @@ void APlayerUI::UIImageRender()
     Inventory = GetWorld()->SpawnActor<AInventory>();
     Inventory->SetActorLocation({ Size.Half().iX() + 1, Size.Half().iY() });
     Inventory->SetActive(false);
+    Inventory->SetSprite("Inventory2.png", 0);
+    Inventory->SetComponentScale(FVector2D{ 216 * 3.5f, 159 * 3.5f });
+
+    StoreInven = GetWorld()->SpawnActor<AInventory>();
+    StoreInven->SetActive(false);
+    StoreInven->SetSprite("Inventory.png", 0);
+    StoreInven->SetComponentScale(FVector2D{ 214 * 3.5f, 74 * 3.5f });
+    StoreInven->SetActorLocation({ Size.iX() - 214 * 3.5f /2 - 120, Size.iY() - 74 * 3.5f/2 });
+
     
     InvenPlayer = GetWorld()->SpawnActor<AUI>();
     InvenPlayer->SetSprite("Farmer_Right.png", 0, 3.5f);
@@ -246,6 +259,13 @@ void APlayerUI::UIImageRender()
     TextBoxBot->SetSprite("TextBox_Bot.png", 0, 3.5f);
     TextBoxBot->SetOrder(ERenderOrder::ExplainTextBox);
     TextBoxBot->SetActive(false);
+
+    StoreBox = GetWorld()->SpawnActor<AUI>();
+    StoreBox->SetComponentScale({ 280 * 3.5f,130 * 3.5f });
+    StoreBox->SetSprite("StoreBox.png", 0, 3.5f);
+    StoreBox->SetOrder(ERenderOrder::INVEN);
+    StoreBox->SetActive(false);
+    StoreBox->SetActorLocation({ Size.Half().X , Size.Half().Y - 90 });
 
     Text = GetWorld()->SpawnActor<AGold>();
     Text2 = GetWorld()->SpawnActor<AGold>();
@@ -382,7 +402,7 @@ void APlayerUI::InventoryCheck()
     // 인벤토리 닫기
     if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
     {
-        Player->IsOpenIven = false;
+        //Player->IsOpenIven = false;
         --IsOpenIven;
         Inventory->SetActive(false);
         InvenPlayer->SetActive(false);
@@ -416,9 +436,9 @@ void APlayerUI::InventoryCheck()
 
     }
     // 인벤토리 열기
-    else if (true == UEngineInput::GetInst().IsDown('E'))
+    else if (true == UEngineInput::GetInst().IsDown('E') && IsOpenStore != 1)
     {
-        Player->IsOpenIven = true;
+        //Player->IsOpenIven = true;
 
         Inventory->SetActive(true);
         InvenPlayer->SetActive(true);
@@ -459,6 +479,104 @@ void APlayerUI::InventoryCheck()
 
     }
 }
+
+
+void APlayerUI::StoreInvenCheck()
+{
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+    AStoreGameMode* StoreGameMode = Player->GetWorld()->GetGameMode<AStoreGameMode>();
+
+    if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && IsOpenStore == 1)
+    {
+        --IsOpenStore;
+        StoreInven->SetActive(false);
+        StoreBox->SetActive(false);
+
+        InventoryBar->SetActive(true);
+        for (int i = 0; i < 12; i++)
+        {
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            Loc = { Loc.X - 1, Loc.Y };
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
+            }
+        }
+        for (int y = 1; y < 3; y++)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                FVector2D Loc = AllSlots[y][i]->GetActorLocation();
+                Loc = { Loc.X - 1, Loc.Y };
+                FVector2D Loc2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
+
+                AllSlots[y][i]->SetActorLocation(Loc + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
+                AllSlots[y][i]->SetActive(false);
+                if (AllSlots[y][i]->GetText() != nullptr)
+                {
+                    AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
+                    AllSlots[y][i]->GetText()->SetActive(false);
+                }
+            }
+        }
+        CurItem->SetActive(true);
+        CurSlot->SetActive(true);
+
+    }
+    // 인벤토리 열기
+    else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenIven != 1)
+    {
+
+        StoreInven->SetActive(true);
+        StoreBox->SetActive(true);
+        ++IsOpenStore;
+        InventoryBar->SetActive(false);
+        for (int i = 0; i < 12; i++)
+        {
+
+            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
+            Loc = { Loc.X + 1, Loc.Y };
+            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+
+
+            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 115.0f + FVector2D::RIGHT * 145.0f);
+            if (AllSlots[0][i]->GetText() != nullptr)
+            {
+                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 115.0f + FVector2D::RIGHT * 145.0f);
+
+
+            }
+        }
+
+        for (int y = 1; y < 3; y++)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                FVector2D Loc = AllSlots[y][i]->GetActorLocation();
+                Loc = { Loc.X - 1, Loc.Y };
+                FVector2D Loc2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
+
+                AllSlots[y][i]->SetActive(true);
+                AllSlots[y][i]->SetActorLocation(Loc + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
+
+                if (AllSlots[y][i]->GetText() != nullptr)
+                {
+                    AllSlots[y][i]->GetText()->SetActive(true);
+                    AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
+
+                }
+            }
+        }
+
+        CurItem->SetActive(false);
+        CurSlot->SetActive(false);
+
+    }
+}
+
 
 void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location, int ItemCount)
 {

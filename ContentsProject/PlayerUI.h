@@ -32,7 +32,6 @@ public:
     void SlotCheck(AItem* _Item, std::string _ItemName, std::string _SpriteName, int _Index, bool IsOver);
     void SetCurSlot();
     void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = { 0,0 }, int ItemCount = 1);
-
     void AddItem(class AItem* _Item);
 
     int GetCulSlotNum()
@@ -62,6 +61,8 @@ private:
     void ToolsAnimationTimer(float _DeltaTime, float _Duration);
     void SetAnimationDuration(float _Duration);
     void InventoryCheck();
+    void StoreInvenCheck();
+
     void SlotItemChange();
     void ToolsAnimationDir(std::string _AnimationName, float _time);
 
@@ -70,6 +71,7 @@ private:
     bool IsAnimationPlay = false;
 
     int IsOpenIven = 0;
+    int IsOpenStore = 0;
     ACursor* Cursor = nullptr;
     AUI* InvenPlayer = nullptr;
     APlayerToolsAnimation* ToolsAnimation = nullptr;
@@ -78,6 +80,9 @@ private:
     AUI* TextBoxTop = nullptr;
     AUI* TextBoxMid = nullptr;
     AUI* TextBoxBot = nullptr;
+
+    AUI* StoreBox = nullptr;
+
 
     AUI* Tools = nullptr;
 
@@ -99,6 +104,7 @@ private:
     AGold* DayText = nullptr;
 
     AInventory* Inventory = nullptr;
+    AInventory* StoreInven = nullptr;
     AInventoryBar* InventoryBar = nullptr;
 
     std::vector<std::vector<ASlot*>> AllSlots;

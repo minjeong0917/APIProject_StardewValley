@@ -151,6 +151,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="StoreMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StoreGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleButton.h">
       <SubType>
       </SubType>
@@ -248,6 +256,14 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="StoreMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StoreGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleButton.cpp">
       <SubType>
       </SubType>

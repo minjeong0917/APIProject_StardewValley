@@ -14,6 +14,8 @@ public:
 	AInventory(AInventory&& _Other) noexcept = delete;
 	AInventory& operator=(const AInventory& _Other) = delete;
 	AInventory& operator=(AInventory&& _Other) noexcept = delete;
+	void SetSprite(std::string _SpriteName, int _Index);
+	void SetComponentScale(FVector2D _Scale);
 
 protected:
 

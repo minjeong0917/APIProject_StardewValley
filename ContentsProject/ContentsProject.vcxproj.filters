@@ -114,6 +114,12 @@
     <ClCompile Include="TitleButton.cpp">
       <Filter>ContentsObject\UI\Title</Filter>
     </ClCompile>
+    <ClCompile Include="StoreGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreMap.cpp">
+      <Filter>ContentsObject\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -193,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="TitleButton.h">
       <Filter>ContentsObject\UI\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreMap.h">
+      <Filter>ContentsObject\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

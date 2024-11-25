@@ -13,6 +13,7 @@
 #include "FarmGameMode.h"
 #include "TitleGameMode.h"
 #include "TownGameMode.h"
+#include "StoreGameMode.h"
 
 #include "Player.h"
 #include "Clock.h"
@@ -38,7 +39,8 @@ void ContentsCore::BeginPlay()
     UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
     UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
     UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
-    UEngineAPICore::GetCore()->OpenLevel("Title");
+    UEngineAPICore::GetCore()->CreateLevel<AStoreGameMode, APlayer>("Store");
+    UEngineAPICore::GetCore()->OpenLevel("Store");
 }
 
 void ContentsCore::Tick()
@@ -99,7 +101,13 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("GreenBean.png", { 13, 26 });
 
         }
-
+        {
+            UEngineDirectory Dir;
+            Dir.MoveParentToDirectory("Resources//Images");
+            Dir.Append("TileMap//StoreTile");
+            UImageManager::GetInst().CuttingSprite("Counter.png", { 388, 200 });
+      
+        }
         // ------------------------------- [ UI ] -------------------------------------------
         // Clock & Cursor & InventotyBar
         {
@@ -119,8 +127,7 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("TextBox_Top.png", { 100, 6 });
             UImageManager::GetInst().CuttingSprite("TextBox_Mid.png", { 100, 7 });
             UImageManager::GetInst().CuttingSprite("TextBox_Bot.png", { 100, 7 });
-
-
+            UImageManager::GetInst().CuttingSprite("StoreBox.png", { 300, 170 });
 
 
         }

@@ -44,6 +44,10 @@ void ATownGameMode::Tick(float _DeltaTime)
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Farm");
 	}
+	if (true == UEngineInput::GetInst().IsDown('K'))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Store");
+	}
 }
 
 void ATownGameMode::UIImageRender()

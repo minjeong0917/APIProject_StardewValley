@@ -126,9 +126,6 @@ void ATitleGameMode::Tick(float _DeltaTime)
 		CloudPos += Vector * _DeltaTime * 120;
 		Cloud->SetActorLocation({ Size.X + CloudPos.X,  CloudPos.Y + Size.Half().Y});
 
-		UEngineDebug::CoreOutPutString(std::to_string(Size.Y - CameraPos.Y));
-		UEngineDebug::CoreOutPutString(std::to_string(Cloud->GetActorLocation().Y));
-
 		if (Size.Y  <= Cloud->GetActorLocation().Y - Cloud->GetScale().Half().Y)
 		{
 			Cloud->Destroy();
@@ -144,10 +141,6 @@ void ATitleGameMode::Tick(float _DeltaTime)
 		{
 			Cloud3Pos += Vector * _DeltaTime * 80;
 			Cloud3->SetActorLocation({ Size.X + Cloud3Pos.X,  Cloud3Pos.Y - 150});
-
-			UEngineDebug::CoreOutPutString(std::to_string(Size.Y - CameraPos.Y));
-			UEngineDebug::CoreOutPutString(std::to_string(Cloud3->GetActorLocation().Y));
-
 			return;
 		}
 		else
@@ -185,7 +178,6 @@ void ATitleGameMode::UIMove(ATitleLogo* _ATitleLogo, float _DeltaTime, FVector2D
 {
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	_ATitleLogo->SetActorLocation({ Size.Half().X, Size.Y  -100 + Pos.Y });
-	UEngineDebug::CoreOutPutString(std::to_string(_ATitleLogo->GetActorLocation().Y - _ATitleLogo->GetTransform().Scale.Y));
 
 	if (CameraPos.Y <= (_ATitleLogo->GetActorLocation().Y * (-1.0f)) - _ATitleLogo->GetTransform().Scale.Y + CameraPos.Y)
 	{
@@ -208,7 +200,6 @@ void ATitleGameMode::CameraMove(float _DeltaTime)
 	FVector2D Scale = SpriteRenderer->GetComponentScale();
 
 	CameraPos += Location * _DeltaTime * Speed;
-	UEngineDebug::CoreOutPutString(std::to_string(CameraPos.Y));
 
 	FVector2D DownLocation = FVector2D::DOWN;
 	LogoPos += DownLocation * _DeltaTime * 100;
