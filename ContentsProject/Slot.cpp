@@ -32,6 +32,8 @@ ASlot::ASlot()
 
 	
 	CollisionComponent->SetCollisionStay(std::bind(&ASlot::CollisionStay, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnd(std::bind(&ASlot::CollisionEnd, this, std::placeholders::_1));
+	CollisionComponent->SetCollisionEnter(std::bind(&ASlot::CollisionEnter, this, std::placeholders::_1));
 
 
 
@@ -62,6 +64,15 @@ void ASlot::CollisionStay(AActor* _ColActor)
 	}
 }
 
+void ASlot::CollisionEnd(AActor* _ColActor)
+{
+	IsSlotEnter = false;
+}
+
+void ASlot::CollisionEnter(AActor* _ColActor)
+{
+	IsSlotEnter = true;
+}
 
 ASlot::~ASlot()
 {
@@ -96,6 +107,8 @@ void ASlot::CollisionDestroy()
 {
 	CollisionComponent->Destroy();
 }
+
+
 
 
 void ASlot::SetSprite(std::string _SprtieName, int _SpriteIndex)

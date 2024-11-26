@@ -11,8 +11,10 @@
 #include "Text.h"
 #include "Gold.h"
 #include "CurItem.h"
+#include "SelectedItem.h"
 #include "UI.h"
 #include "Fade.h"
+#include "StoreColumn.h"
 
 #include "PlayerToolsAnimation.h"
 
@@ -68,9 +70,13 @@ private:
     void SlotItemChange();
     void ToolsAnimationDir(std::string _AnimationName, float _time);
 
+    void ShopItemLists();
+
+
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
     bool IsAnimationPlay = false;
+
 
     int IsOpenIven = 0;
     int IsOpenStore = 0;
@@ -112,17 +118,25 @@ private:
     AInventoryBar* InventoryBar = nullptr;
 
     std::vector<std::vector<ASlot*>> AllSlots;
+    std::vector<AStoreColumn*> AllStoreColumns;
 
     ASlot* CurSlot = nullptr;
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
 
-    class ASelectedItem* SelectedItem = nullptr;
+    ASelectedItem* StoreItem1 = nullptr;
+    ASelectedItem* StoreItem2 = nullptr;
+    ASelectedItem* StoreItem3 = nullptr;
+    ASelectedItem* StoreItem4 = nullptr;
+
+    ASelectedItem* SelectedItem = nullptr;
 
     bool IsEmptySlot = true;
     int CurSlotNum = 1;
     FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
+    
+    int StartIndex = 0;
 
     float AnimationDuration = 0.0f;
     float AnimationTimer = 0.0f;

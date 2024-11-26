@@ -7,7 +7,7 @@
 
 ACurItem::ACurItem()
 {
-
+	CurItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 }
 
 ACurItem::~ACurItem()
@@ -23,7 +23,7 @@ void ACurItem::SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale
 }
 void ACurItem::BeginPlay()
 {
-	CurItemSpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
+
 
 }
 

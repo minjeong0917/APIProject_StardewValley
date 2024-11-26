@@ -108,6 +108,8 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
     IsInventoryEnter = Cursor->GetIsEnter();
+
+
     ToolsAnimationTimer(_DeltaTime, AnimationDuration);
 
     if (true == StoreExitButton->GetIsCollisionEnter())
@@ -123,6 +125,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
     }
+    ShopItemLists();
 }
 
 void APlayerUI::UIImageRender()
@@ -206,6 +209,7 @@ void APlayerUI::UIImageRender()
             AllSlots[static_cast<int>(y)].push_back(Slot);
         }
     }
+
 
     // 기본 아이템 지급
     DefaultItem({ 0,0 }, "Hoe.png", "Hoe", 0, { 16 * 3.5f, 16 * 3.5f });
@@ -321,6 +325,123 @@ void APlayerUI::UIImageRender()
     StoreExitButton->SetActorLocation({ Size.X  - 100 , 50.f });
     StoreExitButton->SetCollisionComponentLocation({ 0.0f , 0.0f });
     StoreExitButton->SetActive(false);
+
+
+
+    for (size_t i = 0; i < 9; i++)
+    {
+        AStoreColumn* StoreColumn = GetWorld()->SpawnActor<AStoreColumn>();
+        //
+        StoreColumn->SetActive(false);
+        AllStoreColumns.push_back(StoreColumn);
+    }
+    AllStoreColumns[0]->SetName("START");
+
+    AllStoreColumns[1]->SetName("ParsnipSeed");
+    AllStoreColumns[1]->SaveItemInfo("Items.png", 624, 3.5f);
+
+    AllStoreColumns[2]->SetName("BeanStarter");
+    AllStoreColumns[2]->SaveItemInfo("Items.png", 625, 3.5f);
+
+    AllStoreColumns[3]->SetName("CauliflowerSeed");
+    AllStoreColumns[3]->SaveItemInfo("Items.png", 626, 3.5f);
+
+    AllStoreColumns[4]->SetName("PotatoSeed");
+    AllStoreColumns[4]->SaveItemInfo("Items.png", 627, 3.5f);
+
+    AllStoreColumns[5]->SetName("GarlicSeed");
+    AllStoreColumns[5]->SaveItemInfo("Items.png", 628, 3.5f);
+
+    AllStoreColumns[6]->SetName("KaleSeed");
+    AllStoreColumns[6]->SaveItemInfo("Items.png", 629, 3.5f);
+
+    AllStoreColumns[7]->SetName("RhubarbSeed");
+    AllStoreColumns[7]->SaveItemInfo("Items.png", 630, 3.5f);
+
+    AllStoreColumns[8]->SetName("END");
+
+
+    StoreItem1 = GetWorld()->SpawnActor<ASelectedItem>();
+    StoreItem1->SetActorLocation({ 177 , 112 });
+    StoreItem1->SetActive(false);
+
+    StoreItem2 = GetWorld()->SpawnActor<ASelectedItem>();
+    StoreItem2->SetActorLocation({ 177 , 210 });
+    StoreItem2->SetActive(false);
+
+
+    StoreItem3 = GetWorld()->SpawnActor<ASelectedItem>();
+    StoreItem3->SetActorLocation({ 177 , 308 });
+    StoreItem3->SetActive(false);
+
+
+    StoreItem4 = GetWorld()->SpawnActor<ASelectedItem>();
+    StoreItem4->SetActorLocation({ 177 , 406 });
+    StoreItem4->SetActive(false);
+
+
+
+}
+
+void APlayerUI::ShopItemLists()
+{
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+
+    for (int i = 0; i < 9; i++)
+    {
+        AllStoreColumns[i]->SetActive(false);
+
+    }
+
+    if (true == UEngineInput::GetInst().IsDown('L'))
+    {
+        ++StartIndex;
+    }
+    if (true == UEngineInput::GetInst().IsDown('K'))
+    {
+        --StartIndex;
+    }
+
+    if (AllStoreColumns[StartIndex]->GetName() == "START")
+    {
+        ++StartIndex;
+        return;
+    }
+    if (AllStoreColumns[StartIndex+3]->GetName() == "END")
+    {
+        --StartIndex;
+        return;
+    }
+
+    if (nullptr != StoreItem1)
+    {
+        StoreItem1->SetSprite(AllStoreColumns[StartIndex]->GetShopItemSpriteName(), AllStoreColumns[StartIndex]->GetShopItemIndex(), 3.5f);
+        StoreItem2->SetSprite(AllStoreColumns[StartIndex+1]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+1]->GetShopItemIndex(), 3.5f);
+        StoreItem3->SetSprite(AllStoreColumns[StartIndex+2]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+2]->GetShopItemIndex(), 3.5f);
+        StoreItem4->SetSprite(AllStoreColumns[StartIndex+3]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+3]->GetShopItemIndex(), 3.5f);
+    }
+
+    FVector2D StartLocation = { Size.Half().iX(), 100 };
+    FVector2D InterLocation = { 0.0f, 99.0f };
+    for (int i = 0; i < 4; i++)
+    {
+        AllStoreColumns[StartIndex + i]->SetActorLocation(StartLocation + (InterLocation * i));
+        AllStoreColumns[StartIndex + i]->SetActive(true);
+
+        if (IsOpenStore == 1)
+        {
+            AllStoreColumns[StartIndex + i]->SetActive(true);
+
+        }
+        if ( IsOpenStore == 0)
+        {
+            AllStoreColumns[StartIndex + i]->SetActive(false);
+
+        }
+
+    }
+
+
 }
 
 
@@ -422,7 +543,6 @@ void APlayerUI::SlotItemTextLocation(int X, int Y)
     TextBoxTop->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 60 });
     TextBoxMid->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 50 + TextBoxTop->GetScale().Y + TextBoxScale / 2 - 1 });
     TextBoxBot->SetActorLocation({ MousePos.X + X + 140, MousePos.Y + Y + 60 + TextBoxTop->GetScale().Y + TextBoxMid->GetScale().Y });
-
 }
 
 
@@ -526,13 +646,12 @@ void APlayerUI::StoreInvenCheck()
         return;
     }
 
-    if ((true == UEngineInput::GetInst().IsDown('E') || true == StoreExitButton->GetIsClick()) && IsOpenStore == 1)
+    if ((/*true == UEngineInput::GetInst().IsDown('E') ||*/ true == StoreExitButton->GetIsClick()) && IsOpenStore == 1)
     {
         Player->IsOpenIven = false;
         Player->IsButtonClick = false;
-
         --IsOpenStore;
-
+        StartIndex = 0;
         StoreInven->SetActive(false);
         StoreBox->SetActive(false);
         Fade->SetActive(false);
@@ -540,6 +659,18 @@ void APlayerUI::StoreInvenCheck()
 
         StoreExitButton->SetActive(false);
         StoreExitButton->SetCollisionActive(false);
+
+        StoreItem1->SetActive(false);
+        StoreItem2->SetActive(false);
+        StoreItem3->SetActive(false);
+        StoreItem4->SetActive(false);
+
+        for (int i = 0; i < 4; i++)
+        {
+            AllStoreColumns[StartIndex + i]->SetActive(false);
+
+        }
+
 
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
@@ -576,8 +707,9 @@ void APlayerUI::StoreInvenCheck()
 
     }
     // 인벤토리 열기
-    else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenStore == 0)
+    else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenStore == 0 && IsOpenIven == 0)
     {
+
         Player->IsOpenIven = true;
         Player->IsButtonClick = true;
 
@@ -588,6 +720,10 @@ void APlayerUI::StoreInvenCheck()
         StoreExitButton->SetActive(true);
         StoreExitButton->SetCollisionActive(true);
 
+        StoreItem1->SetActive(true);
+        StoreItem2->SetActive(true);
+        StoreItem3->SetActive(true);
+        StoreItem4->SetActive(true);
 
         ++IsOpenStore;
         InventoryBar->SetActive(false);
@@ -843,11 +979,14 @@ void APlayerUI::SlotItemChange()
     }
 }
 
+
+
+
 void APlayerUI::ItemExplainText()
 {
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 
-    if (true == IsInventoryEnter)
+    if (true == IsInventoryEnter )
     {
         std::string Name = Cursor->GetSlotName();
         if (Name != "EmptySlot")
@@ -900,6 +1039,26 @@ int APlayerUI::ItemExplain(std::string _Name)
     {
         Text2Explain = "Seed";
         Text3Explain = "Plant these in the spring. Keeps producing after that. Grows on a trellis.";
+    }
+    else if (_Name == "CauliflowerSeed")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring. Takes a few days to produce a large cauliflower.";
+    }
+    else if (_Name == "PotatoSeed")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring. Has a chance of yielding multiple potatoes at harvest.";
+    }
+    else if (_Name == "KaleSeed")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring.";
+    }
+    else if (_Name == "RhubarbSeed")
+    {
+        Text2Explain = "Seed";
+        Text3Explain = "Plant these in the spring.";
     }
     else if (_Name == "WateringCan")
     {

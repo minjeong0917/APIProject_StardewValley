@@ -77,8 +77,8 @@ public:
 	void SetTextLocation(FVector2D _Location);
 
 	void CollisionStay(AActor* _ColActor);
-
-
+	void CollisionEnd(AActor* _ColActor);
+	void CollisionEnter(AActor* _ColActor);
 
 
 	int GetIsSelectedItem()
@@ -119,7 +119,7 @@ public:
 	void CountTextDestroy();
 
 
-
+	bool IsSlotEnter = false;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

@@ -49,7 +49,8 @@ enum class ECollisionGroup
 	CURSOR,
 	SLOT,
 	BUTTON,
-	UI
+	UI,
+	StoreColumn,
 };
 
 enum class EItemType
