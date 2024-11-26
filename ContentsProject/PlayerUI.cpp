@@ -27,106 +27,7 @@ void APlayerUI::BeginPlay()
 
 }
 
-void APlayerUI::Tick(float _DeltaTime)
-{
 
-    Super::Tick(_DeltaTime);
-    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
-    APlayer* Player = GetWorld()->GetPawn<APlayer>();
-
-    // cursor
-    Cursor->SetActorLocation({ MousePos.X + 10, MousePos.Y + 15 });
-    ToolsAnimation->SetActorLocation(Player->GetActorLocation());
-    // time
-    int Min = MinTime->SetMinute(_DeltaTime);
-    HourTime->SetHour(Min);
-
-    bool IsAM = HourTime->AMCheck(Min);
-    if (true == IsAM)
-    {
-        APText->SetSprite("apm.png", 1, 1.0f);
-        APText->SetActorLocation({ Size.iX() - 80, 145 });
-    }
-    else if (false == IsAM)
-    {
-        APText->SetSprite("apm.png", 2, 1.0f);
-        APText->SetActorLocation({ Size.iX() - 80, 145 });
-    }
-
-    int Week = HourTime->WeekCheck(Min);
-    WeekText->SetSprite("Week.png", Week, 1.0f);
-    WeekText->SetActorLocation({ Size.iX() - 140, 50 });
-
-    int Day = HourTime->DayCheck(Min);
-
-    DayText->SetActorLocation({ Size.iX() - 70 , 50 });
-    DayText->SetTextSpriteName("Time.png");
-    DayText->SetOrder(ERenderOrder::UIFont);
-    DayText->SetTextScale({ 20, 28 });
-    DayText->SetValue(Day, 1.6f);
-    TextLocation = { 60 , 90 };
-
-    if (false == IsChoose)
-    {
-        SlotItemTextLocation(TextLocation.iX(), TextLocation.iY());
-        if (TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() >= Size.iY())
-        {
-            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
-            SlotItemTextLocation(TextLocation.iX() + 10, TextLocation.iY() - InterY);
-        }
-    }
-    else if (true == IsChoose)
-    {
-        SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
-        if (TextBoxBot->GetActorLocation().Y + TextBoxBot->GetScale().Half().Y >= Size.Y)
-        {
-            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
-            SlotItemTextLocation(TextLocation.iX() + 40, TextLocation.iY() - InterY);
-        }
-    }
-
-
-
-
-    if (IsOpenIven == 0)
-    {
-        CurSlotItemSpawn();
-    }
-
-    SetCurSlot();
-    SlotItemChange();
-    ItemExplainText();
-    ToolsAnimationCheck();
-    InventoryCheck();
-    StoreInvenCheck();
-    if (SelectedItem != nullptr)
-    {
-        SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
-        SelectedItem->SetCameraEffect(false);
-    }
-
-
-    IsInventoryEnter = Cursor->GetIsEnter();
-
-
-    ToolsAnimationTimer(_DeltaTime, AnimationDuration);
-
-    if (true == StoreExitButton->GetIsCollisionEnter())
-    {
-        StoreExitButton->SetComponentScale({ 14 * 3.5f,14 * 3.5f });
-        StoreExitButton->SetCollisionComponentScale({ 14 * 3.5f,14 * 3.5f });
-
-    }
-    else if (true == StoreExitButton->GetIsCollisionEnd())
-    {
-        StoreExitButton->SetComponentScale({ 12 * 3.5f,12 * 3.5f });
-        StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
-
-
-    }
-    ShopItemLists();
-}
 
 void APlayerUI::UIImageRender()
 {
@@ -226,6 +127,13 @@ void APlayerUI::UIImageRender()
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
     CurSlot->SetName(AllSlots[0][CurSlotNum]->GetName());
     CurSlot->CollisionDestroy();
+
+    CulStoreColumn = GetWorld()->SpawnActor<ASlot>();
+    CulStoreColumn->SetSprite("CurStoreColumn.png", 0);
+    CulStoreColumn->SetOrder(ERenderOrder::CURSLOT);
+    CulStoreColumn->SetScale(FVector2D{ 294 * 3.5f, 28 * 3.5f });
+    CulStoreColumn->CollisionDestroy();
+    CulStoreColumn->SetActive(false);
 
     // CulItem
     CurItem = GetWorld()->SpawnActor<ACurItem>();
@@ -330,58 +238,192 @@ void APlayerUI::UIImageRender()
 
     for (size_t i = 0; i < 9; i++)
     {
-        AStoreColumn* StoreColumn = GetWorld()->SpawnActor<AStoreColumn>();
-        //
+        ASlot* StoreColumn = GetWorld()->SpawnActor<ASlot>();
+        StoreColumn->SetCollisionComponentScale(FVector2D{ 294 * 3.5f, 28 * 3.5f });
         StoreColumn->SetActive(false);
         AllStoreColumns.push_back(StoreColumn);
     }
     AllStoreColumns[0]->SetName("START");
 
     AllStoreColumns[1]->SetName("ParsnipSeed");
-    AllStoreColumns[1]->SaveItemInfo("Items.png", 624, 3.5f);
+    AllStoreColumns[1]->SaveItemInfo("Items.png", 624, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[2]->SetName("BeanStarter");
-    AllStoreColumns[2]->SaveItemInfo("Items.png", 625, 3.5f);
+    AllStoreColumns[2]->SaveItemInfo("Items.png", 625, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[3]->SetName("CauliflowerSeed");
-    AllStoreColumns[3]->SaveItemInfo("Items.png", 626, 3.5f);
+    AllStoreColumns[3]->SaveItemInfo("Items.png", 626, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[4]->SetName("PotatoSeed");
-    AllStoreColumns[4]->SaveItemInfo("Items.png", 627, 3.5f);
+    AllStoreColumns[4]->SaveItemInfo("Items.png", 627, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[5]->SetName("GarlicSeed");
-    AllStoreColumns[5]->SaveItemInfo("Items.png", 628, 3.5f);
+    AllStoreColumns[5]->SaveItemInfo("Items.png", 628, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[6]->SetName("KaleSeed");
-    AllStoreColumns[6]->SaveItemInfo("Items.png", 629, 3.5f);
+    AllStoreColumns[6]->SaveItemInfo("Items.png", 629, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[7]->SetName("RhubarbSeed");
-    AllStoreColumns[7]->SaveItemInfo("Items.png", 630, 3.5f);
+    AllStoreColumns[7]->SaveItemInfo("Items.png", 630, { 16 * 3.5f,16 * 3.5f });
 
     AllStoreColumns[8]->SetName("END");
 
 
-    StoreItem1 = GetWorld()->SpawnActor<ASelectedItem>();
-    StoreItem1->SetActorLocation({ 177 , 112 });
-    StoreItem1->SetActive(false);
 
-    StoreItem2 = GetWorld()->SpawnActor<ASelectedItem>();
-    StoreItem2->SetActorLocation({ 177 , 210 });
-    StoreItem2->SetActive(false);
+    StartLocation = { 177, 112 };
+    InterLocation = { 0.0f, 98.0f };
 
+    for (float i = 0; i < 4; i++)
+    {
+        ASelectedItem* StoreItem = GetWorld()->SpawnActor<ASelectedItem>();
+        StoreItem->SetActorLocation(StartLocation + (InterLocation * i));
+        StoreItem->SetActive(false);
+        AllStoreItem.push_back(StoreItem);
+    }
+    StartLocation = { 250, 112 };
 
-    StoreItem3 = GetWorld()->SpawnActor<ASelectedItem>();
-    StoreItem3->SetActorLocation({ 177 , 308 });
-    StoreItem3->SetActive(false);
-
-
-    StoreItem4 = GetWorld()->SpawnActor<ASelectedItem>();
-    StoreItem4->SetActorLocation({ 177 , 406 });
-    StoreItem4->SetActive(false);
-
-
+    for (float i = 0; i < 4; i++)
+    {
+        AGold* StoreItemName = GetWorld()->SpawnActor<AGold>();
+        StoreItemName->SetActorLocation(StartLocation + (InterLocation * i));
+        StoreItemName->SetTextSpriteName("Alphabet.png");
+        StoreItemName->SetOrder(ERenderOrder::SLOTFont);
+        StoreItemName->SetTextScale({ 27, 31 });
+        StoreItemName->SetActive(false);
+        AllStoreItemName.push_back(StoreItemName);
+    }
 
 }
+
+void APlayerUI::Tick(float _DeltaTime)
+{
+
+    Super::Tick(_DeltaTime);
+    FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
+    // cursor
+    Cursor->SetActorLocation({ MousePos.X + 10, MousePos.Y + 15 });
+    ToolsAnimation->SetActorLocation(Player->GetActorLocation());
+    // time
+    int Min = MinTime->SetMinute(_DeltaTime);
+    HourTime->SetHour(Min);
+
+    bool IsAM = HourTime->AMCheck(Min);
+    if (true == IsAM)
+    {
+        APText->SetSprite("apm.png", 1, 1.0f);
+        APText->SetActorLocation({ Size.iX() - 80, 145 });
+    }
+    else if (false == IsAM)
+    {
+        APText->SetSprite("apm.png", 2, 1.0f);
+        APText->SetActorLocation({ Size.iX() - 80, 145 });
+    }
+
+    int Week = HourTime->WeekCheck(Min);
+    WeekText->SetSprite("Week.png", Week, 1.0f);
+    WeekText->SetActorLocation({ Size.iX() - 140, 50 });
+
+    int Day = HourTime->DayCheck(Min);
+
+    DayText->SetActorLocation({ Size.iX() - 70 , 50 });
+    DayText->SetTextSpriteName("Time.png");
+    DayText->SetOrder(ERenderOrder::UIFont);
+    DayText->SetTextScale({ 20, 28 });
+    DayText->SetValue(Day, 1.6f);
+    TextLocation = { 60 , 90 };
+
+    if (false == IsChoose)
+    {
+        SlotItemTextLocation(TextLocation.iX(), TextLocation.iY());
+        if (TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() >= Size.iY())
+        {
+            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
+            SlotItemTextLocation(TextLocation.iX() + 10, TextLocation.iY() - InterY);
+        }
+    }
+    else if (true == IsChoose)
+    {
+        SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
+        if (TextBoxBot->GetActorLocation().Y + TextBoxBot->GetScale().Half().Y >= Size.Y)
+        {
+            int InterY = TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() - Size.iY();
+            SlotItemTextLocation(TextLocation.iX() + 40, TextLocation.iY() - InterY);
+        }
+    }
+
+
+
+
+    if (IsOpenIven == 0)
+    {
+        CurSlotItemSpawn();
+    }
+
+    SetCurSlot();
+    BuyStoreItem();
+    SlotItemChange();
+    ItemExplainText();
+    ToolsAnimationCheck();
+    InventoryCheck();
+    StoreInvenCheck();
+
+    if (SelectedItem != nullptr)
+    {
+        SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
+        SelectedItem->SetCameraEffect(false);
+    }
+
+
+    IsInventoryEnter = Cursor->GetIsEnter();
+
+
+    ToolsAnimationTimer(_DeltaTime, AnimationDuration);
+
+    if (true == StoreExitButton->GetIsCollisionEnter())
+    {
+        StoreExitButton->SetComponentScale({ 14 * 3.5f,14 * 3.5f });
+        StoreExitButton->SetCollisionComponentScale({ 14 * 3.5f,14 * 3.5f });
+
+    }
+    else if (true == StoreExitButton->GetIsCollisionEnd())
+    {
+        StoreExitButton->SetComponentScale({ 12 * 3.5f,12 * 3.5f });
+        StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
+
+
+    }
+    ShopItemLists();
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (AllStoreColumns[StartIndex + i] == nullptr)
+        {
+            continue;
+        }
+
+        bool IsCulColumns = AllStoreColumns[StartIndex + i]->GetIsStay();
+
+        if (true == IsCulColumns)
+        {
+            CulStoreColumnNum = StartIndex + i;
+            CulStoreColumn->SetActive(true);
+            CulStoreColumn->SetActorLocation({ AllStoreColumns[CulStoreColumnNum]->GetActorLocation().X, AllStoreColumns[CulStoreColumnNum]->GetActorLocation().Y });
+            continue;
+        }
+
+    }
+
+    if (CulcolumsCheck() == false)
+    {
+        CulStoreColumn->SetActive(false);
+
+    }
+
+}
+
 
 void APlayerUI::ShopItemLists()
 {
@@ -413,19 +455,18 @@ void APlayerUI::ShopItemLists()
         return;
     }
 
-    if (nullptr != StoreItem1)
+    for (size_t i = 0; i < 4; i++)
     {
-        StoreItem1->SetSprite(AllStoreColumns[StartIndex]->GetShopItemSpriteName(), AllStoreColumns[StartIndex]->GetShopItemIndex(), 3.5f);
-        StoreItem2->SetSprite(AllStoreColumns[StartIndex+1]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+1]->GetShopItemIndex(), 3.5f);
-        StoreItem3->SetSprite(AllStoreColumns[StartIndex+2]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+2]->GetShopItemIndex(), 3.5f);
-        StoreItem4->SetSprite(AllStoreColumns[StartIndex+3]->GetShopItemSpriteName(), AllStoreColumns[StartIndex+3]->GetShopItemIndex(), 3.5f);
+        AllStoreItem[i]->SetSprite(AllStoreColumns[StartIndex + i]->GetItemSpriteName(), AllStoreColumns[StartIndex + i]->GetItemIndex(), 3.5f);
+        AllStoreItemName[i]->SetText(AllStoreColumns[StartIndex + i]->GetName());
+
     }
 
-    FVector2D StartLocation = { Size.Half().iX(), 100 };
-    FVector2D InterLocation = { 0.0f, 99.0f };
-    for (int i = 0; i < 4; i++)
+    FVector2D StartLocation = { Size.Half().iX()+1, 108 };
+    FVector2D InterLocation = { 0, 99 };
+    for (__int64 i = 0; i < 4; i++)
     {
-        AllStoreColumns[StartIndex + i]->SetActorLocation(StartLocation + (InterLocation * i));
+        AllStoreColumns[StartIndex + i]->SetActorLocation(StartLocation + (InterLocation * static_cast<float>(i)));
         AllStoreColumns[StartIndex + i]->SetActive(true);
 
         if (IsOpenStore == 1)
@@ -660,15 +701,12 @@ void APlayerUI::StoreInvenCheck()
         StoreExitButton->SetActive(false);
         StoreExitButton->SetCollisionActive(false);
 
-        StoreItem1->SetActive(false);
-        StoreItem2->SetActive(false);
-        StoreItem3->SetActive(false);
-        StoreItem4->SetActive(false);
 
         for (int i = 0; i < 4; i++)
         {
             AllStoreColumns[StartIndex + i]->SetActive(false);
-
+            AllStoreItem[i]->SetActive(false);
+            AllStoreItemName[i]->SetActive(false);
         }
 
 
@@ -720,10 +758,11 @@ void APlayerUI::StoreInvenCheck()
         StoreExitButton->SetActive(true);
         StoreExitButton->SetCollisionActive(true);
 
-        StoreItem1->SetActive(true);
-        StoreItem2->SetActive(true);
-        StoreItem3->SetActive(true);
-        StoreItem4->SetActive(true);
+        for (int i = 0; i < 4; i++)
+        {
+            AllStoreItem[i]->SetActive(true);
+            AllStoreItemName[i]->SetActive(true);
+        }
 
         ++IsOpenStore;
         InventoryBar->SetActive(false);
@@ -876,7 +915,6 @@ void APlayerUI::SlotCheck(AItem* _Item, std::string _ItemName, std::string _Spri
             }
         }
     }
-
 }
 
 void APlayerUI::SlotItemText(int _Y, int _X)
@@ -947,25 +985,25 @@ void APlayerUI::SlotItemChange()
                 AllSlots[y][i]->SetIsSelectedItem(0);
             }
 
-            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose )
             {
                 IsChoose = false;
                 std::string SelectedName = SelectedItem->GetSelectedItemName();
                 std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
                 FVector2D SelectedScale = SelectedItem->GetSelectedScale();
-
-
                 int SelectedIndex = SelectedItem->GetSelectedItemIndex();
                 int ItemCount = SelectedItem->GetSelectedItemCount();
 
                 AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
-                AllSlots[y][i]->SetScale(SelectedScale);
+                AllSlots[y][i]->SetScale({ 14 * 3.5f,14 * 3.5f });
                 AllSlots[y][i]->SetName(SelectedName);
                 AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, SelectedScale);
                 AllSlots[y][i]->SetSlotItemCount(ItemCount);
+                //AllSlots[y][i]->CountTextDestroy();
 
                 if (ItemCount > 1)
                 {
+
                     AllSlots[y][i]->CountText();
                 }
 
@@ -975,10 +1013,103 @@ void APlayerUI::SlotItemChange()
                 SelectedItem = nullptr;
 
             }
+
+            if (true == AllSlots[y][i]->IsEqualItem && true == IsChoose )
+            {
+                if (AllSlots[y][i]->GetName() == SelectedItem->GetName())
+                {
+
+                    IsChoose = false;
+                    std::string SelectedName = SelectedItem->GetSelectedItemName();
+                    std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
+                    FVector2D SelectedScale = SelectedItem->GetSelectedScale();
+                    int SelectedIndex = SelectedItem->GetSelectedItemIndex();
+
+                    int Plus = AllSlots[y][i]->GetSlotItemCount() + SelectedItem->GetSelectedItemCount();
+
+                    AllSlots[y][i]->SetSprite(SelectedSpriteName, SelectedIndex);
+                    AllSlots[y][i]->SetScale({ 14 * 3.5f,14 * 3.5f });
+                    AllSlots[y][i]->SetName(SelectedName);
+                    AllSlots[y][i]->SaveItemInfo(SelectedSpriteName, SelectedIndex, SelectedScale);
+                    AllSlots[y][i]->SetSlotItemCount(Plus);
+
+                    if (Plus > 1)
+                    {
+                        //AllSlots[y][i]->CountTextDestroy();
+                        AllSlots[y][i]->CountText();
+                    }
+
+                    AllSlots[y][i]->SetIsSelectedItem(0);
+
+                    SelectedItem->Destroy();
+                    SelectedItem = nullptr;
+
+
+                }
+
+            }
+
         }
     }
 }
 
+void APlayerUI::BuyStoreItem()
+{
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+
+    for (size_t i = 0; i < 9; i++)
+    {
+        if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && false == IsChoose)
+        {
+            std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
+            std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
+            int SelectedIndex = AllStoreColumns[i]->GetSelectedItemIndex();
+            int ItemCount = AllStoreColumns[i]->GetSlotItemCount();
+            FVector2D ItemScale = AllStoreColumns[i]->GetSelecteItemScale();
+
+            SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
+            SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
+            SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
+            SelectedItem->SetSelectedItemName(SelectedName);
+            SelectedItem->SetSelectedItemIndex(SelectedIndex);
+            SelectedItem->SetSelectedItemCount(ItemCount);
+            SelectedItem->SetSelectedScale(ItemScale);
+            SelectedItem->SetName(SelectedName);
+
+            if (ItemCount > 1)
+            {
+                AllStoreColumns[i]->CountTextDestroy();
+            }
+
+            IsChoose = true;
+            AllStoreColumns[i]->SetIsSelectedItem(0);
+
+        }
+
+        if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr )
+        {
+            std::string StoreName = AllStoreColumns[i]->GetName();
+            std::string ItemName = SelectedItem->GetName();
+
+            if (AllStoreColumns[i]->GetName() == SelectedItem->GetName())
+            {
+                BuyItemCount = SelectedItem->GetSelectedItemCount();
+                ++BuyItemCount;
+                SelectedItem->SetSelectedItemCount(BuyItemCount);
+                //SelectedItem->CountText();
+                //SelectedItem->SetValue(BuyItemCount, 1.6f);
+            }
+            AllStoreColumns[i]->SetIsSelectedItem(0);
+
+        }
+        
+    }
+    //if (SelectedItem != nullptr)
+    //{
+
+    //    SelectedItem->CountTextLocation(MousePos);
+    //}
+}
 
 
 
@@ -1017,7 +1148,7 @@ void APlayerUI::ItemExplainText()
     }
 }
 
-int APlayerUI::ItemExplain(std::string _Name)
+float APlayerUI::ItemExplain(std::string _Name)
 {
 
     if (_Name == "Axe")
@@ -1070,9 +1201,9 @@ int APlayerUI::ItemExplain(std::string _Name)
     Text2->SetText(Text2Explain);
     Text3->SetText(Text3Explain);
 
-    int Scale = ExplianBoxScaleY + 25 * Text3->GetTextOverCount();
+    float Scale = ExplianBoxScaleY + 25 * Text3->GetTextOverCount();
 
-    TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().iX(), Scale});
+    TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().X, Scale});
     
 
     return Scale;
@@ -1166,3 +1297,22 @@ void APlayerUI::SetCurSlot()
         CurSlot->SetActorLocation(AllSlots[0][11]->GetActorLocation());
     }
 }
+
+bool APlayerUI::CulcolumsCheck()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        bool IsCulColumns = AllStoreColumns[StartIndex + i]->GetIsStay();
+
+        if (false == IsCulColumns)
+        {
+            continue;
+        }
+        else if (true == IsCulColumns)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+

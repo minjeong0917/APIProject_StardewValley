@@ -79,6 +79,7 @@ public:
 	void CollisionStay(AActor* _ColActor);
 	void CollisionEnd(AActor* _ColActor);
 	void CollisionEnter(AActor* _ColActor);
+	void CountTextLocation(FVector2D _Loc);
 
 
 	int GetIsSelectedItem()
@@ -117,15 +118,21 @@ public:
 	}
 
 	void CountTextDestroy();
+	bool GetIsStay()
+	{
+		return IsStay;
+	}
+	void SetCollisionComponentScale(FVector2D Scale);
+	bool IsEqualItem = false;
 
 
-	bool IsSlotEnter = false;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
 	int SlotItemCount = 1;
+	bool IsStay = false;
 
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;

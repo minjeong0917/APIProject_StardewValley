@@ -39,9 +39,15 @@ ASlot::ASlot()
 
 }
 
+void ASlot::SetCollisionComponentScale(FVector2D Scale)
+{
+	CollisionComponent->SetComponentScale(Scale);
 
+}
 void ASlot::CollisionStay(AActor* _ColActor)
 {
+	IsStay = true;
+
 
 	if (this->GetName() == "EmptySlot")
 	{
@@ -50,7 +56,7 @@ void ASlot::CollisionStay(AActor* _ColActor)
 			IsSelectedItem = 2;
 		}
 	}
-	else if (this->GetName() != "EmptySlot")
+	else if (this->GetName() != "EmptySlot" && IsSelectedItem != 1)
 	{
 		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) )
 		{
@@ -62,16 +68,33 @@ void ASlot::CollisionStay(AActor* _ColActor)
 			IsSelectedItem = 1;
 		}
 	}
+	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	{
+		if (this->GetName() == SelectedItemName)
+		{
+			IsEqualItem = true;
+		}
+	}
+	if (true == UEngineInput::GetInst().IsUp(VK_LBUTTON))
+	{
+		IsEqualItem = false;
+	}
+
 }
 
 void ASlot::CollisionEnd(AActor* _ColActor)
 {
-	IsSlotEnter = false;
+	IsStay = false;
+
+
+
 }
 
 void ASlot::CollisionEnter(AActor* _ColActor)
 {
-	IsSlotEnter = true;
+
+
+
 }
 
 ASlot::~ASlot()
@@ -136,10 +159,13 @@ void ASlot::CountText()
 	Text->SetTextScale({ 13, 15 });
 	Text->SetValue(SlotItemCount, 1.3f);
 }
+void ASlot::CountTextLocation(FVector2D _Loc)
+{
+	Text->SetActorLocation(GetActorLocation() + GetScale().Half());
+}
 
 void ASlot::CountTextDestroy()
 {
-
 	Text->Destroy();
 	Text = nullptr;
 }

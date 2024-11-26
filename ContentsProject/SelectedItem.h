@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Item.h"
+#include "Gold.h"
 #include <EngineCore/ImageManager.h>
 
 // Ό³Έν :
@@ -68,9 +69,13 @@ public:
 	{
 		SelectedScale = _SelectedScale;
 	}
+	void CountText();
+	void CountTextLocation(FVector2D _Loc);
+	void SetValue(int _Gold, float _Inter);
 
 protected:
-
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 private:
 	class USpriteRenderer* ItemSpriteRenderer = nullptr;
 	std::string SelectedName = "NONE";
@@ -78,5 +83,7 @@ private:
 	FVector2D SelectedScale{ 0,0 };
 	int SelectedIndex = 0;
 	int SelectedItemCount = 0;
+	AGold* Text = nullptr;
+
 };
 

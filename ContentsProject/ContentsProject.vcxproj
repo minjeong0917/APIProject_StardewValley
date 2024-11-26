@@ -151,10 +151,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="StoreColumn.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Fade.h">
       <SubType>
       </SubType>
@@ -264,10 +260,6 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StoreColumn.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Fade.cpp">
       <SubType>
       </SubType>

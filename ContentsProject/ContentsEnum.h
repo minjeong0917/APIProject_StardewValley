@@ -14,7 +14,7 @@ enum class ERenderOrder
 	UI = 10000,
 	UIFont = 10001,
 	Black = 10002,
-	INVEN = 19999,
+	INVEN = 19998,
 	GLODTEXT = 20000,
 	SLOT = 20001,
 	SLOTITEM = 20002,

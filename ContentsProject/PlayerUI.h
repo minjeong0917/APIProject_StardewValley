@@ -14,7 +14,6 @@
 #include "SelectedItem.h"
 #include "UI.h"
 #include "Fade.h"
-#include "StoreColumn.h"
 
 #include "PlayerToolsAnimation.h"
 
@@ -59,13 +58,14 @@ protected:
 private:
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
-    int ItemExplain(std::string _Name);
+    float ItemExplain(std::string _Name);
     void SlotItemTextLocation(int X, int Y);
     void ToolsAnimationCheck();
     void ToolsAnimationTimer(float _DeltaTime, float _Duration);
     void SetAnimationDuration(float _Duration);
     void InventoryCheck();
     void StoreInvenCheck();
+    void BuyStoreItem();
 
     void SlotItemChange();
     void ToolsAnimationDir(std::string _AnimationName, float _time);
@@ -118,16 +118,22 @@ private:
     AInventoryBar* InventoryBar = nullptr;
 
     std::vector<std::vector<ASlot*>> AllSlots;
-    std::vector<AStoreColumn*> AllStoreColumns;
+    std::vector<ASlot*> AllStoreColumns;
+    std::vector<AGold*> AllStoreItemName;
+
+    ASlot* CulStoreColumn = nullptr;
+    int CulStoreColumnNum = 1;
+    bool CulcolumsCheck();
+
 
     ASlot* CurSlot = nullptr;
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
 
-    ASelectedItem* StoreItem1 = nullptr;
-    ASelectedItem* StoreItem2 = nullptr;
-    ASelectedItem* StoreItem3 = nullptr;
-    ASelectedItem* StoreItem4 = nullptr;
+    std::vector<ASelectedItem*>AllStoreItem;
+    //ASelectedItem* StoreItem2 = nullptr;
+    //ASelectedItem* StoreItem3 = nullptr;
+    //ASelectedItem* StoreItem4 = nullptr;
 
     ASelectedItem* SelectedItem = nullptr;
 
@@ -137,11 +143,12 @@ private:
     bool IsSelected = false;
     
     int StartIndex = 0;
-
+    int BuyItemCount = 0;
     float AnimationDuration = 0.0f;
     float AnimationTimer = 0.0f;
     float ExplianBoxScaleY = 0;
-    int TextBoxScale = 0;
+    float TextBoxScale = 0;
     bool IsChoose = false;
+    bool IsShopChoose = false;
 };
 

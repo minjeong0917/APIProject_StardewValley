@@ -129,6 +129,7 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("TextBox_Bot.png", { 100, 7 });
             UImageManager::GetInst().CuttingSprite("StoreBox.png", { 300, 170 });
             UImageManager::GetInst().CuttingSprite("ExitButton.png", { 12, 12 });
+            UImageManager::GetInst().CuttingSprite("CurStoreColumn.png", { 294, 28 });
 
 
         }
@@ -219,6 +220,7 @@ void ContentsCore::ReadySprite()
     ULevel::CollisionGroupLink(ECollisionGroup::SLOT, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::SLOT);
     ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::StoreColumn);
+    ULevel::CollisionGroupLink(ECollisionGroup::StoreColumn, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::BUTTON, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::UI, ECollisionGroup::CURSOR);
 }
