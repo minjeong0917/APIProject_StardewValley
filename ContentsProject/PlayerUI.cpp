@@ -292,6 +292,11 @@ void APlayerUI::UIImageRender()
         StoreItemName->SetActive(false);
         AllStoreItemName.push_back(StoreItemName);
     }
+    
+    CurText = GetWorld()->SpawnActor<AGold>();
+    CurText->SetTextSpriteName("Item.png");
+    CurText->SetOrder(ERenderOrder::ExplainTextBox);
+    CurText->SetTextScale({ 13, 15 });
 
 }
 
@@ -337,6 +342,7 @@ void APlayerUI::Tick(float _DeltaTime)
 
     if (false == IsChoose)
     {
+        CurText->SetActive(false);
         SlotItemTextLocation(TextLocation.iX(), TextLocation.iY());
         if (TextBoxBot->GetActorLocation().iY() + TextBoxBot->GetScale().Half().iY() >= Size.iY())
         {
@@ -346,6 +352,9 @@ void APlayerUI::Tick(float _DeltaTime)
     }
     else if (true == IsChoose)
     {
+        CurText->SetActive(true);
+        CurText->SetActorLocation({ MousePos.X + 56, MousePos.Y + 61 });
+        CurText->SetValue(BuyItemCount, 1.3f);
         SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
         if (TextBoxBot->GetActorLocation().Y + TextBoxBot->GetScale().Half().Y >= Size.Y)
         {
@@ -800,6 +809,9 @@ void APlayerUI::StoreInvenCheck()
                     AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
 
                 }
+
+
+
             }
         }
 
@@ -1035,12 +1047,13 @@ void APlayerUI::SlotItemChange()
 
                     if (Plus > 1)
                     {
-                        //AllSlots[y][i]->CountTextDestroy();
+                        AllSlots[y][i]->CountTextDestroy();
                         AllSlots[y][i]->CountText();
                     }
 
                     AllSlots[y][i]->SetIsSelectedItem(0);
-
+                    SelectedItem->SetSelectedItemCount(0);
+                    BuyItemCount = 0;
                     SelectedItem->Destroy();
                     SelectedItem = nullptr;
 
@@ -1061,6 +1074,8 @@ void APlayerUI::BuyStoreItem()
     {
         if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && false == IsChoose)
         {
+
+
             std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
             std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
             int SelectedIndex = AllStoreColumns[i]->GetSelectedItemIndex();
@@ -1075,6 +1090,7 @@ void APlayerUI::BuyStoreItem()
             SelectedItem->SetSelectedItemCount(ItemCount);
             SelectedItem->SetSelectedScale(ItemScale);
             SelectedItem->SetName(SelectedName);
+            BuyItemCount = 1;
 
             if (ItemCount > 1)
             {
@@ -1086,31 +1102,58 @@ void APlayerUI::BuyStoreItem()
 
         }
 
-        if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr )
+        if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr )
         {
             std::string StoreName = AllStoreColumns[i]->GetName();
             std::string ItemName = SelectedItem->GetName();
 
             if (AllStoreColumns[i]->GetName() == SelectedItem->GetName())
             {
-                BuyItemCount = SelectedItem->GetSelectedItemCount();
-                ++BuyItemCount;
-                SelectedItem->SetSelectedItemCount(BuyItemCount);
+                //BuyItemCount = SelectedItem->GetSelectedItemCount();
+                BuyItemCount += 1;
                 //SelectedItem->CountText();
-                //SelectedItem->SetValue(BuyItemCount, 1.6f);
+
             }
+            SelectedItem->SetSelectedItemCount(BuyItemCount);
             AllStoreColumns[i]->SetIsSelectedItem(0);
 
         }
         
     }
-    //if (SelectedItem != nullptr)
-    //{
 
-    //    SelectedItem->CountTextLocation(MousePos);
-    //}
 }
 
+
+void APlayerUI::SellStoreItem()
+{
+    for (size_t y = 0; y < 3; y++)
+    {
+        for (size_t i = 0; i < 12; i++)
+        {
+            int Count = AllSlots[y][i]->GetSlotItemCount();
+            Count -= 1;
+            if (Count == 0)
+            {
+                AllSlots[y][i]->SetSprite("Slot.png", 0);
+                AllSlots[y][i]->SetScale({ 16 * 3.5f , 16 * 3.5f });
+                AllSlots[y][i]->SetName("EmptySlot");
+                AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
+
+                return;
+
+            }
+
+            AllSlots[y][i]->SetSlotItemCount(Count);
+            AllSlots[y][i]->CountTextDestroy();
+            if (Count > 1)
+            {
+                AllSlots[y][i]->CountText();
+            }
+        }
+    }
+
+
+}
 
 
 void APlayerUI::ItemExplainText()

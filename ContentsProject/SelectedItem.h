@@ -69,9 +69,6 @@ public:
 	{
 		SelectedScale = _SelectedScale;
 	}
-	void CountText();
-	void CountTextLocation(FVector2D _Loc);
-	void SetValue(int _Gold, float _Inter);
 
 protected:
 	void BeginPlay() override;

@@ -71,6 +71,7 @@ private:
     void ToolsAnimationDir(std::string _AnimationName, float _time);
 
     void ShopItemLists();
+    void SellStoreItem();
 
 
     bool TypeCheck = false;
@@ -129,6 +130,7 @@ private:
     ASlot* CurSlot = nullptr;
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
+
 
     std::vector<ASelectedItem*>AllStoreItem;
     //ASelectedItem* StoreItem2 = nullptr;

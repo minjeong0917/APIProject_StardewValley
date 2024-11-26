@@ -166,8 +166,12 @@ void ASlot::CountTextLocation(FVector2D _Loc)
 
 void ASlot::CountTextDestroy()
 {
-	Text->Destroy();
-	Text = nullptr;
+	if (Text != nullptr)
+	{
+		Text->Destroy();
+		Text = nullptr;
+	}
+
 }
 
 void ASlot::SetTextLocation(FVector2D _Location)
