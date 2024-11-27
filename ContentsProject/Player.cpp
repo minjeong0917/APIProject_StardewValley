@@ -70,7 +70,7 @@ void APlayer::Tick(float _DeltaTime)
 
     Super::Tick(_DeltaTime);
 
-    SpriteRenderer->SetOrder(GetActorLocation().Y);
+    SpriteRenderer->SetOrder(GetActorLocation().Y -2);
 
     IsEnter = PlayerUI->GetIsInventoryEnter();
 
