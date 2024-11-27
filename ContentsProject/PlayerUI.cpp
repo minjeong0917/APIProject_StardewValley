@@ -634,14 +634,14 @@ void APlayerUI::InventoryCheck()
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
         {
-            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            Loc = { Loc.X - 1, Loc.Y };
-            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+            Loc0 = AllSlots[0][i]->GetActorLocation();
+            Loc0 = { Loc0.X - 1, Loc0.Y };
+            Loc0_2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 440.0f);
+            AllSlots[0][i]->SetActorLocation(Loc0 + FVector2D::DOWN * 440.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 440.0f);
+                AllSlots[0][i]->SetTextLocation(Loc0_2 + FVector2D::DOWN * 440.0f);
             }
         }
         for (int y = 1; y < 3; y++)
@@ -676,14 +676,14 @@ void APlayerUI::InventoryCheck()
         for (int i = 0; i < 12; i++)
         {
 
-            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            Loc = { Loc.X + 1, Loc.Y };
-            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+            Loc0 = AllSlots[0][i]->GetActorLocation();
+            Loc0 = { Loc0.X + 1, Loc0.Y };
+            Loc0_2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::UP * 440.0f);
+            AllSlots[0][i]->SetActorLocation(Loc0 + FVector2D::UP * 440.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::UP * 440.0f);
+                AllSlots[0][i]->SetTextLocation(Loc0_2 + FVector2D::UP * 440.0f);
             }
         }
 
@@ -744,29 +744,29 @@ void APlayerUI::StoreInvenCheck()
         InventoryBar->SetActive(true);
         for (int i = 0; i < 12; i++)
         {
-            FVector2D Loc = AllSlots[0][i]->GetActorLocation();
-            Loc = { Loc.X - 1, Loc.Y };
-            FVector2D Loc2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
+            Loc0 = AllSlots[0][i]->GetActorLocation();
+            Loc0 = { Loc0.X - 1, Loc0.Y };
+            Loc0_2 = AllSlots[0][i]->GetActorLocation() + AllSlots[0][i]->GetScale().Half();
 
-            AllSlots[0][i]->SetActorLocation(Loc + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
+            AllSlots[0][i]->SetActorLocation(Loc0 + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
             if (AllSlots[0][i]->GetText() != nullptr)
             {
-                AllSlots[0][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
+                AllSlots[0][i]->SetTextLocation(Loc0_2 + FVector2D::DOWN * 115.0f + FVector2D::LEFT * 145.0f);
             }
         }
         for (int y = 1; y < 3; y++)
         {
             for (int i = 0; i < 12; i++)
             {
-                FVector2D Loc = AllSlots[y][i]->GetActorLocation();
-                Loc = { Loc.X - 1, Loc.Y };
-                FVector2D Loc2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
+                Loc1 = AllSlots[y][i]->GetActorLocation();
+                Loc1 = { Loc1.X - 1, Loc1.Y };
+                Loc1_2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
 
-                AllSlots[y][i]->SetActorLocation(Loc + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
+                AllSlots[y][i]->SetActorLocation(Loc1 + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
                 AllSlots[y][i]->SetActive(false);
                 if (AllSlots[y][i]->GetText() != nullptr)
                 {
-                    AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
+                    AllSlots[y][i]->SetTextLocation(Loc1_2 + FVector2D::UP * 325.0f + FVector2D::LEFT * 145.0f);
                     AllSlots[y][i]->GetText()->SetActive(false);
                 }
             }
@@ -820,17 +820,17 @@ void APlayerUI::StoreInvenCheck()
         {
             for (int i = 0; i < 12; i++)
             {
-                FVector2D Loc = AllSlots[y][i]->GetActorLocation();
-                Loc = { Loc.X + 1, Loc.Y };
-                FVector2D Loc2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
+                Loc1 = AllSlots[y][i]->GetActorLocation();
+                Loc1 = { Loc1.X + 1, Loc1.Y };
+                Loc1_2 = AllSlots[y][i]->GetActorLocation() + AllSlots[y][i]->GetScale().Half();
 
                 AllSlots[y][i]->SetActive(true);
-                AllSlots[y][i]->SetActorLocation(Loc + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
+                AllSlots[y][i]->SetActorLocation(Loc1 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
 
                 if (AllSlots[y][i]->GetText() != nullptr)
                 {
                     AllSlots[y][i]->GetText()->SetActive(true);
-                    AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
+                    AllSlots[y][i]->SetTextLocation(Loc1_2 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
 
                 }
 
@@ -1444,6 +1444,15 @@ void APlayerUI::Copy(APlayerUI* _Value)
         for (size_t x = 0; x < AllSlots[y].size(); x++)
         {
             AllSlots[y][x]->Copy(_Value->AllSlots[y][x]);
+            AllSlots[y][x]->SetActive(_Value->AllSlots[y][x]->GetActive());
+            if (nullptr != _Value->AllSlots[y][x]->GetText())
+            {
+                AllSlots[y][x]->GetText()->SetActive(_Value->AllSlots[y][x]->GetText()->GetActive());
+                AllSlots[y][x]->GetText()->SetActorLocation(_Value->AllSlots[y][x]->GetText()->GetActorLocation());
+
+            }
+            AllSlots[y][x]->SetActorLocation(_Value->AllSlots[y][x]->GetActorLocation());
+
         }
     }
     CurSlot->Copy(_Value->CurSlot);
@@ -1459,4 +1468,18 @@ void APlayerUI::Copy(APlayerUI* _Value)
     WeekText->Copy(_Value->WeekText);
     //DayText->Copy(_Value->DayText);
     HourTime->Copy(_Value->HourTime);
+
+    Loc0 = _Value->Loc0;
+    Loc0_2 = _Value->Loc0_2;
+    Loc1 = _Value->Loc1;
+    Loc1_2 = _Value->Loc1_2;
+
+
+    IsOpenIven = _Value->IsOpenIven;
+    IsOpenStore = _Value->IsOpenStore;
+    Inventory->SetActive(_Value->Inventory->GetActive());
+    StoreInven->SetActive(_Value->StoreInven->GetActive());
+    InvenPlayer->SetActive(_Value->InvenPlayer->GetActive());
+    InventoryBar->SetActive(_Value->InventoryBar->GetActive());
+    CurSlot->SetActive(_Value->CurSlot->GetActive());
 }

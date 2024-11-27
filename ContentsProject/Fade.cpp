@@ -49,7 +49,7 @@ void AFade::FadeIn()
 void AFade::FadeOut()
 {
 	FadeValue = 1.0f;
-	FadeDir = -1.0f;
+	FadeDir = -2.0f;
 	TimeEventer.PushEvent(2.0f, std::bind(&AFade::FadeChange, this), true, false);
 }
 

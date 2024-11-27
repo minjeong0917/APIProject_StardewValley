@@ -81,6 +81,11 @@ public:
 		IsActiveValue = _IsActive;
 	}
 
+	bool GetActive()
+	{
+		return IsActiveValue;
+	}
+
 	void SetActiveSwitch()
 	{
 		IsActiveValue = !IsActiveValue;

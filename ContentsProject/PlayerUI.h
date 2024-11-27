@@ -83,6 +83,11 @@ private:
     bool IsAnimationPlay = false;
 
 
+    FVector2D Loc0 = { 0,0 };
+    FVector2D Loc0_2 = { 0,0 };
+
+    FVector2D Loc1 = { 0,0 };
+    FVector2D Loc1_2 = { 0,0 };
     int IsOpenIven = 0;
     int IsOpenStore = 0;
     ACursor* Cursor = nullptr;

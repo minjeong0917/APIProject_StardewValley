@@ -163,7 +163,8 @@ void ASlot::SetScale(FVector2D _Scale)
 void ASlot::CountText()
 {
 	Text = GetWorld()->SpawnActor<AGold>();
-	Text->SetActorLocation(GetActorLocation() + GetScale().Half());
+	Location = GetActorLocation() + GetScale().Half();
+	Text->SetActorLocation(Location);
 	Text->SetTextSpriteName("Item.png");
 	Text->SetOrder(ERenderOrder::SLOTFont);
 	Text->SetTextScale({ 13, 15 });
@@ -217,6 +218,12 @@ void ASlot::Copy(ASlot* _Slot)
 		//SetActorLocation(_Slot->GetActorLocation());
 	}
 
-	Text->Copy(Text);
+	Text->Copy(_Slot->Text);
+
+	if(nullptr != _Slot->Text)
+	{
+		//Text->SetActorLocation(Location);
+		Text->SetActive(_Slot->Text->GetActive());
+	}
 
 }	

@@ -143,6 +143,7 @@ private:
 	int ItemIndex = 0;
 	std::string ItemSpriteName = "NONE";
 	FVector2D ItemScale = { 0,0 };
+	FVector2D Location = { 0,0 };
 
 	int IsSelectedItem = 0;
 
