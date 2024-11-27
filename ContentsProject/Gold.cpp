@@ -209,7 +209,14 @@ void AGold::SetText2(std::string _Text)
     TextOverCount = IsTextOver;
 }
 
-void AGold::Copy(AGold* _Copy)
+void AGold::SaveInfo(int _Gold, float _inter)
 {
+    Num = _Gold;
+    Inter = _inter;
+}
 
+void AGold::Copy(AGold* _Gold)
+{
+    SaveInfo(_Gold->Num, _Gold->Inter);
+    SetValue(_Gold->Num, _Gold->Inter);
 }

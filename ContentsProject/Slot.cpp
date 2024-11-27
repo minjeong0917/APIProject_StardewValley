@@ -205,6 +205,7 @@ void ASlot::Copy(ASlot* _Slot)
 	{
 		SetSprite(_Slot->SlotSpriteRenderer->GetCurSpriteName(), _Slot->SlotSpriteRenderer->GetCurIndex());
 		SetScale(_Slot->ItemScale);
+		SetActorLocation(_Slot->GetActorLocation());
 	}
 	SetSlotItemCount(_Slot->SlotItemCount);
 

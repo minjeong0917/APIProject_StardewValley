@@ -20,6 +20,7 @@ public:
 	void SetSprite(std::string _SprtieName, int _SpriteIndex, float _Scale);
 	//bool ItemTypeCheck(EItemType _ItemType);
 	//EItemType SetItemType(std::string _ItemName);
+	void Copy(ACurItem* _CurItem);
 
 protected:
 	void BeginPlay() override;

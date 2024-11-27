@@ -32,3 +32,10 @@ void ACurItem::Tick(float _DeltaTime)
 	CurItemSpriteRenderer->SetOrder(GetActorLocation().Y + 91);
 
 }
+void ACurItem::Copy(ACurItem* _CurItem)
+{
+	if (nullptr != _CurItem->CurItemSpriteRenderer->GetSprite())
+	{
+		SetSprite(_CurItem->CurItemSpriteRenderer->GetCurSpriteName(), _CurItem->CurItemSpriteRenderer->GetCurIndex(), 3.0f);
+	}
+}

@@ -43,6 +43,7 @@ public:
 	bool AMCheck(int _Hour);
 	int WeekCheck(int _Hour);
 	int DayCheck(int _Hour);
+	void Copy(ATime* _Time);
 
 protected:
 	void BeginPlay() override;
@@ -56,7 +57,7 @@ private:
 	float minutes = 0;
 	int hours = 6;
 	bool IsPM = false;
-
+	int HourInfo = 0;
 	std::string TextSpriteName;
 	std::vector<class USpriteRenderer*> Renders;
 	FVector2D TextScale;

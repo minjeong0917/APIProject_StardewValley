@@ -22,6 +22,7 @@ public:
 	{
 		TextScale = _TextScale;
 	}
+	void SaveInfo(int _Gold, float _inter);
 
 	template<typename EnumType>
 	void SetOrder(EnumType _Order)
@@ -49,7 +50,8 @@ private:
 	std::string TextSpriteName;
 	USpriteRenderer* Sprite = nullptr;
 	FVector2D TextScale;
-
+	int Num = 0;
+	float Inter = 0.0f;
 	int TextOverCount = 0;
 	std::vector<class USpriteRenderer*> Renders;
 };

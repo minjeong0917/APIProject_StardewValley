@@ -225,7 +225,6 @@ void APlayerUI::UIImageRender()
     StoreGoldText->SetTextSpriteName("Gold3.png");
     StoreGoldText->SetOrder(ERenderOrder::GLODTEXT);
     StoreGoldText->SetTextScale({ 22, 33 });
-
     StoreGoldText->SetActive(false);
 
     StoreExitButton = GetWorld()->SpawnActor<AUI>();
@@ -443,7 +442,10 @@ void APlayerUI::Tick(float _DeltaTime)
         CulStoreColumn->SetActive(false);
 
     }
+
     Gold->SetValue(Player->GetGold(), 1.6f);
+
+
     StoreGoldText->SetValue(Player->GetGold(), 4.3f);
 }
 
@@ -830,8 +832,6 @@ void APlayerUI::StoreInvenCheck()
                     AllSlots[y][i]->SetTextLocation(Loc2 + FVector2D::DOWN * 325.0f + FVector2D::RIGHT * 145.0f);
 
                 }
-
-
 
             }
         }
@@ -1443,5 +1443,8 @@ void APlayerUI::Copy(APlayerUI* _Value)
             AllSlots[y][x]->Copy(_Value->AllSlots[y][x]);
         }
     }
-
+    CurSlot->Copy(_Value->CurSlot);
+    CurItem->Copy(_Value->CurItem);
+    MinTime->Copy(_Value->MinTime);
+    HourTime->Copy(_Value->HourTime);
 }

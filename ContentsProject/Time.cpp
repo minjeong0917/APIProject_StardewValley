@@ -121,6 +121,8 @@ int ATime::SetMinute(float _DeltaTime)
 	{
 		hours = 6;
 	}
+
+	HourInfo = hours;
 	return hours;
 }
 
@@ -192,4 +194,11 @@ int ATime::DayCheck(int _Hour)
 		return Day;
 	}
 	return Day;
+}
+
+void ATime::Copy(ATime* _Time)
+{
+	minutes = _Time->minutes;
+	HourInfo = _Time->HourInfo;
+	SetHour(_Time->HourInfo);
 }
