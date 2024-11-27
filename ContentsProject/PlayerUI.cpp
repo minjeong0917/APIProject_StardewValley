@@ -352,7 +352,7 @@ void APlayerUI::Tick(float _DeltaTime)
     }
     else if (true == IsChoose)
     {
-        CurText->SetActive(true);
+
         CurText->SetActorLocation({ MousePos.X + 56, MousePos.Y + 61 });
         CurText->SetValue(BuyItemCount, 1.3f);
         SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
@@ -378,7 +378,7 @@ void APlayerUI::Tick(float _DeltaTime)
     ToolsAnimationCheck();
     InventoryCheck();
     StoreInvenCheck();
-
+    SellStoreItem();
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -1026,8 +1026,10 @@ void APlayerUI::SlotItemChange()
 
             }
 
-            if (true == AllSlots[y][i]->IsEqualItem && true == IsChoose )
+            if (true == AllSlots[y][i]->IsEqualItem  && true == IsChoose )
             {
+                std::string a = AllSlots[y][i]->GetName();
+                std::string b = SelectedItem->GetName();
                 if (AllSlots[y][i]->GetName() == SelectedItem->GetName())
                 {
 
@@ -1114,6 +1116,7 @@ void APlayerUI::BuyStoreItem()
                 //SelectedItem->CountText();
 
             }
+            CurText->SetActive(true);
             SelectedItem->SetSelectedItemCount(BuyItemCount);
             AllStoreColumns[i]->SetIsSelectedItem(0);
 
@@ -1126,33 +1129,53 @@ void APlayerUI::BuyStoreItem()
 
 void APlayerUI::SellStoreItem()
 {
-    for (size_t y = 0; y < 3; y++)
+    EItemType Type = CurItem->SetItemType(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+
+    if (true == SellClickCheck())
     {
-        for (size_t i = 0; i < 12; i++)
+        if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == CurItem->ItemTypeCheck(Type))
         {
-            int Count = AllSlots[y][i]->GetSlotItemCount();
+            int Count = AllSlots[SellSlotYNum][SellSlotXNum]->GetSlotItemCount();
             Count -= 1;
             if (Count == 0)
             {
-                AllSlots[y][i]->SetSprite("Slot.png", 0);
-                AllSlots[y][i]->SetScale({ 16 * 3.5f , 16 * 3.5f });
-                AllSlots[y][i]->SetName("EmptySlot");
-                AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
+                AllSlots[SellSlotYNum][SellSlotXNum]->SetSprite("Slot.png", 0);
+                AllSlots[SellSlotYNum][SellSlotXNum]->SetScale({ 16 * 3.5f , 16 * 3.5f });
+                AllSlots[SellSlotYNum][SellSlotXNum]->SetName("EmptySlot");
+                AllSlots[SellSlotYNum][SellSlotXNum]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
 
                 return;
 
             }
 
-            AllSlots[y][i]->SetSlotItemCount(Count);
-            AllSlots[y][i]->CountTextDestroy();
+            AllSlots[SellSlotYNum][SellSlotXNum]->SetSlotItemCount(Count);
+            AllSlots[SellSlotYNum][SellSlotXNum]->CountTextDestroy();
             if (Count > 1)
             {
-                AllSlots[y][i]->CountText();
+                AllSlots[SellSlotYNum][SellSlotXNum]->CountText();
             }
         }
+
     }
 
 
+}
+
+bool APlayerUI::SellClickCheck()
+{
+    for (size_t y = 0; y < 3; y++)
+    {
+        for (size_t i = 0; i < 12; i++)
+        {
+            if (true == AllSlots[y][i]->IsSell)
+            {
+                SellSlotYNum = y;
+                SellSlotXNum = i;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -1247,11 +1270,7 @@ float APlayerUI::ItemExplain(std::string _Name)
     float Scale = ExplianBoxScaleY + 25 * Text3->GetTextOverCount();
 
     TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().X, Scale});
-    
-
     return Scale;
-
-
 }
 
 

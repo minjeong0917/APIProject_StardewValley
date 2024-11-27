@@ -124,6 +124,7 @@ public:
 	}
 	void SetCollisionComponentScale(FVector2D Scale);
 	bool IsEqualItem = false;
+	bool IsSell = false;
 
 
 protected:

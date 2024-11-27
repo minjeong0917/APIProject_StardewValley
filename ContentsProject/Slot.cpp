@@ -79,12 +79,19 @@ void ASlot::CollisionStay(AActor* _ColActor)
 	{
 		IsEqualItem = false;
 	}
+	if (this->GetName() != "EmptySlot"&&true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	{
+		IsEqualItem = true;
+
+	}
+
 
 }
 
 void ASlot::CollisionEnd(AActor* _ColActor)
 {
 	IsStay = false;
+	IsSell = false;
 
 
 
@@ -93,7 +100,13 @@ void ASlot::CollisionEnd(AActor* _ColActor)
 void ASlot::CollisionEnter(AActor* _ColActor)
 {
 
-
+	if (this->GetName() != "EmptySlot")
+	{
+		//if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
+		//{
+			IsSell = true;
+		//}
+	}
 
 }
 

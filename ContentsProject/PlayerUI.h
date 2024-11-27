@@ -72,6 +72,7 @@ private:
 
     void ShopItemLists();
     void SellStoreItem();
+    bool SellClickCheck();
 
 
     bool TypeCheck = false;
@@ -121,6 +122,7 @@ private:
     std::vector<std::vector<ASlot*>> AllSlots;
     std::vector<ASlot*> AllStoreColumns;
     std::vector<AGold*> AllStoreItemName;
+    std::vector<ASelectedItem*>AllStoreItem;
 
     ASlot* CulStoreColumn = nullptr;
     int CulStoreColumnNum = 1;
@@ -131,16 +133,12 @@ private:
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
 
-
-    std::vector<ASelectedItem*>AllStoreItem;
-    //ASelectedItem* StoreItem2 = nullptr;
-    //ASelectedItem* StoreItem3 = nullptr;
-    //ASelectedItem* StoreItem4 = nullptr;
-
     ASelectedItem* SelectedItem = nullptr;
 
     bool IsEmptySlot = true;
     int CurSlotNum = 1;
+    int SellSlotYNum = 0;
+    int SellSlotXNum = 0;
     FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
     

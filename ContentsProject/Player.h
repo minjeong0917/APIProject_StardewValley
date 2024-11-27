@@ -60,6 +60,10 @@ public:
 	{
 		return PlayerGold;
 	}
+	void SetGold(int _Value)
+	{
+		PlayerGold = _Value;
+	}
 
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 
