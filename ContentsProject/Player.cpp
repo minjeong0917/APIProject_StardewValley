@@ -17,6 +17,7 @@
 #include "Item.h"
 
 #include "FarmGameMode.h"
+#include "PlayerManager.h"
 
 APlayer* APlayer::PrevPlayer = nullptr;
 
@@ -77,13 +78,12 @@ void APlayer::Tick(float _DeltaTime)
     LevelChangeCheck();
     DebugCheck(_DeltaTime);
 
-
-    BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+    BackImgCollisionCheck(PlayerMoveDir() * _DeltaTime * PlayerManager::GetInst().GetSpeed());
 
 
     if (nullptr != FarmTileMap)
     {
-        TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * Speed);
+        TileMapCollisionCheck(PlayerMoveDir() * _DeltaTime * PlayerManager::GetInst().GetSpeed());
 
         std::string Name = TileLocationName();
         TileAlphaCheck(Name);
@@ -208,7 +208,9 @@ FVector2D APlayer::PlayerMoveDir()
     // F2 : 플레이어 속도 증가
     if (true == UEngineInput::GetInst().IsDown(VK_ADD))
     {
+        float Speed = PlayerManager::GetInst().GetSpeed();
         Speed += 100;
+        PlayerManager::GetInst().SetSpeed(Speed);
     }
 
     // 대각선 이동
@@ -315,7 +317,7 @@ void APlayer::PlayerMove(float _DeltaTime)
 {
     if (true == ColorCheck && true == TileCheck && false == IsOpenIven)
     {
-        AddActorLocation(PlayerMoveDir() * _DeltaTime * Speed);
+        AddActorLocation(PlayerMoveDir() * _DeltaTime * PlayerManager::GetInst().GetSpeed());
     }
 }
 

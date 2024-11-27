@@ -123,6 +123,9 @@
     <ClCompile Include="Fade.cpp">
       <Filter>ContentsObject\UI</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Fade.h">
       <Filter>ContentsObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

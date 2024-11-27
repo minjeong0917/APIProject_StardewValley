@@ -10,6 +10,7 @@
 #include "Item.h"
 #include "FarmGameMode.h"
 #include "StoreGameMode.h"
+#include "PlayerManager.h"
 
 std::string APlayerUI::Text2Explain;
 std::string APlayerUI::Text3Explain;
@@ -443,10 +444,10 @@ void APlayerUI::Tick(float _DeltaTime)
 
     }
 
-    Gold->SetValue(Player->GetGold(), 1.6f);
+    Gold->SetValue(PlayerManager::GetInst().GetGold(), 1.6f);
 
 
-    StoreGoldText->SetValue(Player->GetGold(), 4.3f);
+    StoreGoldText->SetValue(PlayerManager::GetInst().GetGold(), 4.3f);
 }
 
 
@@ -1091,7 +1092,7 @@ void APlayerUI::BuyStoreItem()
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
-    if (Player->GetGold() == 0)
+    if (PlayerManager::GetInst().GetGold() == 0)
     {
         return;
     }
@@ -1104,7 +1105,7 @@ void APlayerUI::BuyStoreItem()
             int ItemPrice = SellItem->GetPrice();
 
 
-            if (Player->GetGold() >= ItemPrice)
+            if (PlayerManager::GetInst().GetGold() >= ItemPrice)
             {
                 std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
                 std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
@@ -1124,10 +1125,10 @@ void APlayerUI::BuyStoreItem()
                 SelectedItem->SetPrice(SelectedItem->GetName());
 
                 int Price = SelectedItem->GetPrice();
-                int CurGold = Player->GetGold();
+                int CurGold = PlayerManager::GetInst().GetGold();
                 int Purchase = CurGold - Price;
 
-                Player->SetGold(Purchase);
+                PlayerManager::GetInst().SetGold(Purchase);
 
                 if (ItemCount > 1)
                 {
@@ -1146,7 +1147,7 @@ void APlayerUI::BuyStoreItem()
             SellItem->SetPrice(AllStoreColumns[i]->GetName());
             int ItemPrice = SellItem->GetPrice();
 
-            if (Player->GetGold() >= ItemPrice)
+            if (PlayerManager::GetInst().GetGold() >= ItemPrice)
             {
                 std::string StoreName = AllStoreColumns[i]->GetName();
                 std::string ItemName = SelectedItem->GetName();
@@ -1160,9 +1161,9 @@ void APlayerUI::BuyStoreItem()
                 }
                 SelectedItem->SetPrice(SelectedItem->GetName());
                 int Price = SelectedItem->GetPrice();
-                int CurGold = Player->GetGold();
+                int CurGold = PlayerManager::GetInst().GetGold();
                 int Purchase = CurGold - Price;
-                Player->SetGold(Purchase);
+                PlayerManager::GetInst().SetGold(Purchase);
                 CurText->SetActive(true);
                 SelectedItem->SetSelectedItemCount(BuyItemCount);
                 AllStoreColumns[i]->SetIsSelectedItem(0);
@@ -1202,9 +1203,9 @@ void APlayerUI::SellStoreItem()
 
             SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
             int Price = (SellItem->GetPrice()) / 2;
-            int CurGold = Player->GetGold();
+            int CurGold = PlayerManager::GetInst().GetGold();
             int Sell = CurGold + Price;
-            Player->SetGold(Sell);
+            PlayerManager::GetInst().SetGold(Sell);
 
             if (Count > 1)
             {
@@ -1219,9 +1220,9 @@ void APlayerUI::SellStoreItem()
 
 bool APlayerUI::SellClickCheck()
 {
-    for (size_t y = 0; y < 3; y++)
+    for (int y = 0; y < 3; y++)
     {
-        for (size_t i = 0; i < 12; i++)
+        for (int i = 0; i < 12; i++)
         {
             if (true == AllSlots[y][i]->IsSell)
             {
@@ -1443,9 +1444,6 @@ void APlayerUI::Copy(APlayerUI* _Value)
         for (size_t x = 0; x < AllSlots[y].size(); x++)
         {
             AllSlots[y][x]->Copy(_Value->AllSlots[y][x]);
-
-
-
         }
     }
     CurSlot->Copy(_Value->CurSlot);

@@ -56,14 +56,6 @@ public:
 		FarmTileMap = _TileMap;
 	}
 
-	int GetGold()
-	{
-		return PlayerGold;
-	}
-	void SetGold(int _Value)
-	{
-		PlayerGold = _Value;
-	}
 
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 
@@ -111,7 +103,6 @@ private:
 	std::string TileLocationName();
 	void TileAlphaCheck(std::string _TileName);
 
-	float Speed = 220.0f;
 	int MySpriteIndex = 0;
 	bool IsEnter = false;
 
@@ -125,7 +116,7 @@ private:
 	bool ColorCheck = false;
 
 	bool TileCheck = true;
-	int PlayerGold = 200;
+
 
 	USoundPlayer BGMPlayer;
 

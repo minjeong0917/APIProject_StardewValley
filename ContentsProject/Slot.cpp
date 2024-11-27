@@ -214,7 +214,7 @@ void ASlot::Copy(ASlot* _Slot)
 
 		SetSprite(_Slot->SlotSpriteRenderer->GetCurSpriteName(), _Slot->SlotSpriteRenderer->GetCurIndex());
 		SetScale(_Slot->ItemScale);
-		SetActorLocation(_Slot->GetActorLocation());
+		//SetActorLocation(_Slot->GetActorLocation());
 	}
 
 	Text->Copy(Text);
