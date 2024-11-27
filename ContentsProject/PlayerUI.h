@@ -122,6 +122,7 @@ private:
     std::vector<std::vector<ASlot*>> AllSlots;
     std::vector<ASlot*> AllStoreColumns;
     std::vector<AGold*> AllStoreItemName;
+    std::vector<AGold*> AllStoreItemPrice;
     std::vector<ASelectedItem*>AllStoreItem;
 
     ASlot* CulStoreColumn = nullptr;
@@ -133,7 +134,11 @@ private:
     ACurItem* CurItem = nullptr;
     AGold* CurText = nullptr;
 
+    AGold* Gold = nullptr;
+
     ASelectedItem* SelectedItem = nullptr;
+    ASelectedItem* SellItem = nullptr;
+
 
     bool IsEmptySlot = true;
     int CurSlotNum = 1;

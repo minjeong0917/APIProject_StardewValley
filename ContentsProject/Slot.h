@@ -138,7 +138,7 @@ private:
 	U2DCollision* CollisionComponent = nullptr;
 	USpriteRenderer* SlotSpriteRenderer = nullptr;
 	AGold* Text = nullptr;
-
+	ASelectedItem* Price = nullptr;
 	int ItemIndex = 0;
 	std::string ItemSpriteName = "NONE";
 	FVector2D ItemScale = {0,0};

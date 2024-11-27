@@ -39,12 +39,12 @@ void APlayerUI::UIImageRender()
     Clock->SetActorLocation({ Size.iX() - 154, 128 });
 
     // Gold
-    AGold* Gold = GetWorld()->SpawnActor<AGold>();
+    Gold = GetWorld()->SpawnActor<AGold>();
     Gold->SetActorLocation({ Size.iX() - 54 , 218 });
     Gold->SetTextSpriteName("Gold3.png");
     Gold->SetOrder(ERenderOrder::UIFont);
     Gold->SetTextScale({ 22, 33 });
-    Gold->SetValue(Player->GetGold(), 1.6f);
+
 
     // Text
     AText* APMText = GetWorld()->SpawnActor<AText>();
@@ -222,7 +222,7 @@ void APlayerUI::UIImageRender()
     StoreGoldText->SetTextSpriteName("Gold3.png");
     StoreGoldText->SetOrder(ERenderOrder::GLODTEXT);
     StoreGoldText->SetTextScale({ 22, 33 });
-    StoreGoldText->SetValue(Player->GetGold(),4.3f);
+
     StoreGoldText->SetActive(false);
 
     StoreExitButton = GetWorld()->SpawnActor<AUI>();
@@ -269,7 +269,6 @@ void APlayerUI::UIImageRender()
     AllStoreColumns[8]->SetName("END");
 
 
-
     StartLocation = { 177, 112 };
     InterLocation = { 0.0f, 98.0f };
 
@@ -292,11 +291,25 @@ void APlayerUI::UIImageRender()
         StoreItemName->SetActive(false);
         AllStoreItemName.push_back(StoreItemName);
     }
+    StartLocation = { Size.X - 200.f, 112.f };
+
+    for (float i = 0; i < 4; i++)
+    {
+        AGold* StoreItemPrice = GetWorld()->SpawnActor<AGold>();
+        StoreItemPrice->SetActorLocation(StartLocation + (InterLocation * i));
+        StoreItemPrice->SetTextSpriteName("Gold3.png");
+        StoreItemPrice->SetOrder(ERenderOrder::SLOTFont);
+        StoreItemPrice->SetTextScale({ 22, 33 });
+        StoreItemPrice->SetActive(false);
+        AllStoreItemPrice.push_back(StoreItemPrice);
+    }
     
     CurText = GetWorld()->SpawnActor<AGold>();
     CurText->SetTextSpriteName("Item.png");
     CurText->SetOrder(ERenderOrder::ExplainTextBox);
     CurText->SetTextScale({ 13, 15 });
+
+    SellItem = GetWorld()->SpawnActor<ASelectedItem>();
 
 }
 
@@ -352,7 +365,6 @@ void APlayerUI::Tick(float _DeltaTime)
     }
     else if (true == IsChoose)
     {
-
         CurText->SetActorLocation({ MousePos.X + 56, MousePos.Y + 61 });
         CurText->SetValue(BuyItemCount, 1.3f);
         SlotItemTextLocation(TextLocation.iX() + 30, TextLocation.iY() + 30);
@@ -362,9 +374,6 @@ void APlayerUI::Tick(float _DeltaTime)
             SlotItemTextLocation(TextLocation.iX() + 40, TextLocation.iY() - InterY);
         }
     }
-
-
-
 
     if (IsOpenIven == 0)
     {
@@ -379,6 +388,7 @@ void APlayerUI::Tick(float _DeltaTime)
     InventoryCheck();
     StoreInvenCheck();
     SellStoreItem();
+
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -430,7 +440,8 @@ void APlayerUI::Tick(float _DeltaTime)
         CulStoreColumn->SetActive(false);
 
     }
-
+    Gold->SetValue(Player->GetGold(), 1.6f);
+    StoreGoldText->SetValue(Player->GetGold(), 4.3f);
 }
 
 
@@ -468,6 +479,9 @@ void APlayerUI::ShopItemLists()
     {
         AllStoreItem[i]->SetSprite(AllStoreColumns[StartIndex + i]->GetItemSpriteName(), AllStoreColumns[StartIndex + i]->GetItemIndex(), 3.5f);
         AllStoreItemName[i]->SetText(AllStoreColumns[StartIndex + i]->GetName());
+        SellItem->SetPrice(AllStoreColumns[StartIndex + i]->GetName());
+        int Price = SellItem->GetPrice();
+        AllStoreItemPrice[i]->SetValue(Price, 1.3f);
 
     }
 
@@ -716,6 +730,8 @@ void APlayerUI::StoreInvenCheck()
             AllStoreColumns[StartIndex + i]->SetActive(false);
             AllStoreItem[i]->SetActive(false);
             AllStoreItemName[i]->SetActive(false);
+            AllStoreItemPrice[i]->SetActive(false);
+
         }
 
 
@@ -771,6 +787,8 @@ void APlayerUI::StoreInvenCheck()
         {
             AllStoreItem[i]->SetActive(true);
             AllStoreItemName[i]->SetActive(true);
+            AllStoreItemPrice[i]->SetActive(true);
+
         }
 
         ++IsOpenStore;
@@ -1059,11 +1077,8 @@ void APlayerUI::SlotItemChange()
                     SelectedItem->Destroy();
                     SelectedItem = nullptr;
 
-
                 }
-
             }
-
         }
     }
 }
@@ -1071,54 +1086,82 @@ void APlayerUI::SlotItemChange()
 void APlayerUI::BuyStoreItem()
 {
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
+    if (Player->GetGold() == 0)
+    {
+        return;
+    }
 
     for (size_t i = 0; i < 9; i++)
     {
         if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && false == IsChoose)
         {
+            SellItem->SetPrice(AllStoreColumns[i]->GetName());
+            int ItemPrice = SellItem->GetPrice();
 
 
-            std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
-            std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
-            int SelectedIndex = AllStoreColumns[i]->GetSelectedItemIndex();
-            int ItemCount = AllStoreColumns[i]->GetSlotItemCount();
-            FVector2D ItemScale = AllStoreColumns[i]->GetSelecteItemScale();
-
-            SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
-            SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
-            SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
-            SelectedItem->SetSelectedItemName(SelectedName);
-            SelectedItem->SetSelectedItemIndex(SelectedIndex);
-            SelectedItem->SetSelectedItemCount(ItemCount);
-            SelectedItem->SetSelectedScale(ItemScale);
-            SelectedItem->SetName(SelectedName);
-            BuyItemCount = 1;
-
-            if (ItemCount > 1)
+            if (Player->GetGold() >= ItemPrice)
             {
-                AllStoreColumns[i]->CountTextDestroy();
+                std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
+                std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
+                int SelectedIndex = AllStoreColumns[i]->GetSelectedItemIndex();
+                int ItemCount = AllStoreColumns[i]->GetSlotItemCount();
+                FVector2D ItemScale = AllStoreColumns[i]->GetSelecteItemScale();
+
+                SelectedItem = GetWorld()->SpawnActor<ASelectedItem>();
+                SelectedItem->SetSprite(SelectedSpriteName, SelectedIndex, 3.0f);
+                SelectedItem->SetSelectedItemSpriteName(SelectedSpriteName);
+                SelectedItem->SetSelectedItemName(SelectedName);
+                SelectedItem->SetSelectedItemIndex(SelectedIndex);
+                SelectedItem->SetSelectedItemCount(ItemCount);
+                SelectedItem->SetSelectedScale(ItemScale);
+                SelectedItem->SetName(SelectedName);
+                BuyItemCount = 1;
+                SelectedItem->SetPrice(SelectedItem->GetName());
+                int Price = SelectedItem->GetPrice();
+                int CurGold = Player->GetGold();
+                int Purchase = CurGold - Price;
+                Player->SetGold(Purchase);
+
+                if (ItemCount > 1)
+                {
+                    AllStoreColumns[i]->CountTextDestroy();
+                }
+
+                IsChoose = true;
+                AllStoreColumns[i]->SetIsSelectedItem(0);
             }
 
-            IsChoose = true;
-            AllStoreColumns[i]->SetIsSelectedItem(0);
 
         }
 
         if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr )
         {
-            std::string StoreName = AllStoreColumns[i]->GetName();
-            std::string ItemName = SelectedItem->GetName();
+            SellItem->SetPrice(AllStoreColumns[i]->GetName());
+            int ItemPrice = SellItem->GetPrice();
 
-            if (AllStoreColumns[i]->GetName() == SelectedItem->GetName())
+            if (Player->GetGold() >= ItemPrice)
             {
-                //BuyItemCount = SelectedItem->GetSelectedItemCount();
-                BuyItemCount += 1;
-                //SelectedItem->CountText();
+                std::string StoreName = AllStoreColumns[i]->GetName();
+                std::string ItemName = SelectedItem->GetName();
 
+                if (AllStoreColumns[i]->GetName() == SelectedItem->GetName())
+                {
+                    //BuyItemCount = SelectedItem->GetSelectedItemCount();
+                    BuyItemCount += 1;
+                    //SelectedItem->CountText();
+
+                }
+                SelectedItem->SetPrice(SelectedItem->GetName());
+                int Price = SelectedItem->GetPrice();
+                int CurGold = Player->GetGold();
+                int Purchase = CurGold - Price;
+                Player->SetGold(Purchase);
+                CurText->SetActive(true);
+                SelectedItem->SetSelectedItemCount(BuyItemCount);
+                AllStoreColumns[i]->SetIsSelectedItem(0);
             }
-            CurText->SetActive(true);
-            SelectedItem->SetSelectedItemCount(BuyItemCount);
-            AllStoreColumns[i]->SetIsSelectedItem(0);
 
         }
         
@@ -1130,6 +1173,7 @@ void APlayerUI::BuyStoreItem()
 void APlayerUI::SellStoreItem()
 {
     EItemType Type = CurItem->SetItemType(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     if (true == SellClickCheck())
     {
@@ -1150,6 +1194,13 @@ void APlayerUI::SellStoreItem()
 
             AllSlots[SellSlotYNum][SellSlotXNum]->SetSlotItemCount(Count);
             AllSlots[SellSlotYNum][SellSlotXNum]->CountTextDestroy();
+
+            SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+            int Price = (SellItem->GetPrice())/2;
+            int CurGold = Player->GetGold();
+            int Sell = CurGold + Price;
+            Player->SetGold(Sell);
+
             if (Count > 1)
             {
                 AllSlots[SellSlotYNum][SellSlotXNum]->CountText();

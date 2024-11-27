@@ -69,7 +69,12 @@ public:
 	{
 		SelectedScale = _SelectedScale;
 	}
+	void SetPrice(std::string _ItemName);
 
+	int GetPrice()
+	{
+		return ItemPrice;
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -80,6 +85,9 @@ private:
 	FVector2D SelectedScale{ 0,0 };
 	int SelectedIndex = 0;
 	int SelectedItemCount = 0;
+
+	int ItemPrice = 0;
+
 	AGold* Text = nullptr;
 
 };

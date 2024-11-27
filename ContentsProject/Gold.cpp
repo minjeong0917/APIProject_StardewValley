@@ -52,7 +52,7 @@ void AGold::SetValue(int _Gold, float _inter)
     if (Renders.size() <= Number.size())
     {
 
-        //MSGASSERT("자리수를 넘겼습니다.");
+        MSGASSERT("자리수를 넘겼습니다.");
         return;
     }
 
