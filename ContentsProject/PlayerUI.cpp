@@ -48,7 +48,6 @@ void APlayerUI::UIImageRender()
     Gold->SetOrder(ERenderOrder::UIFont);
     Gold->SetTextScale({ 22, 33 });
 
-
     // Text
     AText* APMText = GetWorld()->SpawnActor<AText>();
     APMText->SetSprite("apm.png", 0, 1.0f);
@@ -128,6 +127,7 @@ void APlayerUI::UIImageRender()
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
+    CurSlot->SaveItemInfo("SelectedSlot.png",0, FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetName(AllSlots[0][CurSlotNum]->GetName());
     CurSlot->CollisionDestroy();
 
@@ -327,7 +327,7 @@ void APlayerUI::Tick(float _DeltaTime)
     Cursor->SetActorLocation({ MousePos.X + 10, MousePos.Y + 15 });
     ToolsAnimation->SetActorLocation(Player->GetActorLocation());
     // time
-    int Min = MinTime->SetMinute(_DeltaTime);
+    Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
 
     bool IsAM = HourTime->AMCheck(Min);
@@ -342,11 +342,11 @@ void APlayerUI::Tick(float _DeltaTime)
         APText->SetActorLocation({ Size.iX() - 80, 145 });
     }
 
-    int Week = HourTime->WeekCheck(Min);
+    Week = HourTime->WeekCheck(Min);
     WeekText->SetSprite("Week.png", Week, 1.0f);
     WeekText->SetActorLocation({ Size.iX() - 140, 50 });
 
-    int Day = HourTime->DayCheck(Min);
+    Day = HourTime->DayCheck(Min);
 
     DayText->SetActorLocation({ Size.iX() - 70 , 50 });
     DayText->SetTextSpriteName("Time.png");
@@ -1002,7 +1002,7 @@ void APlayerUI::SlotItemChange()
                 AllSlots[y][i]->SetSprite("Slot.png", 0);
                 AllSlots[y][i]->SetScale({ 16 * 3.5f, 16 * 3.5f });
                 AllSlots[y][i]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
-
+                AllSlots[y][i]->SetSlotItemCount(0);
                 if (ItemCount > 1)
                 {
                     AllSlots[y][i]->CountTextDestroy();
@@ -1436,15 +1436,29 @@ bool APlayerUI::CulcolumsCheck()
 
 void APlayerUI::Copy(APlayerUI* _Value)
 {
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+
     for (size_t y = 0; y < AllSlots.size(); y++)
     {
         for (size_t x = 0; x < AllSlots[y].size(); x++)
         {
             AllSlots[y][x]->Copy(_Value->AllSlots[y][x]);
+
+
+
         }
     }
     CurSlot->Copy(_Value->CurSlot);
+    CurSlotNum = _Value->CurSlotNum;
     CurItem->Copy(_Value->CurItem);
+    Min = _Value->Min;
+    Week = _Value->Week;
+    Day = _Value->Day;
+
     MinTime->Copy(_Value->MinTime);
+    APText->Copy(_Value->APText);
+
+    WeekText->Copy(_Value->WeekText);
+    //DayText->Copy(_Value->DayText);
     HourTime->Copy(_Value->HourTime);
 }

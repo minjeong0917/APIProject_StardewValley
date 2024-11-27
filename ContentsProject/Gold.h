@@ -50,8 +50,7 @@ private:
 	std::string TextSpriteName;
 	USpriteRenderer* Sprite = nullptr;
 	FVector2D TextScale;
-	int Num = 0;
-	float Inter = 0.0f;
+
 	int TextOverCount = 0;
 	std::vector<class USpriteRenderer*> Renders;
 };

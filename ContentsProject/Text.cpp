@@ -82,3 +82,10 @@ void AText::SetTextSpriteName(const std::string _Text)
 		Renders[i]->SetSprite(TextSpriteName);
 	}
 }
+
+void AText::Copy(AText* _Text)
+{
+	TextSpriteName = _Text->TextSpriteName;
+	TextScale = _Text->TextScale;
+	SetSprite(_Text->TextSpriteRenderer->GetCurSpriteName(), _Text->TextSpriteRenderer->GetCurIndex(), 1.0f);
+}

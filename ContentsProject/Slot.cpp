@@ -203,10 +203,20 @@ void ASlot::Copy(ASlot* _Slot)
 	SaveItemInfo(_Slot->ItemSpriteName, _Slot->ItemIndex, _Slot->ItemScale);
 	if (nullptr != _Slot->SlotSpriteRenderer->GetSprite())
 	{
+		SlotItemCount = _Slot->SlotItemCount;
+
+		CountTextDestroy();
+		SetSlotItemCount(_Slot->SlotItemCount);
+		if (_Slot->SlotItemCount > 1)
+		{
+			CountText();
+		}
+
 		SetSprite(_Slot->SlotSpriteRenderer->GetCurSpriteName(), _Slot->SlotSpriteRenderer->GetCurIndex());
 		SetScale(_Slot->ItemScale);
 		SetActorLocation(_Slot->GetActorLocation());
 	}
-	SetSlotItemCount(_Slot->SlotItemCount);
+
+	Text->Copy(Text);
 
 }	

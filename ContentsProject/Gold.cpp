@@ -211,12 +211,15 @@ void AGold::SetText2(std::string _Text)
 
 void AGold::SaveInfo(int _Gold, float _inter)
 {
-    Num = _Gold;
-    Inter = _inter;
+
 }
 
 void AGold::Copy(AGold* _Gold)
 {
-    SaveInfo(_Gold->Num, _Gold->Inter);
-    SetValue(_Gold->Num, _Gold->Inter);
+    if (nullptr != _Gold)
+    {
+        TextSpriteName = _Gold->TextSpriteName;
+        TextScale = _Gold->TextScale;
+    }
+
 }

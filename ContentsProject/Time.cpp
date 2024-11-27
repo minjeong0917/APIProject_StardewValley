@@ -198,7 +198,17 @@ int ATime::DayCheck(int _Hour)
 
 void ATime::Copy(ATime* _Time)
 {
-	minutes = _Time->minutes;
+
+	Week = _Time->Week;
+	Day = _Time->Day;
+	hours = _Time->hours;
+	IsPM = _Time->IsPM;
 	HourInfo = _Time->HourInfo;
+	minutes = _Time->minutes;
+	Speed = _Time->Speed;
+
+	AMCheck(_Time->HourInfo);
+	WeekCheck(_Time->HourInfo);
+	DayCheck(_Time->HourInfo);
 	SetHour(_Time->HourInfo);
 }

@@ -74,7 +74,10 @@ private:
     void SellStoreItem();
     bool SellClickCheck();
 
-
+    int Min = 0;
+    int Week = 0;
+    int Day = 0;
+    int ItemCount = 0;
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
     bool IsAnimationPlay = false;

@@ -29,6 +29,7 @@ public:
 	}
 
 	void SetTextSpriteName(const std::string _Text);
+	void Copy(AText* _Text);
 
 
 protected:
