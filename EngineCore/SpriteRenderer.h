@@ -123,6 +123,15 @@ public:
 		CurAnimationSpeed = 1.0f;
 	}
 
+	int GetCurIndex()
+	{
+		return CurIndex;
+	}
+
+	UEngineSprite* GetSprite()
+	{
+		return Sprite;
+	}
 
 protected:
 

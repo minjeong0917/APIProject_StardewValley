@@ -82,7 +82,7 @@ public:
 	void SetAnimationDuration(float _Duration);
 	void UseItem();
 
-	
+
 	std::string GetSelectedItemName()
 	{
 		return SelectedItemName;
@@ -97,7 +97,7 @@ public:
 	{
 		return SelectedItemIndex;
 	}
-	
+
 	bool GetIsEnter()
 	{
 		return IsEnter;
@@ -131,10 +131,12 @@ private:
 
 
 	float AnimationDuration = 0.0f;
-	float AnimationTimer = 0.0f;    
+	float AnimationTimer = 0.0f;
 
 	std::string SelectedItemName = "NONE";
 	std::string SelectedItemSpriteName = "NONE";
 	int SelectedItemIndex = 0;
+
+	static APlayer* PrevPlayer;
 };
 

@@ -18,7 +18,7 @@
 
 #include "FarmGameMode.h"
 
-
+APlayer* APlayer::PrevPlayer = nullptr;
 
 APlayer::APlayer()
 {
@@ -70,7 +70,7 @@ void APlayer::Tick(float _DeltaTime)
 
     Super::Tick(_DeltaTime);
 
-    SpriteRenderer->SetOrder(GetActorLocation().Y -2);
+    SpriteRenderer->SetOrder(GetActorLocation().Y - 2);
 
     IsEnter = PlayerUI->GetIsInventoryEnter();
 
@@ -111,7 +111,7 @@ std::string APlayer::TileLocationName()
     int searchRangeY = 150;
     for (int offsetY = 0; offsetY <= searchRangeY; ++offsetY)
     {
-        FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y + 30+ offsetY };
+        FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y + 30 + offsetY };
         TileName = FarmGameMode->GetFarmTileSpriteName(TileLocation);
 
         if (TileName == "TREETILE")
@@ -269,7 +269,7 @@ FVector2D APlayer::PlayerMoveDir()
         // 정지
         if (true == UEngineInput::GetInst().IsUp('D'))
         {
-            
+
             PlayerDir = EPlayerDir::Right;
             IsPlayerMove = false;
 
@@ -360,11 +360,17 @@ void APlayer::TileMapCollisionCheck(FVector2D _Vector)
 void APlayer::LevelChangeStart()
 {
     Super::LevelChangeStart();
+
+    if (nullptr != PrevPlayer)
+    {
+        PlayerUI->Copy(PrevPlayer->PlayerUI);
+    }
 }
 
 void APlayer::LevelChangeEnd()
 {
     Super::LevelChangeEnd();
+    PrevPlayer = this;
 }
 
 void APlayer::SetColImage(std::string_view _ColImageName)
@@ -403,7 +409,7 @@ void APlayer::CameraCheck()
     {
         CameraPos.Y = 0.0f;
     }
-    
+
     if (CameraPos.Y + Size.Y >= ImageYSize)
     {
         CameraPos.Y = ImageYSize - Size.Y;
@@ -422,17 +428,17 @@ void APlayer::PlayerAnimationPlay()
     float MousePosX = MousePos.X + CameraPos.X;
     float MousePosY = MousePos.Y + CameraPos.Y;
 
-    FVector2D Direction = { MousePosX - GetActorLocation().X, MousePosY - GetActorLocation().Y};
+    FVector2D Direction = { MousePosX - GetActorLocation().X, MousePosY - GetActorLocation().Y };
     float DirectionAbsX = std::abs(Direction.X);
     float DirectionAbsY = std::abs(Direction.Y);
     IsMouseInPlayerPos = false;
     //if (Farm != nullptr)
     //{
     //    float FarmTileSize = Farm->GetFarmTilMap()->GetTileSize().X;
-        if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
-        {
-            IsMouseInPlayerPos = true;
-        }
+    if (DirectionAbsX <= 70 && DirectionAbsY <= 70 && DirectionAbsX >= 0 && DirectionAbsY >= 0)
+    {
+        IsMouseInPlayerPos = true;
+    }
     //}
 
 
@@ -445,7 +451,7 @@ void APlayer::PlayerAnimationPlay()
             case EPlayerDir::Left:
                 SpriteRenderer->ChangeAnimation("Item_Idle_Left", true);
 
-            break;
+                break;
             case EPlayerDir::Right:
 
                 SpriteRenderer->ChangeAnimation("Item_Idle_Right", true);
@@ -453,20 +459,20 @@ void APlayer::PlayerAnimationPlay()
 
                 break;
             case EPlayerDir::Up:
-                    SpriteRenderer->ChangeAnimation("Item_Idle_Back", true);
+                SpriteRenderer->ChangeAnimation("Item_Idle_Back", true);
 
                 break;
             case EPlayerDir::Down:
 
-                    SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
+                SpriteRenderer->ChangeAnimation("Item_Idle_front", true);
 
                 break;
             default:
                 break;
             }
         }
-         
-        else 
+
+        else
         {
             switch (PlayerDir)
             {
@@ -624,7 +630,7 @@ void APlayer::PlayerAnimationPlay()
             }
             else if (true == UEngineInput::GetInst().IsPress('S'))
             {
-                    SpriteRenderer->ChangeAnimation("Item_Run_front");
+                SpriteRenderer->ChangeAnimation("Item_Run_front");
 
 
             }
@@ -681,7 +687,7 @@ void APlayer::PlayerAnimationPlay()
             {
 
                 SpriteRenderer->ChangeAnimation("Run_Front");
-                
+
             }
             else if (true == UEngineInput::GetInst().IsPress('W'))
             {
@@ -696,7 +702,7 @@ void APlayer::PlayerAnimation()
     // 앞
     SpriteRenderer->CreateAnimation("Run_Front", "Farmer_Right.png", { 0, 1, 17, 1, 15, 2, 18, 2 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
     SpriteRenderer->CreateAnimation("Idle_front", "Farmer_Right.png", { 0, 15,0 }, { 2.0f,0.1f,2.0f });
-    SpriteRenderer->CreateAnimation("Idle_front_once", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f },false);
+    SpriteRenderer->CreateAnimation("Idle_front_once", "Farmer_Right.png", { 0, 15,0 }, { 1.0f,0.1f,1.0f }, false);
 
     // 뒤
     SpriteRenderer->CreateAnimation("Run_Back", "Farmer_Right.png", { 11, 12, 20, 12, 11, 13, 21, 13 }, { 0.1f, 0.1f, 0.1f, 0.1f , 0.1f , 0.1f , 0.1f , 0.1f });
@@ -712,22 +718,22 @@ void APlayer::PlayerAnimation()
 
     // 땅 파기
     SpriteRenderer->CreateAnimation("Dig_Right", "Farmer_Right.png", { 93, 80, 81, 82, 83, 6 }, { 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
-    SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 93, 80, 81, 82, 83,6 }, {  0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
+    SpriteRenderer->CreateAnimation("Dig_Left", "Farmer_Left.png", { 93, 80, 81, 82, 83,6 }, { 0.05f, 0.05f, 0.05f , 0.2f, 0.05f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Front", "Farmer_Right.png", { 47,48,90,91,0 }, { 0.05f , 0.05f, 0.05f , 0.25f, 0.05f }, false);
     SpriteRenderer->CreateAnimation("Dig_Back", "Farmer_Right.png", { 77,76,43,11 }, { 0.1f , 0.1f,  0.2f, 0.05f }, false);
 
     // 물 주기
-    SpriteRenderer->CreateAnimation("Water_Right", "Farmer_Right.png", { 46, 103}, { 0.1f, 0.5f }, false);
-    SpriteRenderer->CreateAnimation("Water_Left", "Farmer_Left.png",  {46, 103}, { 0.10f, 0.5f }, false);
+    SpriteRenderer->CreateAnimation("Water_Right", "Farmer_Right.png", { 46, 103 }, { 0.1f, 0.5f }, false);
+    SpriteRenderer->CreateAnimation("Water_Left", "Farmer_Left.png", { 46, 103 }, { 0.10f, 0.5f }, false);
     SpriteRenderer->CreateAnimation("Water_Front", "Farmer_Right.png", { 41,42,22 }, { 0.07f , 0.1f, 0.4f }, false);
     SpriteRenderer->CreateAnimation("Water_Back", "Farmer_Right.png", { 43,45,104 }, { 0.07f , 0.1f, 0.4f }, false);
 
     // 아이템 들고 이동
     SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
-    SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 },  0.1f, true);
+    SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 }, 0.1f, true);
 
     SpriteRenderer->CreateAnimation("Item_Run_Back", "Farmer_Right_2.png", { 16,10,16,17,11,17 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
-    SpriteRenderer->CreateAnimation("Item_Idle_Back", "Farmer_Right_2.png", {9,9 }, 0.1f, true);
+    SpriteRenderer->CreateAnimation("Item_Idle_Back", "Farmer_Right_2.png", { 9,9 }, 0.1f, true);
 
     SpriteRenderer->CreateAnimation("Item_Run_Right", "Farmer_Right_2.png", { 3,5,4,29,8,4 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_Right", "Farmer_Right_2.png", { 4,4 }, 0.1f, true);

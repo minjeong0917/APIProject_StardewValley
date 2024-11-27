@@ -46,7 +46,10 @@ void AStoreGameMode::Tick(float _DeltaTime)
 	FVector2D CameraPos = GetWorld()->GetCameraPos();
 	FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 	FVector2D MouseLocation = MousePos + CameraPos;
-
+	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Farm");
+	}
 
 	if (GetStoreTileSpriteName(MouseLocation) == "COUNTER.PNG")
 	{

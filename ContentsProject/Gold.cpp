@@ -93,11 +93,11 @@ void AGold::SetText(std::string _Text)
     {
         char Value = _Text[i] - 'A';
 
-        if (Value <= -20 )
+        if (Value <= -20)
         {
             Value = 29;
         }
-        else if (Value > -20 && Value <0)
+        else if (Value > -20 && Value < 0)
         {
             Value = 26;
         }
@@ -128,7 +128,7 @@ void AGold::SetText(std::string _Text)
 
             Pos.X = 5;
             Pos.Y += TextScale.Y;
-            IsTextOver +=1;
+            IsTextOver += 1;
         }
 
         Renders[i]->SetActive(true);
@@ -158,7 +158,7 @@ void AGold::SetText2(std::string _Text)
 
     for (int i = 0; i < _Text.size(); i++)
     {
-        char Value = _Text[i] - 'A'+1;
+        char Value = _Text[i] - 'A' + 1;
 
         if (Value <= -20)
         {
@@ -179,7 +179,7 @@ void AGold::SetText2(std::string _Text)
         }
         else if (Value > 27)
         {
-            Pos.X += static_cast<float>(TextScale.X );
+            Pos.X += static_cast<float>(TextScale.X);
         }
         else if (Value == 26)
         {
@@ -207,4 +207,9 @@ void AGold::SetText2(std::string _Text)
     }
 
     TextOverCount = IsTextOver;
+}
+
+void AGold::Copy(AGold* _Copy)
+{
+
 }

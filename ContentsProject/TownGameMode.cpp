@@ -44,10 +44,10 @@ void ATownGameMode::Tick(float _DeltaTime)
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetColImage("PelicanTown_col.png");
 
-	//if (true == UEngineInput::GetInst().IsDown('T'))
-	//{
-	//	UEngineAPICore::GetCore()->OpenLevel("Farm");
-	//}
+	if (true == UEngineInput::GetInst().IsDown('T'))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Farm");
+	}
 	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Store");

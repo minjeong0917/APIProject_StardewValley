@@ -86,7 +86,7 @@ public:
 	{
 		return IsSelectedItem;
 	}
-	
+
 	void SetIsSelectedItem(int _Value)
 	{
 		IsSelectedItem = _Value;
@@ -126,6 +126,7 @@ public:
 	bool IsEqualItem = false;
 	bool IsSell = false;
 
+	void Copy(ASlot* _Slot);
 
 protected:
 	void BeginPlay() override;
@@ -141,7 +142,7 @@ private:
 	ASelectedItem* Price = nullptr;
 	int ItemIndex = 0;
 	std::string ItemSpriteName = "NONE";
-	FVector2D ItemScale = {0,0};
+	FVector2D ItemScale = { 0,0 };
 
 	int IsSelectedItem = 0;
 

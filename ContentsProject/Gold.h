@@ -39,6 +39,8 @@ public:
 	{
 		return TextOverCount;
 	}
+
+	void Copy(AGold* _Copy);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

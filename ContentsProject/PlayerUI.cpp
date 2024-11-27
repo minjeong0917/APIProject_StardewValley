@@ -11,6 +11,9 @@
 #include "FarmGameMode.h"
 #include "StoreGameMode.h"
 
+std::string APlayerUI::Text2Explain;
+std::string APlayerUI::Text3Explain;
+
 APlayerUI::APlayerUI()
 {
 }
@@ -230,7 +233,7 @@ void APlayerUI::UIImageRender()
     StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
     StoreExitButton->SetSprite("ExitButton.png", 0, 3.5f);
     StoreExitButton->SetOrder(ERenderOrder::GLODTEXT);
-    StoreExitButton->SetActorLocation({ Size.X  - 100 , 50.f });
+    StoreExitButton->SetActorLocation({ Size.X - 100 , 50.f });
     StoreExitButton->SetCollisionComponentLocation({ 0.0f , 0.0f });
     StoreExitButton->SetActive(false);
 
@@ -303,7 +306,7 @@ void APlayerUI::UIImageRender()
         StoreItemPrice->SetActive(false);
         AllStoreItemPrice.push_back(StoreItemPrice);
     }
-    
+
     CurText = GetWorld()->SpawnActor<AGold>();
     CurText->SetTextSpriteName("Item.png");
     CurText->SetOrder(ERenderOrder::ExplainTextBox);
@@ -469,7 +472,7 @@ void APlayerUI::ShopItemLists()
         ++StartIndex;
         return;
     }
-    if (AllStoreColumns[StartIndex+3]->GetName() == "END")
+    if (AllStoreColumns[StartIndex + 3]->GetName() == "END")
     {
         --StartIndex;
         return;
@@ -485,7 +488,7 @@ void APlayerUI::ShopItemLists()
 
     }
 
-    FVector2D StartLocation = { Size.Half().iX()+1, 108 };
+    FVector2D StartLocation = { Size.Half().iX() + 1, 108 };
     FVector2D InterLocation = { 0, 99 };
     for (__int64 i = 0; i < 4; i++)
     {
@@ -497,7 +500,7 @@ void APlayerUI::ShopItemLists()
             AllStoreColumns[StartIndex + i]->SetActive(true);
 
         }
-        if ( IsOpenStore == 0)
+        if (IsOpenStore == 0)
         {
             AllStoreColumns[StartIndex + i]->SetActive(false);
 
@@ -704,8 +707,8 @@ void APlayerUI::StoreInvenCheck()
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     AStoreGameMode* StoreGameMode = Player->GetWorld()->GetGameMode<AStoreGameMode>();
-    
-    if(nullptr == StoreGameMode)
+
+    if (nullptr == StoreGameMode)
     {
         return;
     }
@@ -1015,7 +1018,7 @@ void APlayerUI::SlotItemChange()
                 AllSlots[y][i]->SetIsSelectedItem(0);
             }
 
-            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose )
+            if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
             {
                 IsChoose = false;
                 std::string SelectedName = SelectedItem->GetSelectedItemName();
@@ -1044,7 +1047,7 @@ void APlayerUI::SlotItemChange()
 
             }
 
-            if (true == AllSlots[y][i]->IsEqualItem  && true == IsChoose )
+            if (true == AllSlots[y][i]->IsEqualItem && true == IsChoose)
             {
                 std::string a = AllSlots[y][i]->GetName();
                 std::string b = SelectedItem->GetName();
@@ -1119,9 +1122,11 @@ void APlayerUI::BuyStoreItem()
                 SelectedItem->SetName(SelectedName);
                 BuyItemCount = 1;
                 SelectedItem->SetPrice(SelectedItem->GetName());
+
                 int Price = SelectedItem->GetPrice();
                 int CurGold = Player->GetGold();
                 int Purchase = CurGold - Price;
+
                 Player->SetGold(Purchase);
 
                 if (ItemCount > 1)
@@ -1136,7 +1141,7 @@ void APlayerUI::BuyStoreItem()
 
         }
 
-        if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr )
+        if (AllStoreColumns[i]->GetIsSelectedItem() == 1 && SelectedItem != nullptr)
         {
             SellItem->SetPrice(AllStoreColumns[i]->GetName());
             int ItemPrice = SellItem->GetPrice();
@@ -1164,7 +1169,7 @@ void APlayerUI::BuyStoreItem()
             }
 
         }
-        
+
     }
 
 }
@@ -1196,7 +1201,7 @@ void APlayerUI::SellStoreItem()
             AllSlots[SellSlotYNum][SellSlotXNum]->CountTextDestroy();
 
             SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
-            int Price = (SellItem->GetPrice())/2;
+            int Price = (SellItem->GetPrice()) / 2;
             int CurGold = Player->GetGold();
             int Sell = CurGold + Price;
             Player->SetGold(Sell);
@@ -1234,7 +1239,7 @@ void APlayerUI::ItemExplainText()
 {
     FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
 
-    if (true == IsInventoryEnter )
+    if (true == IsInventoryEnter)
     {
         std::string Name = Cursor->GetSlotName();
         if (Name != "EmptySlot")
@@ -1320,7 +1325,7 @@ float APlayerUI::ItemExplain(std::string _Name)
 
     float Scale = ExplianBoxScaleY + 25 * Text3->GetTextOverCount();
 
-    TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().X, Scale});
+    TextBoxMid->SetComponentScale({ TextBoxMid->GetScale().X, Scale });
     return Scale;
 }
 
@@ -1429,3 +1434,14 @@ bool APlayerUI::CulcolumsCheck()
     return false;
 }
 
+void APlayerUI::Copy(APlayerUI* _Value)
+{
+    for (size_t y = 0; y < AllSlots.size(); y++)
+    {
+        for (size_t x = 0; x < AllSlots[y].size(); x++)
+        {
+            AllSlots[y][x]->Copy(_Value->AllSlots[y][x]);
+        }
+    }
+
+}

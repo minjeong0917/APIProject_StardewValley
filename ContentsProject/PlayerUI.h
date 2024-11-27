@@ -109,8 +109,8 @@ private:
 
     AGold* StoreGoldText = nullptr;
 
-    std::string Text2Explain = "NONE";
-    std::string Text3Explain = "NONE";
+    static std::string Text2Explain;
+    static std::string Text3Explain;
 
 
     AGold* DayText = nullptr;
@@ -146,7 +146,7 @@ private:
     int SellSlotXNum = 0;
     FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
-    
+
     int StartIndex = 0;
     int BuyItemCount = 0;
     float AnimationDuration = 0.0f;
@@ -155,5 +155,7 @@ private:
     float TextBoxScale = 0;
     bool IsChoose = false;
     bool IsShopChoose = false;
+
+    void Copy(APlayerUI* _Slot);
 };
 

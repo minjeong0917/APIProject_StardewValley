@@ -30,7 +30,7 @@ ASlot::ASlot()
 		DebugOn();
 	}
 
-	
+
 	CollisionComponent->SetCollisionStay(std::bind(&ASlot::CollisionStay, this, std::placeholders::_1));
 	CollisionComponent->SetCollisionEnd(std::bind(&ASlot::CollisionEnd, this, std::placeholders::_1));
 	CollisionComponent->SetCollisionEnter(std::bind(&ASlot::CollisionEnter, this, std::placeholders::_1));
@@ -58,7 +58,7 @@ void ASlot::CollisionStay(AActor* _ColActor)
 	}
 	else if (this->GetName() != "EmptySlot" && IsSelectedItem != 1)
 	{
-		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) )
+		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 		{
 			SelectedItemName = GetName();
 			SelectedItemSpriteName = GetItemSpriteName();
@@ -79,7 +79,7 @@ void ASlot::CollisionStay(AActor* _ColActor)
 	{
 		IsEqualItem = false;
 	}
-	if (this->GetName() != "EmptySlot"&&true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+	if (this->GetName() != "EmptySlot" && true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 	{
 		IsEqualItem = true;
 
@@ -104,7 +104,7 @@ void ASlot::CollisionEnter(AActor* _ColActor)
 	{
 		//if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON))
 		//{
-			IsSell = true;
+		IsSell = true;
 		//}
 	}
 
@@ -143,9 +143,6 @@ void ASlot::CollisionDestroy()
 {
 	CollisionComponent->Destroy();
 }
-
-
-
 
 void ASlot::SetSprite(std::string _SprtieName, int _SpriteIndex)
 {
@@ -194,8 +191,21 @@ void ASlot::SetTextLocation(FVector2D _Location)
 
 void ASlot::SaveItemInfo(std::string _SpriteName, int _Index, FVector2D _Scale)
 {
-	ItemIndex = _Index;
 	ItemSpriteName = _SpriteName;
+	ItemIndex = _Index;
 	ItemScale = _Scale;
 }
 
+
+void ASlot::Copy(ASlot* _Slot)
+{
+	SetName(_Slot->GetName());
+	SaveItemInfo(_Slot->ItemSpriteName, _Slot->ItemIndex, _Slot->ItemScale);
+	if (nullptr != _Slot->SlotSpriteRenderer->GetSprite())
+	{
+		SetSprite(_Slot->SlotSpriteRenderer->GetCurSpriteName(), _Slot->SlotSpriteRenderer->GetCurIndex());
+		SetScale(_Slot->ItemScale);
+	}
+	SetSlotItemCount(_Slot->SlotItemCount);
+
+}	
