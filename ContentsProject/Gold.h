@@ -33,6 +33,7 @@ public:
 
 	void SetValue(int _Gold, float _inter);
 	void SetText(std::string _Text);
+	void SetText2(std::string _Text);
 
 	int GetTextOverCount()
 	{

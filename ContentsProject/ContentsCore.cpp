@@ -163,6 +163,7 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("Item.png", { 13, 15 });
             UImageManager::GetInst().CuttingSprite("Week.png", { 81, 33 });
             UImageManager::GetInst().CuttingSprite("Alphabet.png", { 33, 39 });
+            UImageManager::GetInst().CuttingSprite("AlphabetBold.png", { 8, 16 });
 
         }
         // ------------------------------- [ Item & Tools ] -------------------------------------------

@@ -279,15 +279,15 @@ void APlayerUI::UIImageRender()
         StoreItem->SetActive(false);
         AllStoreItem.push_back(StoreItem);
     }
-    StartLocation = { 250, 112 };
+    StartLocation = { 240, 112 };
 
     for (float i = 0; i < 4; i++)
     {
         AGold* StoreItemName = GetWorld()->SpawnActor<AGold>();
         StoreItemName->SetActorLocation(StartLocation + (InterLocation * i));
-        StoreItemName->SetTextSpriteName("Alphabet.png");
+        StoreItemName->SetTextSpriteName("AlphabetBold.png");
         StoreItemName->SetOrder(ERenderOrder::SLOTFont);
-        StoreItemName->SetTextScale({ 27, 31 });
+        StoreItemName->SetTextScale({ 24, 48 });
         StoreItemName->SetActive(false);
         AllStoreItemName.push_back(StoreItemName);
     }
@@ -478,7 +478,7 @@ void APlayerUI::ShopItemLists()
     for (size_t i = 0; i < 4; i++)
     {
         AllStoreItem[i]->SetSprite(AllStoreColumns[StartIndex + i]->GetItemSpriteName(), AllStoreColumns[StartIndex + i]->GetItemIndex(), 3.5f);
-        AllStoreItemName[i]->SetText(AllStoreColumns[StartIndex + i]->GetName());
+        AllStoreItemName[i]->SetText2(AllStoreColumns[StartIndex + i]->GetName());
         SellItem->SetPrice(AllStoreColumns[StartIndex + i]->GetName());
         int Price = SellItem->GetPrice();
         AllStoreItemPrice[i]->SetValue(Price, 1.3f);

@@ -141,3 +141,70 @@ void AGold::SetText(std::string _Text)
 
     TextOverCount = IsTextOver;
 }
+
+void AGold::SetText2(std::string _Text)
+{
+    int IsTextOver = 1;
+    if (Renders.size() <= _Text.size())
+    {
+        for (size_t i = 0; i < _Text.size() - Renders.size(); i++)
+        {
+            Renders.push_back(Sprite);
+        }
+        return;
+    }
+
+    FVector2D Pos = FVector2D::ZERO;
+
+    for (int i = 0; i < _Text.size(); i++)
+    {
+        char Value = _Text[i] - 'A'+1;
+
+        if (Value <= -20)
+        {
+            Value = 29;
+        }
+        else if (Value > -20 && Value < 0)
+        {
+            Value = 26;
+        }
+
+        Renders[i]->SetSprite(TextSpriteName, Value);
+        Renders[i]->SetComponentScale(TextScale);
+        Renders[i]->SetComponentLocation(Pos);
+
+        if (Value == 'm' - 'A')
+        {
+            Pos.X += static_cast<float>(TextScale.X);
+        }
+        else if (Value > 27)
+        {
+            Pos.X += static_cast<float>(TextScale.X );
+        }
+        else if (Value == 26)
+        {
+            Pos.X += static_cast<float>(TextScale.X - 20.0f);
+        }
+        else
+        {
+            Pos.X += static_cast<float>(TextScale.X);
+        }
+
+        if (Pos.X > 245 && Value == 29)
+        {
+
+            Pos.X = 5;
+            Pos.Y += TextScale.Y;
+            IsTextOver += 1;
+        }
+
+        Renders[i]->SetActive(true);
+    }
+
+    for (size_t i = _Text.size(); i < Renders.size(); i++)
+    {
+        Renders[i]->SetActive(false);
+    }
+
+    TextOverCount = IsTextOver;
+}
