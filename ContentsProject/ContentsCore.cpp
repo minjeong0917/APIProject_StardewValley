@@ -40,7 +40,7 @@ void ContentsCore::BeginPlay()
     UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
     UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
     UEngineAPICore::GetCore()->CreateLevel<AStoreGameMode, APlayer>("Store");
-    UEngineAPICore::GetCore()->OpenLevel("Store");
+    UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 
 void ContentsCore::Tick()

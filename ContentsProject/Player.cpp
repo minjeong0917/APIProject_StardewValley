@@ -157,14 +157,14 @@ void APlayer::TileAlphaCheck(std::string _TileName)
 
 void APlayer::LevelChangeCheck()
 {
-    if (true == UEngineInput::GetInst().IsDown('R'))
-    {
-        UEngineAPICore::GetCore()->OpenLevel("Title");
-    }
-    if (true == UEngineInput::GetInst().IsDown('T'))
-    {
-        UEngineAPICore::GetCore()->OpenLevel("Town");
-    }
+    //if (true == UEngineInput::GetInst().IsDown('R'))
+    //{
+    //    UEngineAPICore::GetCore()->OpenLevel("Title");
+    //}
+    //if (true == UEngineInput::GetInst().IsDown('T'))
+    //{
+    //    UEngineAPICore::GetCore()->OpenLevel("Town");
+    //}
 
 }
 

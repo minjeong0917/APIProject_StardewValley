@@ -64,6 +64,10 @@ void AFarmGameMode::BeginPlay()
 
 void AFarmGameMode::Tick(float _DeltaTime)
 {
+    if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
+    {
+        UEngineAPICore::GetCore()->OpenLevel("Town");
+    }
     Super::Tick(_DeltaTime);
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetColImage("farm_col.png");

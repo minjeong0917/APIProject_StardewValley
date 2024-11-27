@@ -172,6 +172,11 @@ void ATitleGameMode::Tick(float _DeltaTime)
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Farm");
 	}
+
+	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Farm");
+	}
 }
 
 void ATitleGameMode::UIMove(ATitleLogo* _ATitleLogo, float _DeltaTime, FVector2D Pos)
