@@ -44,7 +44,7 @@ void AUI::CollisionEnter(AActor* _ColActor)
 {
 	IsCollisionEnter = true;
 	IsCollisionEnd = false;
-
+	IsClick = true;
 }
 
 void AUI::CollisionEnd(AActor* _ColActor)
@@ -59,10 +59,7 @@ void AUI::CollisionStay(AActor* _ColActor)
 {
 	IsCollisionStay = true;
 
-	if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
-	{
-		IsClick = true;
-	}
+
 
 }
 

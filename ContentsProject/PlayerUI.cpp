@@ -193,6 +193,24 @@ void APlayerUI::UIImageRender()
     StoreBox->SetActive(false);
     StoreBox->SetActorLocation({ Size.Half().X , Size.Half().Y - 90 });
 
+    UpArrow = GetWorld()->SpawnActor<AUI>();
+    UpArrow->SetComponentScale({ 11 * 4.f,12 * 4.f });
+    UpArrow->SetCollisionComponentScale({ 11 * 4.f,12 * 4.f });
+    UpArrow->SetCollisionComponentLocation({ 0.0f , 0.0f });
+    UpArrow->SetSprite("Up.png", 0, 4.f);
+    UpArrow->SetOrder(ERenderOrder::SLOT);
+    UpArrow->SetActive(false);
+    UpArrow->SetActorLocation({ Size.X - 80.f ,120.f });
+
+    DownArrow = GetWorld()->SpawnActor<AUI>();
+    DownArrow->SetComponentScale({ 11 * 4.f, 12 * 4.f });
+    DownArrow->SetCollisionComponentScale({ 11 * 4.f,12 * 4.f });
+    DownArrow->SetCollisionComponentLocation({ 0.0f , 0.0f });
+    DownArrow->SetSprite("Down.png", 0, 4.f);
+    DownArrow->SetOrder(ERenderOrder::SLOT);
+    DownArrow->SetActive(false);
+    DownArrow->SetActorLocation({ Size.X - 80.f ,Size.Y - 120.f });
+
     Text = GetWorld()->SpawnActor<AGold>();
     Text2 = GetWorld()->SpawnActor<AGold>();
     Text3 = GetWorld()->SpawnActor<AGold>();
@@ -233,7 +251,7 @@ void APlayerUI::UIImageRender()
     StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
     StoreExitButton->SetSprite("ExitButton.png", 0, 3.5f);
     StoreExitButton->SetOrder(ERenderOrder::GLODTEXT);
-    StoreExitButton->SetActorLocation({ Size.X - 100 , 50.f });
+    StoreExitButton->SetActorLocation({ Size.X - 95 , 50.f });
     StoreExitButton->SetCollisionComponentLocation({ 0.0f , 0.0f });
     StoreExitButton->SetActive(false);
 
@@ -461,11 +479,11 @@ void APlayerUI::ShopItemLists()
 
     }
 
-    if (true == UEngineInput::GetInst().IsDown('L'))
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && true == DownArrow->GetIsClick())
     {
         ++StartIndex;
     }
-    if (true == UEngineInput::GetInst().IsDown('K'))
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && true == UpArrow->GetIsClick())
     {
         --StartIndex;
     }
@@ -716,7 +734,7 @@ void APlayerUI::StoreInvenCheck()
         return;
     }
 
-    if ((/*true == UEngineInput::GetInst().IsDown('E') ||*/ true == StoreExitButton->GetIsClick()) && IsOpenStore == 1)
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && true == StoreExitButton->GetIsClick() && IsOpenStore == 1 && false == IsChoose)
     {
         Player->IsOpenIven = false;
         Player->IsButtonClick = false;
@@ -726,6 +744,8 @@ void APlayerUI::StoreInvenCheck()
         StoreBox->SetActive(false);
         Fade->SetActive(false);
         StoreGoldText->SetActive(false);
+        UpArrow->SetActive(false);
+        DownArrow->SetActive(false);
 
         StoreExitButton->SetActive(false);
         StoreExitButton->SetCollisionActive(false);
@@ -784,6 +804,9 @@ void APlayerUI::StoreInvenCheck()
 
         StoreInven->SetActive(true);
         StoreBox->SetActive(true);
+        UpArrow->SetActive(true);
+        DownArrow->SetActive(true);
+        
         Fade->SetActive(true);
         StoreGoldText->SetActive(true);
         StoreExitButton->SetActive(true);

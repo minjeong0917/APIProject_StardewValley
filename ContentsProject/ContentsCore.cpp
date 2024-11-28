@@ -135,6 +135,8 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("StoreBox.png", { 300, 170 });
             UImageManager::GetInst().CuttingSprite("ExitButton.png", { 12, 12 });
             UImageManager::GetInst().CuttingSprite("CurStoreColumn.png", { 294, 28 });
+            UImageManager::GetInst().CuttingSprite("Up.png", { 11, 12 });
+            UImageManager::GetInst().CuttingSprite("Down.png", { 11, 12 });
 
 
         }

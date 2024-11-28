@@ -101,6 +101,8 @@ private:
     AUI* StoreBox = nullptr;
     AUI* Tools = nullptr;
     AUI* StoreExitButton = nullptr;
+    AUI* UpArrow = nullptr;
+    AUI* DownArrow = nullptr;
 
 
     AFade* Fade = nullptr;
