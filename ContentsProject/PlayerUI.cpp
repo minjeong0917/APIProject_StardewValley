@@ -643,6 +643,8 @@ void APlayerUI::InventoryCheck()
     // 인벤토리 닫기
     if (true == UEngineInput::GetInst().IsDown('E') && IsOpenIven == 1)
     {
+        BGMPlayer = UEngineSound::Play("InvenClose.wav");
+
         Player->IsOpenIven = false;
 
         --IsOpenIven;
@@ -680,6 +682,7 @@ void APlayerUI::InventoryCheck()
     // 인벤토리 열기
     else if (true == UEngineInput::GetInst().IsDown('E') && IsOpenStore != 1)
     {
+        BGMPlayer = UEngineSound::Play("InvenOpen.wav");
         Player->IsOpenIven = true;
 
         Inventory->SetActive(true);
@@ -887,6 +890,8 @@ void APlayerUI::DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::
 void APlayerUI::AddItem(AItem* _Item)
 {
     bool IsOver = _Item->ItemTypeCheck(_Item->GetItemType());
+    BGMPlayer = UEngineSound::Play("AddItem.wav");
+
     _Item->Destroy();
     SlotCheck(_Item, _Item->GetItemName(), _Item->GetItemSpriteName(), _Item->GetItemIndex(), IsOver);
 }
@@ -1465,6 +1470,7 @@ void APlayerUI::SetCurSlot()
     {
         if (true == UEngineInput::GetInst().IsDown(i + Key))
         {
+            BGMPlayer = UEngineSound::Play("toolSwap.wav");
             CurSlotNum = i;
             CurSlot->SetActorLocation(AllSlots[0][i]->GetActorLocation());
             return;
@@ -1473,16 +1479,22 @@ void APlayerUI::SetCurSlot()
 
     if (true == UEngineInput::GetInst().IsDown('0'))
     {
+        BGMPlayer = UEngineSound::Play("toolSwap.wav");
+
         CurSlotNum = 9;
         CurSlot->SetActorLocation(AllSlots[0][9]->GetActorLocation());
     }
     if (true == UEngineInput::GetInst().IsDown(VK_OEM_MINUS))
     {
+        BGMPlayer = UEngineSound::Play("toolSwap.wav");
+
         CurSlotNum = 10;
         CurSlot->SetActorLocation(AllSlots[0][10]->GetActorLocation());
     }
     if (true == UEngineInput::GetInst().IsDown(VK_OEM_PLUS))
     {
+        BGMPlayer = UEngineSound::Play("toolSwap.wav");
+
         CurSlotNum = 11;
         CurSlot->SetActorLocation(AllSlots[0][11]->GetActorLocation());
     }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
 
 #include "Cursor.h"
 #include "Time.h"
@@ -56,6 +57,8 @@ protected:
     void Tick(float _DeltaTime);
 
 private:
+
+    USoundPlayer BGMPlayer;
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
     float ItemExplain(std::string _Name);

@@ -33,7 +33,7 @@ ATitleGameMode::~ATitleGameMode()
 void ATitleGameMode::BeginPlay()
 {
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
+	BGMPlayer = UEngineSound::Play("Tilte.wav");
 	Super::BeginPlay();
 
 	Cursor = GetWorld()->SpawnActor<ACursor>();
@@ -93,6 +93,7 @@ void ATitleGameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Farm");
+		UEngineSound::AllSoundOff();
 	}
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
@@ -162,12 +163,19 @@ void ATitleGameMode::Tick(float _DeltaTime)
 
 	if (true == NewButton->GetIsCollisionEnter())
 	{
+		if (IsPlayOnce == false)
+		{
+			BGMPlayer = UEngineSound::Play("TitleButtonHover.wav");
+			IsPlayOnce = true;
+
+		}
 		NewButton->SetSprite("NewButtonHover.png", 0);
 		NewButton->SetScale(1.6f);
 	}
 
 	if (true == NewButton->GetIsCollisionEnd())
 	{
+		IsPlayOnce = false;
 		NewButton->SetSprite("NewButton.png", 0);
 		NewButton->SetScale(1.5f);
 	}
@@ -175,6 +183,7 @@ void ATitleGameMode::Tick(float _DeltaTime)
 	if (true == NewButton->GetIsClick())
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Farm");
+		UEngineSound::AllSoundOff();
 	}
 
 

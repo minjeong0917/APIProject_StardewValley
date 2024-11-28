@@ -140,11 +140,13 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             if (Player->IsMouseInPlayerPos == true && GetFarmTileSpriteName(MouseLocation) == "NONE")
             {
                 FarmTileMap->SetTileLocation("Dirt.png", MouseLocation, 0);
+                BGMPlayer = UEngineSound::Play("hoeHit.wav");
             }
             else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "NONE")
             {
 
                 FarmTileMap->SetTileLocation("Dirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+                BGMPlayer = UEngineSound::Play("hoeHit.wav");
             }
         }
 
@@ -154,11 +156,13 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
             if (Player->IsMouseInPlayerPos == true && GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG")
             {
+                BGMPlayer = UEngineSound::Play("WateringCan.wav");
+
                 FarmTileMap->SetTileLocation("WetDirt.png", MouseLocation, 0);
             }
             else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "DIRT.PNG")
             {
-                FarmTileMap->SetTileLocation("WetDirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+                FarmTileMap->SetTileLocation("WateringCan.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
         }
 
@@ -248,6 +252,7 @@ void AFarmGameMode::TileDestroyLocation()
             if (GetFarmTileSpriteName(MouseLocation) == "TREETILE"   && Player->IsMouseInPlayerPos == true)
             {
 
+                BGMPlayer = UEngineSound::Play("Axe.wav");
                 TileDestroy(FarmTileMap, FarmMousePoint);
                 ItemDrop("Wood", "Items.png", MouseLocation, Player->GetActorLocation(), 941, 3.0f);
 
@@ -255,6 +260,8 @@ void AFarmGameMode::TileDestroyLocation()
             }
             else if (GetFarmTileSpriteName(TileLocation) == "TREETILE")
             {
+                BGMPlayer = UEngineSound::Play("Axe.wav");
+
                 TileDestroy(FarmTileMap, FarmCurTileLocation);
                 ItemDrop("Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
             }
@@ -348,6 +355,7 @@ void AFarmGameMode::TileDestroy(ATileMap* _TileMap, FIntPoint _Location)
 
 void AFarmGameMode::UseItem()
 {
+    BGMPlayer = UEngineSound::Play("DirtyHit.wav");
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->UseItem();
 }

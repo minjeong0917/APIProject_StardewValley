@@ -68,7 +68,6 @@ void APlayer::BeginPlay()
 void APlayer::Tick(float _DeltaTime)
 {
 
-
     Super::Tick(_DeltaTime);
 
     SpriteRenderer->SetOrder(GetActorLocation().Y - 2);
@@ -245,7 +244,6 @@ FVector2D APlayer::PlayerMoveDir()
         // 상하좌우 이동
         if (true == UEngineInput::GetInst().IsPress('D'))
         {
-
             IsPlayerMove = true;
             Vector = FVector2D::RIGHT;
 
@@ -315,8 +313,21 @@ void APlayer::UseItem()
 
 void APlayer::PlayerMove(float _DeltaTime)
 {
-    if (true == ColorCheck && true == TileCheck && false == IsOpenIven)
+    if (true == IsPlayerMove && true == ColorCheck && true == TileCheck && false == IsOpenIven)
     {
+        if(IsPlayerMove)
+        {
+
+            Time += _DeltaTime;
+            if (Time >= 0.35)
+            {
+                BGMPlayerWalk = UEngineSound::Play("Walk.wav");
+                BGMPlayerWalk.SetVolume(0.55f);
+                Time = 0;
+            }
+        }
+
+
         AddActorLocation(PlayerMoveDir() * _DeltaTime * PlayerManager::GetInst().GetSpeed());
     }
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/GameMode.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "TileMap.h"
 #include "ContentsEnum.h"
 #include "Time.h"
@@ -52,6 +54,8 @@ private:
 
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
+
+	USoundPlayer BGMPlayer;
 
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;

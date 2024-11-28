@@ -5,6 +5,7 @@
 #include "UI.h"
 #include "TitleButton.h"
 #include "Cursor.h"
+#include <EnginePlatform/EngineSound.h>
 
 
 class ATitleGameMode : public AGameMode
@@ -51,7 +52,8 @@ private:
 	FVector2D Cloud2Pos = { 0,0 };
 	FVector2D Cloud3Pos = { 0,0 };
 	FVector2D LogoPos = { 0,0 };
-
+	USoundPlayer BGMPlayer;
+	bool IsPlayOnce = false;
 	bool IsArrive = false;
 
 };
