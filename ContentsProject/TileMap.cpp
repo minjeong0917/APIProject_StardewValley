@@ -147,6 +147,52 @@ void ATileMap::TileDestroy(FIntPoint _Index)
 
 }
 
+std::string ATileMap::GetTileSpriteName(FIntPoint _Index)
+{
+    std::string Name = AllTiles[_Index.Y][_Index.X].SpriteRenderer->GetCurSpriteName();
+    return Name;
+}
+
+int ATileMap::GetTileIndex(FIntPoint _Index)
+{
+    int Index = AllTiles[_Index.Y][_Index.X].SpriteIndex;
+    return Index;
+}
+
+int ATileMap::GetTileMaxIndex(FIntPoint _Index)
+{
+    int Index = AllTiles[_Index.Y][_Index.X].MaxSpriteIndex;
+    return Index;
+}
+
+float ATileMap::GetTileCurTime(FIntPoint _Index)
+{
+    float CurTime = AllTiles[_Index.Y][_Index.X].CurTime;
+    return CurTime;
+}
+
+
+void ATileMap::SetTileCurTime(FIntPoint _Index, float _Time)
+{
+    AllTiles[_Index.Y][_Index.X].CurTime = _Time;
+}
+
+float ATileMap::GetTileTime(FIntPoint _Index)
+{
+    return AllTiles[_Index.Y][_Index.X].Time;
+}
+
+void ATileMap::SetTileSprite(FIntPoint _Index, std::string _SpriteName, int _ItemIndex)
+{
+    AllTiles[_Index.Y][_Index.X].SpriteRenderer->SetSprite(_SpriteName, _ItemIndex);
+}
+
+void ATileMap::SetTileIndex(FIntPoint _Index, int _ItemIndex)
+{
+        AllTiles[_Index.Y][_Index.X].SpriteIndex = _ItemIndex;
+}
+
+
 void ATileMap::CropCheck(float _DeltaTime)
 {
     for (size_t y = 0; y < AllTiles.size(); y++)

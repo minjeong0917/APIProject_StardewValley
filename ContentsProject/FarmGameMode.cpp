@@ -62,6 +62,8 @@ void AFarmGameMode::BeginPlay()
     }
 }
 
+
+
 void AFarmGameMode::Tick(float _DeltaTime)
 {
     if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
@@ -85,8 +87,8 @@ void AFarmGameMode::Tick(float _DeltaTime)
         }
     }
 
-    CropTileMap->CropCheck(_DeltaTime * speed * 10);
-
+    //CropTileMap->CropCheck(_DeltaTime * speed * 10);
+    TileCropCheck(_DeltaTime * speed * 10, { 0,0 });
     TileChange();
 
     if (false == Player->IsPlayerMove && false == Player->GetIsEnter())
@@ -182,36 +184,49 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             {
                 CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
             if ("BeanStarter" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { 0, -50 }, { 70, 138 }, 0, true, 6);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
             if ("CauliflowerSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("Cauliflower.png", MousePoint, { 0, 0 }, { 70, 70 }, 0, true, 5);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
             }
             if ("PotatoSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("Potato.png", MousePoint, { 0, -20 }, { 70, 70 }, 0, true, 5);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
             if ("KaleSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("Kale.png", MousePoint, { 0, -15 }, { 70, 70 }, 0, true, 4);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
             if ("RhubarbSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("Rhubarb.png", MousePoint, { 0, -20 }, { 70, 70 }, 0, true, 5);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
             if ("GarlicSeed" == CurSlotName)
             {
                 CropTileMap->SetTileIndex("Garlic.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
                 UseItem();
+                CropTilePoint.push_back(MousePoint);
+
             }
         }
     }
@@ -222,6 +237,50 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         FarmTileMap->SetTileLocation("Dirt.png", MouseLocation, 0);
         CropTileMap->SetTileIndex("parsnip.png", MousePoint, { -3, -20 }, { 70, 70 }, 4, true, 4);
     }
+
+}
+
+void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
+{
+
+
+    for (size_t i = 0; i < CropTilePoint.size(); i++)
+    {
+
+        std::string Name = CropTileMap->GetTileSpriteName(CropTilePoint[i]);
+
+        int Index = CropTileMap->GetTileIndex(CropTilePoint[i]);
+        int MaxIndex = CropTileMap->GetTileMaxIndex(CropTilePoint[i]);
+
+
+        float CurTime = CropTileMap->GetTileCurTime(CropTilePoint[i]);
+        float Time = CropTileMap->GetTileTime(CropTilePoint[i]);
+        if (FarmTileMap->GetTileSpriteName(CropTilePoint[i]) == "WETDIRT.PNG")
+        {
+            CurTime += _DeltaTime;
+        }
+
+        CropTileMap->SetTileCurTime(CropTilePoint[i], CurTime);
+
+
+        if (CurTime > Time)
+        {
+            if (Index == MaxIndex)
+            {
+                return;
+            }
+
+            ++Index;
+            CropTileMap->SetTileIndex(CropTilePoint[i], Index);
+            CropTileMap->SetTileSprite(CropTilePoint[i], Name, Index);
+            CropTileMap->SetTileCurTime(CropTilePoint[i], 0);
+        }
+
+    }
+
+
+   
+
 
 }
 

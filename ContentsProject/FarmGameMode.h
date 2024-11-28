@@ -42,6 +42,8 @@ public:
 	void TileDestroyLocation();
 	void TileDestroy(ATileMap* _TileMap, FIntPoint _Location);
 	std::string DestroyItemName = "NONE";
+	void TileCropCheck(float _DeltaTime, FIntPoint _Index);
+
 
 protected:
 
@@ -54,7 +56,7 @@ private:
 	class AFarmMap* GroundTileMap = nullptr;
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
-
+	std::vector<FIntPoint> CropTilePoint;
 	USoundPlayer BGMPlayer;
 
 	AItem* TreeItem = nullptr;

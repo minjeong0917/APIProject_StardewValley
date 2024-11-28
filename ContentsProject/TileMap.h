@@ -63,10 +63,18 @@ public:
 	FIntPoint LocationToIndex(FVector2D _Location);
 
 	bool IsIndexOver(FIntPoint _Index);
+	float GetTileCurTime(FIntPoint _Index);
 
+	int GetTileMaxIndex(FIntPoint _Index);
+
+	void SetTileCurTime(FIntPoint _Index, float _Time);
+	float GetTileTime(FIntPoint _Index);
+	void SetTileSprite(FIntPoint _Index, std::string _SpriteName, int _ItemIndex);
+	void SetTileIndex(FIntPoint _Index, int _ItemIndex);
 
 	void CropCheck(float _DeltaTime);
-
+	std::string GetTileSpriteName(FIntPoint _Index);
+	int GetTileIndex(FIntPoint _Index);
 	FVector2D GetTileSize()
 	{
 		return TileSize;

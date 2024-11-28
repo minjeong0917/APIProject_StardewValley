@@ -81,6 +81,10 @@ public:
 
 	std::string GetCurSpriteName()
 	{
+		if (this == nullptr)
+		{
+			return "NONE";
+		}
 		return Sprite->GetName();
 	}
 
