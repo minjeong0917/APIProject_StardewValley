@@ -150,6 +150,13 @@ void ContentsCore::ReadySprite()
         {
             UEngineDirectory Dir;
             Dir.MoveParentToDirectory("Resources//Images");
+            Dir.Append("UI//ClockHand");
+            UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+
+        }
+        {
+            UEngineDirectory Dir;
+            Dir.MoveParentToDirectory("Resources//Images");
             Dir.Append("UI//Title");
             UImageManager::GetInst().CuttingSprite("Tree.png", { 1280, 383 });
             UImageManager::GetInst().CuttingSprite("Mountain1.png", { 1280, 296 });

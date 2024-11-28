@@ -37,7 +37,7 @@ void AFarmGameMode::BeginPlay()
     Player->SetTileMap(FarmTileMap);
     Player->SetTileMap(CropTileMap);
 
-    AFarmMap* GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
+    GroundTileMap = GetWorld()->SpawnActor<AFarmMap>();
 
     Player->SetActorLocation({ 3700, 1050 });
 
@@ -97,6 +97,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     GetFarmTileSpriteName(Player->GetActorLocation());
     GetCropTileSpriteName(Player->GetActorLocation());
+
 
 }
 

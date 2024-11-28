@@ -15,7 +15,7 @@
 class APlayer : public AActor
 {
 public:
-	//friend class AFarmGameMode;
+	friend class AFarmGameMode;
 	//friend class APlayerUI;
 	// constrcuter destructer
 	APlayer();
@@ -95,6 +95,7 @@ public:
 		return IsEnter;
 	}
 	bool IsButtonClick = false;
+
 
 protected:
 

@@ -42,6 +42,10 @@ void APlayerUI::UIImageRender()
     AClock* Clock = GetWorld()->SpawnActor<AClock>();
     Clock->SetActorLocation({ Size.iX() - 154, 128 });
 
+    ClockHand = GetWorld()->SpawnActor<AUI>();
+    ClockHand->SetActorLocation({ Size.iX() - 154, 128 });
+
+
     // Gold
     Gold = GetWorld()->SpawnActor<AGold>();
     Gold->SetActorLocation({ Size.iX() - 54 , 218 });
@@ -238,6 +242,11 @@ void APlayerUI::UIImageRender()
     Fade->SetOrder(ERenderOrder::Black);
     Fade->SetActive(false);
     Fade->SetAlphaChar(150);
+
+    Night = GetWorld()->SpawnActor<AFade>();
+    //Night->SetSprite("Night.png");
+    Night->SetOrder(ERenderOrder::Night);
+
 
     StoreGoldText = GetWorld()->SpawnActor<AGold>();
     StoreGoldText->SetActorLocation({ 355.f , Size.Y - 196.f });
@@ -466,6 +475,25 @@ void APlayerUI::Tick(float _DeltaTime)
 
 
     StoreGoldText->SetValue(PlayerManager::GetInst().GetGold(), 4.3f);
+
+
+    if (6 <= Min && 18 >= Min)
+    {
+        NightTime = 0;
+    }
+    if (18 <= Min && 26 >= Min)
+    {
+        Night->SetActive(true);
+
+        NightTime += _DeltaTime * MinTime->GetTimeSpeed() * 0.05;
+
+    }
+    if (NightTime > 100)
+    {
+        int a = 0;
+    }
+    Night->SetAlphaChar(NightTime);
+    ClockHand->SetSprite("ClockHand", Min-6, 4.0f);
 }
 
 

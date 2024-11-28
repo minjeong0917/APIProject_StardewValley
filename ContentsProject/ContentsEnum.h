@@ -10,6 +10,7 @@ enum class ERenderOrder
 	TitleUI1 = -2,
 	LOGO = -1,
 	PLAYER = 0,
+	Night = 9998,
 	TOOLSANIMATION = 9999,
 	UI = 10000,
 	UIFont = 10001,

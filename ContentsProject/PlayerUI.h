@@ -51,6 +51,11 @@ public:
         return IsInventoryEnter;
     }
 
+    int GetMin()
+    {
+        return Min;
+    }
+
 protected:
     void BeginPlay();
 
@@ -106,9 +111,12 @@ private:
     AUI* StoreExitButton = nullptr;
     AUI* UpArrow = nullptr;
     AUI* DownArrow = nullptr;
+    AUI* ClockHand = nullptr;
+
 
 
     AFade* Fade = nullptr;
+    AFade* Night = nullptr;
 
     ATime* MinTime = nullptr;
     ATime* HourTime = nullptr;
@@ -157,6 +165,7 @@ private:
     int CurSlotNum = 1;
     int SellSlotYNum = 0;
     int SellSlotXNum = 0;
+    float NightTime = 0;
     FVector2D TextLocation = { 0,0 };
     bool IsSelected = false;
 

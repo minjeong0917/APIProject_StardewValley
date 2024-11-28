@@ -20,7 +20,10 @@ AFade::AFade()
 AFade::~AFade()
 {
 }
-
+void AFade::SetSprite(std::string _SpriteName)
+{
+	BackSpriteRenderer->SetSprite(_SpriteName);
+}
 void AFade::SetOrder(ERenderOrder _Order)
 {
 	BackSpriteRenderer->SetOrder(_Order);

@@ -51,7 +51,7 @@ private:
 	void ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
 	
 	FVector2D PlayerDirToTileMap(ATileMap* _TileMap);
-
+	class AFarmMap* GroundTileMap = nullptr;
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
 
@@ -59,7 +59,7 @@ private:
 
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;
-	ATileMap* GroundTileMap = nullptr;
+	//ATileMap* GroundTileMap = nullptr;
 	AItem* Item = nullptr;
 	ATime* Time = nullptr;
 	int speed = 1;

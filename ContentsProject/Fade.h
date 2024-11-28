@@ -24,6 +24,7 @@ public:
 	void FadeOut();
 	void SetOrder(ERenderOrder _Order);
 	void SetAlphaChar(float _Alpha);
+	void SetSprite(std::string _SpriteName);
 
 protected:
 
