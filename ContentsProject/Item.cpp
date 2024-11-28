@@ -133,12 +133,12 @@ EItemType AItem::SetItemType(std::string _ItemName)
 		Item = EItemType::Wood;
 		return Item;
 	}
-	else if ("ParsnipSeed" == _ItemName||"BeanStarter" == _ItemName)
+	else if ("ParsnipSeed" == _ItemName||"BeanStarter" == _ItemName || "CauliflowerSeed" == _ItemName || "PotatoSeed" == _ItemName || "KaleSeed" == _ItemName || "RhubarbSeed" == _ItemName || "GarlicSeed" == _ItemName)
 	{
-		Item = EItemType::Crop;
+		Item = EItemType::Seed;
 		return Item;
 	}
-	else if ("parsnip" == _ItemName)
+	else if ("parsnip" == _ItemName || "GreenBean" == _ItemName || "Cauliflower" == _ItemName || "Potato" == _ItemName || "Kale" == _ItemName || "Rhubarb" == _ItemName || "Garlic" == _ItemName)
 	{
 		Item = EItemType::Crop;
 		return Item;

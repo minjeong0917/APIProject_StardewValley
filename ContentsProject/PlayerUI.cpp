@@ -1178,15 +1178,40 @@ void APlayerUI::BuyStoreItem()
 
 void APlayerUI::SellStoreItem()
 {
-    EItemType Type = CurItem->SetItemType(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+    EItemType Type = SellItem->SetItemType(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     if (true == SellClickCheck())
     {
-        if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == CurItem->ItemTypeCheck(Type))
+        if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == SellItem->ItemTypeCheck(Type))
         {
             int Count = AllSlots[SellSlotYNum][SellSlotXNum]->GetSlotItemCount();
+            if (Count == 0)
+            {
+                return;
+            }
             Count -= 1;
+
+
+            if (Type == EItemType::Seed)
+            {
+                SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+                int Price = (SellItem->GetPrice()) / 2;
+                int CurGold = PlayerManager::GetInst().GetGold();
+                int Sell = CurGold + Price;
+                PlayerManager::GetInst().SetGold(Sell);
+            }
+
+            if (Type == EItemType::Crop)
+            {
+                std::string Name = AllSlots[SellSlotYNum][SellSlotXNum]->GetName();
+                SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
+                int Price = (SellItem->GetPrice());
+                int CurGold = PlayerManager::GetInst().GetGold();
+                int Sell = CurGold + Price;
+                PlayerManager::GetInst().SetGold(Sell);
+            }
+
             if (Count == 0)
             {
                 AllSlots[SellSlotYNum][SellSlotXNum]->SetSprite("Slot.png", 0);
@@ -1194,23 +1219,17 @@ void APlayerUI::SellStoreItem()
                 AllSlots[SellSlotYNum][SellSlotXNum]->SetName("EmptySlot");
                 AllSlots[SellSlotYNum][SellSlotXNum]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
 
-                return;
-
             }
 
             AllSlots[SellSlotYNum][SellSlotXNum]->SetSlotItemCount(Count);
             AllSlots[SellSlotYNum][SellSlotXNum]->CountTextDestroy();
 
-            SellItem->SetPrice(AllSlots[SellSlotYNum][SellSlotXNum]->GetName());
-            int Price = (SellItem->GetPrice()) / 2;
-            int CurGold = PlayerManager::GetInst().GetGold();
-            int Sell = CurGold + Price;
-            PlayerManager::GetInst().SetGold(Sell);
 
             if (Count > 1)
             {
                 AllSlots[SellSlotYNum][SellSlotXNum]->CountText();
             }
+
         }
 
     }
@@ -1319,7 +1338,36 @@ float APlayerUI::ItemExplain(std::string _Name)
         Text2Explain = "Tool";
         Text3Explain = "Used to water crops. It can be refilled at any water source.";
     }
-
+    else if (_Name == "Parsnip")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "A spring tuber closely related to the carrot. It has an earthy taste and is full of nutrients.";
+    }
+    else if (_Name == "Cauliflower")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "Valuable, but slow-growing. Despite its pale color, the florets are packed with nutrients. Cauliflower can become a Giant Crop.";
+    }
+    else if (_Name == "GreenBean")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "A juicy little bean with a cool, crisp snap. This crop uses a trellis, and continues to produce after maturity.";
+    }
+    else if (_Name == "Kale")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "The waxy leaves are great in soups and stir fries.";
+    }
+    else if (_Name == "Potato")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "A widely cultivated tuber.";
+    }
+    else if (_Name == "Rhubarb")
+    {
+        Text2Explain = "Crop";
+        Text3Explain = "The stalks are extremely tart, but make a great dessert when sweetened.";
+    }
 
     Text2->SetText(Text2Explain);
     Text3->SetText(Text3Explain);

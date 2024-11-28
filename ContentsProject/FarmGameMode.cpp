@@ -162,7 +162,16 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             }
         }
 
-        if (GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" || GetFarmTileSpriteName(MouseLocation) == "WETDIRT.PNG") && true == Player->IsMouseInPlayerPos)
+        if ((GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" || 
+            GetCropTileSpriteName(MouseLocation) != "GREENBEAN.PNG" ||
+            GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" || 
+            GetCropTileSpriteName(MouseLocation) != "CAULIFLOWER.PNG" || 
+            GetCropTileSpriteName(MouseLocation) != "POTATO.PNG" || 
+            GetCropTileSpriteName(MouseLocation) != "KALE.PNG" ||
+            GetCropTileSpriteName(MouseLocation) != "RHUBARB.PNG" ||
+            GetCropTileSpriteName(MouseLocation) != "GARLIC.PNG")&&
+            (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" || GetFarmTileSpriteName(MouseLocation) == "WETDIRT.PNG")
+            && true == Player->IsMouseInPlayerPos)
         {
             if ("ParsnipSeed" == CurSlotName)
             {
@@ -174,7 +183,31 @@ void AFarmGameMode::PutTile(float _DeltaTime)
                 CropTileMap->SetTileIndex("GreenBean.png", MousePoint, { 0, -50 }, { 70, 138 }, 0, true, 6);
                 UseItem();
             }
-
+            if ("CauliflowerSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("Cauliflower.png", MousePoint, { 0, 0 }, { 70, 70 }, 0, true, 5);
+                UseItem();
+            }
+            if ("PotatoSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("Potato.png", MousePoint, { 0, -20 }, { 70, 70 }, 0, true, 5);
+                UseItem();
+            }
+            if ("KaleSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("Kale.png", MousePoint, { 0, -15 }, { 70, 70 }, 0, true, 4);
+                UseItem();
+            }
+            if ("RhubarbSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("Rhubarb.png", MousePoint, { 0, -20 }, { 70, 70 }, 0, true, 5);
+                UseItem();
+            }
+            if ("GarlicSeed" == CurSlotName)
+            {
+                CropTileMap->SetTileIndex("Garlic.png", MousePoint, { -3, -20 }, { 70, 70 }, 0, true, 4);
+                UseItem();
+            }
         }
     }
 
@@ -227,19 +260,42 @@ void AFarmGameMode::TileDestroyLocation()
             }
         }
 
+        CropCheck(CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
+        CropCheck(CropMousePoint, "GreenBean.png", "GreenBean", "Items.png", MouseLocation, Player->GetActorLocation(), 244, 3.0f);
+        CropCheck(CropMousePoint, "Cauliflower.png", "Cauliflower", "Items.png", MouseLocation, Player->GetActorLocation(), 246, 3.0f);
+        CropCheck(CropMousePoint, "Potato.png", "Potato", "Items.png", MouseLocation, Player->GetActorLocation(), 256, 3.0f);
+        CropCheck(CropMousePoint, "Kale.png", "Kale", "Items.png", MouseLocation, Player->GetActorLocation(), 330, 3.0f);
+        CropCheck(CropMousePoint, "Rhubarb.png", "Rhubarb", "Items.png", MouseLocation, Player->GetActorLocation(), 332, 3.0f);
+        CropCheck(CropMousePoint, "Garlic.png", "Garlic", "Items.png", MouseLocation, Player->GetActorLocation(), 328, 3.0f);
+        //if (GetCropTileSpriteName(MouseLocation) == "PARSNIP.PNG")
+        //{
 
-        if (GetCropTileSpriteName(MouseLocation) == "PARSNIP.PNG")
+        //    Tile* Tile = CropTileMap->GetTileRef(CropMousePoint);
+        //    if (Tile->SpriteIndex == Tile->MaxSpriteIndex) // 다 자라야 캐지도록
+        //    {
+        //        TileDestroy(CropTileMap, CropMousePoint);
+        //        // Tree Item Drop
+        //        ItemDrop("parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
+        //    }
+        //}
+
+    }
+}
+
+void AFarmGameMode::CropCheck(FIntPoint _TileLoc, std::string _TileSpriteName, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
+{
+    std::string UpperName = UEngineString::ToUpper(_TileSpriteName);
+
+    if (GetCropTileSpriteName(_ItemLocatioln) == UpperName)
+    {
+
+        Tile* Tile = CropTileMap->GetTileRef(_TileLoc);
+        if (Tile->SpriteIndex == Tile->MaxSpriteIndex) // 다 자라야 캐지도록
         {
-
-            Tile* Tile = CropTileMap->GetTileRef(CropMousePoint);
-            if (Tile->SpriteIndex == Tile->MaxSpriteIndex) // 다 자라야 캐지도록
-            {
-                TileDestroy(CropTileMap, CropMousePoint);
-                // Tree Item Drop
-                ItemDrop("parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
-            }
+            TileDestroy(CropTileMap, _TileLoc);
+            // Tree Item Drop
+            ItemDrop(_ItemName, _SpriteName, _ItemLocatioln, _PlayerPos, _ItemIndex, _ItemScale);
         }
-
     }
 }
 

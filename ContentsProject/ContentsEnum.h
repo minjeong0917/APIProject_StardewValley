@@ -56,6 +56,7 @@ enum class ECollisionGroup
 enum class EItemType
 {
 	Crop,
+	Seed,
 	Wood,
 	DUPivot,
 	EmptySlot,

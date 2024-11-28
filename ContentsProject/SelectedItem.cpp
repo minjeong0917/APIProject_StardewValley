@@ -60,11 +60,41 @@ void ASelectedItem::SetPrice(std::string _ItemName)
         ItemPrice = 70;
 
     }
+    else if (_ItemName == "GarlicSeed")
+    {
+        ItemPrice = 40;
+
+    }
     else if (_ItemName == "RhubarbSeed")
     {
         ItemPrice = 100;
-
     }
-
-
+    else if (_ItemName == "parsnip")
+    {
+        ItemPrice = 35;
+    }
+    else if (_ItemName == "GreenBean")
+    {
+        ItemPrice = 40;
+    }
+    else if (_ItemName == "Cauliflower")
+    {
+        ItemPrice = 175;
+    }
+    else if (_ItemName == "Potato")
+    {
+        ItemPrice = 80;
+    }
+    else if (_ItemName == "Kale")
+    {
+        ItemPrice = 110;
+    }
+    else if (_ItemName == "Rhubarb")
+    {
+        ItemPrice = 220;
+    }
+    else if (_ItemName == "Garlic")
+    {
+        ItemPrice = 60;
+    }
 }

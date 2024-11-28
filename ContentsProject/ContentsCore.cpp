@@ -99,6 +99,11 @@ void ContentsCore::ReadySprite()
             Dir.Append("TileMap//CropsTile");
             UImageManager::GetInst().CuttingSprite("parsnip.png", { 15, 16 });
             UImageManager::GetInst().CuttingSprite("GreenBean.png", { 13, 26 });
+            UImageManager::GetInst().CuttingSprite("Cauliflower.png", { 16, 15 });
+            UImageManager::GetInst().CuttingSprite("Potato.png", { 16,  18 });
+            UImageManager::GetInst().CuttingSprite("Kale.png", { 16,  20 });
+            UImageManager::GetInst().CuttingSprite("Rhubarb.png", { 16,  19 });
+            UImageManager::GetInst().CuttingSprite("Garlic.png", { 16,  18 });
 
         }
         {
