@@ -81,6 +81,7 @@ private:
     void ShopItemLists();
     void SellStoreItem();
     bool SellClickCheck();
+    void SleepCheck();
 
     int Min = 0;
     int Week = 0;
@@ -112,6 +113,10 @@ private:
     AUI* UpArrow = nullptr;
     AUI* DownArrow = nullptr;
     AUI* ClockHand = nullptr;
+
+    AUI* BedTextBox = nullptr;
+    AUI* YesTextBox = nullptr;
+    AUI* NoTextBox = nullptr;
 
 
 

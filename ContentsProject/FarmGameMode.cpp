@@ -56,11 +56,6 @@ void AFarmGameMode::BeginPlay()
         FarmTileMap->SetTileIndex("TREE001.PNG", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
 
     }
-    {
-        AFade* Actor = GetWorld()->SpawnActor<AFade>();
-        Actor->SetOrder(ERenderOrder::FADE);
-        Actor->FadeOut();
-    }
 }
 
 
@@ -125,17 +120,15 @@ void AFarmGameMode::PutTile(float _DeltaTime)
         switch (TileImages)
         {
         case ETileImage::Dirt:
-
             break;
 
         case ETileImage::Tree001:
-            FarmTileMap->SetTileIndex("TREE001.PNG", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
+            //FarmTileMap->SetTileIndex("TREE001.PNG", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
             break;
 
         case ETileImage::Crops:
-
-
             break;
+
         default:
             break;
         }
@@ -281,11 +274,7 @@ void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
             CropTileMap->SetTileCurTime(CropTilePoint[i], 0);
             FarmTileMap->SetTileSprite(CropTilePoint[i], "DIRT.PNG", 0);
         }
-
     }
-
-
-
 }
 
 void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
@@ -326,7 +315,7 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
                     TileDestroy(FarmTileMap, FarmCurTileLocation);
 
 
-                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f,6);
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.0f,6);
 
                     FarmTileMap->SetTileIndex("TREE002.PNG", FarmCurTileLocation, { 0, -20}, { 16*3.f, 20 * 3.f }, 0, false, 0 , 5);
                     FarmTileMap->SetTreeTileCount(FarmCurTileLocation, 5);
@@ -351,7 +340,7 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
                 {
                     TileDestroy(FarmTileMap, FarmCurTileLocation);
          
-                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f, 2);
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.0f, 2);
            
                 }
 
@@ -525,9 +514,7 @@ void AFarmGameMode::ItemDrop(float _Deltatime, std::string _ItemName, std::strin
         Item->SetForce();
         Item->SetItemType(_ItemName);
         Item->GainItemInfo(_ItemName, _SpriteName, _ItemIndex, _ItemScale);
-
     }
-
 }
 
 void AFarmGameMode::TileChange()

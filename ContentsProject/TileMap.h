@@ -78,6 +78,7 @@ public:
 
 	int GetTreeTileCount(FIntPoint _Index);
 	void SetTreeTileCount(FIntPoint _Index, int _Count);
+	void SetTileOrder(FIntPoint _Index, float _Order);
 
 	void CropCheck(float _DeltaTime);
 	std::string GetTileSpriteName(FIntPoint _Index);

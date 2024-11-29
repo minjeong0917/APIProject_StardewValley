@@ -14,6 +14,7 @@
 #include "TitleGameMode.h"
 #include "TownGameMode.h"
 #include "StoreGameMode.h"
+#include "HouseGameMode.h"
 
 #include "Player.h"
 #include "Clock.h"
@@ -40,6 +41,7 @@ void ContentsCore::BeginPlay()
     UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
     UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
     UEngineAPICore::GetCore()->CreateLevel<AStoreGameMode, APlayer>("Store");
+    UEngineAPICore::GetCore()->CreateLevel<AHouseGameMode, APlayer>("House");
     UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 
@@ -138,6 +140,11 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("CurStoreColumn.png", { 294, 28 });
             UImageManager::GetInst().CuttingSprite("Up.png", { 11, 12 });
             UImageManager::GetInst().CuttingSprite("Down.png", { 11, 12 });
+            UImageManager::GetInst().CuttingSprite("BedTextBox.png", { 1280, 300 });
+            UImageManager::GetInst().CuttingSprite("YesSelected.png", { 1194, 67 });
+            UImageManager::GetInst().CuttingSprite("YesUnSelected.png", { 1194, 67 });
+            UImageManager::GetInst().CuttingSprite("NoSelected.png", { 1194, 67 });
+            UImageManager::GetInst().CuttingSprite("NoUnSelected.png", { 1194, 67 });
 
 
         }

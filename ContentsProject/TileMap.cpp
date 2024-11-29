@@ -118,6 +118,12 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVec
     AllTiles[_Index.Y][_Index.X].TreeCount = TreeCount;
 
 }
+void ATileMap::SetTileOrder(FIntPoint _Index, float _Order)
+{
+    USpriteRenderer* FindSprite = AllTiles[_Index.Y][_Index.X].SpriteRenderer;
+    FindSprite->SetOrder(_Order);
+}
+
 
 void ATileMap::SetTilePivot(FIntPoint _Index, FVector2D _Pivot)
 {

@@ -61,7 +61,7 @@ void APlayer::BeginPlay()
     GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 
     SpriteRenderer->SetPivot({ 0.0, 7.0f });
-
+    Fade = GetWorld()->SpawnActor<AFade>();
 }
 
 
@@ -348,6 +348,14 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         {
             UEngineAPICore::GetCore()->OpenLevel("Town");
         }
+        else if (Color.R == 255 && Color.G == 255 && Color.B == 0)
+        {
+            UEngineAPICore::GetCore()->OpenLevel("House");
+        }
+        else if (Color.R == 0 && Color.G == 0 && Color.B == 255)
+        {
+            UEngineAPICore::GetCore()->OpenLevel("Farm");
+        }
     }
 }
 
@@ -378,12 +386,18 @@ void APlayer::LevelChangeStart()
     {
         PlayerUI->Copy(PrevPlayer->PlayerUI);
     }
+    {
+
+        Fade->SetOrder(ERenderOrder::FADE);
+        Fade->FadeOut();
+    }
 }
 
 void APlayer::LevelChangeEnd()
 {
     Super::LevelChangeEnd();
     PrevPlayer = this;
+
 }
 
 void APlayer::SetColImage(std::string_view _ColImageName)

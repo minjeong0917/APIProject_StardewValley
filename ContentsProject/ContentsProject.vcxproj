@@ -151,6 +151,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="HouseGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HouseMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Fade.h">
       <SubType>
       </SubType>
@@ -264,6 +272,14 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HouseGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HouseMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Fade.cpp">
       <SubType>
       </SubType>

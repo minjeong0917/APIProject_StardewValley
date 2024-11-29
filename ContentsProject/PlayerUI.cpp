@@ -10,6 +10,7 @@
 #include "Item.h"
 #include "FarmGameMode.h"
 #include "StoreGameMode.h"
+#include "HouseGameMode.h"
 #include "PlayerManager.h"
 
 std::string APlayerUI::Text2Explain;
@@ -341,6 +342,30 @@ void APlayerUI::UIImageRender()
 
     SellItem = GetWorld()->SpawnActor<ASelectedItem>();
 
+    BedTextBox = GetWorld()->SpawnActor<AUI>();
+    BedTextBox->SetComponentScale({ 1280 * 3.5f,300 * 3.5f });
+    BedTextBox->SetActorLocation({ Size.Half().X, Size.Y - (BedTextBox->GetScale().Half().Y/3.5f) });
+    BedTextBox->SetSprite("BedTextBox.png", 0, 1.f);
+    BedTextBox->SetOrder(ERenderOrder::ExplainTextBox);
+    BedTextBox->SetActive(false);
+
+    YesTextBox = GetWorld()->SpawnActor<AUI>();
+    YesTextBox->SetComponentScale({ 1194 * 3.5f,67 * 3.5f });
+    YesTextBox->SetCollisionComponentScale({ 1194 ,67  });
+    YesTextBox->SetCollisionComponentLocation({ 0.0f , 0.0f });
+    YesTextBox->SetActorLocation({ Size.Half().X, Size.Y - (YesTextBox->GetScale().Y / 3.5f * 2) });
+    YesTextBox->SetSprite("YesUnSelected.png", 0, 1.f);
+    YesTextBox->SetOrder(ERenderOrder::ExplainTextBox);
+    YesTextBox->SetActive(false);
+
+    NoTextBox = GetWorld()->SpawnActor<AUI>();
+    NoTextBox->SetComponentScale({ 1194 * 3.5f,67 * 3.5f });
+    NoTextBox->SetCollisionComponentScale({ 1194 , 67 });
+    NoTextBox->SetCollisionComponentLocation({ 0.0f, 0.0f });
+    NoTextBox->SetActorLocation({ Size.Half().X, Size.Y - (NoTextBox->GetScale().Y / 3.5f) });
+    NoTextBox->SetSprite("NoUnSelected.png", 0, 1.f);
+    NoTextBox->SetOrder(ERenderOrder::ExplainTextBox);
+    NoTextBox->SetActive(false);
 }
 
 void APlayerUI::Tick(float _DeltaTime)
@@ -418,6 +443,7 @@ void APlayerUI::Tick(float _DeltaTime)
     InventoryCheck();
     StoreInvenCheck();
     SellStoreItem();
+    SleepCheck();
 
     if (SelectedItem != nullptr)
     {
@@ -485,7 +511,7 @@ void APlayerUI::Tick(float _DeltaTime)
     {
         Night->SetActive(true);
 
-        NightTime += _DeltaTime * MinTime->GetTimeSpeed() * 0.05;
+        NightTime += _DeltaTime * MinTime->GetTimeSpeed() * 0.05f;
 
     }
     if (NightTime > 100)
@@ -495,8 +521,55 @@ void APlayerUI::Tick(float _DeltaTime)
     Night->SetAlphaChar(NightTime);
     ClockHand->SetSprite("ClockHand", Min-6, 4.0f);
 }
+void APlayerUI::SleepCheck()
+{
+    if (GetWorld()->GetGameMode<AHouseGameMode>() == nullptr)
+    {
+        return;
+    }
+    AHouseGameMode* House = GetWorld()->GetGameMode<AHouseGameMode>();
+    bool IsBedIn = House->GetIsBedIn();
+    if (true == IsBedIn)
+    {
+        BedTextBox->SetActive(true);
+        YesTextBox->SetActive(true);
+        NoTextBox->SetActive(true);
 
+        for (int i = 0; i < AllSlots[0].size(); i++)
+        {
+            AllSlots[0][i]->SetActive(false);
+        }
 
+        if (true == YesTextBox->GetIsCollisionEnter())
+        {
+            YesTextBox->SetSprite("YesSelected.png", 0, 1.f);
+        }
+        else if (true == YesTextBox->GetIsCollisionEnd())
+        {
+            YesTextBox->SetSprite("YesUnSelected.png", 0, 1.f);
+        }
+
+        if (true == NoTextBox->GetIsCollisionEnter())
+        {
+            NoTextBox->SetSprite("NoSelected.png", 0, 1.f);
+        }
+        else if (true == NoTextBox->GetIsCollisionEnd())
+        {
+            NoTextBox->SetSprite("NoUnSelected.png", 0, 1.f);
+        }
+    }
+    if (false == IsBedIn)
+    {
+        BedTextBox->SetActive(false);
+        YesTextBox->SetActive(false);
+        NoTextBox->SetActive(false);
+
+        for (int i = 0; i < AllSlots[0].size(); i++)
+        {
+            AllSlots[0][i]->SetActive(true);
+        }
+    }
+}
 void APlayerUI::ShopItemLists()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();

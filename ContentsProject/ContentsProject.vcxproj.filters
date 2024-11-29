@@ -126,6 +126,12 @@
     <ClCompile Include="PlayerManager.cpp">
       <Filter>ContentsObject\Global</Filter>
     </ClCompile>
+    <ClCompile Include="HouseGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseMap.cpp">
+      <Filter>ContentsObject\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -217,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="PlayerManager.h">
       <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseMap.h">
+      <Filter>ContentsObject\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

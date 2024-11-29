@@ -106,7 +106,7 @@ private:
 
 	int MySpriteIndex = 0;
 	bool IsEnter = false;
-
+	class AFade* Fade = nullptr;
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;

@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineCore/Actor.h>
 
 // Ό³Έν :
 class ATownMap : public AActor
