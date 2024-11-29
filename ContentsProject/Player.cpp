@@ -556,7 +556,7 @@ void APlayer::PlayerAnimationPlay()
         }
     }
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsButtonClick && false == IsEnter)
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsButtonClick && false == IsEnter && false == PlayerUI->IsBedIn)
     {
         if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Axe")
         {

@@ -166,7 +166,7 @@ void AGold::SetText2(std::string _Text)
         }
         else if (Value > -20 && Value < 0)
         {
-            Value = 26;
+            Value = 27;
         }
 
         Renders[i]->SetSprite(TextSpriteName, Value);
@@ -190,13 +190,7 @@ void AGold::SetText2(std::string _Text)
             Pos.X += static_cast<float>(TextScale.X);
         }
 
-        if (Pos.X > 245 && Value == 29)
-        {
 
-            Pos.X = 5;
-            Pos.Y += TextScale.Y;
-            IsTextOver += 1;
-        }
 
         Renders[i]->SetActive(true);
     }

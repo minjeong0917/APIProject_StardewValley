@@ -51,6 +51,7 @@ public:
 		return IsCollisionEnter;
 	}
 
+
 	bool GetIsCollisionEnd()
 	{
 		return IsCollisionEnd;

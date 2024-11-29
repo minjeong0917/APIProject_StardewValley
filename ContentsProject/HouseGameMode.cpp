@@ -41,16 +41,24 @@ void AHouseGameMode::Tick(float _DeltaTime)
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetColImage("House_col.png");
 
-	if (GetHouseTileSpriteName(Player->GetActorLocation()) == "HOUSETILE")
+	if (GetHouseTileSpriteName(Player->GetActorLocation()) == "HOUSETILE" && IsNo == false)
 	{
 		IsBedIn = true;
 	}
 	else
 	{
 		IsBedIn = false;
-
+		
 	}
 
+	if (IsNo == true)
+	{
+		if (GetHouseTileSpriteName(Player->GetActorLocation()) != "HOUSETILE")
+		{
+			IsNo = false;
+			IsBedIn = false;
+		}
+	}
 }
 
 std::string AHouseGameMode::GetHouseTileSpriteName(FVector2D Location)

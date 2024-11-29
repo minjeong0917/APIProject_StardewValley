@@ -22,7 +22,16 @@ public:
 
 		return IsBedIn;
 	}
+	bool GetIsNo()
+	{
 
+		return IsNo;
+	}
+	void SetIsNo(bool _IsNo)
+	{
+
+		IsNo = _IsNo;
+	}
 protected:
 	void BeginPlay() override;
 
@@ -31,7 +40,7 @@ protected:
 private:
 	ATileMap* HouseTileMap = nullptr;
 	bool IsBedIn = false;
-
+	bool IsNo = false;
 
 };
 

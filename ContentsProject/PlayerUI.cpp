@@ -342,6 +342,8 @@ void APlayerUI::UIImageRender()
 
     SellItem = GetWorld()->SpawnActor<ASelectedItem>();
 
+
+
     BedTextBox = GetWorld()->SpawnActor<AUI>();
     BedTextBox->SetComponentScale({ 1280 * 3.5f,300 * 3.5f });
     BedTextBox->SetActorLocation({ Size.Half().X, Size.Y - (BedTextBox->GetScale().Half().Y/3.5f) });
@@ -366,6 +368,14 @@ void APlayerUI::UIImageRender()
     NoTextBox->SetSprite("NoUnSelected.png", 0, 1.f);
     NoTextBox->SetOrder(ERenderOrder::ExplainTextBox);
     NoTextBox->SetActive(false);
+
+    BedText = GetWorld()->SpawnActor<AGold>();
+    BedText->SetActorLocation({ 70.f, Size.Y - (YesTextBox->GetScale().Y / 3.5f * 3) });
+    BedText->SetTextSpriteName("AlphabetBold.png");
+    BedText->SetOrder(ERenderOrder::ExplainText);
+    BedText->SetTextScale({ 24, 48 });
+    BedText->SetText2("Go to sleep for the night?");
+    BedText->SetActive(false);
 }
 
 void APlayerUI::Tick(float _DeltaTime)
@@ -527,13 +537,15 @@ void APlayerUI::SleepCheck()
     {
         return;
     }
+
     AHouseGameMode* House = GetWorld()->GetGameMode<AHouseGameMode>();
-    bool IsBedIn = House->GetIsBedIn();
+    IsBedIn = House->GetIsBedIn();
     if (true == IsBedIn)
     {
         BedTextBox->SetActive(true);
         YesTextBox->SetActive(true);
         NoTextBox->SetActive(true);
+        BedText->SetActive(true);
 
         for (int i = 0; i < AllSlots[0].size(); i++)
         {
@@ -543,6 +555,11 @@ void APlayerUI::SleepCheck()
         if (true == YesTextBox->GetIsCollisionEnter())
         {
             YesTextBox->SetSprite("YesSelected.png", 0, 1.f);
+            if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+            {
+
+            }
+
         }
         else if (true == YesTextBox->GetIsCollisionEnd())
         {
@@ -552,17 +569,28 @@ void APlayerUI::SleepCheck()
         if (true == NoTextBox->GetIsCollisionEnter())
         {
             NoTextBox->SetSprite("NoSelected.png", 0, 1.f);
+
+            if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+            {
+                House->SetIsNo(true);
+            }
+
         }
         else if (true == NoTextBox->GetIsCollisionEnd())
         {
             NoTextBox->SetSprite("NoUnSelected.png", 0, 1.f);
         }
+
+
+
+
     }
     if (false == IsBedIn)
     {
         BedTextBox->SetActive(false);
         YesTextBox->SetActive(false);
         NoTextBox->SetActive(false);
+        BedText->SetActive(false);
 
         for (int i = 0; i < AllSlots[0].size(); i++)
         {
@@ -639,7 +667,7 @@ void APlayerUI::ToolsAnimationCheck()
 
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == Player->IsPlayerMove && false == GetIsInventoryEnter() && AnimationTimer == 0)
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == Player->IsPlayerMove && false == GetIsInventoryEnter() && AnimationTimer == 0 && IsBedIn == false)
     {
         if (CurSlotItemName() == "Axe")
         {

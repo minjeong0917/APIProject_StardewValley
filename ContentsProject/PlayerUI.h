@@ -55,7 +55,7 @@ public:
     {
         return Min;
     }
-
+    bool IsBedIn = false;
 protected:
     void BeginPlay();
 
@@ -118,6 +118,7 @@ private:
     AUI* YesTextBox = nullptr;
     AUI* NoTextBox = nullptr;
 
+    AGold* BedText = nullptr;
 
 
     AFade* Fade = nullptr;

@@ -246,4 +246,5 @@ void ContentsCore::ReadySprite()
     ULevel::CollisionGroupLink(ECollisionGroup::StoreColumn, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::BUTTON, ECollisionGroup::CURSOR);
     ULevel::CollisionGroupLink(ECollisionGroup::UI, ECollisionGroup::CURSOR);
+    //ULevel::CollisionGroupLink(ECollisionGroup::CURSOR, ECollisionGroup::UI);
 }
