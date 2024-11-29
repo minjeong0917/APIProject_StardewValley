@@ -22,7 +22,7 @@ public:
 	void SetForce();
 	bool ItemTypeCheck(EItemType _ItemType);
 	EItemType SetItemType(std::string _ItemName);
-	virtual void SetOrder(ERenderOrder _Order);
+	virtual void SetOrder(float _Order);
 	void GainItemInfo(std::string _ItemName, std::string _SpriteName, int _ItemIndex, float _ItemScale);
 	virtual void SetCameraEffect(bool _IsCamera = true);
 

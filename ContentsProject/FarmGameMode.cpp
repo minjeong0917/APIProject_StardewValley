@@ -53,7 +53,7 @@ void AFarmGameMode::BeginPlay()
     for (int i = 0; i < 10; i++)
     {
         FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + (70 * i), 1200.0f });
-        FarmTileMap->SetTileIndex("TREE001.PNG", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+        FarmTileMap->SetTileIndex("TREE001.PNG", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
 
     }
     {
@@ -129,7 +129,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Tree001:
-            FarmTileMap->SetTileIndex("TREE001.PNG", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+            FarmTileMap->SetTileIndex("TREE001.PNG", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
             break;
 
         case ETileImage::Crops:
@@ -324,10 +324,12 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
                 if (TreeCount == 0)
                 {
                     TileDestroy(FarmTileMap, FarmCurTileLocation);
-                    FarmTileMap->TileDestroy(FarmCurTileLocation);
-                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
 
-                    FarmTileMap->SetTileIndex("TREE002.PNG", FarmCurTileLocation, { 0, -20}, { 16*3.f, 20 * 3.f }, 0, false);
+
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f,6);
+
+                    FarmTileMap->SetTileIndex("TREE002.PNG", FarmCurTileLocation, { 0, -20}, { 16*3.f, 20 * 3.f }, 0, false, 0 , 5);
+                    FarmTileMap->SetTreeTileCount(FarmCurTileLocation, 5);
                 }
 
                 IsTreeHit = true;
@@ -337,6 +339,29 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
 
             }
 
+            else if (GetFarmTileSpriteName(MouseLocation) == "TREE002.PNG" && Player->IsMouseInPlayerPos == true && GetFarmTileSpriteName(TileLocation) == "TREE002.PNG" && TreeTime == 0)
+            {
+
+                BGMPlayer = UEngineSound::Play("Axe.wav");
+
+
+                int TreeCount = FarmTileMap->GetTreeTileCount(FarmMousePoint);
+
+                if (TreeCount <= 0)
+                {
+                    TileDestroy(FarmTileMap, FarmCurTileLocation);
+         
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f, 2);
+           
+                }
+
+                TreeCount -= 1;
+                IsTreeHit = true;
+                TileLoc = FarmMousePoint;
+                FarmTileMap->SetTreeTileCount(FarmMousePoint, TreeCount);
+
+
+            }
         }
 
         CropCheck(_DeltaTime, CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
@@ -372,29 +397,62 @@ void AFarmGameMode::TreeMove(float _DeltaTime)
     if (FarmTileMap->GetTileSpriteName(TileLoc) == "TREE001.PNG")
     {
         TreeTime += _DeltaTime;
-        if (TreeTime >= 0.1 && TreeTime < 0.2)
+        if (TreeTime >= 0.1 && TreeTime < 0.15)
         {
             FarmTileMap->SetTilePivot(TileLoc, { 5, -110 });
         }
-        else if (TreeTime >= 0.2 && TreeTime < 0.3)
+        else if (TreeTime >= 0.15 && TreeTime < 0.2)
         {
             FarmTileMap->SetTilePivot(TileLoc, { -5, -110 });
         }
-        else if (TreeTime >= 0.3 && TreeTime < 0.4)
+        else if (TreeTime >= 0.2 && TreeTime < 0.25)
         {
-            FarmTileMap->SetTilePivot(TileLoc, { +1,-110 });
+            FarmTileMap->SetTilePivot(TileLoc, { +3,-110 });
         }
-        else if (TreeTime >= 0.5 && TreeTime < 0.6)
+        else if (TreeTime >= 0.25 && TreeTime < 0.3)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { -3, -110 });
+        }
+        else if (TreeTime >= 0.3 && TreeTime < 0.35)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { 1, -110 });
+        }
+        else if (TreeTime >= 0.35 && TreeTime < 0.4)
         {
             FarmTileMap->SetTilePivot(TileLoc, { -1, -110 });
         }
-        else if (TreeTime >= 0.6)
+        else if (TreeTime >= 0.4)
         {
             TreeTime = 0;
             IsTreeHit = false;
         }
     }
+    if (FarmTileMap->GetTileSpriteName(TileLoc) == "TREE002.PNG")
+    {
+        TreeTime += _DeltaTime;
 
+        if (TreeTime >= 0.2 && TreeTime < 0.25)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { +3,-20 });
+        }
+        else if (TreeTime >= 0.25 && TreeTime < 0.3)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { -3, -20 });
+        }
+        else if (TreeTime >= 0.3 && TreeTime < 0.35)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { 1, -20 });
+        }
+        else if (TreeTime >= 0.35 && TreeTime < 0.4)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { -1, -20 });
+        }
+        else if (TreeTime >= 0.4)
+        {
+            TreeTime = 0;
+            IsTreeHit = false;
+        }
+    }
 
 
 }
@@ -417,7 +475,7 @@ FVector2D AFarmGameMode::PlayerDirToTileMap(ATileMap* _TileMap)
         TileLocation += {_TileMap->GetTileSize().X, 0.0};
         break;
     case EPlayerDir::Up:
-        TileLocation += {0.0, -_TileMap->GetTileSize().Y};
+        TileLocation += {0.0, -_TileMap->GetTileSize().Half().Y};
         break;
     case EPlayerDir::Down:
         TileLocation += {0.0, _TileMap->GetTileSize().Y};
@@ -457,15 +515,17 @@ void AFarmGameMode::ItemDrop(float _Deltatime, std::string _ItemName, std::strin
 {
     for (int i = 0; i < _ItemCount; i++)
     {
-        //UEngineRandom Random;
-        //FVector2D RandomDir = { Random.RandomInt(-50, 50),  Random.RandomInt(-50, 50) };
-        Item = GetWorld()->SpawnActor<AItem>();
+        UEngineRandom Random;
+        Random.SetSeed(i);
+        FVector2D RandomDir = { Random.RandomInt(-50, 50),  Random.RandomInt(-50, 50) };
+        AItem* Item = GetWorld()->SpawnActor<AItem>();
         Item->ItemSetSprite(_SpriteName, _ItemIndex, _ItemScale);
-        Item->SetActorLocation(_ItemLocatioln /*+ RandomDir*/);
-        Item->SetOrder(ERenderOrder::UI);
+        Item->SetActorLocation(_ItemLocatioln + RandomDir);
+        Item->SetOrder(Item->GetActorLocation().Y);
         Item->SetForce();
         Item->SetItemType(_ItemName);
         Item->GainItemInfo(_ItemName, _SpriteName, _ItemIndex, _ItemScale);
+
     }
 
 }

@@ -85,7 +85,7 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int 
     SetTileIndex(_SpriteName, _Index, { 0,0 }, TileSize, _SpriteIndex, _IsMove);
 }
 
-void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove, int _MaxSpriteIndex)
+void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove, int _MaxSpriteIndex, int TreeCount)
 {
     if (true == IsIndexOver(_Index))
     {
@@ -115,6 +115,7 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVec
     AllTiles[_Index.Y][_Index.X].SpriteIndex = _SpriteIndex;
     AllTiles[_Index.Y][_Index.X].IsMove = _IsMove;
     AllTiles[_Index.Y][_Index.X].MaxSpriteIndex = _MaxSpriteIndex;
+    AllTiles[_Index.Y][_Index.X].TreeCount = TreeCount;
 
 }
 
@@ -155,6 +156,7 @@ void ATileMap::TileDestroy(FIntPoint _Index)
     AllTiles[_Index.Y][_Index.X].Scale = { 0,0 };
     AllTiles[_Index.Y][_Index.X].SpriteIndex = 0;
     AllTiles[_Index.Y][_Index.X].SpriteRenderer = nullptr;
+    AllTiles[_Index.Y][_Index.X].TreeCount = 5;
 
 }
 

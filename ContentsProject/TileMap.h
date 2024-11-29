@@ -13,7 +13,7 @@ public:
 	int SpriteIndex = 0;
 	int MaxSpriteIndex = 0;
 	
-	int TreeCount = 10;
+	int TreeCount = 1;
 
 	float Time = 72000;
 	float CurTime = 0.0f;
@@ -54,7 +54,7 @@ public:
 	void SetTileLocation(std::string_view _SpriteName, FVector2D _Location, int _SpriteIndexool, bool _IsMove = true);
 
 	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, int _SpriteIndex, bool _IsMove = true);
-	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove = true, int _MaxSpriteIndex=0);
+	void SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVector2D _Pivot, FVector2D _SpriteScale, int _SpriteIndex, bool _IsMove = true, int _MaxSpriteIndex=0, int TreeCount = 1);
 	void TileDestroy(FIntPoint _Index);
 
 	Tile* GetTileRef(FIntPoint _Index);

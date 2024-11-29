@@ -31,6 +31,7 @@ void AItem::Tick(float _DeltaTime)
 	{
 		Force(_DeltaTime);
 	}
+	DestroyItem();
 
 }
 void AItem::SetCameraEffect(bool _IsCamera)
@@ -45,7 +46,7 @@ void AItem::ItemSetSprite(std::string _SprtieName, int _SpriteIndex, float _Scal
 	ItemSpriteRenderer->SetSpriteScale(_Scale, _SpriteIndex);
 
 }
-void AItem::SetOrder(ERenderOrder _Order)
+void AItem::SetOrder(float _Order)
 {
 	ItemSpriteRenderer->SetOrder(_Order);
 
@@ -75,12 +76,12 @@ void AItem::GainItem(float _DeltaTime)
 
 		float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
 		float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
-		if (ItemToPlayerDistanceX < 30 || ItemToPlayerDistanceY < 30)
+		if (ItemToPlayerDistanceX < 20.0f || ItemToPlayerDistanceY < 20.0f)
 		{
 			IsIn = true;
 			ItemToPlayerDir.Normalize();
 			AddActorLocation(ItemToPlayerDir * _DeltaTime * 500);
-			DestroyItem();
+
 		}
 
 	}
@@ -96,7 +97,7 @@ void AItem::DestroyItem()
 	float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
 	float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
 
-	if (ItemToPlayerDistanceX < 1.0f || ItemToPlayerDistanceY < 1.0f)
+	if (ItemToPlayerDistanceX < 2.f || ItemToPlayerDistanceY < 2.f)
 	{
 		Player->AddItem(this);
 	}
