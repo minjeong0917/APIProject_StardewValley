@@ -29,6 +29,7 @@ public:
 	std::string GetFarmTileSpriteName(FVector2D Location);
 	std::string GetCropTileSpriteName(FVector2D Location);
 	void UseItem();
+	void TreeMove(float _Deltatime);
 
 
 	ATileMap* GetFarmTilMap()
@@ -39,7 +40,7 @@ public:
 		}
 		return nullptr;
 	}
-	void TileDestroyLocation();
+	void TileDestroyLocation(float _Deltatime);
 	void TileDestroy(ATileMap* _TileMap, FIntPoint _Location);
 	std::string DestroyItemName = "NONE";
 	void TileCropCheck(float _DeltaTime, FIntPoint _Index);
@@ -48,9 +49,9 @@ public:
 protected:
 
 private:
-	void CropCheck( FIntPoint _TileLoc, std::string _TileSpriteName, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
+	void CropCheck(float _Deltatime, FIntPoint _TileLoc, std::string _TileSpriteName, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
 
-	void ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale);
+	void ItemDrop(float _Deltatime, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale, int _ItemCount = 1);
 	
 	FVector2D PlayerDirToTileMap(ATileMap* _TileMap);
 	class AFarmMap* GroundTileMap = nullptr;
@@ -58,6 +59,11 @@ private:
 	ATileMap* CropTileMap = nullptr;
 	std::vector<FIntPoint> CropTilePoint;
 	USoundPlayer BGMPlayer;
+	
+	FIntPoint TileLoc = { 0,0 };
+	FVector2D TilePivot = { 0,0 };
+	float TreeTime = 0;
+	bool IsTreeHit = false;
 
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;

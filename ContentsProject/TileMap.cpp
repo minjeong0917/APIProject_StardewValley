@@ -118,6 +118,17 @@ void ATileMap::SetTileIndex(std::string_view _SpriteName, FIntPoint _Index, FVec
 
 }
 
+void ATileMap::SetTilePivot(FIntPoint _Index, FVector2D _Pivot)
+{
+    if (AllTiles[_Index.Y][_Index.X].SpriteRenderer == nullptr)
+    {
+        return;
+    }
+    FVector2D TileLocation = IndexToTileLocation(_Index);
+    AllTiles[_Index.Y][_Index.X].Pivot = _Pivot;
+    AllTiles[_Index.Y][_Index.X].SpriteRenderer->SetComponentLocation(TileLocation + TileSize.Half() + _Pivot);
+}
+
 Tile* ATileMap::GetTileRef(FVector2D _Location)
 {
     FIntPoint Point = LocationToIndex(_Location);
@@ -181,7 +192,14 @@ float ATileMap::GetTileTime(FIntPoint _Index)
 {
     return AllTiles[_Index.Y][_Index.X].Time;
 }
-
+int ATileMap::GetTreeTileCount(FIntPoint _Index)
+{
+    return AllTiles[_Index.Y][_Index.X].TreeCount;
+}
+void ATileMap::SetTreeTileCount(FIntPoint _Index, int _Count)
+{
+    AllTiles[_Index.Y][_Index.X].TreeCount = _Count;
+}
 void ATileMap::SetTileSprite(FIntPoint _Index, std::string _SpriteName, int _ItemIndex)
 {
     AllTiles[_Index.Y][_Index.X].SpriteRenderer->SetSprite(_SpriteName, _ItemIndex);

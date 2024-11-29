@@ -83,7 +83,8 @@ void ContentsCore::ReadySprite()
             UEngineDirectory Dir;
             Dir.MoveParentToDirectory("Resources//Images");
             Dir.Append("TileMap//TreeTile");
-            UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+            UImageManager::GetInst().CuttingSprite("Tree001.png", { 144, 276 });
+            UImageManager::GetInst().CuttingSprite("Tree002.png", { 16, 20 });
         }
         // house
         {

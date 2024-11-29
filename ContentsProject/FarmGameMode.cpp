@@ -8,6 +8,7 @@
 #include <EngineCore/EngineCoreDebug.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineBase/EngineDirectory.h>
+#include <EngineBase/EngineRandom.h>
 
 // contents
 #include "FarmMap.h"
@@ -52,7 +53,7 @@ void AFarmGameMode::BeginPlay()
     for (int i = 0; i < 10; i++)
     {
         FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + (70 * i), 1200.0f });
-        FarmTileMap->SetTileIndex("TreeTile", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+        FarmTileMap->SetTileIndex("TREE001.PNG", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
 
     }
     {
@@ -94,11 +95,16 @@ void AFarmGameMode::Tick(float _DeltaTime)
     if (false == Player->IsPlayerMove && false == Player->GetIsEnter())
     {
         PutTile(_DeltaTime);
-        TileDestroyLocation();
+        TileDestroyLocation(_DeltaTime);
     }
 
     GetFarmTileSpriteName(Player->GetActorLocation());
     GetCropTileSpriteName(Player->GetActorLocation());
+
+    if (IsTreeHit == true)
+    {
+        TreeMove(_DeltaTime);
+    }
 
 
 }
@@ -123,7 +129,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             break;
 
         case ETileImage::Tree001:
-            FarmTileMap->SetTileIndex("TreeTile", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
+            FarmTileMap->SetTileIndex("TREE001.PNG", MousePoint, { 0, -110 }, { 144, 240 }, 0, false, 0);
             break;
 
         case ETileImage::Crops:
@@ -243,7 +249,6 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
 {
 
-
     for (size_t i = 0; i < CropTilePoint.size(); i++)
     {
 
@@ -274,17 +279,16 @@ void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
             CropTileMap->SetTileIndex(CropTilePoint[i], Index);
             CropTileMap->SetTileSprite(CropTilePoint[i], Name, Index);
             CropTileMap->SetTileCurTime(CropTilePoint[i], 0);
+            FarmTileMap->SetTileSprite(CropTilePoint[i], "DIRT.PNG", 0);
         }
 
     }
 
 
-   
-
 
 }
 
-void AFarmGameMode::TileDestroyLocation()
+void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
@@ -309,47 +313,44 @@ void AFarmGameMode::TileDestroyLocation()
     {
         if (CurSlotName == "Axe")
         {
-            if (GetFarmTileSpriteName(MouseLocation) == "TREETILE"   && Player->IsMouseInPlayerPos == true)
+            if (GetFarmTileSpriteName(MouseLocation) == "TREE001.PNG"   && Player->IsMouseInPlayerPos == true && GetFarmTileSpriteName(TileLocation) == "TREE001.PNG" && TreeTime == 0)
             {
 
                 BGMPlayer = UEngineSound::Play("Axe.wav");
-                TileDestroy(FarmTileMap, FarmMousePoint);
-                ItemDrop("Wood", "Items.png", MouseLocation, Player->GetActorLocation(), 941, 3.0f);
 
-                
-            }
-            else if (GetFarmTileSpriteName(TileLocation) == "TREETILE")
-            {
-                BGMPlayer = UEngineSound::Play("Axe.wav");
 
-                TileDestroy(FarmTileMap, FarmCurTileLocation);
-                ItemDrop("Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
+                int TreeCount = FarmTileMap->GetTreeTileCount(FarmCurTileLocation);
+                TreeCount -= 1;
+                if (TreeCount == 0)
+                {
+                    TileDestroy(FarmTileMap, FarmCurTileLocation);
+                    FarmTileMap->TileDestroy(FarmCurTileLocation);
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 3.0f);
+
+                    FarmTileMap->SetTileIndex("TREE002.PNG", FarmCurTileLocation, { 0, -20}, { 16*3.f, 20 * 3.f }, 0, false);
+                }
+
+                IsTreeHit = true;
+                TileLoc = FarmMousePoint;
+                FarmTileMap->SetTreeTileCount(FarmMousePoint, TreeCount);
+
+
             }
+
         }
 
-        CropCheck(CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
-        CropCheck(CropMousePoint, "GreenBean.png", "GreenBean", "Items.png", MouseLocation, Player->GetActorLocation(), 244, 3.0f);
-        CropCheck(CropMousePoint, "Cauliflower.png", "Cauliflower", "Items.png", MouseLocation, Player->GetActorLocation(), 246, 3.0f);
-        CropCheck(CropMousePoint, "Potato.png", "Potato", "Items.png", MouseLocation, Player->GetActorLocation(), 256, 3.0f);
-        CropCheck(CropMousePoint, "Kale.png", "Kale", "Items.png", MouseLocation, Player->GetActorLocation(), 330, 3.0f);
-        CropCheck(CropMousePoint, "Rhubarb.png", "Rhubarb", "Items.png", MouseLocation, Player->GetActorLocation(), 332, 3.0f);
-        CropCheck(CropMousePoint, "Garlic.png", "Garlic", "Items.png", MouseLocation, Player->GetActorLocation(), 328, 3.0f);
-        //if (GetCropTileSpriteName(MouseLocation) == "PARSNIP.PNG")
-        //{
-
-        //    Tile* Tile = CropTileMap->GetTileRef(CropMousePoint);
-        //    if (Tile->SpriteIndex == Tile->MaxSpriteIndex) // 다 자라야 캐지도록
-        //    {
-        //        TileDestroy(CropTileMap, CropMousePoint);
-        //        // Tree Item Drop
-        //        ItemDrop("parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
-        //    }
-        //}
+        CropCheck(_DeltaTime, CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "GreenBean.png", "GreenBean", "Items.png", MouseLocation, Player->GetActorLocation(), 244, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "Cauliflower.png", "Cauliflower", "Items.png", MouseLocation, Player->GetActorLocation(), 246, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "Potato.png", "Potato", "Items.png", MouseLocation, Player->GetActorLocation(), 256, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "Kale.png", "Kale", "Items.png", MouseLocation, Player->GetActorLocation(), 330, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "Rhubarb.png", "Rhubarb", "Items.png", MouseLocation, Player->GetActorLocation(), 332, 3.0f);
+        CropCheck(_DeltaTime, CropMousePoint, "Garlic.png", "Garlic", "Items.png", MouseLocation, Player->GetActorLocation(), 328, 3.0f);
 
     }
 }
 
-void AFarmGameMode::CropCheck(FIntPoint _TileLoc, std::string _TileSpriteName, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
+void AFarmGameMode::CropCheck(float _Deltatime, FIntPoint _TileLoc, std::string _TileSpriteName, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
 {
     std::string UpperName = UEngineString::ToUpper(_TileSpriteName);
 
@@ -361,9 +362,41 @@ void AFarmGameMode::CropCheck(FIntPoint _TileLoc, std::string _TileSpriteName, s
         {
             TileDestroy(CropTileMap, _TileLoc);
             // Tree Item Drop
-            ItemDrop(_ItemName, _SpriteName, _ItemLocatioln, _PlayerPos, _ItemIndex, _ItemScale);
+            ItemDrop(_Deltatime, _ItemName, _SpriteName, _ItemLocatioln, _PlayerPos, _ItemIndex, _ItemScale);
         }
     }
+}
+
+void AFarmGameMode::TreeMove(float _DeltaTime)
+{
+    if (FarmTileMap->GetTileSpriteName(TileLoc) == "TREE001.PNG")
+    {
+        TreeTime += _DeltaTime;
+        if (TreeTime >= 0.1 && TreeTime < 0.2)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { 5, -110 });
+        }
+        else if (TreeTime >= 0.2 && TreeTime < 0.3)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { -5, -110 });
+        }
+        else if (TreeTime >= 0.3 && TreeTime < 0.4)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { +1,-110 });
+        }
+        else if (TreeTime >= 0.5 && TreeTime < 0.6)
+        {
+            FarmTileMap->SetTilePivot(TileLoc, { -1, -110 });
+        }
+        else if (TreeTime >= 0.6)
+        {
+            TreeTime = 0;
+            IsTreeHit = false;
+        }
+    }
+
+
+
 }
 
 FVector2D AFarmGameMode::PlayerDirToTileMap(ATileMap* _TileMap)
@@ -420,15 +453,21 @@ void AFarmGameMode::UseItem()
     Player->UseItem();
 }
 
-void AFarmGameMode::ItemDrop(std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale)
+void AFarmGameMode::ItemDrop(float _Deltatime, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale, int _ItemCount)
 {
-    Item = GetWorld()->SpawnActor<AItem>();
-    Item->ItemSetSprite(_SpriteName, _ItemIndex, _ItemScale);
-    Item->SetActorLocation(_ItemLocatioln);
-    Item->SetOrder(ERenderOrder::UI);
-    Item->SetForce();
-    Item->SetItemType(_ItemName);
-    Item->GainItemInfo(_ItemName, _SpriteName, _ItemIndex, _ItemScale);
+    for (int i = 0; i < _ItemCount; i++)
+    {
+        //UEngineRandom Random;
+        //FVector2D RandomDir = { Random.RandomInt(-50, 50),  Random.RandomInt(-50, 50) };
+        Item = GetWorld()->SpawnActor<AItem>();
+        Item->ItemSetSprite(_SpriteName, _ItemIndex, _ItemScale);
+        Item->SetActorLocation(_ItemLocatioln /*+ RandomDir*/);
+        Item->SetOrder(ERenderOrder::UI);
+        Item->SetForce();
+        Item->SetItemType(_ItemName);
+        Item->GainItemInfo(_ItemName, _SpriteName, _ItemIndex, _ItemScale);
+    }
+
 }
 
 void AFarmGameMode::TileChange()

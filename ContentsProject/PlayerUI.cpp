@@ -566,7 +566,7 @@ void APlayerUI::ToolsAnimationCheck()
 
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
-    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == Player->IsPlayerMove && false == GetIsInventoryEnter())
+    if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == Player->IsPlayerMove && false == GetIsInventoryEnter() && AnimationTimer == 0)
     {
         if (CurSlotItemName() == "Axe")
         {

@@ -12,6 +12,8 @@ public:
 	FVector2D Pivot;
 	int SpriteIndex = 0;
 	int MaxSpriteIndex = 0;
+	
+	int TreeCount = 10;
 
 	float Time = 72000;
 	float CurTime = 0.0f;
@@ -71,6 +73,11 @@ public:
 	float GetTileTime(FIntPoint _Index);
 	void SetTileSprite(FIntPoint _Index, std::string _SpriteName, int _ItemIndex);
 	void SetTileIndex(FIntPoint _Index, int _ItemIndex);
+	void SetTilePivot(FIntPoint _Index, FVector2D _Pivot);
+	
+
+	int GetTreeTileCount(FIntPoint _Index);
+	void SetTreeTileCount(FIntPoint _Index, int _Count);
 
 	void CropCheck(float _DeltaTime);
 	std::string GetTileSpriteName(FIntPoint _Index);

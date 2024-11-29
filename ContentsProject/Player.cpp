@@ -113,7 +113,7 @@ std::string APlayer::TileLocationName()
         FVector2D TileLocation = { PlayerLocation.X, PlayerLocation.Y + 30 + offsetY };
         TileName = FarmGameMode->GetFarmTileSpriteName(TileLocation);
 
-        if (TileName == "TREETILE")
+        if (TileName == "TREE001.PNG")
         {
             TreeTile = FarmTileMap->GetTileRef(TileLocation);
             return TileName;
@@ -127,7 +127,7 @@ void APlayer::TileAlphaCheck(std::string _TileName)
 {
     if (nullptr != TreeTile && TreeTile->SpriteRenderer != nullptr)
     {
-        if (_TileName == "TREETILE")
+        if (_TileName == "TREE001.PNG")
         {
             if (PreviousTreeTile != TreeTile)
             {
