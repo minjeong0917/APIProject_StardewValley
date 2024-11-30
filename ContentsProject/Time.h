@@ -44,7 +44,34 @@ public:
 	int WeekCheck(int _Hour);
 	int DayCheck(int _Hour);
 	void Copy(ATime* _Time);
+	void SetHours(int _Hour)
+	{
+		hours = _Hour;
+	}
 
+
+	void SetWeek(int _Week)
+	{
+		Week = _Week;
+	}
+	int GetWeek()
+	{
+		return Week;
+	}
+
+	void SetDay(int _Day)
+	{
+		Day = _Day;
+	}
+
+	int GetDay()
+	{
+		return Day;
+	}
+	void SetMinutes(float _Minutes)
+	{
+		minutes = _Minutes;
+	}
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

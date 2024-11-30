@@ -454,7 +454,7 @@ void APlayerUI::Tick(float _DeltaTime)
     StoreInvenCheck();
     SellStoreItem();
     SleepCheck();
-    PlayerSleep(_DeltaTime);
+
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -529,7 +529,14 @@ void APlayerUI::Tick(float _DeltaTime)
         int a = 0;
     }
     Night->SetAlphaChar(NightTime);
-    ClockHand->SetSprite("ClockHand", Min-6, 4.0f);
+    if (Min < 27)
+    {
+        ClockHand->SetSprite("ClockHand", Min - 6, 4.0f);
+    }
+    if (true == IsPlayerSleep)
+    {
+        OverDayTimeSetting(_DeltaTime);
+    }
 }
 void APlayerUI::SleepCheck()
 {
@@ -543,22 +550,56 @@ void APlayerUI::SleepCheck()
     IsBedIn = House->GetIsBedIn();
     if (true == IsBedIn)
     {
-        BedTextBox->SetActive(true);
-        YesTextBox->SetActive(true);
-        NoTextBox->SetActive(true);
-        BedText->SetActive(true);
-
-        for (int i = 0; i < AllSlots[0].size(); i++)
+        if (IsPlayerSleep == false)
         {
-            AllSlots[0][i]->SetActive(false);
+            BedTextBox->SetActive(true);
+            YesTextBox->SetActive(true);
+            NoTextBox->SetActive(true);
+            BedText->SetActive(true);
+            YesTextBox->SetCollisionActive(true);
+            NoTextBox->SetCollisionActive(true);
+
+            InventoryBar->SetActive(false);
+            for (int i = 0; i < AllSlots[0].size(); i++)
+            {
+                AllSlots[0][i]->SetActive(false);
+            }
+
         }
 
-        if (true == YesTextBox->GetIsCollisionEnter())
+
+
+        if (true == YesTextBox->GetIsCollisionStay() && IsPlayerSleep == false)
         {
             YesTextBox->SetSprite("YesSelected.png", 0, 1.f);
             if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
             {
+
+                BedTextBox->SetActive(false);
+                YesTextBox->SetActive(false);
+                YesTextBox->SetCollisionActive(false);
+                NoTextBox->SetActive(false);
+                NoTextBox->SetCollisionActive(false);
+
+                BedText->SetActive(false);
+                InventoryBar->SetActive(true);
+
+                for (int i = 0; i < AllSlots[0].size(); i++)
+                {
+                    AllSlots[0][i]->SetActive(true);
+                }
+                Player->SetIsOverDay(true);
+                IsOverDays = true;
+
                 Player->Fade->FadeInOut();
+                IsPlayerSleep = true;
+                TimeValue = 0.0f;
+               
+            }
+            if (true == UEngineInput::GetInst().IsUp(VK_LBUTTON))
+            {
+                //IsOverDay = false;
+
             }
 
         }
@@ -582,9 +623,6 @@ void APlayerUI::SleepCheck()
             NoTextBox->SetSprite("NoUnSelected.png", 0, 1.f);
         }
 
-
-
-
     }
     if (false == IsBedIn)
     {
@@ -592,14 +630,40 @@ void APlayerUI::SleepCheck()
         YesTextBox->SetActive(false);
         NoTextBox->SetActive(false);
         BedText->SetActive(false);
+        IsPlayerSleep = false;
 
+        InventoryBar->SetActive(true);
         for (int i = 0; i < AllSlots[0].size(); i++)
         {
             AllSlots[0][i]->SetActive(true);
         }
+        TimeOnce = 0;
+        
     }
 }
 
+void APlayerUI::OverDayTimeSetting(float _Deltatime)
+{
+
+    TimeValue += _Deltatime;
+
+    if (TimeValue >= 2.0f && TimeOnce == 0)
+    {
+        MinTime->SetMinutes(0);
+        MinTime->SetHours(6);
+      
+
+        int Day = HourTime->GetDay();
+        int Week = HourTime->GetWeek();
+        Day += 1;
+        Week += 1;
+        HourTime->SetDay(Day);
+        HourTime->SetWeek(Week);
+
+        TimeOnce += 1;
+    }
+
+}
 
 void APlayerUI::ShopItemLists()
 {
@@ -1689,7 +1753,7 @@ void APlayerUI::Copy(APlayerUI* _Value)
     Loc1 = _Value->Loc1;
     Loc1_2 = _Value->Loc1_2;
 
-
+    IsOverDays =  _Value->IsOverDays;
     IsOpenIven = _Value->IsOpenIven;
     IsOpenStore = _Value->IsOpenStore;
     Inventory->SetActive(_Value->Inventory->GetActive());

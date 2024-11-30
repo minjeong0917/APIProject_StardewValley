@@ -46,6 +46,9 @@ public:
 	void TileCropCheck(float _DeltaTime, FIntPoint _Index);
 
 
+	std::vector<FIntPoint> CropTilePoint;
+
+
 protected:
 
 private:
@@ -53,13 +56,12 @@ private:
 
 	void ItemDrop(float _Deltatime, std::string _ItemName, std::string _SpriteName, FVector2D _ItemLocatioln, FVector2D _PlayerPos, int _ItemIndex, float _ItemScale, int _ItemCount = 1);
 	
-	
+
 
 	FVector2D PlayerDirToTileMap(ATileMap* _TileMap);
 	class AFarmMap* GroundTileMap = nullptr;
 	ATileMap* FarmTileMap = nullptr;
 	ATileMap* CropTileMap = nullptr;
-	std::vector<FIntPoint> CropTilePoint;
 	std::vector<AItem*> AllItems;
 	USoundPlayer BGMPlayer;
 	int MiniTreeCount = 5;

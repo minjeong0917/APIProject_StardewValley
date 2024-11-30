@@ -51,6 +51,8 @@ void AUI::CollisionEnd(AActor* _ColActor)
 {
 	IsCollisionEnd = true;
 	IsCollisionEnter = false;
+	IsCollisionStay = false;
+
 	IsClick = false;
 
 }

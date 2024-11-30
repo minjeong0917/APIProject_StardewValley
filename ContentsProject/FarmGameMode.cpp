@@ -85,6 +85,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     //CropTileMap->CropCheck(_DeltaTime * speed * 10);
     TileCropCheck(_DeltaTime * speed * 10, { 0,0 });
+
     TileChange();
 
     if (false == Player->IsPlayerMove && false == Player->GetIsEnter())
@@ -164,7 +165,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             }
             else if (GetFarmTileSpriteName({ PlayerLocation.X, PlayerLocation.Y }) == "DIRT.PNG")
             {
-                FarmTileMap->SetTileLocation("WateringCan.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
+                FarmTileMap->SetTileLocation("WetDirt.png", { PlayerLocation.X, PlayerLocation.Y }, 0);
             }
         }
 
@@ -241,6 +242,7 @@ void AFarmGameMode::PutTile(float _DeltaTime)
 
 void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
 {
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     for (size_t i = 0; i < CropTilePoint.size(); i++)
     {
@@ -256,9 +258,15 @@ void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
         if (FarmTileMap->GetTileSpriteName(CropTilePoint[i]) == "WETDIRT.PNG")
         {
             CurTime += _DeltaTime;
+            if (true == Player->PlayerUI->IsOverDays)
+            {
+                CurTime = Time+1;
+                
+            }
         }
 
         CropTileMap->SetTileCurTime(CropTilePoint[i], CurTime);
+
 
 
         if (CurTime > Time)
@@ -274,6 +282,10 @@ void AFarmGameMode::TileCropCheck(float _DeltaTime, FIntPoint _Index)
             CropTileMap->SetTileCurTime(CropTilePoint[i], 0);
             FarmTileMap->SetTileSprite(CropTilePoint[i], "DIRT.PNG", 0);
         }
+    }
+    if (Player->PlayerUI->IsOverDays == true)
+    {
+        Player->PlayerUI->IsOverDays = false;
     }
 }
 

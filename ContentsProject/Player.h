@@ -96,7 +96,14 @@ public:
 	}
 	bool IsButtonClick = false;
 
-
+	bool GetIsOverDay()
+	{
+		return IsOverDay;
+	}
+	void SetIsOverDay(bool _IsOver)
+	{
+		IsOverDay = _IsOver;
+	}
 	class AFade* Fade = nullptr;
 protected:
 
@@ -115,6 +122,7 @@ private:
 	class APlayerUI* PlayerUI = nullptr;
 
 	bool ColorCheck = false;
+	bool IsOverDay = false;
 
 	bool TileCheck = true;
 

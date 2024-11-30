@@ -56,6 +56,8 @@ public:
         return Min;
     }
     bool IsBedIn = false;
+    bool IsOverDays = false;
+    
 protected:
     void BeginPlay();
 
@@ -64,6 +66,7 @@ protected:
 
 private:
 
+    bool IsPlayerSleep = false;
     USoundPlayer BGMPlayer;
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
@@ -78,6 +81,7 @@ private:
 
     void SlotItemChange();
     void ToolsAnimationDir(std::string _AnimationName, float _time);
+    void OverDayTimeSetting(float _Deltatime);
 
     void ShopItemLists();
     void SellStoreItem();
@@ -91,7 +95,9 @@ private:
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
     bool IsAnimationPlay = false;
-    bool IsPlayerSleep = false;
+    float TimeValue = 0;
+    float TimeOnce = 0;
+    
     float Sleeptime = 0;
 
     FVector2D Loc0 = { 0,0 };
