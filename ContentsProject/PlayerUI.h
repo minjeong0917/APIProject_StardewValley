@@ -60,6 +60,7 @@ protected:
     void BeginPlay();
 
     void Tick(float _DeltaTime);
+    class UTimeEvent TimeEventer;
 
 private:
 
@@ -90,7 +91,8 @@ private:
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
     bool IsAnimationPlay = false;
-
+    bool IsPlayerSleep = false;
+    float Sleeptime = 0;
 
     FVector2D Loc0 = { 0,0 };
     FVector2D Loc0_2 = { 0,0 };

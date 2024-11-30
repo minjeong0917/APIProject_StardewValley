@@ -389,7 +389,7 @@ void APlayer::LevelChangeStart()
     {
 
         Fade->SetOrder(ERenderOrder::FADE);
-        Fade->FadeOut();
+        Fade->FadeOut(-2.0f);
     }
 }
 

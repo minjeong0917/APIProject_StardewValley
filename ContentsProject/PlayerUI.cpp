@@ -454,7 +454,7 @@ void APlayerUI::Tick(float _DeltaTime)
     StoreInvenCheck();
     SellStoreItem();
     SleepCheck();
-
+    PlayerSleep(_DeltaTime);
     if (SelectedItem != nullptr)
     {
         SelectedItem->SetActorLocation({ MousePos.X + 40, MousePos.Y + 45 });
@@ -537,6 +537,7 @@ void APlayerUI::SleepCheck()
     {
         return;
     }
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     AHouseGameMode* House = GetWorld()->GetGameMode<AHouseGameMode>();
     IsBedIn = House->GetIsBedIn();
@@ -557,7 +558,7 @@ void APlayerUI::SleepCheck()
             YesTextBox->SetSprite("YesSelected.png", 0, 1.f);
             if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
             {
-
+                Player->Fade->FadeInOut();
             }
 
         }
@@ -598,6 +599,8 @@ void APlayerUI::SleepCheck()
         }
     }
 }
+
+
 void APlayerUI::ShopItemLists()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
