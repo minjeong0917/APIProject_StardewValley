@@ -15,6 +15,8 @@ enum class ERenderOrder
 	UI = 10000,
 	UIFont = 10001,
 	Black = 10002,
+
+
 	INVEN = 19998,
 	GLODTEXT = 20000,
 	SLOT = 20001,
@@ -24,6 +26,11 @@ enum class ERenderOrder
 	SelectedItem = 20005,
 	ExplainTextBox = 20006,
 	ExplainText = 20007,
+
+	GoldBACKGROUND = 20010,
+	GoldBox = 20011,
+	GoldBoxText = 20012,
+
 	FADE = 30000,
 	CURSOR = 100000
 

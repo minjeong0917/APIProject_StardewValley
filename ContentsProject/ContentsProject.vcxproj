@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ShippingGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HouseGameMode.h">
       <SubType>
       </SubType>
@@ -272,6 +276,10 @@
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ShippingGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HouseGameMode.cpp">
       <SubType>
       </SubType>

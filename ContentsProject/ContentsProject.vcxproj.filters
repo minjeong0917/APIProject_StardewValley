@@ -132,6 +132,9 @@
     <ClCompile Include="HouseMap.cpp">
       <Filter>ContentsObject\Map</Filter>
     </ClCompile>
+    <ClCompile Include="ShippingGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="HouseMap.h">
       <Filter>ContentsObject\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ShippingGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -124,6 +124,16 @@ void ATileMap::SetTileOrder(FIntPoint _Index, float _Order)
     FindSprite->SetOrder(_Order);
 }
 
+void ATileMap::CreateTileAnimation(FIntPoint _Index, std::string_view _AnimationName, std::string_view _SpriteName, int _Start, int _End, float Time /*= 0.1f*/, bool _Loop /*= true*/)
+{
+    USpriteRenderer* FindSprite = AllTiles[_Index.Y][_Index.X].SpriteRenderer;
+    FindSprite->CreateAnimation(_AnimationName, _SpriteName, _Start, _End, Time,  _Loop );
+}
+void ATileMap::ChangeTileAnimation(FIntPoint _Index, std::string_view _AnimationName, bool _Force /*= false*/)
+{
+    USpriteRenderer* FindSprite = AllTiles[_Index.Y][_Index.X].SpriteRenderer;
+    FindSprite->ChangeAnimation(_AnimationName, _Force);
+}
 
 void ATileMap::SetTilePivot(FIntPoint _Index, FVector2D _Pivot)
 {

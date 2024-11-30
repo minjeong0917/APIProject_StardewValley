@@ -47,7 +47,7 @@ public:
 
 
 	std::vector<FIntPoint> CropTilePoint;
-
+	bool IsBoxOpen = false;
 
 protected:
 
@@ -69,7 +69,7 @@ private:
 	FVector2D TilePivot = { 0,0 };
 	float TreeTime = 0;
 	bool IsTreeHit = false;
-
+	FIntPoint BoxPoint = { 0,0 };
 	AItem* TreeItem = nullptr;
 	ETileImage TileImages = ETileImage::Dirt;
 	//ATileMap* GroundTileMap = nullptr;
@@ -77,5 +77,6 @@ private:
 	ATime* Time = nullptr;
 	int speed = 1;
 	bool IsNextDay = false;
+
 };
 

@@ -15,6 +15,7 @@
 #include "TownGameMode.h"
 #include "StoreGameMode.h"
 #include "HouseGameMode.h"
+#include "ShippingGameMode.h"
 
 #include "Player.h"
 #include "Clock.h"
@@ -39,6 +40,7 @@ void ContentsCore::BeginPlay()
     // 농장 레벨 생성 및 Open
     UEngineAPICore::GetCore()->CreateLevel<AFarmGameMode, APlayer>("Farm");
     UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
+    UEngineAPICore::GetCore()->CreateLevel<AShippingGameMode, APlayer>("Shipping");
     UEngineAPICore::GetCore()->CreateLevel<ATownGameMode, APlayer>("Town");
     UEngineAPICore::GetCore()->CreateLevel<AStoreGameMode, APlayer>("Store");
     UEngineAPICore::GetCore()->CreateLevel<AHouseGameMode, APlayer>("House");
@@ -95,6 +97,13 @@ void ContentsCore::ReadySprite()
             Dir.Append("TileMap//HouseTile");
             UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
         }
+        // Box
+        {
+            UEngineDirectory Dir;
+            Dir.MoveParentToDirectory("Resources//Images");
+            Dir.Append("TileMap//BoxTile");
+            UImageManager::GetInst().LoadFolder(Dir.GetPathToString());
+        }
         // crops
         {
             UEngineDirectory Dir;
@@ -145,6 +154,8 @@ void ContentsCore::ReadySprite()
             UImageManager::GetInst().CuttingSprite("YesUnSelected.png", { 1194, 67 });
             UImageManager::GetInst().CuttingSprite("NoSelected.png", { 1194, 67 });
             UImageManager::GetInst().CuttingSprite("NoUnSelected.png", { 1194, 67 });
+            UImageManager::GetInst().CuttingSprite("GoldTextBox.png", { 546, 105 });
+            UImageManager::GetInst().CuttingSprite("OKButton.png", { 64, 64 });
 
 
         }

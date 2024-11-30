@@ -16,7 +16,13 @@ ATime::ATime()
 	}
 	minutes = 0.0;
 }
-
+void ATime::SetActive(bool _Active)
+{
+	for (size_t i = 0; i < Renders.size(); i++)
+	{
+		Renders[i]->SetActive(_Active);
+	}
+}
 ATime::~ATime()
 {
 

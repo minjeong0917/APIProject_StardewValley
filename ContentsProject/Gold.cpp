@@ -12,6 +12,8 @@ AGold::AGold()
     }
 }
 
+
+
 AGold::~AGold()
 {
 }

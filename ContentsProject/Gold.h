@@ -36,6 +36,7 @@ public:
 	void SetText(std::string _Text);
 	void SetText2(std::string _Text);
 
+
 	int GetTextOverCount()
 	{
 		return TextOverCount;

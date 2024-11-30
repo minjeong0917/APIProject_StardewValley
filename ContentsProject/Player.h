@@ -16,7 +16,7 @@ class APlayer : public AActor
 {
 public:
 	friend class AFarmGameMode;
-
+	friend class AShippingGameMode;
 	friend class AHouseGameMode;
 	// constrcuter destructer
 	APlayer();

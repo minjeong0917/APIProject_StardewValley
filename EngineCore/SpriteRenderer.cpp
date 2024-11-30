@@ -194,9 +194,9 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 		Inter = (_Start - _End) + 1;
 		for (size_t i = 0; i < Inter; i++)
 		{
-			Indexs.push_back(_End);
+			Indexs.push_back(_Start);
 			Times.push_back(Time);
-			++_End;
+			--_Start;
 		}
 	}
 

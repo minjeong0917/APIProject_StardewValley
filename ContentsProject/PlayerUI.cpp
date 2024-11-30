@@ -40,7 +40,7 @@ void APlayerUI::UIImageRender()
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
 
     // Clock
-    AClock* Clock = GetWorld()->SpawnActor<AClock>();
+    Clock = GetWorld()->SpawnActor<AClock>();
     Clock->SetActorLocation({ Size.iX() - 154, 128 });
 
     ClockHand = GetWorld()->SpawnActor<AUI>();
@@ -426,8 +426,18 @@ void APlayerUI::Tick(float _DeltaTime)
             MinTime->IsStop = false;
             HourTime->IsStop = false;
             IsGoToHome = true;
+            if (TotalGold > 0)
+            {
 
-            UEngineAPICore::GetCore()->OpenLevel("House");
+                PlayerUIUnActive(false);
+                UEngineAPICore::GetCore()->OpenLevel("Shipping");
+
+            }
+            else
+            {
+                UEngineAPICore::GetCore()->OpenLevel("House");
+
+            }
         }
 
 
@@ -492,6 +502,7 @@ void APlayerUI::Tick(float _DeltaTime)
     InventoryCheck();
     StoreInvenCheck();
     SellStoreItem();
+    SellBox();
     SleepCheck();
 
     if (SelectedItem != nullptr)
@@ -583,6 +594,7 @@ void APlayerUI::Tick(float _DeltaTime)
         OverDayTimeSetting(_DeltaTime);
     }
     IsHomeToFarm = Player->HouseToFarm;
+    TotalGold = FarmingGold + OtherGold + FaragingGold + FishingGold + MiningGold;
 }
 void APlayerUI::SleepCheck()
 {
@@ -637,7 +649,15 @@ void APlayerUI::SleepCheck()
                 Player->SetIsOverDay(true);
                 IsOverDays = true;
 
-                Player->Fade->FadeInOut();
+                if (TotalGold == 0)
+                {
+                    Player->Fade->FadeInOut();
+
+                }
+                else if (TotalGold > 0)
+                {
+                    Player->Fade->FadeIn();
+                }
                 IsPlayerSleep = true;
                 TimeValue = 0.0f;
 
@@ -683,13 +703,36 @@ void APlayerUI::SleepCheck()
 
     }
 }
+void APlayerUI::PlayerUIUnActive(bool IsActive)
+{
+    //if (this == nullptr)
+    //{
+    //    return;
+    //}
+    InventoryBar->SetActive(IsActive);
+    for (int i = 0; i < AllSlots[0].size(); i++)
+    {
+        AllSlots[0][i]->SetActive(IsActive);
 
+    }
+
+
+    //Clock->SetActive(IsActive);
+    //ClockHand->SetActive(IsActive);
+    //CurSlot->SetActive(IsActive);
+    //Gold->SetActive(IsActive);
+    //MinTime->SetActive(IsActive);
+    //HourTime->SetActive(IsActive);
+    //APText->SetActive(IsActive);
+    //WeekText->SetActive(IsActive);
+    //APText->SetActive(IsActive);
+}
 void APlayerUI::OverDayTimeSetting(float _Deltatime)
 {
 
     TimeValue += _Deltatime;
 
-    if (TimeValue >= 2.0f && TimeOnce == 0)
+    if (TimeValue >= 3.0f && TimeOnce == 0)
     {
         MinTime->SetMinutes(0);
         MinTime->SetHours(6);
@@ -703,7 +746,15 @@ void APlayerUI::OverDayTimeSetting(float _Deltatime)
         HourTime->SetWeek(Week);
 
         TimeOnce += 1;
+        if (TotalGold > 0)
+        {
+
+            PlayerUIUnActive(false);
+            UEngineAPICore::GetCore()->OpenLevel("Shipping");
+
+        }
     }
+
 
 }
 
@@ -1503,6 +1554,69 @@ void APlayerUI::SellStoreItem()
 
 }
 
+void APlayerUI::SellBox()
+{
+    EItemType Type = SellItem->SetItemType(AllSlots[0][CurSlotNum]->GetName());
+    APlayer* Player = GetWorld()->GetPawn<APlayer>();
+    AFarmGameMode* FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
+    if (FarmGameMode == nullptr)
+    {
+        return;
+    }
+    if (true == FarmGameMode->IsBoxOpen)
+    {
+        if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && true == SellItem->ItemTypeCheck(Type) )
+        {
+            int Count = AllSlots[0][CurSlotNum]->GetSlotItemCount();
+            if (Count == 0)
+            {
+                return;
+            }
+            Count -= 1;
+
+
+            if (Type == EItemType::Seed)
+            {
+                SellItem->SetPrice(AllSlots[0][CurSlotNum]->GetName());
+                int Price = (SellItem->GetPrice()) / 2;
+
+                FarmingGold += Price;
+            }
+
+            if (Type == EItemType::Crop)
+            {
+                std::string Name = AllSlots[0][CurSlotNum]->GetName();
+                SellItem->SetPrice(AllSlots[0][CurSlotNum]->GetName());
+                int Price = (SellItem->GetPrice());
+
+                FarmingGold += Price;
+            }
+
+            if (Count == 0)
+            {
+                AllSlots[0][CurSlotNum]->SetSprite("Slot.png", 0);
+                AllSlots[0][CurSlotNum]->SetScale({ 16 * 3.5f , 16 * 3.5f });
+                AllSlots[0][CurSlotNum]->SetName("EmptySlot");
+                AllSlots[0][CurSlotNum]->SaveItemInfo("Slot.png", 0, { 16 * 3.5f, 16 * 3.5f });
+
+            }
+
+            AllSlots[0][CurSlotNum]->SetSlotItemCount(Count);
+            AllSlots[0][CurSlotNum]->CountTextDestroy();
+
+
+            if (Count > 1)
+            {
+                AllSlots[0][CurSlotNum]->CountText();
+            }
+
+        }
+
+    }
+
+
+}
+
 bool APlayerUI::SellClickCheck()
 {
     for (int y = 0; y < 3; y++)
@@ -1802,6 +1916,12 @@ void APlayerUI::Copy(APlayerUI* _Value)
     IsOpenStore = _Value->IsOpenStore;
     IsGoToHome = _Value->IsGoToHome;
     IsHomeToFarm = _Value->IsHomeToFarm;
+    FarmingGold = _Value->FarmingGold;
+    TotalGold = _Value->TotalGold;
+    FaragingGold = _Value->FaragingGold;
+    FishingGold = _Value->FishingGold;
+    MiningGold = _Value->MiningGold;
+    OtherGold = _Value->OtherGold;
 
     Inventory->SetActive(_Value->Inventory->GetActive());
     StoreInven->SetActive(_Value->StoreInven->GetActive());

@@ -15,6 +15,7 @@ public:
 	AClock(AClock&& _Other) noexcept = delete;
 	AClock& operator=(const AClock& _Other) = delete;
 	AClock& operator=(AClock&& _Other) noexcept = delete;
+	void SetActive(bool _Active);
 
 protected:
 

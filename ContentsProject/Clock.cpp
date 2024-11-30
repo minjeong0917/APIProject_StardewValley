@@ -32,3 +32,8 @@ void AClock::Tick(float _DeltaTime)
 
 
 }
+void AClock::SetActive(bool _Active)
+{
+	ClockSpriteRenderer->SetActive( _Active);
+
+}

@@ -31,6 +31,8 @@ public:
 
 	void SetOrder(int _Order);
 
+	void SetActive(bool _Active);
+
 	void SetValue(std::string _time);
 
 	void SetHour(int _Hour);

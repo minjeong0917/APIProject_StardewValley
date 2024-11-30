@@ -11,6 +11,7 @@
 #include "Slot.h"
 #include "Text.h"
 #include "Gold.h"
+#include "Clock.h"
 #include "CurItem.h"
 #include "SelectedItem.h"
 #include "UI.h"
@@ -23,6 +24,8 @@ class APlayerUI : public AActor
 {
 public:
     friend class APlayer;
+    friend class AShippingGameMode;
+
     // constrcuter destructer
     APlayerUI();
     ~APlayerUI();
@@ -37,6 +40,7 @@ public:
     void SetCurSlot();
     void DefaultItem(FIntPoint _SlotIndex, std::string _SpriteName, std::string _ItemName, int _ItemIndex, FVector2D _Scale, FVector2D _Location = { 0,0 }, int ItemCount = 1);
     void AddItem(class AItem* _Item);
+    void SellBox();
 
     int GetCulSlotNum()
     {
@@ -59,6 +63,16 @@ public:
     bool IsOverDays = false;
     bool IsGoToHome = false;
     bool IsHomeToFarm = false;
+
+    int TotalGold = 0;
+    int FarmingGold = 0;
+    int FaragingGold = 0;
+    int FishingGold = 0;
+    int MiningGold = 0;
+    int OtherGold = 0;
+
+    void PlayerUIUnActive(bool IsActive);
+
 protected:
     void BeginPlay();
 
@@ -130,7 +144,7 @@ private:
     AUI* NoTextBox = nullptr;
 
     AGold* BedText = nullptr;
-
+    AClock* Clock = nullptr;
 
     AFade* Fade = nullptr;
     AFade* Night = nullptr;

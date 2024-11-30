@@ -50,12 +50,17 @@ void AFarmGameMode::BeginPlay()
     FIntPoint HousePoint = FarmTileMap->LocationToIndex({ 3790.0f, 770.0f });
     FarmTileMap->SetTileIndex("HouseTile", HousePoint, { -5, -45 }, { 541.5f, 541.5f }, 0);
 
+    BoxPoint = FarmTileMap->LocationToIndex({ 4300.0f, 850.0f });
+    FarmTileMap->SetTileIndex("BoxTile", BoxPoint, { 13, -100 }, { 120.f,220.f }, 0, false);
+
     for (int i = 0; i < 10; i++)
     {
         FIntPoint TreePoint = FarmTileMap->LocationToIndex({ 3790.0f + (70 * i), 1200.0f });
         FarmTileMap->SetTileIndex("TREE001.PNG", TreePoint, { 0, -110 }, { 144, 240 }, 0, false, 0, 10);
 
     }
+    FarmTileMap->CreateTileAnimation(BoxPoint, "BoxOpen", "BoxTile", 0, 11, 0.04f, false);
+    FarmTileMap->CreateTileAnimation(BoxPoint, "BoxClose", "BoxTile", 11, 0, 0.04f, false);
 }
 
 
@@ -109,6 +114,18 @@ void AFarmGameMode::Tick(float _DeltaTime)
         Player->PlayerUI->IsHomeToFarm = false;
     }
 
+    if (IsBoxOpen == false && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "BOXTILE")
+    {
+        FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxOpen", false);
+        IsBoxOpen = true;
+
+    }
+    if (IsBoxOpen == true && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "NONE")
+    {
+        FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxClose", false);
+        IsBoxOpen = false;
+
+    }
 }
 
 

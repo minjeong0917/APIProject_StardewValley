@@ -75,6 +75,9 @@ public:
 	void SetTileIndex(FIntPoint _Index, int _ItemIndex);
 	void SetTilePivot(FIntPoint _Index, FVector2D _Pivot);
 	
+	void CreateTileAnimation(FIntPoint _Index, std::string_view _AnimationName, std::string_view _SpriteName, int _Start, int _End, float Time =0.1f, bool _Loop = true);
+	void ChangeTileAnimation(FIntPoint _Index, std::string_view _AnimationName, bool _Force = false);
+
 
 	int GetTreeTileCount(FIntPoint _Index);
 	void SetTreeTileCount(FIntPoint _Index, int _Count);
