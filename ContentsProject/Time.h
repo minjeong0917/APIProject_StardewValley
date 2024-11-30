@@ -40,6 +40,10 @@ public:
 	{
 		return Speed;
 	}
+	void SetTimeSpeed(int _Speed)
+	{
+		Speed = _Speed;
+	}
 	bool AMCheck(int _Hour);
 	int WeekCheck(int _Hour);
 	int DayCheck(int _Hour);
@@ -72,12 +76,14 @@ public:
 	{
 		minutes = _Minutes;
 	}
+	bool IsStop = false;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 
 private:
+
 	int Week = 0;
 	int Day = 1;
 	int Speed = 1;

@@ -57,7 +57,8 @@ public:
     }
     bool IsBedIn = false;
     bool IsOverDays = false;
-    
+    bool IsGoToHome = false;
+    bool IsHomeToFarm = false;
 protected:
     void BeginPlay();
 
@@ -95,10 +96,12 @@ private:
     bool TypeCheck = false;
     bool IsInventoryEnter = false;
     bool IsAnimationPlay = false;
+
     float TimeValue = 0;
     float TimeOnce = 0;
-    
+
     float Sleeptime = 0;
+    float DayOvertime = 0;
 
     FVector2D Loc0 = { 0,0 };
     FVector2D Loc0_2 = { 0,0 };

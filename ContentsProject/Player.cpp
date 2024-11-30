@@ -315,7 +315,7 @@ void APlayer::PlayerMove(float _DeltaTime)
 {
     if (true == IsPlayerMove && true == ColorCheck && true == TileCheck && false == IsOpenIven)
     {
-        if(IsPlayerMove)
+        if (IsPlayerMove)
         {
 
             Time += _DeltaTime;
@@ -354,6 +354,7 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         }
         else if (Color.R == 0 && Color.G == 0 && Color.B == 255)
         {
+            HouseToFarm = true;
             UEngineAPICore::GetCore()->OpenLevel("Farm");
         }
     }
@@ -555,7 +556,13 @@ void APlayer::PlayerAnimationPlay()
 
         }
     }
+    //if (true == UEngineInput::GetInst().IsDown('B'))
+    //{
+    //    SpriteRenderer->ChangeAnimation("Sleep", true);
+    //    IsAnimationPlay = true;
+    //    SetAnimationDuration(10.f);
 
+    //}
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && false == IsPlayerMove && false == IsButtonClick && false == IsEnter && false == PlayerUI->IsBedIn)
     {
         if (CurSlotCheck() == "Hoe" || CurSlotCheck() == "Axe")
@@ -755,6 +762,9 @@ void APlayer::PlayerAnimation()
     SpriteRenderer->CreateAnimation("Water_Front", "Farmer_Right.png", { 41,42,22 }, { 0.07f , 0.1f, 0.4f }, false);
     SpriteRenderer->CreateAnimation("Water_Back", "Farmer_Right.png", { 43,45,104 }, { 0.07f , 0.1f, 0.4f }, false);
 
+    SpriteRenderer->CreateAnimation("Sleep", "Farmer_Right.png", { 0, 102, 0, 102, 0, 102, 4, 5 }, { 1.0f, 1.0f, 0.5f, 1.0f , 0.5f, 0.5f, 0.5f , 5.0f }, false);
+
+
     // 아이템 들고 이동
     SpriteRenderer->CreateAnimation("Item_Run_front", "Farmer_Right_2.png", { 27,15,27,28,2,28 }, { 0.1f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
     SpriteRenderer->CreateAnimation("Item_Idle_front", "Farmer_Right_2.png", { 0,0 }, 0.1f, true);
@@ -772,7 +782,13 @@ void APlayer::PlayerAnimation()
 
 
 }
+void APlayer::ChangeAnimation(std::string _AniName, bool _Isforce, float _time)
+{
+    SpriteRenderer->ChangeAnimation(_AniName, _Isforce);
+    IsAnimationPlay = true;
+    SetAnimationDuration(_time);
 
+}
 void APlayer::SetAnimationDuration(float _Duration)
 {
     AnimationDuration = _Duration;

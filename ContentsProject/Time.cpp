@@ -97,8 +97,9 @@ void ATime::SetValue(std::string _Time)
 
 int ATime::SetMinute(float _DeltaTime)
 {
+
 	minutes += _DeltaTime * Speed;
-	int Min = static_cast<int>(minutes / 60) * 10;  
+	int Min = static_cast<int>(minutes / 60) * 10;
 
 	std::string Number = std::to_string(Min);
 
@@ -108,42 +109,47 @@ int ATime::SetMinute(float _DeltaTime)
 	}
 
 	SetValue(Number);
-
-	if (Min >= 60)
+	if (false == IsStop)
 	{
-		Min = 0;
-		minutes = 0;
-		++hours;
+		if (Min >= 60)
+		{
+			Min = 0;
+			minutes = 0;
+			++hours;
 
-		return hours;
-	}
-	if (26 <= hours)
-	{
-		hours = 6;
-	}
+			return hours;
+		}
+		if (26 <= hours)
+		{
+			hours = 6;
+		}
 
-	HourInfo = hours;
+		HourInfo = hours;
+	}
 	return hours;
 }
 
 void ATime::SetHour(int _Hour)
 {
-	int Hour = 0;
-	if (_Hour >= 6 && _Hour <= 12)
+	if (false == IsStop)
 	{
-		Hour = _Hour;
-	}
-	else if (_Hour > 12 && _Hour < 24)
-	{
-		Hour = _Hour - 12;
-	}
-	else if (_Hour >= 24 && _Hour < 26)
-	{
-		Hour = _Hour - 24;
-	}
+		int Hour = 0;
+		if (_Hour >= 6 && _Hour <= 12)
+		{
+			Hour = _Hour;
+		}
+		else if (_Hour > 12 && _Hour < 24)
+		{
+			Hour = _Hour - 12;
+		}
+		else if (_Hour >= 24 && _Hour <= 26)
+		{
+			Hour = _Hour - 24;
+		}
 
-	std::string Number = std::to_string(Hour);
-	SetValue(Number);
+		std::string Number = std::to_string(Hour);
+		SetValue(Number);
+	}
 }
 
 bool ATime::AMCheck(int _Hour)
@@ -166,33 +172,40 @@ bool ATime::AMCheck(int _Hour)
 
 int ATime::WeekCheck(int _Hour)
 {
-
-	if (_Hour >= 26)
+	if (false == IsStop)
 	{
-		if (Week >= 6)
+		if (_Hour >= 26)
 		{
-			Week = 0;
+			if (Week >= 6)
+			{
+				Week = 0;
+				return Week;
+			}
+
+			++Week;
 			return Week;
 		}
-
-		 ++Week;
-		 return Week;
 	}
-	 return Week;
+
+	return Week;
 }
 
 int ATime::DayCheck(int _Hour)
 {
-	if (_Hour >= 26)
+	if (false == IsStop)
 	{
-		if (Day >= 30)
+		if (_Hour >= 26)
 		{
-			Day = 1;
+			if (Day >= 30)
+			{
+				Day = 1;
+				return Day;
+			}
+			++Day;
 			return Day;
 		}
-		++Day;
-		return Day;
 	}
+
 	return Day;
 }
 

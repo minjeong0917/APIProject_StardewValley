@@ -17,6 +17,7 @@ public:
 	AHouseGameMode& operator=(AHouseGameMode&& _Other) noexcept = delete;
 	std::string GetHouseTileSpriteName(FVector2D Location);
 
+
 	bool GetIsBedIn()
 	{
 

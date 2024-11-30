@@ -101,7 +101,13 @@ void AFarmGameMode::Tick(float _DeltaTime)
     {
         TreeMove(_DeltaTime);
     }
+    if (true == Player->PlayerUI->IsHomeToFarm)
+    {
+        Player->SetActorLocation({ 3860, 950 });
+        Player->ChangeAnimation("Idle_front", false, 1.0f);
 
+        Player->PlayerUI->IsHomeToFarm = false;
+    }
 
 }
 

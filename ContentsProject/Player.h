@@ -16,7 +16,8 @@ class APlayer : public AActor
 {
 public:
 	friend class AFarmGameMode;
-	//friend class APlayerUI;
+
+	friend class AHouseGameMode;
 	// constrcuter destructer
 	APlayer();
 	~APlayer();
@@ -32,6 +33,7 @@ public:
 
 	void PlayerAnimation();
 	void PlayerAnimationPlay();
+	void ChangeAnimation(std::string _AniName, bool _Isforce, float _time);
 
 	void LevelChangeStart();
 	void LevelChangeEnd();
@@ -105,6 +107,7 @@ public:
 		IsOverDay = _IsOver;
 	}
 	class AFade* Fade = nullptr;
+	bool HouseToFarm = false;
 protected:
 
 private:
@@ -114,6 +117,7 @@ private:
 
 	int MySpriteIndex = 0;
 	bool IsEnter = false;
+	
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class UEngineWinImage* BackImage = nullptr;

@@ -21,9 +21,7 @@ void AHouseGameMode::BeginPlay()
 
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetBackImage("House.png");
-
 	AHouseMap* House = GetWorld()->SpawnActor<AHouseMap>();
-
 	Player->SetActorLocation({ 490, 720 });
 
 	HouseTileMap = GetWorld()->SpawnActor<ATileMap>();
@@ -32,7 +30,6 @@ void AHouseGameMode::BeginPlay()
 	HouseTileMap->SetTileIndex("HouseTile", BedPoint, { 20, 20 }, { 128.f, 120.f }, 1);
 	HouseTileMap->SetTileOrder(BedPoint, 1000.0f);
 }
-
 
 void AHouseGameMode::Tick(float _DeltaTime)
 {
@@ -48,7 +45,7 @@ void AHouseGameMode::Tick(float _DeltaTime)
 	else
 	{
 		IsBedIn = false;
-		
+
 	}
 
 	if (IsNo == true)
@@ -59,6 +56,14 @@ void AHouseGameMode::Tick(float _DeltaTime)
 			IsBedIn = false;
 		}
 	}
+	if (true == Player->PlayerUI->IsGoToHome)
+	{
+		Player->SetActorLocation({ 800, 650 });
+		Player->ChangeAnimation("Idle_front", false, 1.0f);
+
+		Player->PlayerUI->IsGoToHome = false;
+	}
+
 }
 
 std::string AHouseGameMode::GetHouseTileSpriteName(FVector2D Location)

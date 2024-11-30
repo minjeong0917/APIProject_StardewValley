@@ -133,7 +133,7 @@ void APlayerUI::UIImageRender()
     CurSlot->SetOrder(ERenderOrder::CURSLOT);
     CurSlot->SetScale(FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetActorLocation(AllSlots[0][CurSlotNum]->GetActorLocation());
-    CurSlot->SaveItemInfo("SelectedSlot.png",0, FVector2D{ 16 * 3.5f, 16 * 3.5f });
+    CurSlot->SaveItemInfo("SelectedSlot.png", 0, FVector2D{ 16 * 3.5f, 16 * 3.5f });
     CurSlot->SetName(AllSlots[0][CurSlotNum]->GetName());
     CurSlot->CollisionDestroy();
 
@@ -346,14 +346,14 @@ void APlayerUI::UIImageRender()
 
     BedTextBox = GetWorld()->SpawnActor<AUI>();
     BedTextBox->SetComponentScale({ 1280 * 3.5f,300 * 3.5f });
-    BedTextBox->SetActorLocation({ Size.Half().X, Size.Y - (BedTextBox->GetScale().Half().Y/3.5f) });
+    BedTextBox->SetActorLocation({ Size.Half().X, Size.Y - (BedTextBox->GetScale().Half().Y / 3.5f) });
     BedTextBox->SetSprite("BedTextBox.png", 0, 1.f);
     BedTextBox->SetOrder(ERenderOrder::ExplainTextBox);
     BedTextBox->SetActive(false);
 
     YesTextBox = GetWorld()->SpawnActor<AUI>();
     YesTextBox->SetComponentScale({ 1194 * 3.5f,67 * 3.5f });
-    YesTextBox->SetCollisionComponentScale({ 1194 ,67  });
+    YesTextBox->SetCollisionComponentScale({ 1194 ,67 });
     YesTextBox->SetCollisionComponentLocation({ 0.0f , 0.0f });
     YesTextBox->SetActorLocation({ Size.Half().X, Size.Y - (YesTextBox->GetScale().Y / 3.5f * 2) });
     YesTextBox->SetSprite("YesUnSelected.png", 0, 1.f);
@@ -393,6 +393,45 @@ void APlayerUI::Tick(float _DeltaTime)
     Min = MinTime->SetMinute(_DeltaTime);
     HourTime->SetHour(Min);
 
+    if (Min >= 26)
+    {
+        Player->ChangeAnimation("Sleep", false, 10.f);
+
+        MinTime->SetMinutes(0);
+        //HourTime->SetMinutes(0);
+        MinTime->IsStop = true;
+        HourTime->IsStop = true;
+        MinTime->SetMinute(0);
+        MinTime->SetHours(26);
+        HourTime->SetHours(26);
+        //HourTime->SetMinute(0);
+        ClockHand->SetSprite("ClockHand", 20, 4.0f);
+        Min = 6;
+
+        DayOvertime += _DeltaTime;
+        if (DayOvertime > 6.f)
+        {
+
+            Player->Fade->FadeIn();
+
+            int Day = HourTime->GetDay();
+            int Week = HourTime->GetWeek();
+            Day += 1;
+            Week += 1;
+            HourTime->SetDay(Day);
+            HourTime->SetWeek(Week);
+            MinTime->SetTimeSpeed(1);
+            HourTime->SetTimeSpeed(1);
+            Player->ChangeAnimation("Idle_front", false, 1.f);
+            MinTime->IsStop = false;
+            HourTime->IsStop = false;
+            IsGoToHome = true;
+
+            UEngineAPICore::GetCore()->OpenLevel("House");
+        }
+
+
+    }
     bool IsAM = HourTime->AMCheck(Min);
     if (true == IsAM)
     {
@@ -512,31 +551,38 @@ void APlayerUI::Tick(float _DeltaTime)
 
     StoreGoldText->SetValue(PlayerManager::GetInst().GetGold(), 4.3f);
 
-
-    if (6 <= Min && 18 >= Min)
+    if (MinTime->IsStop == false)
     {
-        NightTime = 0;
-    }
-    if (18 <= Min && 26 >= Min)
-    {
-        Night->SetActive(true);
+        if (6 <= Min && 18 >= Min)
+        {
+            NightTime = 0;
+        }
+        if (18 <= Min && 26 >= Min)
+        {
+            Night->SetActive(true);
 
-        NightTime += _DeltaTime * MinTime->GetTimeSpeed() * 0.05f;
+            NightTime += _DeltaTime * MinTime->GetTimeSpeed() * 0.05f;
 
+        }
+
+        Night->SetAlphaChar(NightTime);
     }
-    if (NightTime > 100)
-    {
-        int a = 0;
-    }
-    Night->SetAlphaChar(NightTime);
-    if (Min < 27)
+
+
+
+    if (Min < 27 && MinTime->IsStop == false)
     {
         ClockHand->SetSprite("ClockHand", Min - 6, 4.0f);
+
+
+
     }
+
     if (true == IsPlayerSleep)
     {
         OverDayTimeSetting(_DeltaTime);
     }
+    IsHomeToFarm = Player->HouseToFarm;
 }
 void APlayerUI::SleepCheck()
 {
@@ -594,13 +640,9 @@ void APlayerUI::SleepCheck()
                 Player->Fade->FadeInOut();
                 IsPlayerSleep = true;
                 TimeValue = 0.0f;
-               
-            }
-            if (true == UEngineInput::GetInst().IsUp(VK_LBUTTON))
-            {
-                //IsOverDay = false;
 
             }
+
 
         }
         else if (true == YesTextBox->GetIsCollisionEnd())
@@ -638,7 +680,7 @@ void APlayerUI::SleepCheck()
             AllSlots[0][i]->SetActive(true);
         }
         TimeOnce = 0;
-        
+
     }
 }
 
@@ -651,7 +693,7 @@ void APlayerUI::OverDayTimeSetting(float _Deltatime)
     {
         MinTime->SetMinutes(0);
         MinTime->SetHours(6);
-      
+
 
         int Day = HourTime->GetDay();
         int Week = HourTime->GetWeek();
@@ -1005,7 +1047,7 @@ void APlayerUI::StoreInvenCheck()
         StoreBox->SetActive(true);
         UpArrow->SetActive(true);
         DownArrow->SetActive(true);
-        
+
         Fade->SetActive(true);
         StoreGoldText->SetActive(true);
         StoreExitButton->SetActive(true);
@@ -1752,10 +1794,15 @@ void APlayerUI::Copy(APlayerUI* _Value)
     Loc0_2 = _Value->Loc0_2;
     Loc1 = _Value->Loc1;
     Loc1_2 = _Value->Loc1_2;
+    MinTime->IsStop = _Value->MinTime->IsStop;
+    HourTime->IsStop = _Value->HourTime->IsStop;
 
-    IsOverDays =  _Value->IsOverDays;
+    IsOverDays = _Value->IsOverDays;
     IsOpenIven = _Value->IsOpenIven;
     IsOpenStore = _Value->IsOpenStore;
+    IsGoToHome = _Value->IsGoToHome;
+    IsHomeToFarm = _Value->IsHomeToFarm;
+
     Inventory->SetActive(_Value->Inventory->GetActive());
     StoreInven->SetActive(_Value->StoreInven->GetActive());
     InvenPlayer->SetActive(_Value->InvenPlayer->GetActive());
