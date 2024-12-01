@@ -426,6 +426,7 @@ void APlayerUI::Tick(float _DeltaTime)
             MinTime->IsStop = false;
             HourTime->IsStop = false;
             IsGoToHome = true;
+            DayOvertime = 0;
             if (TotalGold > 0)
             {
 
@@ -732,7 +733,7 @@ void APlayerUI::OverDayTimeSetting(float _Deltatime)
 
     TimeValue += _Deltatime;
 
-    if (TimeValue >= 3.0f && TimeOnce == 0)
+    if (TimeValue >= 2.5f && TimeOnce == 0)
     {
         MinTime->SetMinutes(0);
         MinTime->SetHours(6);
@@ -742,10 +743,15 @@ void APlayerUI::OverDayTimeSetting(float _Deltatime)
         int Week = HourTime->GetWeek();
         Day += 1;
         Week += 1;
+        if (Week > 6)
+        {
+            Week -= 7;
+        }
         HourTime->SetDay(Day);
         HourTime->SetWeek(Week);
 
         TimeOnce += 1;
+        TimeValue = 0;
         if (TotalGold > 0)
         {
 

@@ -77,11 +77,12 @@ public:
 	
 	void CreateTileAnimation(FIntPoint _Index, std::string_view _AnimationName, std::string_view _SpriteName, int _Start, int _End, float Time =0.1f, bool _Loop = true);
 	void ChangeTileAnimation(FIntPoint _Index, std::string_view _AnimationName, bool _Force = false);
-
+	void CreateTileAnimation(FIntPoint _Index, std::string_view _AnimationName, std::string_view _SpriteName, std::vector<int> _Indexs, float _Frame, bool _Loop = true);
 
 	int GetTreeTileCount(FIntPoint _Index);
 	void SetTreeTileCount(FIntPoint _Index, int _Count);
 	void SetTileOrder(FIntPoint _Index, float _Order);
+	bool IsAniEnd(FIntPoint _Index);
 
 	void CropCheck(float _DeltaTime);
 	std::string GetTileSpriteName(FIntPoint _Index);

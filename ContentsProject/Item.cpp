@@ -97,7 +97,7 @@ void AItem::DestroyItem()
 	float ItemToPlayerDistanceX = std::abs(ItemToPlayerDir.X);
 	float ItemToPlayerDistanceY = std::abs(ItemToPlayerDir.Y);
 
-	if (ItemToPlayerDistanceX < 2.f || ItemToPlayerDistanceY < 2.f)
+	if (ItemToPlayerDistanceX < 1.f || ItemToPlayerDistanceY < 1.f)
 	{
 		Player->AddItem(this);
 	}

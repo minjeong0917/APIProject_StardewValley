@@ -61,6 +61,7 @@ void AFarmGameMode::BeginPlay()
     }
     FarmTileMap->CreateTileAnimation(BoxPoint, "BoxOpen", "BoxTile", 0, 11, 0.04f, false);
     FarmTileMap->CreateTileAnimation(BoxPoint, "BoxClose", "BoxTile", 11, 0, 0.04f, false);
+    FarmTileMap->CreateTileAnimation(BoxPoint, "BoxEat", "BoxTile", {12, 13, 14,13, 12}, 0.15f, false);
 }
 
 
@@ -74,7 +75,12 @@ void AFarmGameMode::Tick(float _DeltaTime)
     Super::Tick(_DeltaTime);
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
     Player->SetColImage("farm_col.png");
+    FVector2D MousePos = UEngineAPICore::GetCore()->GetMainWindow().GetMousePos();
+    FVector2D CameraPos = GetWorld()->GetCameraPos();
 
+    FVector2D MouseLocation = MousePos + CameraPos;
+
+    FIntPoint MousePoint = FarmTileMap->LocationToIndex(MouseLocation);
     if (true == UEngineInput::GetInst().IsDown('P'))
     {
         speed += 100;
@@ -119,10 +125,24 @@ void AFarmGameMode::Tick(float _DeltaTime)
         FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxOpen", false);
         IsBoxOpen = true;
 
+
     }
-    if (IsBoxOpen == true && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "NONE")
+    if (IsBoxOpen == true && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "BOXTILE")
     {
+        if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
+        {
+            FarmTileMap->SetTileIndex("BoxTile", BoxPoint, { 13, -100 }, { 160.f,220.f },11, false);
+            FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxEat", true);
+
+        }
+
+    }
+
+    if (IsBoxOpen == true && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "NONE") 
+    {
+        FarmTileMap->SetTileIndex("BoxTile", BoxPoint, { 13, -100 }, { 120.f,220.f }, 11, false);
         FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxClose", false);
+
         IsBoxOpen = false;
 
     }
@@ -192,13 +212,13 @@ void AFarmGameMode::PutTile(float _DeltaTime)
             }
         }
 
-        if ((GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" || 
-            GetCropTileSpriteName(MouseLocation) != "GREENBEAN.PNG" ||
-            GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" || 
-            GetCropTileSpriteName(MouseLocation) != "CAULIFLOWER.PNG" || 
-            GetCropTileSpriteName(MouseLocation) != "POTATO.PNG" || 
-            GetCropTileSpriteName(MouseLocation) != "KALE.PNG" ||
-            GetCropTileSpriteName(MouseLocation) != "RHUBARB.PNG" ||
+        if ((GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" && 
+            GetCropTileSpriteName(MouseLocation) != "GREENBEAN.PNG" &&
+            GetCropTileSpriteName(MouseLocation) != "PARSNIP.PNG" &&
+            GetCropTileSpriteName(MouseLocation) != "CAULIFLOWER.PNG" &&
+            GetCropTileSpriteName(MouseLocation) != "POTATO.PNG" &&
+            GetCropTileSpriteName(MouseLocation) != "KALE.PNG" &&
+            GetCropTileSpriteName(MouseLocation) != "RHUBARB.PNG" &&
             GetCropTileSpriteName(MouseLocation) != "GARLIC.PNG")&&
             (GetFarmTileSpriteName(MouseLocation) == "DIRT.PNG" || GetFarmTileSpriteName(MouseLocation) == "WETDIRT.PNG")
             && true == Player->IsMouseInPlayerPos)
@@ -350,7 +370,7 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
                     TileDestroy(FarmTileMap, FarmCurTileLocation);
 
 
-                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.0f,6);
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.5f,6);
 
                     FarmTileMap->SetTileIndex("TREE002.PNG", FarmCurTileLocation, { 0, -20}, { 16*3.f, 20 * 3.f }, 0, false, 0 , 5);
                     FarmTileMap->SetTreeTileCount(FarmCurTileLocation, 5);
@@ -375,7 +395,7 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
                 {
                     TileDestroy(FarmTileMap, FarmCurTileLocation);
          
-                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.0f, 2);
+                    ItemDrop(_DeltaTime, "Wood", "Items.png", TileLocation, Player->GetActorLocation(), 941, 2.5f, 2);
            
                 }
 
@@ -387,15 +407,16 @@ void AFarmGameMode::TileDestroyLocation(float _DeltaTime)
 
             }
         }
-
-        CropCheck(_DeltaTime, CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "GreenBean.png", "GreenBean", "Items.png", MouseLocation, Player->GetActorLocation(), 244, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "Cauliflower.png", "Cauliflower", "Items.png", MouseLocation, Player->GetActorLocation(), 246, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "Potato.png", "Potato", "Items.png", MouseLocation, Player->GetActorLocation(), 256, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "Kale.png", "Kale", "Items.png", MouseLocation, Player->GetActorLocation(), 330, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "Rhubarb.png", "Rhubarb", "Items.png", MouseLocation, Player->GetActorLocation(), 332, 3.0f);
-        CropCheck(_DeltaTime, CropMousePoint, "Garlic.png", "Garlic", "Items.png", MouseLocation, Player->GetActorLocation(), 328, 3.0f);
-
+        if (CurSlotName == "EmptySlot")
+        {
+            CropCheck(_DeltaTime, CropMousePoint, "Parsnip.PNG", "parsnip", "Items.png", MouseLocation, Player->GetActorLocation(), 32, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "GreenBean.png", "GreenBean", "Items.png", MouseLocation, Player->GetActorLocation(), 244, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "Cauliflower.png", "Cauliflower", "Items.png", MouseLocation, Player->GetActorLocation(), 246, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "Potato.png", "Potato", "Items.png", MouseLocation, Player->GetActorLocation(), 256, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "Kale.png", "Kale", "Items.png", MouseLocation, Player->GetActorLocation(), 330, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "Rhubarb.png", "Rhubarb", "Items.png", MouseLocation, Player->GetActorLocation(), 332, 3.0f);
+            CropCheck(_DeltaTime, CropMousePoint, "Garlic.png", "Garlic", "Items.png", MouseLocation, Player->GetActorLocation(), 328, 3.0f);
+        }
     }
 }
 
