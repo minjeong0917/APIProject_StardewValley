@@ -53,6 +53,7 @@ private:
 	FVector2D Cloud3Pos = { 0,0 };
 	FVector2D LogoPos = { 0,0 };
 	USoundPlayer BGMPlayer;
+	USoundPlayer MainBGMPlayer;
 	bool IsPlayOnce = false;
 	bool IsArrive = false;
 

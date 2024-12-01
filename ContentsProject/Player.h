@@ -131,7 +131,7 @@ private:
 	bool TileCheck = true;
 
 
-	USoundPlayer BGMPlayer;
+
 	USoundPlayer BGMPlayerWalk;
 	float Time = 0;
 

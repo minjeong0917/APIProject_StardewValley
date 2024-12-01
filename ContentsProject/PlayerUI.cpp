@@ -32,8 +32,6 @@ void APlayerUI::BeginPlay()
 
 }
 
-
-
 void APlayerUI::UIImageRender()
 {
     FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
@@ -1876,6 +1874,20 @@ bool APlayerUI::CulcolumsCheck()
     return false;
 }
 
+void APlayerUI::LevelChangeStart()
+{
+    Super::LevelChangeStart();
+    //MainBGMPlayer.On();
+
+
+}
+void APlayerUI::LevelChangeEnd()
+{
+    Super::LevelChangeEnd();
+    //MainBGMPlayer.Off();
+
+}
+
 void APlayerUI::Copy(APlayerUI* _Value)
 {
     APlayer* Player = GetWorld()->GetPawn<APlayer>();
@@ -1934,4 +1946,6 @@ void APlayerUI::Copy(APlayerUI* _Value)
     InvenPlayer->SetActive(_Value->InvenPlayer->GetActive());
     InventoryBar->SetActive(_Value->InventoryBar->GetActive());
     CurSlot->SetActive(_Value->CurSlot->GetActive());
+
 }
+

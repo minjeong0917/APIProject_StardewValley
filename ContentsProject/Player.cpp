@@ -47,7 +47,7 @@ void APlayer::BeginPlay()
     Super::BeginPlay();
     PlayerUI = GetWorld()->SpawnActor<APlayerUI>();
 
-    BGMPlayer = UEngineSound::Play("Spring.wav");
+
     FarmGameMode = GetWorld()->GetGameMode<AFarmGameMode>();
 
     if (nullptr != FarmGameMode)
@@ -192,7 +192,7 @@ void APlayer::DebugCheck(float _DeltaTime)
     }
     if (true == UEngineInput::GetInst().IsDown(VK_F3))
     {
-        BGMPlayer.OnOffSwtich();
+        //BGMPlayer.OnOffSwtich();
     }
 
 

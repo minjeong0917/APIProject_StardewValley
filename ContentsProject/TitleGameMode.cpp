@@ -183,7 +183,9 @@ void ATitleGameMode::Tick(float _DeltaTime)
 	if (true == NewButton->GetIsClick())
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Farm");
+
 		UEngineSound::AllSoundOff();
+		MainBGMPlayer = UEngineSound::Play("Spring.wav");
 	}
 
 

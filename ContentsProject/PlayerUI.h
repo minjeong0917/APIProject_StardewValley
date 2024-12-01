@@ -78,11 +78,14 @@ protected:
 
     void Tick(float _DeltaTime);
     class UTimeEvent TimeEventer;
-
+    void LevelChangeStart() override;
+    void LevelChangeEnd() override;
 private:
+
 
     bool IsPlayerSleep = false;
     USoundPlayer BGMPlayer;
+
     void SlotItemText(int _Y, int _X);
     void ItemExplainText();
     float ItemExplain(std::string _Name);
