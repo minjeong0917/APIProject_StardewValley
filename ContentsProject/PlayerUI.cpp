@@ -1609,7 +1609,14 @@ void APlayerUI::SellBox()
 
                 FarmingGold += Price;
             }
+            if (Type == EItemType::Wood)
+            {
+                std::string Name = AllSlots[0][CurSlotNum]->GetName();
+                SellItem->SetPrice(AllSlots[0][CurSlotNum]->GetName());
+                int Price = (SellItem->GetPrice());
 
+                OtherGold += Price;
+            }
             if (Count == 0)
             {
                 AllSlots[0][CurSlotNum]->SetSprite("Slot.png", 0);

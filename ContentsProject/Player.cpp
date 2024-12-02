@@ -329,13 +329,14 @@ void APlayer::PlayerMove(float _DeltaTime)
                     if (Color == UColor::WHITE)
                     {
                         BGMPlayerWalk = UEngineSound::Play("Walk.wav");
+                        BGMPlayerWalk.SetVolume(0.55f);
                     }
                     else if (Color.R == 0 && Color.G == 255 && Color.B == 255)
                     {
                         BGMPlayerWalk = UEngineSound::Play("woodyStep.wav");
+                        BGMPlayerWalk.SetVolume(0.8f);
 
                     }
-                    BGMPlayerWalk.SetVolume(0.55f);
                     Time = 0;
                 }
             }

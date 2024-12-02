@@ -99,6 +99,6 @@ void ASelectedItem::SetPrice(std::string _ItemName)
     }
     else if (_ItemName == "Wood")
     {
-        ItemPrice = 60;
+        ItemPrice = 2;
     }
 }
