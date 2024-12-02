@@ -23,7 +23,7 @@ void AStoreGameMode::BeginPlay()
 
 	AStoreMap* StoreMap = GetWorld()->SpawnActor<AStoreMap>();
 
-	Player->SetActorLocation({ 400, /*1800*/1300 });
+	Player->SetActorLocation({ 400, 1800 });
 
 	StoreTileMap = GetWorld()->SpawnActor<ATileMap>();
 	StoreTileMap->Create({ 39,30 }, { 200, 70 });

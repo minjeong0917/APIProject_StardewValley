@@ -8,7 +8,6 @@
 #include "ContentsEnum.h"
 
 
-
 ATitleGameMode::ATitleGameMode()
 {
 	{
@@ -186,6 +185,7 @@ void ATitleGameMode::Tick(float _DeltaTime)
 
 		UEngineSound::AllSoundOff();
 		MainBGMPlayer = UEngineSound::Play("Spring.wav");
+		MainBGMPlayer.SetVolume(0.8f);
 	}
 
 

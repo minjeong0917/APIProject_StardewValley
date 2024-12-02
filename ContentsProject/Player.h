@@ -133,6 +133,7 @@ private:
 
 
 	USoundPlayer BGMPlayerWalk;
+	USoundPlayer BGMPlayer;
 	float Time = 0;
 
 	float AnimationDuration = 0.0f;

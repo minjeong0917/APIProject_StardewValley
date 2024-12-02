@@ -321,9 +321,23 @@ void APlayer::PlayerMove(float _DeltaTime)
             Time += _DeltaTime;
             if (Time >= 0.35)
             {
-                BGMPlayerWalk = UEngineSound::Play("Walk.wav");
-                BGMPlayerWalk.SetVolume(0.55f);
-                Time = 0;
+                FVector2D NextPos = GetActorLocation() + PlayerMoveDir() * _DeltaTime * PlayerManager::GetInst().GetSpeed();
+
+                if (nullptr != ColImage)
+                {
+                    UColor Color = ColImage->GetColor(NextPos, UColor::BLACK);
+                    if (Color == UColor::WHITE)
+                    {
+                        BGMPlayerWalk = UEngineSound::Play("Walk.wav");
+                    }
+                    else if (Color.R == 0 && Color.G == 255 && Color.B == 255)
+                    {
+                        BGMPlayerWalk = UEngineSound::Play("woodyStep.wav");
+
+                    }
+                    BGMPlayerWalk.SetVolume(0.55f);
+                    Time = 0;
+                }
             }
         }
 
@@ -350,12 +364,28 @@ void APlayer::BackImgCollisionCheck(FVector2D _Vector)
         }
         else if (Color.R == 255 && Color.G == 255 && Color.B == 0)
         {
+            BGMPlayer = UEngineSound::Play("CloseDoor.wav");
+
             UEngineAPICore::GetCore()->OpenLevel("House");
         }
         else if (Color.R == 0 && Color.G == 0 && Color.B == 255)
         {
             HouseToFarm = true;
+            BGMPlayer = UEngineSound::Play("CloseDoor.wav");
+
             UEngineAPICore::GetCore()->OpenLevel("Farm");
+        }
+        else if (Color.R == 255 && Color.G == 0 && Color.B == 255)
+        {
+            UEngineAPICore::GetCore()->OpenLevel("Farm");
+        }
+        else if (Color.R == 0 && Color.G == 255 && Color.B == 0)
+        {
+            UEngineAPICore::GetCore()->OpenLevel("Store");
+        }
+        else if (Color.R == 0 && Color.G == 255 && Color.B == 255)
+        {
+            ColorCheck = true;
         }
     }
 }

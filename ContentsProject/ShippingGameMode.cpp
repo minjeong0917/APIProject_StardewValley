@@ -3,6 +3,7 @@
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/EngineCoreDebug.h>
 #include "ShippingGameMode.h"
+#include "TitleGameMode.h"
 #include "ContentsEnum.h"
 #include "PlayerManager.h"
 
@@ -33,7 +34,6 @@ void AShippingGameMode::BeginPlay()
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
 	Super::BeginPlay();
-
 	APlayer* Player = GetWorld()->GetPawn<APlayer>();
 	Player->SetBackImage("ShippingScreen.png");
 
@@ -218,36 +218,73 @@ void AShippingGameMode::Tick(float _DeltaTime)
 	Time += _DeltaTime * 1.5f;
 	if (Time > 1.0f && Time <= 2.0)
 	{
+
+		if (Count1 == 0)
+		{
+			BGMPlayer = UEngineSound::Play("woodyStep.wav");
+		}
+		Count1 += 1;
 		FarmingBox->SetActive(true);
 		FarmingText->SetActive(true);
 		FarmingGold->SetActive(true);
 	}
 	else if (Time > 2.0f && Time <= 3.0)
 	{
+
+		if (Count2 == 0)
+		{
+			BGMPlayer = UEngineSound::Play("woodyStep.wav");
+		}
+		Count2 += 1;
 		FaragingBox->SetActive(true);
 		FaragingText->SetActive(true);
 		FaragingGold->SetActive(true);
 	}
 	else if (Time > 3.0f && Time <= 4.0f)
 	{
+
+		if (Count3 == 0)
+		{
+			BGMPlayer = UEngineSound::Play("woodyStep.wav");
+		}
+		Count3 += 1;
 		FishingBox->SetActive(true);
 		FishingText->SetActive(true);
 		FishingGold->SetActive(true);
 	}
 	else if (Time > 4.0f && Time <= 5.0f)
 	{
+
+		if (Count4 == 0)
+		{
+			BGMPlayer = UEngineSound::Play("woodyStep.wav");
+		}
+		Count4 += 1;
 		MiningBox->SetActive(true);
 		MiningText->SetActive(true);
 		MiningGold->SetActive(true);
 	}
 	else if (Time > 5.0f && Time <= 6.0f)
 	{
+
+		if (Count5 == 0)
+		{
+			BGMPlayer = UEngineSound::Play("woodyStep.wav");
+		}
+		Count5 += 1;
 		OtherBox->SetActive(true);
 		OtherGold->SetActive(true);
 		OtherText->SetActive(true);
 	}
 	else if (Time > 6.0f)
 	{
+
+		if (Count == 0)
+		{
+			BGMPlayer = UEngineSound::Play("money.wav");
+		}
+
+		Count += 1;
 		TotalBox->SetActive(true);
 		TotalGold->SetActive(true);
 		TotalText->SetActive(true);
@@ -258,7 +295,7 @@ void AShippingGameMode::Tick(float _DeltaTime)
 	{
 		if (IsPlayOnce == false)
 		{
-			//BGMPlayer = UEngineSound::Play("TitleButtonHover.wav");
+			BGMPlayer = UEngineSound::Play("TitleButtonHover.wav");
 			IsPlayOnce = true;
 
 		}
@@ -276,6 +313,7 @@ void AShippingGameMode::Tick(float _DeltaTime)
 	{
 		if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON))
 		{
+			BGMPlayer = UEngineSound::Play("InvenClose.wav");
 			Time = 0;
 
 			int CurGold = PlayerManager::GetInst().GetGold();
@@ -311,7 +349,9 @@ void AShippingGameMode::Tick(float _DeltaTime)
 
 
 			UEngineAPICore::GetCore()->OpenLevel("House");
-			UEngineSound::AllSoundOff();
+			BGMPlayer = UEngineSound::Play("Morning.wav"); 
+
+			//
 		}
 
 	}

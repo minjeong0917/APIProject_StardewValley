@@ -409,6 +409,7 @@ void APlayerUI::Tick(float _DeltaTime)
         DayOvertime += _DeltaTime;
         if (DayOvertime > 6.f)
         {
+            BGMPlayer = UEngineSound::Play("Morning.wav");
 
             Player->Fade->FadeIn();
 
@@ -524,6 +525,7 @@ void APlayerUI::Tick(float _DeltaTime)
     }
     else if (true == StoreExitButton->GetIsCollisionEnd())
     {
+
         StoreExitButton->SetComponentScale({ 12 * 3.5f,12 * 3.5f });
         StoreExitButton->SetCollisionComponentScale({ 12 * 3.5f,12 * 3.5f });
 
@@ -755,8 +757,10 @@ void APlayerUI::OverDayTimeSetting(float _Deltatime)
 
             PlayerUIUnActive(false);
             UEngineAPICore::GetCore()->OpenLevel("Shipping");
-
+            return;
         }
+        BGMPlayer = UEngineSound::Play("Morning.wav");
+
     }
 
 
@@ -1032,6 +1036,8 @@ void APlayerUI::StoreInvenCheck()
 
     if (true == UEngineInput::GetInst().IsDown(VK_LBUTTON) && true == StoreExitButton->GetIsClick() && IsOpenStore == 1 && false == IsChoose)
     {
+        BGMPlayer = UEngineSound::Play("InvenClose.wav");
+
         Player->IsOpenIven = false;
         Player->IsButtonClick = false;
         --IsOpenStore;
@@ -1094,6 +1100,7 @@ void APlayerUI::StoreInvenCheck()
     // 인벤토리 열기
     else if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == StoreGameMode->GetIsOpenCounter() && IsOpenStore == 0 && IsOpenIven == 0)
     {
+        BGMPlayer = UEngineSound::Play("InvenOpen.wav");
 
         Player->IsOpenIven = true;
         Player->IsButtonClick = true;
@@ -1343,6 +1350,8 @@ void APlayerUI::SlotItemChange()
             if (AllSlots[y][i]->GetIsSelectedItem() == 2 && true == IsChoose)
             {
                 IsChoose = false;
+                BGMPlayer = UEngineSound::Play("woodyStep.wav");
+
                 std::string SelectedName = SelectedItem->GetSelectedItemName();
                 std::string SelectedSpriteName = SelectedItem->GetSelectedItemSpriteName();
                 FVector2D SelectedScale = SelectedItem->GetSelectedScale();
@@ -1428,6 +1437,8 @@ void APlayerUI::BuyStoreItem()
 
             if (PlayerManager::GetInst().GetGold() >= ItemPrice)
             {
+                BGMPlayer = UEngineSound::Play("purchase.wav");
+
                 std::string SelectedName = AllStoreColumns[i]->GetSelectedItemName();
                 std::string SelectedSpriteName = AllStoreColumns[i]->GetSelectedItemSpriteName();
                 int SelectedIndex = AllStoreColumns[i]->GetSelectedItemIndex();
@@ -1467,6 +1478,7 @@ void APlayerUI::BuyStoreItem()
         {
             SellItem->SetPrice(AllStoreColumns[i]->GetName());
             int ItemPrice = SellItem->GetPrice();
+            BGMPlayer = UEngineSound::Play("purchase.wav");
 
             if (PlayerManager::GetInst().GetGold() >= ItemPrice)
             {
@@ -1506,6 +1518,8 @@ void APlayerUI::SellStoreItem()
     {
         if (true == UEngineInput::GetInst().IsDown(VK_RBUTTON) && true == SellItem->ItemTypeCheck(Type))
         {
+            BGMPlayer = UEngineSound::Play("purchase.wav");
+
             int Count = AllSlots[SellSlotYNum][SellSlotXNum]->GetSlotItemCount();
             if (Count == 0)
             {

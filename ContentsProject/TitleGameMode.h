@@ -20,6 +20,7 @@ public:
 	ATitleGameMode(ATitleGameMode&& _Other) noexcept = delete;
 	ATitleGameMode& operator=(const ATitleGameMode& _Other) = delete;
 	ATitleGameMode& operator=(ATitleGameMode&& _Other) noexcept = delete;
+	USoundPlayer MainBGMPlayer;
 
 protected:
 	void BeginPlay() override;
@@ -53,7 +54,6 @@ private:
 	FVector2D Cloud3Pos = { 0,0 };
 	FVector2D LogoPos = { 0,0 };
 	USoundPlayer BGMPlayer;
-	USoundPlayer MainBGMPlayer;
 	bool IsPlayOnce = false;
 	bool IsArrive = false;
 

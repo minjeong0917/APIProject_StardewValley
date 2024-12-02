@@ -122,6 +122,8 @@ void AFarmGameMode::Tick(float _DeltaTime)
 
     if (IsBoxOpen == false && GetFarmTileSpriteName(PlayerDirToTileMap(FarmTileMap)) == "BOXTILE")
     {
+        BGMPlayer = UEngineSound::Play("ShippingOpen.wav");
+
         FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxOpen", false);
         IsBoxOpen = true;
 
@@ -133,6 +135,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
         {
             FarmTileMap->SetTileIndex("BoxTile", BoxPoint, { 13, -100 }, { 160.f,220.f },11, false);
             FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxEat", true);
+            BGMPlayer = UEngineSound::Play("ShippingItem.wav");
 
         }
 
@@ -142,6 +145,7 @@ void AFarmGameMode::Tick(float _DeltaTime)
     {
         FarmTileMap->SetTileIndex("BoxTile", BoxPoint, { 13, -100 }, { 120.f,220.f }, 11, false);
         FarmTileMap->ChangeTileAnimation(BoxPoint, "BoxClose", false);
+        BGMPlayer = UEngineSound::Play("ShippingClose.wav");
 
         IsBoxOpen = false;
 
